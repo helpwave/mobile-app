@@ -46,7 +46,7 @@ gen-external-apklibs
 /platforms
 /hooks
 /node_modules
-/lib
+# /lib
 /debugger
 /dist
 
@@ -974,7 +974,7 @@ develop-eggs/
 downloads/
 eggs/
 .eggs/
-lib/
+# lib/
 lib64/
 parts/
 sdist/
@@ -1383,7 +1383,7 @@ Sessionx.vim
 docs/_book
 
 # TODO: where does this rule come from?
-test/
+# test/
 
 ### Vuejs ###
 # Recommended template: Node.gitignore
