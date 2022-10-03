@@ -39,15 +39,20 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO Change datatype below     v here
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: getEmergencyRooms(),
       builder: (context, snapshot) {
         List<Widget> children = [];
+        // TODO Change snapshot handling when datatype changed
         if (snapshot.hasData) {
           if (snapshot.data!.isNotEmpty) {
-            children = snapshot.data!.map((emergencyRoom) {
-              return EmergencyRoomListViewCard(emergencyRoom);
-            }).toList().cast<Widget>();
+            children = snapshot.data!
+                .map((emergencyRoom) {
+                  return EmergencyRoomListViewCard(emergencyRoom);
+                })
+                .toList()
+                .cast<Widget>();
           }
         } else if (snapshot.hasError) {
           children = <Widget>[
@@ -76,7 +81,8 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView> {
         }
         return Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: children,
           ),
         );

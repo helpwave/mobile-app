@@ -8,15 +8,24 @@ class EmergencyRoomListViewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(emergencyRoom["name"]),
-          Text(emergencyRoom["location"]),
-          Text(emergencyRoom["displayableAddress"]),
-          Text(emergencyRoom["open"]?"open":"closed"),
-          Text(emergencyRoom["utilization"].toString()),
-        ],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      margin: const EdgeInsets.all(20),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              emergencyRoom["name"],
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const Divider(),
+            Text("Location: " + emergencyRoom["location"]),
+            Text("Address: " + emergencyRoom["displayableAddress"]),
+            Text("Is open: " + (emergencyRoom["open"] ? "open" : "closed")),
+            Text("Utilization: " + emergencyRoom["utilization"].toString()),
+          ],
+        ),
       ),
     );
   }
