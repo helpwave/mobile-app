@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave/pages/questionnaire.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -29,8 +30,11 @@ class HomePage extends StatelessWidget {
                         mediaQuery.height * 0.05),
                     child: OutlinedButton(
                       onPressed: () {
-                        // TODO Add QuestionPage Route
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => SomePage(),))
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const QuestionnairePage(),
+                            ));
                       },
                       child: const Text("Fragebogen"),
                     ),

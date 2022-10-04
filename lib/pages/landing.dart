@@ -23,10 +23,10 @@ class LandingPage extends StatelessWidget {
             height: mediaQuery.height * 0.1,
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
-              onTap: () => Navigator.push(
+              onTap: () => Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HomePage(),
+                    builder: (context) => const HomePage(),
                   )),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
