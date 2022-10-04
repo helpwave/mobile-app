@@ -8,10 +8,9 @@ class EmergencyRoomOverview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-          child: Text(
-            "helpwave",
-          ),
+        centerTitle: true,
+        title: const Text(
+          "helpwave",
         ),
       ),
       body: const EmergencyRoomListView(),
