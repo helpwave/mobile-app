@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave/pages/street_map_view.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -37,8 +38,7 @@ class HomePage extends StatelessWidget {
                   ),
                   OutlinedButton(
                     onPressed: () {
-                      // TODO Add Map Route
-                      //Navigator.push(context, MaterialPageRoute(builder: (context) => SomePage(),))
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const StreetMapViewPage(),));
                     },
                     child: const Text("Notaufnahmekarte"),
                   ),
