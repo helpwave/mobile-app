@@ -20,6 +20,9 @@ class StreetMap extends StatefulWidget {
 class _StreetMapState extends State<StreetMap> {
   @override
   Widget build(BuildContext context) {
+    const double loadingCircleSize = 60;
+    const double circleTextDistance = 20;
+    const double defaultWidthPercentage = 0.8;
     double border = widget.border;
 
     OSMFlutter osmFlutter = OSMFlutter(
@@ -63,7 +66,10 @@ class _StreetMapState extends State<StreetMap> {
               latitude: 51.9582531914801,
               longitude: 7.614308513084836,
             ),
-            GeoPoint(latitude: 51.85, longitude: 7.6)
+            GeoPoint(
+              latitude: 51.85,
+              longitude: 7.6,
+            )
           ],
         )
       ],
@@ -75,14 +81,12 @@ class _StreetMapState extends State<StreetMap> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: const [
               SizedBox(
-                width: 60,
-                height: 60,
+                width: loadingCircleSize,
+                height: loadingCircleSize,
                 child: CircularProgressIndicator(),
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: Text('Awaiting result...'),
-              ),
+              SizedBox(height: circleTextDistance),
+              Text('Laden...'),
             ],
           ),
         ),
@@ -125,8 +129,12 @@ class _StreetMapState extends State<StreetMap> {
 
     Size mediaQuery = MediaQuery.of(context).size;
     return Container(
-      width: widget.width > 0 ? widget.width : mediaQuery.width * 0.8,
-      height: widget.height > 0 ? widget.height : mediaQuery.width * 0.8,
+      width: widget.width > 0
+          ? widget.width
+          : mediaQuery.width * defaultWidthPercentage,
+      height: widget.height > 0
+          ? widget.height
+          : mediaQuery.width * defaultWidthPercentage,
       padding: EdgeInsets.all(border),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(border),
