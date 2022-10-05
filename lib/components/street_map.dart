@@ -86,7 +86,7 @@ class _StreetMapState extends State<StreetMap> {
                 child: CircularProgressIndicator(),
               ),
               SizedBox(height: circleTextDistance),
-              Text('Laden...'),
+              Text("Laden..."),
             ],
           ),
         ),
