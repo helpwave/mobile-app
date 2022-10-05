@@ -26,19 +26,28 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, mediaQuery.height * 0.2, 0,
-                        mediaQuery.height * 0.05),
+                    padding: EdgeInsets.fromLTRB(
+                      0,
+                      mediaQuery.height * 0.2,
+                      0,
+                      mediaQuery.height * 0.05,
+                    ),
                     child: OutlinedButton(
                       onPressed: () {
                         // TODO Add QuestionPage Route
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => SomePage(),))
+                        //Navigator.push(context, MaterialPageRoute(builder: (_) => SomePage(),))
                       },
                       child: const Text("Fragebogen"),
                     ),
                   ),
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const StreetMapViewPage(),));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const StreetMapViewPage(),
+                        ),
+                      );
                     },
                     child: const Text("Notaufnahmekarte"),
                   ),

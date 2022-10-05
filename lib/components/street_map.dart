@@ -25,13 +25,16 @@ class _StreetMapState extends State<StreetMap> {
     OSMFlutter osmFlutter = OSMFlutter(
       controller: MapController(
         initMapWithUserPosition: false,
-        initPosition:
-            GeoPoint(latitude: 51.9582531914801, longitude: 7.614308513084836),
+        initPosition: GeoPoint(
+          latitude: 51.9582531914801,
+          longitude: 7.614308513084836,
+        ),
         areaLimit: BoundingBox(
-            east: 7.868367326136183,
-            north: 52.05926850228487,
-            south: 51.815854199654915,
-            west: 7.459126643491313),
+          east: 7.868367326136183,
+          north: 52.05926850228487,
+          south: 51.815854199654915,
+          west: 7.459126643491313,
+        ),
       ),
       trackMyPosition: false,
       initZoom: 12,
@@ -45,7 +48,9 @@ class _StreetMapState extends State<StreetMap> {
           MarkerIcon(
             iconWidget: Container(
               decoration: const BoxDecoration(
-                  color: Colors.white, shape: BoxShape.circle),
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
               child: const Icon(
                 Icons.local_hospital,
                 color: Colors.red,
@@ -54,7 +59,10 @@ class _StreetMapState extends State<StreetMap> {
             ),
           ),
           [
-            GeoPoint(latitude: 51.9582531914801, longitude: 7.614308513084836),
+            GeoPoint(
+              latitude: 51.9582531914801,
+              longitude: 7.614308513084836,
+            ),
             GeoPoint(latitude: 51.85, longitude: 7.6)
           ],
         )
