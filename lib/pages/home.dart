@@ -31,10 +31,11 @@ class HomePage extends StatelessWidget {
                     child: OutlinedButton(
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const QuestionnairePage(),
-                            ));
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const QuestionnairePage(),
+                          ),
+                        );
                       },
                       child: const Text("Fragebogen"),
                     ),

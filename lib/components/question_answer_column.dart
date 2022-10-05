@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class QuestionAnswerColumn extends StatelessWidget {
-  final Function(String, int) answerHandler;
+  final Function(int, String) answerHandler;
   final String question;
   final List<String> answers;
 
@@ -15,13 +15,19 @@ class QuestionAnswerColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
+    const double topDistance = 0.05;
+    const double bottomDistance = 0.12;
+    const double questionWidth = 250;
+    const double buttonTopDistance = 20;
+
     List<Widget> children = [
+      Container(
+        height: mediaQuery.height * topDistance,
+      ),
       Align(
         alignment: Alignment.topCenter,
-        child: Container(
-          width: 250,
-          margin: EdgeInsets.fromLTRB(
-              0, mediaQuery.height * 0.05, 0, mediaQuery.height * 0.12),
+        child: SizedBox(
+          width: questionWidth,
           child: Text(
             question,
             style: Theme.of(context).textTheme.headline5,
@@ -29,17 +35,22 @@ class QuestionAnswerColumn extends StatelessWidget {
           ),
         ),
       ),
+      Container(
+        height: mediaQuery.height * bottomDistance,
+      ),
     ];
 
-    answers.asMap().forEach((index, answer) => {
-          children.add(Padding(
-            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-            child: OutlinedButton(
-              onPressed: () => answerHandler(answer, index),
-              child: Text(answer),
+    answers.asMap().forEach(
+          (index, answer) => children.add(
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, buttonTopDistance, 0, 0),
+              child: OutlinedButton(
+                onPressed: () => answerHandler(index, answer),
+                child: Text(answer),
+              ),
             ),
-          ))
-        });
+          ),
+        );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
