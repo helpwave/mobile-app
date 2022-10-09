@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../styling/constants.dart';
 
 class QuestionAnswerColumn extends StatelessWidget {
   final Function(int, String) answerHandler;
@@ -18,7 +19,7 @@ class QuestionAnswerColumn extends StatelessWidget {
     const double topDistance = 0.05;
     const double bottomDistance = 0.12;
     const double questionWidth = 250;
-    const double buttonTopDistance = 20;
+    const double buttonTopDistance = distanceDefault;
 
     List<Widget> children = [
       Container(
@@ -40,17 +41,15 @@ class QuestionAnswerColumn extends StatelessWidget {
       ),
     ];
 
-    answers.asMap().forEach(
-          (index, answer) => children.add(
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, buttonTopDistance, 0, 0),
-              child: OutlinedButton(
-                onPressed: () => answerHandler(index, answer),
-                child: Text(answer),
-              ),
-            ),
-          ),
-        );
+    answers.asMap().forEach((index, answer) {
+      children.add(const SizedBox(height: buttonTopDistance));
+      children.add(
+        OutlinedButton(
+          onPressed: () => answerHandler(index, answer),
+          child: Text(answer),
+        ),
+      );
+    });
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,

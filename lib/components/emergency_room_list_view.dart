@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../styling/constants.dart';
 import 'emergency_room_list_view_card.dart';
 
 class EmergencyRoomListView extends StatefulWidget {
@@ -39,6 +39,9 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView> {
 
   @override
   Widget build(BuildContext context) {
+    const double indicatorTextDistance = distanceDefault;
+    const double indicatorSize = iconSizeBig;
+
     // TODO Change datatype below     v here
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: getEmergencyRooms(),
@@ -59,29 +62,27 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView> {
             Icon(
               Icons.error_outline,
               color: Theme.of(context).colorScheme.error,
-              size: 60,
+              size: indicatorSize,
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Text('Error: ${snapshot.error}'),
-            ),
+            const SizedBox(height: indicatorTextDistance),
+            Text('Error: ${snapshot.error}'),
           ];
         } else {
           children = const <Widget>[
             SizedBox(
-              width: 60,
-              height: 60,
+              width: indicatorSize,
+              height: indicatorSize,
               child: CircularProgressIndicator(),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 16),
-              child: Text('Awaiting result...'),
-            ),
+            SizedBox(height: indicatorTextDistance),
+            Text('Awaiting result...'),
           ];
         }
         return Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: snapshot.hasData
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: children,
           ),

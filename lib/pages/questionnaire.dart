@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave/components/question_answer_column.dart';
 import 'package:helpwave/pages/emergency_room_overview.dart';
+import 'package:helpwave/styling/constants.dart';
 
 class QuestionnairePage extends StatefulWidget {
   const QuestionnairePage({super.key});
@@ -14,9 +15,9 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
 
   @override
   Widget build(BuildContext context) {
-    const double loadingCircleSize = 60;
-    const double spinnerTextDistance = 30;
-    const double columnPadding = 20;
+    const double loadingCircleSize = iconSizeBig;
+    const double spinnerTextDistance = distanceDefault;
+    const double columnPadding = paddingMedium;
 
     Widget loading = Center(
       child: Column(
@@ -24,7 +25,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            margin: const EdgeInsets.fromLTRB(0, 0, 0, spinnerTextDistance),
+            margin: const EdgeInsets.only(bottom: spinnerTextDistance),
             width: loadingCircleSize,
             height: loadingCircleSize,
             child: const CircularProgressIndicator(),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:helpwave/styling/constants.dart';
+
+import '../styling/streetmap_marker.dart';
 
 class StreetMap extends StatefulWidget {
   final double width;
@@ -20,24 +23,43 @@ class StreetMap extends StatefulWidget {
 class _StreetMapState extends State<StreetMap> {
   @override
   Widget build(BuildContext context) {
-    const double loadingCircleSize = 60;
-    const double circleTextDistance = 20;
+    const double loadingCircleSize = iconSizeBig;
+    const double circleTextDistance = distanceDefault;
     const double defaultWidthPercentage = 0.8;
     double border = widget.border;
+
+    GeoPoint initPosition = GeoPoint(
+      latitude: 51.9582531914801,
+      longitude: 7.614308513084836,
+    );
+    BoundingBox areaLimit = BoundingBox(
+      east: 7.868367326136183,
+      north: 52.05926850228487,
+      south: 51.815854199654915,
+      west: 7.459126643491313,
+    );
+    List<StaticPositionGeoPoint> staticPoints = [
+      StaticPositionGeoPoint(
+        "Unique Name 1",
+        hospitalMarker,
+        [
+          GeoPoint(
+            latitude: 51.9582531914801,
+            longitude: 7.614308513084836,
+          ),
+          GeoPoint(
+            latitude: 51.85,
+            longitude: 7.6,
+          )
+        ],
+      )
+    ];
 
     OSMFlutter osmFlutter = OSMFlutter(
       controller: MapController(
         initMapWithUserPosition: false,
-        initPosition: GeoPoint(
-          latitude: 51.9582531914801,
-          longitude: 7.614308513084836,
-        ),
-        areaLimit: BoundingBox(
-          east: 7.868367326136183,
-          north: 52.05926850228487,
-          south: 51.815854199654915,
-          west: 7.459126643491313,
-        ),
+        initPosition: initPosition,
+        areaLimit: areaLimit,
       ),
       trackMyPosition: false,
       initZoom: 12,
@@ -45,34 +67,7 @@ class _StreetMapState extends State<StreetMap> {
       maxZoomLevel: 19,
       stepZoom: 1,
       // TODO update staticPoints and their display
-      staticPoints: [
-        StaticPositionGeoPoint(
-          "Unique Name 1",
-          MarkerIcon(
-            iconWidget: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.local_hospital,
-                color: Colors.red,
-                size: 48,
-              ),
-            ),
-          ),
-          [
-            GeoPoint(
-              latitude: 51.9582531914801,
-              longitude: 7.614308513084836,
-            ),
-            GeoPoint(
-              latitude: 51.85,
-              longitude: 7.6,
-            )
-          ],
-        )
-      ],
+      staticPoints: staticPoints,
       mapIsLoading: Container(
         color: Theme.of(context).colorScheme.surface,
         child: Center(
@@ -92,38 +87,15 @@ class _StreetMapState extends State<StreetMap> {
         ),
       ),
       userLocationMarker: UserLocationMaker(
-        personMarker: const MarkerIcon(
-          icon: Icon(
-            Icons.location_history_rounded,
-            color: Colors.red,
-            size: 48,
-          ),
-        ),
-        directionArrowMarker: const MarkerIcon(
-          icon: Icon(
-            Icons.double_arrow,
-            size: 48,
-          ),
-        ),
+        personMarker: personMarker,
+        directionArrowMarker: directionArrowMarker,
       ),
       roadConfiguration: RoadConfiguration(
-        startIcon: const MarkerIcon(
-          icon: Icon(
-            Icons.person,
-            size: 64,
-            color: Colors.brown,
-          ),
-        ),
+        startIcon: startIcon,
         roadColor: Colors.yellowAccent,
       ),
       markerOption: MarkerOption(
-        defaultMarker: const MarkerIcon(
-          icon: Icon(
-            Icons.person_pin_circle,
-            color: Colors.blue,
-            size: 56,
-          ),
-        ),
+        defaultMarker: defaultMarker,
       ),
     );
 

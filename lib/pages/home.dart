@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave/pages/street_map_view.dart';
 import 'package:helpwave/pages/questionnaire.dart';
-
+import 'package:helpwave/styling/constants.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -9,6 +9,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
+    const double columnPadding = paddingMedium;
+    const double columnPaddingBottom = 0.07;
+    const double menuColumnPaddingTop = 0.2;
+    const double menuColumnDistanceBetween = 0.05;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -18,7 +23,8 @@ class HomePage extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(20, 20, 20, mediaQuery.height * 0.07),
+        padding: const EdgeInsets.all(columnPadding)
+            .copyWith(bottom: mediaQuery.height * columnPaddingBottom),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -27,24 +33,20 @@ class HomePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(
-                      0,
-                      mediaQuery.height * 0.2,
-                      0,
-                      mediaQuery.height * 0.05,
-                    ),
-                    child: OutlinedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const QuestionnairePage(),
-                          ),
-                        );
-                      },
-                      child: const Text("Fragebogen"),
-                    ),
+                  SizedBox(height: mediaQuery.height * menuColumnPaddingTop),
+                  OutlinedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const QuestionnairePage(),
+                        ),
+                      );
+                    },
+                    child: const Text("Fragebogen"),
+                  ),
+                  SizedBox(
+                    height: mediaQuery.height * menuColumnDistanceBetween,
                   ),
                   OutlinedButton(
                     onPressed: () {

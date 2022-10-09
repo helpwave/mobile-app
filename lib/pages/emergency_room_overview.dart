@@ -9,9 +9,7 @@ class EmergencyRoomOverview extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          "helpwave",
-        ),
+        title: const Text("helpwave"),
       ),
       body: const EmergencyRoomListView(),
     );
