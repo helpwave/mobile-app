@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:helpwave/pages/street_map_view.dart';
 import 'package:helpwave/pages/questionnaire.dart';
+import 'package:helpwave/pages/setting.dart';
+import 'package:helpwave/pages/street_map_view.dart';
 import 'package:helpwave/styling/constants.dart';
 
 class HomePage extends StatelessWidget {
@@ -65,8 +66,11 @@ class HomePage extends StatelessWidget {
             Center(
               child: OutlinedButton(
                 onPressed: () {
-                  // TODO Add Settings Route
-                  //Navigator.push(context, MaterialPageRoute(builder: (context) => SomePage(),))
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const SettingPage(),
+                      ));
                 },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
