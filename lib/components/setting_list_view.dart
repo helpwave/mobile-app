@@ -11,7 +11,7 @@ class SettingListView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(AppLocalizations.of(context)!.language),
+        title: Text(AppLocalizations.of(context)!.selectLanguage),
       ),
       body: Center(
         child: ListView.builder(

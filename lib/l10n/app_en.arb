@@ -1,4 +1,5 @@
 {
-    "start": "starten",
+    "start": "start",
+    "selectLanguage": "select language",
     "language": "language"
 }
