@@ -15,22 +15,20 @@ class SettingPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Card(
-              color: Theme.of(context).colorScheme.background,
-              child: Column(
-                children: [
-                  GestureDetector(
-                    child: ListTile(
-                      onTap: () => Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SettingListView())),
-                      title: Text(AppLocalizations.of(context)!.language),
-                    ),
-                  )
-                ],
-              ),
-            )
+            Column(
+              children: [
+                GestureDetector(
+                  child: ListTile(
+                    leading: const Icon(Icons.language),
+                    onTap: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SettingListView())),
+                    title: Text(AppLocalizations.of(context)!.language),
+                  ),
+                )
+              ],
+            ),
           ],
         ),
       ),
