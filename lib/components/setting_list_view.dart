@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave/main.dart';
 
 class SettingListView extends StatelessWidget {
   const SettingListView({super.key});
@@ -19,7 +20,11 @@ class SettingListView extends StatelessWidget {
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
-                onTap: () => {},
+                onTap: () => {
+                  MyApp.of(context)?.setLocale(
+                      Locale(languages.values.elementAt(index), "")),
+                  Navigator.pop(context)
+                },
                 title: Text(languages.keys.elementAt(index)),
               );
             }),
