@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave/pages/setting_list_view.dart';
+import 'package:helpwave/services/theme_model.dart';
 import 'package:provider/provider.dart';
-import '../services/theme_model.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -25,6 +27,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 value: themeNotifier.isDark,
                 title: const Text("Dunkel Modus"),
                 onChanged: (value) => themeNotifier.isDark = value,
+              ),
+              ListTile(
+                leading: const Icon(Icons.language),
+                onTap: () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingListView())),
+                title: Text(AppLocalizations.of(context)!.language),
               ),
             ],
           ),

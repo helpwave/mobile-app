@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:helpwave/pages/landing.dart';
+import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/services/theme_model.dart';
 import 'package:helpwave/styling/dark_theme.dart';
 import 'package:helpwave/styling/light_theme.dart';
@@ -15,16 +18,35 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ThemeModel(),
-      child: Consumer<ThemeModel>(
-        builder: (_, ThemeModel themeNotifier, __) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ThemeModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LanguageModel(),
+        ),
+      ],
+      child: Consumer2<ThemeModel, LanguageModel>(
+        builder:
+            (_, ThemeModel themeNotifier, LanguageModel languageNotifier, __) {
           return MaterialApp(
             title: 'helpwave',
             theme: lightTheme,
             darkTheme: darkTheme,
             themeMode: themeNotifier.isDark ? ThemeMode.dark : ThemeMode.light,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en', 'US'),
+              Locale('de', 'DE'),
+            ],
             home: const LandingPage(),
+            locale: Locale(languageNotifier.language),
           );
         },
       ),
