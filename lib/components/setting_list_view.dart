@@ -6,7 +6,7 @@ class SettingListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> languages = ["German", "English (USA)"];
+    Map<String, String> languages = {"English": "en", "Deutsch": "de"};
 
     return Scaffold(
       appBar: AppBar(
@@ -20,7 +20,7 @@ class SettingListView extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
                 onTap: () => {},
-                title: Text(languages[index]),
+                title: Text(languages.keys.elementAt(index)),
               );
             }),
       ),
