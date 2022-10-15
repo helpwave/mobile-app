@@ -12,6 +12,11 @@ void main() {
   runApp(const MyApp());
 }
 
+List<Map<String, String>> languages = [
+  {"Name": "English", "Local": "US", "Shortname": "en"},
+  {"Name": "Deutsch", "Local": "DE", "Shortname": "de"}
+];
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -41,9 +46,9 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [
-              Locale('en', 'US'),
-              Locale('de', 'DE'),
+            supportedLocales: [
+              for (var language in languages)
+                Locale(language["Shortname"]!, language["Local"])
             ],
             home: const LandingPage(),
             locale: Locale(languageNotifier.language),
