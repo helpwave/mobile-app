@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:helpwave/pages/SettingLanguageSelection.dart';
+import 'package:helpwave/pages/setting_language_selection.dart';
 import 'package:helpwave/services/theme_model.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +35,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            const SettingLanguageSelection())),
+                            const SettingLanguageSelectionPage())),
                 title: Text(AppLocalizations.of(context)!.language),
               ),
             ],

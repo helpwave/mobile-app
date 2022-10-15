@@ -4,8 +4,8 @@ import 'package:helpwave/main.dart';
 import 'package:helpwave/services/language_model.dart';
 import 'package:provider/provider.dart';
 
-class SettingLanguageSelection extends StatelessWidget {
-  const SettingLanguageSelection({super.key});
+class SettingLanguageSelectionPage extends StatelessWidget {
+  const SettingLanguageSelectionPage({super.key});
 
   @override
   Widget build(BuildContext context) {

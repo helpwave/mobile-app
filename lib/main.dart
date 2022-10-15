@@ -46,10 +46,10 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: [
-              for (var language in languages)
-                Locale(language["Shortname"]!, language["Local"])
-            ],
+            supportedLocales: languages
+                .map((language) =>
+                    Locale(language["Shortname"]!, language["Local"]!))
+                .toList(),
             home: const LandingPage(),
             locale: Locale(languageNotifier.language),
           );
