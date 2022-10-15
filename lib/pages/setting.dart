@@ -15,8 +15,9 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeModel>(
-      builder: (_, ThemeModel themeNotifier, __) {
+    return Consumer2<ThemeModel, LanguageModel>(
+      builder:
+          (_, ThemeModel themeNotifier, LanguageModel languageNotifier, __) {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -27,7 +28,10 @@ class _SettingsPageState extends State<SettingsPage> {
               SwitchListTile(
                 value: themeNotifier.isDark,
                 secondary: const Icon(Icons.brightness_4),
-                title: const Text("Dark-Mode"),
+                subtitle: Text(themeNotifier.isDark
+                    ? AppLocalizations.of(context)!.on
+                    : AppLocalizations.of(context)!.off),
+                title: Text(AppLocalizations.of(context)!.darkMode),
                 onChanged: (value) => themeNotifier.isDark = value,
               ),
               ListTile(
