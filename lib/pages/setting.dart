@@ -25,7 +25,8 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               SwitchListTile(
                 value: themeNotifier.isDark,
-                title: const Text("Dunkel Modus"),
+                secondary: const Icon(Icons.brightness_4),
+                title: const Text("Dark-Mode"),
                 onChanged: (value) => themeNotifier.isDark = value,
               ),
               ListTile(
