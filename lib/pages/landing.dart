@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave/pages/home.dart';
-import '../styling/constants.dart';
+import 'package:helpwave/styling/constants.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});

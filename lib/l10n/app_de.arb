@@ -1,5 +1,14 @@
 {
   "start": "starten",
   "selectLanguage": "Sprache auswählen",
-  "language": "Sprache"
+  "language": "Sprache",
+  "darkMode": "Dunkles Design",
+  "on": "An",
+  "off": "Aus",
+  "settings": "Einstellungen",
+  "emergencyMap": "Notfallkarte",
+  "questionnaire": "Fragebogen",
+  "yes": "Ja",
+  "no": "Nein",
+  "loadEmergencyWard": "Notfallstation laden"
 }

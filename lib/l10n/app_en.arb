@@ -1,5 +1,14 @@
 {
     "start": "start",
     "selectLanguage": "select language",
-    "language": "language"
+    "language": "language",
+    "darkMode": "Dark theme",
+    "on": "On",
+    "off": "Off",
+    "settings": "Settings",
+    "emergencyMap": "Emergency map",
+    "questionnaire": "Questionnaire",
+    "yes" : "Yes",
+    "no" : "No",
+    "loadEmergencyWard": "Load emergency ward"
 }

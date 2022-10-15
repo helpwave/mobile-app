@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave/pages/questionnaire.dart';
 import 'package:helpwave/pages/setting.dart';
 import 'package:helpwave/pages/street_map_view.dart';
-import 'package:helpwave/pages/questionnaire.dart';
 import 'package:helpwave/styling/constants.dart';
 
 class HomePage extends StatelessWidget {
@@ -44,7 +45,7 @@ class HomePage extends StatelessWidget {
                         ),
                       );
                     },
-                    child: const Text("Fragebogen"),
+                    child: Text(AppLocalizations.of(context)!.questionnaire),
                   ),
                   SizedBox(
                     height: mediaQuery.height * menuColumnDistanceBetween,
@@ -58,7 +59,7 @@ class HomePage extends StatelessWidget {
                         ),
                       );
                     },
-                    child: const Text("Notaufnahmekarte"),
+                    child: Text(AppLocalizations.of(context)!.emergencyMap),
                   ),
                 ],
               ),
@@ -76,7 +77,7 @@ class HomePage extends StatelessWidget {
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         Theme.of(context).colorScheme.background)),
-                child: const Text("Einstellungen"),
+                child: Text(AppLocalizations.of(context)!.settings),
               ),
             ),
           ],

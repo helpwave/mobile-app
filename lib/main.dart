@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
                     Locale(language["Shortname"]!, language["Local"]!))
                 .toList(),
             home: const LandingPage(),
-            locale: Locale(languageNotifier.language),
+            locale: Locale(languageNotifier.shortname),
           );
         },
       ),
