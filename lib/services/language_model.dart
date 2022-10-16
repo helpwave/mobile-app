@@ -13,14 +13,9 @@ class LanguageModel extends ChangeNotifier {
     getPreferences();
   }
 
-  set name(String name) {
-    _name = name;
-    _preferences.setLanguage(name);
-    notifyListeners();
-  }
-
-  set shortname(String shortname) {
+  setLanguage(String shortname, String name) {
     _shortname = shortname;
+    _name = name;
     notifyListeners();
   }
 

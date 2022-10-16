@@ -23,8 +23,8 @@ class SettingLanguageSelectionPage extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   onTap: () => {
-                    languageNotifier.shortname = languages[index]["Shortname"]!,
-                    languageNotifier.name = languages[index]["Name"]!,
+                    languageNotifier.setLanguage(languages[index]["Shortname"]!,
+                        languages[index]["Name"]!)
                   },
                   title: Text(languages[index]["Name"]!),
                 );
