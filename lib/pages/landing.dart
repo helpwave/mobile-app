@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:helpwave/pages/home.dart';
-import '../styling/constants.dart';
+import 'package:helpwave/styling/constants.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
@@ -39,7 +40,7 @@ class LandingPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Starten"),
+                  Text(AppLocalizations.of(context)!.start),
                   Container(width: startContainerTextIconDistance),
                   const Icon(Icons.arrow_forward),
                 ],

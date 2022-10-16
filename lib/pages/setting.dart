@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:helpwave/pages/setting_language_selection.dart';
+import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/services/theme_model.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +15,9 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeModel>(
-      builder: (_, ThemeModel themeNotifier, __) {
+    return Consumer2<ThemeModel, LanguageModel>(
+      builder:
+          (_, ThemeModel themeNotifier, LanguageModel languageNotifier, __) {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -26,11 +28,15 @@ class _SettingsPageState extends State<SettingsPage> {
               SwitchListTile(
                 value: themeNotifier.isDark,
                 secondary: const Icon(Icons.brightness_4),
-                title: const Text("Dark-Mode"),
+                subtitle: Text(themeNotifier.isDark
+                    ? AppLocalizations.of(context)!.on
+                    : AppLocalizations.of(context)!.off),
+                title: Text(AppLocalizations.of(context)!.darkMode),
                 onChanged: (value) => themeNotifier.isDark = value,
               ),
               ListTile(
                 leading: const Icon(Icons.language),
+                subtitle: Text(languageNotifier.name),
                 onTap: () => Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
