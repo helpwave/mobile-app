@@ -18,17 +18,21 @@ class SettingLanguageSelectionPage extends StatelessWidget {
         ),
         body: Center(
           child: ListView.builder(
-              itemCount: languages.length,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  onTap: () => {
-                    languageNotifier.setLanguage(languages[index]["Shortname"]!,
-                        languages[index]["Name"]!)
-                  },
-                  title: Text(languages[index]["Name"]!),
-                );
-              }),
+            itemCount: languages.length,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (BuildContext context, int index) {
+              return RadioListTile(
+                value: languages[index],
+                onChanged: (Map<String, String>? language) => {
+                  languageNotifier.setLanguage(
+                      language!["Shortname"]!, language["Name"]!)
+                },
+                title: Text(languages[index]["Name"]!),
+                groupValue: languages.firstWhere(
+                    (language) => language["Name"] == languageNotifier.name),
+              );
+            },
+          ),
         ),
       );
     });
