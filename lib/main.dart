@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:helpwave/config/language.dart';
 import 'package:helpwave/pages/landing.dart';
 import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/services/theme_model.dart';
@@ -11,11 +12,6 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(const MyApp());
 }
-
-List<Map<String, String>> languages = [
-  {"Name": "English", "Local": "US", "Shortname": "en"},
-  {"Name": "Deutsch", "Local": "DE", "Shortname": "de"}
-];
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
