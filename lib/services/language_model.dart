@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave/config/language.dart';
 import 'package:helpwave/services/language_preferences.dart';
 
 class LanguageModel extends ChangeNotifier {
-  String _shortname = "de";
-  String _name = "Deutsch";
+  String _shortname = languages[defaultLanguageIndex]["Shortname"]!;
+  String _name = languages[defaultLanguageIndex]["Name"]!;
 
   final LanguagePreferences _preferences = LanguagePreferences();
   String get shortname => _shortname;
