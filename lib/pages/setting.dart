@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:helpwave/pages/setting_language_selection.dart';
 import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/services/theme_model.dart';
+import 'package:helpwave/styling/constants.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -27,7 +28,15 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               SwitchListTile(
                 value: themeNotifier.isDark,
-                secondary: const Icon(Icons.brightness_4),
+                secondary: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.brightness_4,
+                      size: iconSizeSmall,
+                    ),
+                  ],
+                ),
                 subtitle: Text(themeNotifier.isDark
                     ? AppLocalizations.of(context)!.on
                     : AppLocalizations.of(context)!.off),
@@ -35,7 +44,15 @@ class _SettingsPageState extends State<SettingsPage> {
                 onChanged: (value) => themeNotifier.isDark = value,
               ),
               ListTile(
-                leading: const Icon(Icons.language),
+                leading: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.language,
+                      size: iconSizeSmall,
+                    ),
+                  ],
+                ),
                 subtitle: Text(languageNotifier.name),
                 onTap: () => Navigator.pushReplacement(
                     context,
@@ -43,6 +60,10 @@ class _SettingsPageState extends State<SettingsPage> {
                         builder: (context) =>
                             const SettingLanguageSelectionPage())),
                 title: Text(AppLocalizations.of(context)!.language),
+                trailing: const Icon(
+                  Icons.arrow_forward,
+                  size: iconSizeSmall,
+                ),
               ),
             ],
           ),
