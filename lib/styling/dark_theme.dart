@@ -3,7 +3,7 @@ import 'constants.dart';
 
 ThemeData darkTheme = ThemeData(
   primaryColor: const Color.fromARGB(255, 68, 68, 255),
-  scaffoldBackgroundColor: const Color.fromARGB(255, 17, 17, 51),
+  scaffoldBackgroundColor: const Color.fromARGB(255, 27, 27, 27),
   appBarTheme: const AppBarTheme(
     backgroundColor: Color.fromARGB(255, 68, 68, 255),
   ),
