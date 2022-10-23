@@ -44,7 +44,13 @@ class QuestionAnswerColumn extends StatelessWidget {
     answers.asMap().forEach((index, answer) {
       children.add(const SizedBox(height: buttonTopDistance));
       children.add(
-        OutlinedButton(
+        ElevatedButton(
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(
+                Theme.of(context).colorScheme.onSecondary),
+            backgroundColor: MaterialStateProperty.all<Color>(
+                Theme.of(context).colorScheme.secondary),
+          ),
           onPressed: () => answerHandler(index, answer),
           child: Text(answer),
         ),

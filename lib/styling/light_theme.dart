@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
 
-// TODO create styling for light theme
 ThemeData lightTheme = ThemeData(
-  scaffoldBackgroundColor: const Color.fromARGB(255, 17, 17, 51),
+  scaffoldBackgroundColor: const Color.fromARGB(255, 238, 238, 238),
   appBarTheme: const AppBarTheme(
-    backgroundColor: Color.fromARGB(255, 68, 68, 255),
+    centerTitle: true,
+    backgroundColor: Color.fromARGB(0, 0, 0, 0),
+    shadowColor: Color.fromARGB(0, 0, 0, 0),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: buttonStyle.copyWith(
+      backgroundColor: MaterialStateProperty.all<Color>(
+          const Color.fromARGB(255, 255, 51, 51)),
+      foregroundColor: MaterialStateProperty.all<Color>(
+        const Color.fromARGB(255, 255, 255, 255),
+      ),
+    ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: buttonStyle.copyWith(
+      foregroundColor:
+          MaterialStateProperty.all<Color>(const Color.fromARGB(255, 0, 0, 0)),
       backgroundColor: MaterialStateProperty.all<Color>(
-          const Color.fromARGB(255, 68, 68, 255)),
+          const Color.fromARGB(255, 190, 190, 190)),
       side: MaterialStateProperty.all<BorderSide>(
         buttonBorderSide.copyWith(
-          color: const Color.fromARGB(255, 255, 255, 255),
+          color: const Color.fromARGB(255, 190, 190, 190),
         ),
       ),
     ),
@@ -29,8 +41,8 @@ ThemeData lightTheme = ThemeData(
     onPrimary: Color.fromARGB(255, 0, 0, 0),
     background: Color.fromARGB(255, 153, 153, 153),
     onBackground: Color.fromARGB(255, 255, 255, 255),
-    secondary: Color.fromARGB(255, 68, 68, 255),
-    onSecondary: Color.fromARGB(255, 255, 255, 255),
+    secondary: Color.fromARGB(255, 190, 190, 190),
+    onSecondary: Color.fromARGB(255, 0, 0, 0),
     tertiary: Color.fromARGB(255, 153, 153, 153),
     onTertiary: Color.fromARGB(255, 255, 255, 255),
     error: Color.fromARGB(255, 255, 51, 51),
