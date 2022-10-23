@@ -18,7 +18,6 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: const Text(
           "helpwave",
           textAlign: TextAlign.center,
@@ -36,7 +35,7 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: mediaQuery.height * menuColumnPaddingTop),
-                  OutlinedButton(
+                  ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -74,9 +73,6 @@ class HomePage extends StatelessWidget {
                     ),
                   );
                 },
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        Theme.of(context).colorScheme.background)),
                 child: Text(AppLocalizations.of(context)!.settings),
               ),
             ),
