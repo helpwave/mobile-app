@@ -26,6 +26,7 @@ const double paddingMedium = distanceDefault;
 const double paddingBig = 40;
 
 // Icon
+const double iconSizeTiny = 16;
 const double iconSizeSmall = 32;
 const double iconSizeMedium = 48;
 const double iconSizeBig = 64;
