@@ -46,6 +46,8 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
           AppLocalizations.of(context)!.no
         ],
         question: "Ist das eine Frage?",
+        helpText:
+            "Dies ist ein überaus hilfreicher Text, der zu beantwortung der Frage helfen könnte.",
         answerHandler: (index, answer) {
           if (answer == AppLocalizations.of(context)!.yes) {
             Navigator.push(

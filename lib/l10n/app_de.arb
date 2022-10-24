@@ -10,5 +10,8 @@
   "questionnaire": "Fragebogen",
   "yes": "Ja",
   "no": "Nein",
-  "loadEmergencyWard": "Notfallstation laden"
+  "loadEmergencyWard": "Notfallstation laden",
+  "closeHelpText": "Alles Klar!",
+  "openHelpText": "Hilfe",
+  "helpTextTitle": "Erklärungs Text"
 }
