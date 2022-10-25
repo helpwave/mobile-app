@@ -13,5 +13,14 @@
   "loadEmergencyWard": "Notfallstation laden",
   "closeHelpText": "Alles Klar!",
   "openHelpText": "Hilfe",
-  "helpTextTitle": "Erklärungs Text"
+  "helpTextTitle": "Erklärungs Text",
+  "notifyEmergencyRoom": "Benachrichtigen",
+  "location": "Ort",
+  "address": "Adresse",
+  "availability": "Öffnungszustand",
+  "open": "Geöffnet",
+  "closed": "Geschlossen",
+  "utilization": "Ausnutzung",
+  "more": "Mehr...",
+  "route": "Route"
 }

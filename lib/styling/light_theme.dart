@@ -30,6 +30,12 @@ ThemeData lightTheme = ThemeData(
       ),
     ),
   ),
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(
+          const Color.fromARGB(255, 190, 190, 190)),
+    ),
+  ),
   colorScheme: const ColorScheme(
     // General
     brightness: Brightness.light,
@@ -56,7 +62,7 @@ ThemeData lightTheme = ThemeData(
     inverseSurface: Color.fromARGB(255, 153, 153, 153),
     onInverseSurface: Color.fromARGB(255, 0, 0, 0),
     // Container
-    primaryContainer: Color.fromARGB(255, 153, 153, 153),
+    primaryContainer: Color.fromARGB(255, 255, 51, 51),
     onPrimaryContainer: Color.fromARGB(255, 255, 255, 255),
     secondaryContainer: Color.fromARGB(255, 85, 85, 85),
     onSecondaryContainer: Color.fromARGB(255, 255, 255, 255),

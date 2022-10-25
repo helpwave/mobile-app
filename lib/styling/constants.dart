@@ -36,3 +36,7 @@ const double iconSizeVeryBig = 128;
 const double borderRadiusSmall = 5;
 const double borderRadiusMedium = 10;
 const double borderRadiusBig = 20;
+
+// Colors
+const positiveColor = Color.fromARGB(255, 52, 199, 89);
+const negativeColor = Color.fromARGB(255, 255, 51, 51);

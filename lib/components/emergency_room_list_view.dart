@@ -79,11 +79,7 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView> {
           ];
         }
         return Center(
-          child: Column(
-            mainAxisAlignment: snapshot.hasData
-                ? MainAxisAlignment.start
-                : MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: ListView(
             children: children,
           ),
         );
