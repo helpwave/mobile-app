@@ -107,16 +107,16 @@ flutter_native_splash:
   # flutter pub run flutter_native_splash:remove
 
   color: "#1B1B1B"
-  image: assets/splash.png
+  image: assets/splash/splash.png
 
   android_12:
     color: "#1B1B1B"
-    image: assets/android12splash.png
+    image: assets/splash/android12splash.png
 
 
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/android12splash.png"
-  adaptive_icon_background: "assets/icon_background.png"
-  adaptive_icon_foreground: "assets/android12splash.png"
+  image_path: assets/icon/icon_launcher.png
+  adaptive_icon_background: assets/icon/icon_background.png
+  adaptive_icon_foreground: assets/icon/icon_launcher.png
