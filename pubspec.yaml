@@ -43,6 +43,7 @@ dependencies:
   provider: ^6.0.3
   shared_preferences: ^2.0.15
   flutter_native_splash: ^2.2.11
+  flutter_launcher_icons: ^0.10.0
 
 dev_dependencies:
   flutter_test:
@@ -111,3 +112,11 @@ flutter_native_splash:
   android_12:
     color: "#1B1B1B"
     image: assets/android12splash.png
+
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/splash.png"
+  adaptive_icon_background: "assets/icon_background.png"
+  adaptive_icon_foreground: "assets/splash.png"
