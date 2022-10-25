@@ -43,6 +43,7 @@ dependencies:
   provider: ^6.0.3
   shared_preferences: ^2.0.15
   flutter_native_splash: ^2.2.11
+  flutter_launcher_icons: ^0.10.0
 
 dev_dependencies:
   flutter_test:
@@ -106,8 +107,16 @@ flutter_native_splash:
   # flutter pub run flutter_native_splash:remove
 
   color: "#1B1B1B"
-  image: assets/splash.png
+  image: assets/splash/splash.png
 
   android_12:
     color: "#1B1B1B"
-    image: assets/android12splash.png
+    image: assets/splash/android12splash.png
+
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: assets/icon/icon_launcher.png
+  adaptive_icon_background: assets/icon/icon_background.png
+  adaptive_icon_foreground: assets/icon/icon_launcher.png
