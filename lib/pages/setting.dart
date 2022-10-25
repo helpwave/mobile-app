@@ -3,7 +3,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:helpwave/pages/setting_language_selection.dart';
 import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/services/theme_model.dart';
-import 'package:helpwave/styling/constants.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -33,7 +32,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: const [
                     Icon(
                       Icons.brightness_4,
-                      size: iconSizeSmall,
                     ),
                   ],
                 ),
@@ -49,7 +47,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: const [
                     Icon(
                       Icons.language,
-                      size: iconSizeSmall,
                     ),
                   ],
                 ),
@@ -62,7 +59,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: Text(AppLocalizations.of(context)!.language),
                 trailing: const Icon(
                   Icons.arrow_forward,
-                  size: iconSizeSmall,
                 ),
               ),
             ],
