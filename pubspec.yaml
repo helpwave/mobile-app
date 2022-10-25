@@ -117,6 +117,6 @@ flutter_native_splash:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/splash.png"
+  image_path: "assets/android12splash.png"
   adaptive_icon_background: "assets/icon_background.png"
-  adaptive_icon_foreground: "assets/splash.png"
+  adaptive_icon_foreground: "assets/android12splash.png"
