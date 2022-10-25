@@ -1,0 +1,61 @@
+PODS:
+  - Alamofire (5.6.2)
+  - Flutter (1.0.0)
+  - flutter_native_splash (0.0.1):
+    - Flutter
+  - flutter_osm_plugin (0.0.1):
+    - Alamofire
+    - Flutter
+    - Polyline
+    - Tangram-es
+  - permission_handler_apple (9.0.4):
+    - Flutter
+  - Polyline (5.1.0)
+  - shared_preferences_ios (0.0.1):
+    - Flutter
+  - Tangram-es (0.17.1)
+  - url_launcher_ios (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
+  - flutter_osm_plugin (from `.symlinks/plugins/flutter_osm_plugin/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Polyline
+    - Tangram-es
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_native_splash:
+    :path: ".symlinks/plugins/flutter_native_splash/ios"
+  flutter_osm_plugin:
+    :path: ".symlinks/plugins/flutter_osm_plugin/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
+  shared_preferences_ios:
+    :path: ".symlinks/plugins/shared_preferences_ios/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
+
+SPEC CHECKSUMS:
+  Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
+  flutter_osm_plugin: f06ae1e854af57270c61ae27bdb8a386cfd4afa5
+  permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
+  Polyline: 2a1f29f87f8d9b7de868940f4f76deb8c678a5b1
+  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
+  Tangram-es: 628b634f7fc09d2217469b9914de00d9de49ff9d
+  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
+
+PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048
+
+COCOAPODS: 1.11.3
