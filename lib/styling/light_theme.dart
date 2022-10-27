@@ -30,6 +30,10 @@ ThemeData lightTheme = ThemeData(
       ),
     ),
   ),
+  iconTheme: const IconThemeData(
+    size: iconSizeSmall,
+    color: Color.fromARGB(255, 0, 0, 0),
+  ),
   colorScheme: const ColorScheme(
     // General
     brightness: Brightness.light,
