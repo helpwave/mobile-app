@@ -9,17 +9,25 @@ import 'package:helpwave/services/theme_model.dart';
 import 'package:helpwave/styling/dark_theme.dart';
 import 'package:helpwave/styling/light_theme.dart';
 import 'package:provider/provider.dart';
+import 'package:openapi_generator_annotations/openapi_generator_annotations.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // initialize
-  runApp(const MyApp());
+  runApp(const helpwave());
   FlutterNativeSplash.remove();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+@Openapi(
+    additionalProperties:
+    AdditionalProperties(pubName: 'petstore_api', pubAuthor: 'Johnny dep'),
+    inputSpecFile: 'swagger.yaml',
+    generatorName: Generator.dart,
+    outputDirectory: 'api/petstore_api'
+    )
+class helpwave extends StatelessWidget {
+  const helpwave({super.key});
 
   // This widget is the root of your application.
   @override
