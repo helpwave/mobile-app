@@ -39,6 +39,10 @@ ThemeData lightTheme = ThemeData(
           const Color.fromARGB(255, 190, 190, 190)),
     ),
   ),
+  iconTheme: const IconThemeData(
+    size: iconSizeSmall,
+    color: Color.fromARGB(255, 0, 0, 0),
+  ),
   colorScheme: const ColorScheme(
     // General
     brightness: Brightness.light,

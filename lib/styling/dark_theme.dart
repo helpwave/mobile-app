@@ -38,6 +38,10 @@ ThemeData darkTheme = ThemeData(
           const Color.fromARGB(255, 153, 153, 153)),
     ),
   ),
+  iconTheme: const IconThemeData(
+    size: iconSizeSmall,
+    color: Color.fromARGB(255, 255, 255, 255),
+  ),
   colorScheme: const ColorScheme(
     // General
     brightness: Brightness.dark,
