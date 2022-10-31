@@ -28,5 +28,7 @@
   "giveDetails": "Details angeben",
   "searchDoctorsOffices": "Praxis suchen",
   "call": "anrufen",
-  "notify": "Benachrichtigen"
+  "notify": "Benachrichtigen",
+  "notifyCancel": "Benachrichtigung zurücknehmen",
+  "startNavigation": "Navigation starten"
 }

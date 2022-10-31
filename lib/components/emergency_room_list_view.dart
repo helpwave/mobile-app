@@ -23,15 +23,15 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView>
         'name': 'Uniklinikum',
         'open': false,
         'utilization': 1,
-        'facilities': {
-          "Facility 1": const Color.fromARGB(255, 120, 140, 255),
-          "Facility 3": const Color.fromARGB(255, 10, 140, 80),
-          "Facility 2": const Color.fromARGB(255, 120, 200, 40),
-          "Facility 5": const Color.fromARGB(255, 250, 140, 255),
-          "Facility 4": const Color.fromARGB(255, 250, 70, 30),
-          "Facility 7": const Color.fromARGB(255, 250, 70, 30),
-          "Facility 9": const Color.fromARGB(255, 250, 70, 30),
-        },
+        'facilities': <MapEntry<String, Color>>[
+          const MapEntry("Facility 1", Color.fromARGB(255, 120, 140, 255)),
+          const MapEntry("Facility 2", Color.fromARGB(255, 10, 140, 80)),
+          const MapEntry("Facility 3", Color.fromARGB(255, 120, 200, 40)),
+          const MapEntry("Facility 4", Color.fromARGB(255, 250, 140, 255)),
+          const MapEntry("Facility 5", Color.fromARGB(255, 250, 70, 30)),
+          const MapEntry("Facility 6", Color.fromARGB(255, 120, 140, 255)),
+          const MapEntry("Facility 7", Color.fromARGB(255, 250, 70, 30)),
+        ],
       },
       {
         'location': '0.0,0.0',
@@ -39,7 +39,7 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView>
         'name': 'Anderes Klinikum',
         'open': true,
         'utilization': 5,
-        'facilities': <String, Color>{},
+        'facilities': <MapEntry<String, Color>>[],
       },
       {
         'location': '0.0,0.0',
@@ -47,7 +47,7 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView>
         'name': 'Mathiasspital',
         'open': true,
         'utilization': 2,
-        'facilities': <String, Color>{},
+        'facilities': <MapEntry<String, Color>>[],
       }
     ];
   }
@@ -63,9 +63,15 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView>
             emergencyRoom: value[0],
             tickerProvider: this,
             animationDuration: zeroDuration,
-            title: Text(
-              "vjidfoibn",
-              style: Theme.of(context).textTheme.headline5,
+            title: RichText(
+              text: TextSpan(
+                text: "Text Text Text",
+                style: Theme.of(context).textTheme.headline5,
+                children: const <TextSpan>[
+                  TextSpan(text: " TEXT TEXT", style: TextStyle(color: positiveColor)),
+                  TextSpan(text: " Text Text."),
+                ]
+              ),
             ),
           );
         }
