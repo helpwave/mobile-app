@@ -22,5 +22,11 @@
   "closed": "closed",
   "utilization": "utilization",
   "more": "More...",
-  "route": "Route"
+  "route": "Route",
+  "otherFunctions": "Other Functions",
+  "otherEmergencyRooms": "Other Emergency Rooms",
+  "giveDetails": "Give details",
+  "searchDoctorsOffices": "Seacrch doctor's office",
+  "call": "call,",
+  "notify": "Notify"
 }

@@ -22,5 +22,11 @@
   "closed": "Geschlossen",
   "utilization": "Ausnutzung",
   "more": "Mehr...",
-  "route": "Route"
+  "route": "Route",
+  "otherFunctions": "Weitere Funktionen",
+  "otherEmergencyRooms": "Weitere Notaufnahmen",
+  "giveDetails": "Details angeben",
+  "searchDoctorsOffices": "Praxis suchen",
+  "call": "anrufen",
+  "notify": "Benachrichtigen"
 }

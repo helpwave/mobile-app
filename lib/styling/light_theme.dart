@@ -3,6 +3,9 @@ import 'constants.dart';
 
 ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: const Color.fromARGB(255, 238, 238, 238),
+  bottomSheetTheme: const BottomSheetThemeData(
+    backgroundColor: Color.fromARGB(255, 238, 238, 238),
+  ),
   appBarTheme: const AppBarTheme(
     centerTitle: true,
     backgroundColor: Color.fromARGB(0, 0, 0, 0),
