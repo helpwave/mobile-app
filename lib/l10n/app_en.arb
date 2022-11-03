@@ -13,5 +13,22 @@
   "loadEmergencyWard": "Load emergency ward",
   "closeHelpText": "Alright!",
   "openHelpText": "Help",
-  "helpTextTitle": "Explanatory Text"
+  "helpTextTitle": "Explanatory Text",
+  "notifyEmergencyRoom": "Notify",
+  "location": "Location",
+  "availability": "Availability",
+  "address": "Address",
+  "open": "open",
+  "closed": "closed",
+  "utilization": "utilization",
+  "more": "More...",
+  "route": "Route",
+  "otherFunctions": "Other Functions",
+  "otherEmergencyRooms": "Other Emergency Rooms",
+  "giveDetails": "Give details",
+  "searchDoctorsOffices": "Seacrch doctor's office",
+  "call": "call,",
+  "notify": "Notify",
+  "notifyCancel": "Cancel Notification",
+  "startNavigation": "Start Navigation"
 }

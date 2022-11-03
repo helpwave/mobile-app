@@ -13,5 +13,22 @@
   "loadEmergencyWard": "Notfallstation laden",
   "closeHelpText": "Alles Klar!",
   "openHelpText": "Hilfe",
-  "helpTextTitle": "Erklärungs Text"
+  "helpTextTitle": "Erklärungs Text",
+  "notifyEmergencyRoom": "Benachrichtigen",
+  "location": "Ort",
+  "address": "Adresse",
+  "availability": "Öffnungszustand",
+  "open": "Geöffnet",
+  "closed": "Geschlossen",
+  "utilization": "Ausnutzung",
+  "more": "Mehr...",
+  "route": "Route",
+  "otherFunctions": "Weitere Funktionen",
+  "otherEmergencyRooms": "Weitere Notaufnahmen",
+  "giveDetails": "Details angeben",
+  "searchDoctorsOffices": "Praxis suchen",
+  "call": "anrufen",
+  "notify": "Benachrichtigen",
+  "notifyCancel": "Benachrichtigung zurücknehmen",
+  "startNavigation": "Navigation starten"
 }

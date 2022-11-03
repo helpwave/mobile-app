@@ -4,6 +4,9 @@ import 'constants.dart';
 ThemeData darkTheme = ThemeData(
   primaryColor: const Color.fromARGB(255, 68, 68, 255),
   scaffoldBackgroundColor: const Color.fromARGB(255, 27, 27, 27),
+  bottomSheetTheme: const BottomSheetThemeData(
+    backgroundColor: Color.fromARGB(255, 27, 27, 27),
+  ),
   appBarTheme: const AppBarTheme(
     centerTitle: true,
     backgroundColor: Color.fromARGB(0, 0, 0, 0),
@@ -27,6 +30,12 @@ ThemeData darkTheme = ThemeData(
           color: const Color.fromARGB(255, 255, 255, 255),
         ),
       ),
+    ),
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(
+          const Color.fromARGB(255, 153, 153, 153)),
     ),
   ),
   iconTheme: const IconThemeData(
@@ -59,7 +68,7 @@ ThemeData darkTheme = ThemeData(
     inverseSurface: Color.fromARGB(255, 153, 153, 153),
     onInverseSurface: Color.fromARGB(255, 0, 0, 0),
     // Container
-    primaryContainer: Color.fromARGB(255, 153, 153, 153),
+    primaryContainer: Color.fromARGB(255, 255, 51, 51),
     onPrimaryContainer: Color.fromARGB(255, 255, 255, 255),
     secondaryContainer: Color.fromARGB(255, 85, 85, 85),
     onSecondaryContainer: Color.fromARGB(255, 255, 255, 255),

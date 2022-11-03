@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../styling/constants.dart';
+import 'emergency_room_bottom_sheet.dart';
 import 'emergency_room_list_view_card.dart';
 
 class EmergencyRoomListView extends StatefulWidget {
@@ -9,7 +10,10 @@ class EmergencyRoomListView extends StatefulWidget {
   State<StatefulWidget> createState() => _EmergencyRoomListViewState();
 }
 
-class _EmergencyRoomListViewState extends State<EmergencyRoomListView> {
+class _EmergencyRoomListViewState extends State<EmergencyRoomListView>
+    with SingleTickerProviderStateMixin {
+  late Future<List<Map<String, dynamic>>> future;
+
   // TODO Remove when Backend-integration implemented
   Future<List<Map<String, dynamic>>> getEmergencyRooms() async {
     return [
@@ -18,23 +22,62 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView> {
         'displayableAddress': 'Ger, Münster, Münster Straße 2',
         'name': 'Uniklinikum',
         'open': false,
-        'utilization': 1
+        'utilization': 1,
+        'facilities': <MapEntry<String, Color>>[
+          const MapEntry("Facility 1", Color.fromARGB(255, 120, 140, 255)),
+          const MapEntry("Facility 2", Color.fromARGB(255, 10, 140, 80)),
+          const MapEntry("Facility 3", Color.fromARGB(255, 120, 200, 40)),
+          const MapEntry("Facility 4", Color.fromARGB(255, 250, 140, 255)),
+          const MapEntry("Facility 5", Color.fromARGB(255, 250, 70, 30)),
+          const MapEntry("Facility 6", Color.fromARGB(255, 120, 140, 255)),
+          const MapEntry("Facility 7", Color.fromARGB(255, 250, 70, 30)),
+        ],
       },
       {
         'location': '0.0,0.0',
         'displayableAddress': 'Ger, Münster, Hafenweg 209',
         'name': 'Anderes Klinikum',
         'open': true,
-        'utilization': 5
+        'utilization': 5,
+        'facilities': <MapEntry<String, Color>>[],
       },
       {
         'location': '0.0,0.0',
         'displayableAddress': 'Ger, Rheine, Weitweg Straße 24',
         'name': 'Mathiasspital',
         'open': true,
-        'utilization': 2
+        'utilization': 2,
+        'facilities': <MapEntry<String, Color>>[],
       }
     ];
+  }
+
+  @override
+  void initState() {
+    future = getEmergencyRooms();
+    future.then(
+      (value) {
+        if (value.isNotEmpty) {
+          EmergencyRoomBottomSheet.show(
+            context: context,
+            emergencyRoom: value[0],
+            tickerProvider: this,
+            animationDuration: zeroDuration,
+            title: RichText(
+              text: TextSpan(
+                text: "Text Text Text",
+                style: Theme.of(context).textTheme.headline5,
+                children: const <TextSpan>[
+                  TextSpan(text: " TEXT TEXT", style: TextStyle(color: positiveColor)),
+                  TextSpan(text: " Text Text."),
+                ]
+              ),
+            ),
+          );
+        }
+      },
+    );
+    super.initState();
   }
 
   @override
@@ -42,9 +85,8 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView> {
     const double indicatorTextDistance = distanceDefault;
     const double indicatorSize = iconSizeBig;
 
-    // TODO Change datatype below     v here
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: getEmergencyRooms(),
+      future: future,
       builder: (context, snapshot) {
         List<Widget> children = [];
         // TODO Change snapshot handling when datatype changed
@@ -79,11 +121,7 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView> {
           ];
         }
         return Center(
-          child: Column(
-            mainAxisAlignment: snapshot.hasData
-                ? MainAxisAlignment.start
-                : MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: ListView(
             children: children,
           ),
         );

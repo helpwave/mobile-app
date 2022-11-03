@@ -20,7 +20,9 @@ ButtonStyle buttonStyle = ButtonStyle(
 );
 
 // Paddings/Distances
+const double distanceSmall = 10;
 const double distanceDefault = 20;
+const double distanceBig = 40;
 const double paddingSmall = 10;
 const double paddingMedium = distanceDefault;
 const double paddingBig = 40;
@@ -36,3 +38,15 @@ const double iconSizeVeryBig = 128;
 const double borderRadiusSmall = 5;
 const double borderRadiusMedium = 10;
 const double borderRadiusBig = 20;
+
+// Colors
+const positiveColor = Color.fromARGB(255, 52, 199, 89);
+const negativeColor = Color.fromARGB(255, 255, 51, 51);
+
+// Animation
+const Duration zeroDuration = Duration.zero;
+const Duration bottomSheetOpenDuration =  Duration(milliseconds: 100);
+
+// Font size
+const double fontSizeTiny = 12;
+const double fontSizeSmall = 14;
