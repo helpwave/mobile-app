@@ -52,6 +52,7 @@ const Duration bottomSheetOpenDuration = Duration(milliseconds: 100);
 const double fontSizeTiny = 12;
 const double fontSizeSmall = 14;
 
+// OpenStreetMap
 MapController mapController = MapController(
   initMapWithUserPosition: false,
   initPosition: GeoPoint(

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:helpwave/components/street_map.dart';
-
-import '../styling/constants.dart';
+import 'package:helpwave/styling/constants.dart';
 
 class EmergencyRoomBottomSheet extends StatefulWidget {
   final Widget? title;
@@ -43,7 +42,6 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
     const double mainTopBorder = distanceSmall;
     const double mapIconDistance = distanceDefault;
     const double mapIconSize = iconSizeSmall;
-
     ValueNotifier<bool> trackingNotifier = ValueNotifier(false);
     Size mediaQuery = MediaQuery.of(context).size;
 
