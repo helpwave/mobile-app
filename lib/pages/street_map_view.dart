@@ -1,17 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave/components/street_map.dart';
+import 'package:helpwave/styling/constants.dart';
 
 class StreetMapViewPage extends StatelessWidget {
   const StreetMapViewPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    ValueNotifier<bool> trackingNotifier = ValueNotifier(false);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text("helpwave"),
       ),
-      body: const Center(child: StreetMap()),
+      body: Center(
+          child: StreetMap(
+        trackingNotifier: trackingNotifier,
+        controller: mapController,
+      )),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
+        onPressed: () async {
+          if (!trackingNotifier.value) {
+            await mapController.currentLocation();
+            await mapController.enableTracking();
+          } else {
+            await mapController.disabledTracking();
+            trackingNotifier.value = !trackingNotifier.value;
+          }
+        },
+        child: ValueListenableBuilder<bool>(
+          valueListenable: trackingNotifier,
+          builder: (ctx, isTracking, _) {
+            if (isTracking) {
+              return const Icon(Icons.gps_off_sharp);
+            }
+            return const Icon(Icons.my_location);
+          },
+        ),
+      ),
     );
   }
 }
