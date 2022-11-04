@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 // Buttons
 const double buttonWidth = 250;
@@ -45,8 +46,22 @@ const negativeColor = Color.fromARGB(255, 255, 51, 51);
 
 // Animation
 const Duration zeroDuration = Duration.zero;
-const Duration bottomSheetOpenDuration =  Duration(milliseconds: 100);
+const Duration bottomSheetOpenDuration = Duration(milliseconds: 100);
 
 // Font size
 const double fontSizeTiny = 12;
 const double fontSizeSmall = 14;
+
+MapController mapController = MapController(
+  initMapWithUserPosition: false,
+  initPosition: GeoPoint(
+    latitude: 51.9582531914801,
+    longitude: 7.614308513084836,
+  ),
+  areaLimit: BoundingBox(
+    east: 7.868367326136183,
+    north: 52.05926850228487,
+    south: 51.815854199654915,
+    west: 7.459126643491313,
+  ),
+);
