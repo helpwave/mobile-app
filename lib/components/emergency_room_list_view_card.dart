@@ -30,10 +30,14 @@ class EmergencyRoomListViewCard extends StatelessWidget {
               style: Theme.of(context).textTheme.headline6,
             ),
             const Divider(),
-            Text("Location: ${emergencyRoom["location"]}"),
-            Text("Address: ${emergencyRoom["displayableAddress"]}"),
-            Text("Is open: ${(emergencyRoom["open"] ? "open" : "closed")}"),
-            Text("Utilization: ${emergencyRoom["utilization"].toString()}"),
+            Text("${AppLocalizations.of(context)!.location}: "
+                "${emergencyRoom["location"]}"),
+            Text("${AppLocalizations.of(context)!.address}: "
+                "${emergencyRoom["displayableAddress"]}"),
+            Text("${AppLocalizations.of(context)!.availability}: "
+                " ${(emergencyRoom["open"] ? AppLocalizations.of(context)!.open : AppLocalizations.of(context)!.closed)}"),
+            Text("${AppLocalizations.of(context)!.utilization}: "
+                " ${emergencyRoom["utilization"].toString()}"),
             const Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
