@@ -34,6 +34,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
   bool hasNotified = false;
   final double _mainWidthPercentage = 0.90;
   final double _sectionDistance = distanceDefault;
+  final double _iconButtonHeight = 30;
 
   Color getMainBackGroundColor(context) =>
       Theme.of(context).colorScheme.inversePrimary;
@@ -128,22 +129,25 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
 
     List<Widget> chipList = [];
     chipList.add(
-      Transform(
-        transform: Matrix4.identity()..scale(chipTransformScale),
-        child: Chip(
-          padding: const EdgeInsets.all(chipPadding),
-          label: Text(
-            widget.emergencyRoom["open"]
-                ? AppLocalizations.of(context)!.open
-                : AppLocalizations.of(context)!.closed,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: fontSizeTiny),
+        Transform(
+          transform: Matrix4.identity()..scale(chipTransformScale),
+          child:  Chip(
+            padding: const EdgeInsets.all(chipPadding),
+            label: Text(
+              widget.emergencyRoom["open"]
+                  ? AppLocalizations.of(context)!.open
+                  : AppLocalizations.of(context)!.closed,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: fontSizeTiny),
+            ),
+            backgroundColor:
+            widget.emergencyRoom["open"] ? positiveColor : negativeColor,
           ),
-          backgroundColor:
-              widget.emergencyRoom["open"] ? positiveColor : negativeColor,
-        ),
-      ),
+        )
     );
+
+
+
     chipList.addAll(
       facilities.map(
         (MapEntry<String, Color> e) => Transform(
@@ -180,7 +184,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
               textAlign: TextAlign.left,
               style: Theme.of(context)
                   .textTheme
-                  .headline6!
+                  .titleLarge!
                   .copyWith(color: Theme.of(context).colorScheme.primary),
             ),
           ),
@@ -199,14 +203,14 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
             AppLocalizations.of(context)!.address,
             style: Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .bodyLarge!
                 .copyWith(color: Theme.of(context).colorScheme.secondary),
           ),
           Text(
             " ${widget.emergencyRoom["displayableAddress"]}",
             style: Theme.of(context)
                 .textTheme
-                .bodyText2!
+                .bodyMedium!
                 .copyWith(color: Theme.of(context).colorScheme.primary),
           ),
           SizedBox(
@@ -216,59 +220,75 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
             AppLocalizations.of(context)!.otherFunctions,
             style: Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .bodyLarge!
                 .copyWith(color: Theme.of(context).colorScheme.secondary),
+          ),
+          SizedBox(
+            height: _sectionDistance,
           ),
           Table(
             children: [
               TableRow(
                 children: [
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.home,
-                      size: tableButtonSize,
+                  SizedBox(
+                    height: _iconButtonHeight,
+                    child: ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.home,
+                        size: tableButtonSize,
+                      ),
+                      label: Text(AppLocalizations.of(context)!.giveDetails),
+                      style: tableButtonStyle,
                     ),
-                    label: Text(AppLocalizations.of(context)!.giveDetails),
-                    style: tableButtonStyle,
                   ),
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.phone,
-                      size: tableButtonSize,
+                  SizedBox(
+                    height: _iconButtonHeight,
+                    child:   ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.phone,
+                        size: tableButtonSize,
+                      ),
+                      label: Text(
+                          "$emergencyNumber ${AppLocalizations.of(context)!.call}",
+                          style: const TextStyle(color: negativeColor)),
+                      style: tableButtonStyle,
                     ),
-                    label: Text(
-                        "$emergencyNumber ${AppLocalizations.of(context)!.call}",
-                        style: const TextStyle(color: negativeColor)),
-                    style: tableButtonStyle,
                   ),
+
                 ],
               ),
               TableRow(
                 children: [
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.location_on_outlined,
-                      size: tableButtonSize,
+                  SizedBox(
+                    height: _iconButtonHeight,
+                    child:  ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.location_on_outlined,
+                        size: tableButtonSize,
+                      ),
+                      label: Text(
+                          AppLocalizations.of(context)!.searchDoctorsOffices),
+                      style: tableButtonStyle,
                     ),
-                    label: Text(
-                        AppLocalizations.of(context)!.searchDoctorsOffices),
-                    style: tableButtonStyle,
                   ),
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.phone,
-                      size: tableButtonSize,
+                  SizedBox(
+                    height: _iconButtonHeight,
+                    child: ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.phone,
+                        size: tableButtonSize,
+                      ),
+                      label: Text(
+                        "$helpNumber ${AppLocalizations.of(context)!.call}",
+                        style: const TextStyle(color: negativeColor),
+                      ),
+                      style: tableButtonStyle,
                     ),
-                    label: Text(
-                      "$helpNumber ${AppLocalizations.of(context)!.call}",
-                      style: const TextStyle(color: negativeColor),
-                    ),
-                    style: tableButtonStyle,
-                  ),
+                  )
                 ],
               ),
             ],
@@ -282,7 +302,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
     Size mediaQuery = MediaQuery.of(context).size;
     ButtonStyle buttonStyleBase = ButtonStyle(
       fixedSize: MaterialStatePropertyAll<Size>(
-        Size(mediaQuery.width * _mainWidthPercentage, 40),
+        Size(mediaQuery.width * 0.70, 40),
       ),
     );
     ButtonStyle buttonStylePositive = buttonStyleBase.copyWith(
@@ -301,6 +321,9 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
       width: mediaQuery.width,
       child: Column(
         children: [
+          SizedBox(
+            height: _sectionDistance,
+          ),
           hasNotified
               ? ElevatedButton.icon(
                   onPressed: () {
@@ -328,14 +351,16 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                   style: buttonStylePositive,
                   label: Text(AppLocalizations.of(context)!.startNavigation),
                 )
-              : ElevatedButton(
+              : Container(
+                margin: const EdgeInsets.all(marginSmall),
+                child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                   style: buttonStyleNeutral,
                   child:
                       Text(AppLocalizations.of(context)!.otherEmergencyRooms),
-                ),
+                )),
         ],
       ),
     );

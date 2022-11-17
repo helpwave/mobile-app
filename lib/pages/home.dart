@@ -11,10 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
-    const double columnPadding = paddingMedium;
-    const double columnPaddingBottom = 0.07;
-    const double menuColumnPaddingTop = 0.2;
-    const double menuColumnDistanceBetween = 0.05;
+
 
     return Scaffold(
       appBar: AppBar(

@@ -28,6 +28,9 @@ const double paddingSmall = 10;
 const double paddingMedium = distanceDefault;
 const double paddingBig = 40;
 
+//margin
+const double marginSmall = 10;
+
 // Icon
 const double iconSizeTiny = 16;
 const double iconSizeSmall = 32;
@@ -51,6 +54,11 @@ const Duration bottomSheetOpenDuration = Duration(milliseconds: 100);
 // Font size
 const double fontSizeTiny = 12;
 const double fontSizeSmall = 14;
+
+const double columnPadding = paddingMedium;
+const double columnPaddingBottom = 0.07;
+const double menuColumnPaddingTop = 0.2;
+const double menuColumnDistanceBetween = 0.05;
 
 // OpenStreetMap
 MapController mapController = MapController(
