@@ -28,6 +28,9 @@ const double paddingSmall = 10;
 const double paddingMedium = distanceDefault;
 const double paddingBig = 40;
 
+//margin
+const double marginSmall = 10;
+
 // Icon
 const double iconSizeTiny = 16;
 const double iconSizeSmall = 32;

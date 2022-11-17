@@ -328,14 +328,16 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                   style: buttonStylePositive,
                   label: Text(AppLocalizations.of(context)!.startNavigation),
                 )
-              : ElevatedButton(
+              : Container(
+                margin: const EdgeInsets.all(marginSmall),
+                child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                   style: buttonStyleNeutral,
                   child:
                       Text(AppLocalizations.of(context)!.otherEmergencyRooms),
-                ),
+                )),
         ],
       ),
     );
