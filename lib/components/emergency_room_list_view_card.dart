@@ -10,7 +10,7 @@ class EmergencyRoomListViewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double cardBorderRadius = borderRadiusBig;
+    const double cardBorderRadius = borderRadiusVeryBig;
     const double cardMargin = paddingMedium;
     const double cardInnerPadding = paddingSmall;
     const double buttonDistance = distanceDefault;
