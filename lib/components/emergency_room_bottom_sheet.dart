@@ -180,7 +180,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
               textAlign: TextAlign.left,
               style: Theme.of(context)
                   .textTheme
-                  .headline6!
+                  .titleLarge!
                   .copyWith(color: Theme.of(context).colorScheme.primary),
             ),
           ),
@@ -199,14 +199,14 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
             AppLocalizations.of(context)!.address,
             style: Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .bodyLarge!
                 .copyWith(color: Theme.of(context).colorScheme.secondary),
           ),
           Text(
             " ${widget.emergencyRoom["displayableAddress"]}",
             style: Theme.of(context)
                 .textTheme
-                .bodyText2!
+                .bodyMedium!
                 .copyWith(color: Theme.of(context).colorScheme.primary),
           ),
           SizedBox(
@@ -216,7 +216,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
             AppLocalizations.of(context)!.otherFunctions,
             style: Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .bodyLarge!
                 .copyWith(color: Theme.of(context).colorScheme.secondary),
           ),
           Table(
