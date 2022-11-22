@@ -101,7 +101,7 @@ class _QuestionAnswerColumnState extends State<QuestionAnswerColumn> {
                   ),
                   avatar: const Icon(
                     Icons.check,
-                    size: iconSizeTiny,
+                    size: iconSizeVeryTiny,
                   ),
                   onPressed: () {
                     setState(() {
@@ -130,7 +130,7 @@ class _QuestionAnswerColumnState extends State<QuestionAnswerColumn> {
             ),
             avatar: const Icon(
               Icons.help_outline,
-              size: iconSizeTiny,
+              size: iconSizeVeryTiny,
             ),
           ),
         );

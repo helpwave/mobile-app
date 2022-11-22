@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:helpwave/components/chat_message.dart';
 import 'package:helpwave/styling/constants.dart';
 
@@ -17,15 +18,24 @@ class _EmergencyChatPageState extends State<EmergencyChatPage> {
     {"isFromEmergencyRoom": false, "message": "Fine"},
     {"isFromEmergencyRoom": true, "message": "okay..."}
   ];
+  final ScrollController _scrollController = ScrollController();
   final TextEditingController _controller = TextEditingController();
+  bool canSend = false;
 
   @override
   Widget build(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
 
     addMessage() {
-      messages.add({"isFromEmergencyRoom": false, "message": _controller.text});
-      _controller.text = "";
+      setState(() {
+        canSend = false;
+        messages.add(
+            {"isFromEmergencyRoom": false, "message": _controller.text.trim()});
+        _controller.clear();
+      });
+      FocusScope.of(context).unfocus();
+      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+          duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
     }
 
     const OutlineInputBorder outlineInputBorder = OutlineInputBorder(
@@ -34,18 +44,28 @@ class _EmergencyChatPageState extends State<EmergencyChatPage> {
       ),
     );
 
+    List<Widget> listViewContent = [
+      Container(
+        height: distanceSmall,
+      )
+    ];
+    listViewContent
+        .addAll(messages.map((e) => ChatMessage(message: e)).toList());
+
     return Scaffold(
       appBar: AppBar(
+        shadowColor: Theme.of(context).colorScheme.shadow,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const CircleAvatar(
-              radius: iconSizeSmall / 2,
-              foregroundImage: NetworkImage(
-                  "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6"
-                  "?ixlib=rb-4.0.3&"
-                  "ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8"
-                  "&auto=format&fit=crop&w=1085&q=80"),
+            Container(
+              width: iconSizeSmall,
+              height: iconSizeSmall,
+              decoration: const BoxDecoration(
+                color: Colors.orange,
+                shape: BoxShape.circle,
+              ),
             ),
             Container(
               width: distanceTiny,
@@ -67,8 +87,8 @@ class _EmergencyChatPageState extends State<EmergencyChatPage> {
             children: [
               Expanded(
                 child: ListView(
-                  children:
-                      messages.map((e) => ChatMessage(message: e)).toList(),
+                  controller: _scrollController,
+                  children: listViewContent,
                 ),
               ),
               Container(
@@ -83,6 +103,7 @@ class _EmergencyChatPageState extends State<EmergencyChatPage> {
                         minLines: 1,
                         maxLines: 5,
                         decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context)!.message,
                           focusedBorder: outlineInputBorder.copyWith(
                             borderSide: BorderSide(
                               color: Theme.of(context).colorScheme.secondary,
@@ -94,6 +115,21 @@ class _EmergencyChatPageState extends State<EmergencyChatPage> {
                             ),
                           ),
                         ),
+                        onChanged: (value) => {
+                          if (_controller.text.trim().isEmpty && canSend)
+                            {
+                              setState(() {
+                                canSend = false;
+                              })
+                            }
+                          else if (_controller.text.trim().isNotEmpty &&
+                              !canSend)
+                            {
+                              setState(() {
+                                canSend = true;
+                              })
+                            }
+                        },
                       ),
                     ),
                     Container(
@@ -104,16 +140,18 @@ class _EmergencyChatPageState extends State<EmergencyChatPage> {
                       child: Center(
                         child: Ink(
                           decoration: ShapeDecoration(
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: canSend
+                                ? positiveColor
+                                : Theme.of(context).colorScheme.secondary,
                             shape: const CircleBorder(),
                           ),
                           child: IconButton(
                             icon: Icon(
                               Icons.send,
-                              size: iconSizeSmall,
+                              size: iconSizeTiny,
                               color: Theme.of(context).colorScheme.onSecondary,
                             ),
-                            onPressed: addMessage,
+                            onPressed: canSend ? addMessage : null,
                           ),
                         ),
                       ),

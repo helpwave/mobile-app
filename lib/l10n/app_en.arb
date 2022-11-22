@@ -30,5 +30,6 @@
   "call": "call,",
   "notify": "Notify",
   "notifyCancel": "Cancel Notification",
-  "startNavigation": "Start Navigation"
+  "startNavigation": "Start Navigation",
+  "message": "Message"
 }
