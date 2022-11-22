@@ -16,3 +16,9 @@ The official helpwave mobile app for android and ios
 ## iOS
 - `flutter build ipa` results in .ipa
 - further inforamtion [here](https://docs.flutter.dev/deployment/ios) 
+
+# Packages and Commands
+## internationalizaion
+- edit files `/l10n/*.arb`
+- run `flutter gen-l10n`
+- use `import 'package:flutter_gen/gen_l10n/app_localizations.dart';` and `AppLocalizations.of(context)!.<name of textID>`
