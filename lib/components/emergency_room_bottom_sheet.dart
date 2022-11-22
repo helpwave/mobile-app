@@ -128,22 +128,31 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
 
     List<Widget> chipList = [];
     chipList.add(
-      Transform(
-        transform: Matrix4.identity()..scale(chipTransformScale),
-        child: Chip(
-          padding: const EdgeInsets.all(chipPadding),
-          label: Text(
-            widget.emergencyRoom["open"]
-                ? AppLocalizations.of(context)!.open
-                : AppLocalizations.of(context)!.closed,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: fontSizeTiny),
-          ),
-          backgroundColor:
+        Transform(
+          transform: Matrix4.identity()..scale(chipTransformScale),
+          child: Row(children: [
+            Chip(
+              padding: const EdgeInsets.all(chipPadding),
+              label: Text(
+                widget.emergencyRoom["open"]
+                    ? AppLocalizations.of(context)!.open
+                    : AppLocalizations.of(context)!.closed,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: fontSizeTiny),
+              ),
+              backgroundColor:
               widget.emergencyRoom["open"] ? positiveColor : negativeColor,
-        ),
-      ),
+            ),
+            const VerticalDivider(
+              thickness: 1.0,
+              color: Colors.grey,
+            )
+          ],),
+        )
     );
+
+
+
     chipList.addAll(
       facilities.map(
         (MapEntry<String, Color> e) => Transform(
