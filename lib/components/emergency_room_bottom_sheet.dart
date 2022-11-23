@@ -34,6 +34,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
   bool hasNotified = false;
   final double _mainWidthPercentage = 0.90;
   final double _sectionDistance = distanceDefault;
+  final double _iconButtonHeight = 30;
 
   Color getMainBackGroundColor(context) =>
       Theme.of(context).colorScheme.inversePrimary;
@@ -222,6 +223,9 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                 .bodyLarge!
                 .copyWith(color: Theme.of(context).colorScheme.secondary),
           ),
+          SizedBox(
+            height: _sectionDistance,
+          ),
           Table(
             children: [
               TableRow(
@@ -304,6 +308,9 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
       width: mediaQuery.width,
       child: Column(
         children: [
+          SizedBox(
+            height: _sectionDistance,
+          ),
           hasNotified
               ? ElevatedButton.icon(
                   onPressed: () {
