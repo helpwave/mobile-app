@@ -230,52 +230,65 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
             children: [
               TableRow(
                 children: [
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.home,
-                      size: tableButtonSize,
+                  SizedBox(
+                    height: _iconButtonHeight,
+                    child: ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.home,
+                        size: tableButtonSize,
+                      ),
+                      label: Text(AppLocalizations.of(context)!.giveDetails),
+                      style: tableButtonStyle,
                     ),
-                    label: Text(AppLocalizations.of(context)!.giveDetails),
-                    style: tableButtonStyle,
                   ),
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.phone,
-                      size: tableButtonSize,
+                  SizedBox(
+                    height: _iconButtonHeight,
+                    child:   ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.phone,
+                        size: tableButtonSize,
+                      ),
+                      label: Text(
+                          "$emergencyNumber ${AppLocalizations.of(context)!.call}",
+                          style: const TextStyle(color: negativeColor)),
+                      style: tableButtonStyle,
                     ),
-                    label: Text(
-                        "$emergencyNumber ${AppLocalizations.of(context)!.call}",
-                        style: const TextStyle(color: negativeColor)),
-                    style: tableButtonStyle,
                   ),
+
                 ],
               ),
               TableRow(
                 children: [
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.location_on_outlined,
-                      size: tableButtonSize,
+                  SizedBox(
+                    height: _iconButtonHeight,
+                    child:  ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.location_on_outlined,
+                        size: tableButtonSize,
+                      ),
+                      label: Text(
+                          AppLocalizations.of(context)!.searchDoctorsOffices),
+                      style: tableButtonStyle,
                     ),
-                    label: Text(
-                        AppLocalizations.of(context)!.searchDoctorsOffices),
-                    style: tableButtonStyle,
                   ),
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.phone,
-                      size: tableButtonSize,
+                  SizedBox(
+                    height: _iconButtonHeight,
+                    child: ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.phone,
+                        size: tableButtonSize,
+                      ),
+                      label: Text(
+                        "$helpNumber ${AppLocalizations.of(context)!.call}",
+                        style: const TextStyle(color: negativeColor),
+                      ),
+                      style: tableButtonStyle,
                     ),
-                    label: Text(
-                      "$helpNumber ${AppLocalizations.of(context)!.call}",
-                      style: const TextStyle(color: negativeColor),
-                    ),
-                    style: tableButtonStyle,
-                  ),
+                  )
                 ],
               ),
             ],
