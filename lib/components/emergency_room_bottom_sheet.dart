@@ -302,7 +302,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
     Size mediaQuery = MediaQuery.of(context).size;
     ButtonStyle buttonStyleBase = ButtonStyle(
       fixedSize: MaterialStatePropertyAll<Size>(
-        Size(mediaQuery.width * 0.60, 40),
+        Size(mediaQuery.width * 0.70, 40),
       ),
     );
     ButtonStyle buttonStylePositive = buttonStyleBase.copyWith(
