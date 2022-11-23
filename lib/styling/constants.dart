@@ -55,6 +55,11 @@ const Duration bottomSheetOpenDuration = Duration(milliseconds: 100);
 const double fontSizeTiny = 12;
 const double fontSizeSmall = 14;
 
+const double columnPadding = paddingMedium;
+const double columnPaddingBottom = 0.07;
+const double menuColumnPaddingTop = 0.2;
+const double menuColumnDistanceBetween = 0.05;
+
 // OpenStreetMap
 MapController mapController = MapController(
   initMapWithUserPosition: false,

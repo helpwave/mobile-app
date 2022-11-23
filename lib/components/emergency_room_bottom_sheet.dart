@@ -130,24 +130,18 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
     chipList.add(
         Transform(
           transform: Matrix4.identity()..scale(chipTransformScale),
-          child: Row(children: [
-            Chip(
-              padding: const EdgeInsets.all(chipPadding),
-              label: Text(
-                widget.emergencyRoom["open"]
-                    ? AppLocalizations.of(context)!.open
-                    : AppLocalizations.of(context)!.closed,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: fontSizeTiny),
-              ),
-              backgroundColor:
-              widget.emergencyRoom["open"] ? positiveColor : negativeColor,
+          child:  Chip(
+            padding: const EdgeInsets.all(chipPadding),
+            label: Text(
+              widget.emergencyRoom["open"]
+                  ? AppLocalizations.of(context)!.open
+                  : AppLocalizations.of(context)!.closed,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: fontSizeTiny),
             ),
-            const VerticalDivider(
-              thickness: 1.0,
-              color: Colors.grey,
-            )
-          ],),
+            backgroundColor:
+            widget.emergencyRoom["open"] ? positiveColor : negativeColor,
+          ),
         )
     );
 
@@ -291,7 +285,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
     Size mediaQuery = MediaQuery.of(context).size;
     ButtonStyle buttonStyleBase = ButtonStyle(
       fixedSize: MaterialStatePropertyAll<Size>(
-        Size(mediaQuery.width * _mainWidthPercentage, 40),
+        Size(mediaQuery.width * 0.60, 40),
       ),
     );
     ButtonStyle buttonStylePositive = buttonStyleBase.copyWith(
