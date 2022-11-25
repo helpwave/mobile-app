@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 
 ThemeData lightTheme = ThemeData(
+  disabledColor:  const Color.fromARGB(255, 100, 100, 100),
   scaffoldBackgroundColor: const Color.fromARGB(255, 238, 238, 238),
   bottomSheetTheme: const BottomSheetThemeData(
     backgroundColor: Color.fromARGB(255, 238, 238, 238),

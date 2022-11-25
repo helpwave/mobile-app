@@ -115,20 +115,13 @@ class _EmergencyChatPageState extends State<EmergencyChatPage> {
                             ),
                           ),
                         ),
-                        onChanged: (value) => {
-                          if (_controller.text.trim().isEmpty && canSend)
-                            {
-                              setState(() {
-                                canSend = false;
-                              })
-                            }
-                          else if (_controller.text.trim().isNotEmpty &&
-                              !canSend)
-                            {
-                              setState(() {
-                                canSend = true;
-                              })
-                            }
+                        onChanged: (value) {
+                          bool couldSend = _controller.text.trim().isNotEmpty;
+                          if (canSend != couldSend) {
+                            setState(() {
+                              canSend = couldSend;
+                            });
+                          }
                         },
                       ),
                     ),
@@ -142,7 +135,7 @@ class _EmergencyChatPageState extends State<EmergencyChatPage> {
                           decoration: ShapeDecoration(
                             color: canSend
                                 ? positiveColor
-                                : Theme.of(context).colorScheme.secondary,
+                                : Theme.of(context).disabledColor,
                             shape: const CircleBorder(),
                           ),
                           child: IconButton(
