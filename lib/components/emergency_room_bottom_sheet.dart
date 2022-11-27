@@ -34,7 +34,6 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
   bool hasNotified = false;
   final double _mainWidthPercentage = 0.90;
   final double _sectionDistance = distanceDefault;
-  final double _iconButtonHeight = 30;
 
   Color getMainBackGroundColor(context) =>
       Theme.of(context).colorScheme.inversePrimary;
@@ -207,7 +206,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                 .copyWith(color: Theme.of(context).colorScheme.secondary),
           ),
           Text(
-            " ${widget.emergencyRoom["displayableAddress"]}",
+            "${widget.emergencyRoom["displayableAddress"]}",
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium!
@@ -360,7 +359,8 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                   style: buttonStyleNeutral,
                   child:
                       Text(AppLocalizations.of(context)!.otherEmergencyRooms),
-                )),
+                ),
+              ),
         ],
       ),
     );

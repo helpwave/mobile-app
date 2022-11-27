@@ -56,9 +56,9 @@ const double fontSizeTiny = 12;
 const double fontSizeSmall = 14;
 
 const double columnPadding = paddingMedium;
-const double columnPaddingBottom = 0.07;
-const double menuColumnPaddingTop = 0.2;
-const double menuColumnDistanceBetween = 0.05;
+const double columnPaddingBottomPercent = 0.07;
+const double menuColumnPaddingTopPercent = 0.2;
+const double menuColumnDistanceBetweenPercent = 0.05;
 
 // OpenStreetMap
 MapController mapController = MapController(
