@@ -230,7 +230,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
               TableRow(
                 children: [
                   SizedBox(
-                    height: _iconButtonHeight,
+                    height: iconSizeSmall,
                     child: ElevatedButton.icon(
                       onPressed: () {},
                       icon: const Icon(
@@ -242,7 +242,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                     ),
                   ),
                   SizedBox(
-                    height: _iconButtonHeight,
+                    height: iconSizeSmall,
                     child:   ElevatedButton.icon(
                       onPressed: () {},
                       icon: const Icon(
@@ -261,7 +261,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
               TableRow(
                 children: [
                   SizedBox(
-                    height: _iconButtonHeight,
+                    height: iconSizeSmall,
                     child:  ElevatedButton.icon(
                       onPressed: () {},
                       icon: const Icon(
@@ -274,7 +274,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                     ),
                   ),
                   SizedBox(
-                    height: _iconButtonHeight,
+                    height: iconSizeSmall,
                     child: ElevatedButton.icon(
                       onPressed: () {},
                       icon: const Icon(
