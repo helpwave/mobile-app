@@ -30,5 +30,6 @@
   "call": "anrufen",
   "notify": "Benachrichtigen",
   "notifyCancel": "Benachrichtigung zurücknehmen",
-  "startNavigation": "Navigation starten"
+  "startNavigation": "Navigation starten",
+  "message": "Nachricht"
 }

@@ -13,7 +13,7 @@ class LandingPage extends StatelessWidget {
     const double startContainerWidthPercentage = 0.4;
     const double startContainerHeightPercentage = 0.1;
     const double startContainerTextIconDistance = distanceDefault;
-    const double startContainerBorderRadius = borderRadiusBig;
+    const double startContainerBorderRadius = borderRadiusVeryBig;
 
     Size mediaQuery = MediaQuery.of(context).size;
     return Scaffold(

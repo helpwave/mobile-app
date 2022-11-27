@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 
 ThemeData darkTheme = ThemeData(
+  disabledColor: const Color.fromARGB(255, 100, 100, 100),
   primaryColor: const Color.fromARGB(255, 68, 68, 255),
   scaffoldBackgroundColor: const Color.fromARGB(255, 27, 27, 27),
   bottomSheetTheme: const BottomSheetThemeData(

@@ -121,7 +121,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
         widget.emergencyRoom["facilities"]! as List<MapEntry<String, Color>>;
     String emergencyNumber = "112";
     String helpNumber = "116 177";
-    const double tableButtonSize = iconSizeTiny;
+    const double tableButtonSize = iconSizeVeryTiny;
     const double chipTransformScale = 0.90;
     const double chipPadding = 2;
     const double chipListviewHeight = 35;

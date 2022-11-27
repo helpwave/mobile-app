@@ -21,6 +21,7 @@ ButtonStyle buttonStyle = ButtonStyle(
 );
 
 // Paddings/Distances
+const double distanceTiny = 6;
 const double distanceSmall = 10;
 const double distanceDefault = 20;
 const double distanceBig = 40;
@@ -29,16 +30,19 @@ const double paddingMedium = distanceDefault;
 const double paddingBig = 40;
 
 // Icon
-const double iconSizeTiny = 16;
+const double iconSizeVeryTiny = 16;
+const double iconSizeTiny = 24;
 const double iconSizeSmall = 32;
 const double iconSizeMedium = 48;
 const double iconSizeBig = 64;
 const double iconSizeVeryBig = 128;
 
 // Border Radius
+const double borderRadiusTiny = 3;
 const double borderRadiusSmall = 5;
 const double borderRadiusMedium = 10;
-const double borderRadiusBig = 20;
+const double borderRadiusBig = 15;
+const double borderRadiusVeryBig = 20;
 
 // Colors
 const positiveColor = Color.fromARGB(255, 52, 199, 89);
@@ -51,6 +55,8 @@ const Duration bottomSheetOpenDuration = Duration(milliseconds: 100);
 // Font size
 const double fontSizeTiny = 12;
 const double fontSizeSmall = 14;
+const double fontSizeMedium = 16;
+const double fontSizeBig = 20;
 
 // OpenStreetMap
 MapController mapController = MapController(
