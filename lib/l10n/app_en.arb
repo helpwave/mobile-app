@@ -30,5 +30,11 @@
   "notify": "Notify",
   "notifyCancel": "Cancel Notification",
   "startNavigation": "Start Navigation",
-  "message": "Message"
+  "message": "Message",
+  "emergencyPass": "Emergency Pass",
+  "name": "Name",
+  "dateOfBirth": "Date of birth",
+  "weight": "Weight",
+  "height": "Height",
+  "organDonor": "Organ donor"
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave/pages/emergency_pass.dart';
 import 'package:helpwave/pages/setting_language_selection.dart';
 import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/services/theme_model.dart';
@@ -57,6 +58,25 @@ class _SettingsPageState extends State<SettingsPage> {
                         builder: (context) =>
                             const SettingLanguageSelectionPage())),
                 title: Text(AppLocalizations.of(context)!.language),
+                trailing: const Icon(
+                  Icons.arrow_forward,
+                ),
+              ),
+              ListTile(
+                leading: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.emergency,
+                    ),
+                  ],
+                ),
+                onTap: () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const EmergencyPass())),
+                title: Text(AppLocalizations.of(context)!.emergencyPass),
                 trailing: const Icon(
                   Icons.arrow_forward,
                 ),
