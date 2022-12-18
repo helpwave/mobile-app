@@ -74,7 +74,7 @@ class _EmergencyChatPageState extends State<EmergencyChatPage> {
               widget.emergencyRoom["name"],
               style: Theme.of(context)
                   .textTheme
-                  .headline6!
+                  .titleLarge!
                   .copyWith(fontSize: fontSizeMedium),
             ),
           ],
