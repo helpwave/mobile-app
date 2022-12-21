@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/styling/constants.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +17,7 @@ class EmergencyPass extends StatefulWidget {
 
 class _EmergencyPassState extends State<EmergencyPass> {
   DateTime? birthDate;
-  String? organDonor;
+  bool organDonor = false;
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +115,10 @@ class _EmergencyPassState extends State<EmergencyPass> {
 
                         Padding(padding: const EdgeInsets.symmetric(vertical: paddingSmall),
                           child: TextField(
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               prefixIcon: const Icon(Icons.monitor_weight),
@@ -124,6 +129,10 @@ class _EmergencyPassState extends State<EmergencyPass> {
                         ),
                         Padding(padding: const EdgeInsets.symmetric(vertical: paddingSmall),
                           child: TextField(
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               prefixIcon: const Icon(Icons.height),
