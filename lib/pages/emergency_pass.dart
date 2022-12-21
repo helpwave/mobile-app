@@ -51,8 +51,9 @@ class _EmergencyPassState extends State<EmergencyPass> {
                               DateTime? selectedDate = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
-                                firstDate: DateTime(1900),
-                                lastDate: DateTime(2100),
+                                firstDate: DateTime.now()
+                                    .subtract(const Duration(days: 365 * 100)), // 100 years max age
+                                lastDate: DateTime.now(),
                               );
                               setState(() {
                                 if (selectedDate != null) {
