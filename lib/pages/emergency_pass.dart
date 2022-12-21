@@ -16,6 +16,9 @@ class EmergencyPass extends StatefulWidget {
 
 
 class _EmergencyPassState extends State<EmergencyPass> {
+  final TextEditingController _controllerBirthdate = TextEditingController();
+  final TextEditingController _controllerOrganDonor = TextEditingController();
+
   DateTime? birthDate;
   bool organDonor = false;
 
@@ -47,18 +50,18 @@ class _EmergencyPassState extends State<EmergencyPass> {
                           padding: const EdgeInsets.symmetric(vertical: paddingSmall),
                           child: TextField(
                             readOnly: true,
+                            controller: _controllerBirthdate,
                             onTap: () async {
                               DateTime? selectedDate = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime.now()
-                                    .subtract(const Duration(days: 365 * 100)), // 100 years max age
+                                    .subtract(const Duration(days: 365 * 100)),
                                 lastDate: DateTime.now(),
                               );
                               setState(() {
-                                if (selectedDate != null) {
-                                  birthDate = selectedDate;
-                                }
+                                _controllerBirthdate.text =
+                                    DateFormat('dd.MM.yyyy').format(selectedDate!);
                               });
                             },
                             decoration: InputDecoration(
@@ -67,20 +70,19 @@ class _EmergencyPassState extends State<EmergencyPass> {
                                 borderRadius: BorderRadius.all(Radius.circular(borderRadiusMedium)),
                               ),
                               labelText: AppLocalizations.of(context)!.dateOfBirth,
-                              hintText: birthDate != null ? DateFormat.yMd(languageNotifier.shortname).format(birthDate!) : AppLocalizations.of(context)!.dateOfBirth,
                             ),
                           ),
                         ),
                         Padding(padding: const EdgeInsets.symmetric(vertical: paddingSmall),
                           child: TextField(
                             readOnly: true,
+                            controller: _controllerOrganDonor,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(borderRadiusMedium)),
                               ),
                               prefixIcon: const Icon(Icons.favorite),
-                              labelText: AppLocalizations.of(context)!.organDonor,
-                              hintText: organDonor ? AppLocalizations.of(context)!.yes : AppLocalizations.of(context)!.no,
+                              labelText:  AppLocalizations.of(context)!.organDonor ,
                             ),
                             onTap: () => {
                               showDialog(
@@ -93,7 +95,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                                           child: Text(AppLocalizations.of(context)!.yes),
                                           onPressed: () {
                                             setState(() {
-                                              organDonor = true;
+                                              _controllerOrganDonor.text = AppLocalizations.of(context)!.yes;
                                             });
                                             Navigator.of(context).pop();
                                           },
@@ -102,7 +104,8 @@ class _EmergencyPassState extends State<EmergencyPass> {
                                           child: Text(AppLocalizations.of(context)!.no),
                                           onPressed: () {
                                             setState(() {
-                                              organDonor = false;
+                                              _controllerOrganDonor.text =
+                                                  AppLocalizations.of(context)!.no;
                                             });
                                             Navigator.of(context).pop();
                                           },
@@ -113,10 +116,10 @@ class _EmergencyPassState extends State<EmergencyPass> {
                             }
                           ),
                         ),
-
                         Padding(padding: const EdgeInsets.symmetric(vertical: paddingSmall),
                           child: TextField(
                             inputFormatters: <TextInputFormatter>[
+                              LengthLimitingTextInputFormatter(3),
                               FilteringTextInputFormatter.digitsOnly
                             ],
                             keyboardType: TextInputType.number,
@@ -125,12 +128,15 @@ class _EmergencyPassState extends State<EmergencyPass> {
                               prefixIcon: const Icon(Icons.monitor_weight),
                               labelText: AppLocalizations.of(context)!.weight,
                               hintText: AppLocalizations.of(context)!.weight,
+                              suffixText: "kg"
                             ),
                           ),
                         ),
                         Padding(padding: const EdgeInsets.symmetric(vertical: paddingSmall),
                           child: TextField(
+                            maxLengthEnforcement: MaxLengthEnforcement.values[1],
                             inputFormatters: <TextInputFormatter>[
+                              LengthLimitingTextInputFormatter(3),
                               FilteringTextInputFormatter.digitsOnly
                             ],
                             keyboardType: TextInputType.number,
@@ -139,6 +145,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                               prefixIcon: const Icon(Icons.height),
                               labelText: AppLocalizations.of(context)!.height,
                               hintText: AppLocalizations.of(context)!.height,
+                              suffixText: "cm"
                             ),
                           ),
                         ),
