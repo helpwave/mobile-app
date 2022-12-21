@@ -46,6 +46,14 @@ class _EmergencyPassState extends State<EmergencyPass> {
                             hintText: AppLocalizations.of(context)!.name,
                           ),
                         ),
+                        Padding(padding: const EdgeInsets.symmetric(vertical: paddingSmall), child: TextField(
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            prefixIcon: const Icon(Icons.language),
+                            labelText: AppLocalizations.of(context)!.primaryLanguage,
+                            hintText: AppLocalizations.of(context)!.primaryLanguage,
+                          ),
+                        ),),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: paddingSmall),
                           child: TextField(

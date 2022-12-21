@@ -36,5 +36,6 @@
   "dateOfBirth": "Geburtsdatum",
   "weight": "Gewicht",
   "height": "Größe",
-  "organDonor": "Organspender"
+  "organDonor": "Organspender",
+  "primaryLanguage": "Muttersprache"
 }
