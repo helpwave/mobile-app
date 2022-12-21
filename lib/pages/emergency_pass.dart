@@ -79,7 +79,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                               ),
                               prefixIcon: const Icon(Icons.favorite),
                               labelText: AppLocalizations.of(context)!.organDonor,
-                              hintText: organDonor ?? AppLocalizations.of(context)!.organDonor,
+                              hintText: organDonor ? AppLocalizations.of(context)!.yes : AppLocalizations.of(context)!.no,
                             ),
                             onTap: () => {
                               showDialog(
@@ -92,7 +92,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                                           child: Text(AppLocalizations.of(context)!.yes),
                                           onPressed: () {
                                             setState(() {
-                                              organDonor = AppLocalizations.of(context)!.yes;
+                                              organDonor = true;
                                             });
                                             Navigator.of(context).pop();
                                           },
@@ -101,7 +101,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                                           child: Text(AppLocalizations.of(context)!.no),
                                           onPressed: () {
                                             setState(() {
-                                              organDonor = AppLocalizations.of(context)!.no;
+                                              organDonor = false;
                                             });
                                             Navigator.of(context).pop();
                                           },
