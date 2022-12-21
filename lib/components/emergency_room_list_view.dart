@@ -66,7 +66,7 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView>
             title: RichText(
               text: TextSpan(
                 text: "Text Text Text",
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
                 children: const <TextSpan>[
                   TextSpan(text: " TEXT TEXT", style: TextStyle(color: positiveColor)),
                   TextSpan(text: " Text Text."),

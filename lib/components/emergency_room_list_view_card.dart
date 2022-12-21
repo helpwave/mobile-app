@@ -27,7 +27,7 @@ class EmergencyRoomListViewCard extends StatelessWidget {
           children: [
             Text(
               emergencyRoom["name"],
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             const Divider(),
             Text("${AppLocalizations.of(context)!.location}: "

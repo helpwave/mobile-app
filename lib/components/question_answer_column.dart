@@ -48,7 +48,7 @@ class _QuestionAnswerColumnState extends State<QuestionAnswerColumn> {
           width: questionWidth,
           child: Text(
             widget.question,
-            style: Theme.of(context).textTheme.headline5,
+            style: Theme.of(context).textTheme.headlineSmall,
             textAlign: TextAlign.justify,
           ),
         ),
