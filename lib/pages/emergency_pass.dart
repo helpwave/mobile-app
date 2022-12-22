@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/styling/constants.dart';
 import 'package:intl/intl.dart';
+import 'package:language_picker/language_picker_dropdown.dart';
+import 'package:language_picker/languages.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -13,15 +15,21 @@ class EmergencyPass extends StatefulWidget {
   State<EmergencyPass> createState() => _EmergencyPassState();
 }
 
-
-
 class _EmergencyPassState extends State<EmergencyPass> {
   final TextEditingController _controllerBirthdate = TextEditingController();
   final TextEditingController _controllerOrganDonor = TextEditingController();
 
+  Widget _buildDropdownItem(Language language) {
+    return Row(
+      children: <Widget>[
+        Text("${language.name} (${language.isoCode})"),
+      ],
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
-
     return  Consumer<LanguageModel>(
         builder: (_, LanguageModel languageNotifier, __) {
           return Scaffold(
@@ -33,24 +41,39 @@ class _EmergencyPassState extends State<EmergencyPass> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        TextField(
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(borderRadiusMedium)),
+                        Padding(padding: const EdgeInsets.symmetric(vertical: paddingSmall),
+                          child: TextField(
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(borderRadiusMedium)),
+                              ),
+                              prefixIcon: const Icon(Icons.person),
+                              labelText: AppLocalizations.of(context)!.name,
+                              hintText: AppLocalizations.of(context)!.name,
                             ),
-                            prefixIcon: const Icon(Icons.person),
-                            labelText: AppLocalizations.of(context)!.name,
-                            hintText: AppLocalizations.of(context)!.name,
                           ),
                         ),
-                        Padding(padding: const EdgeInsets.symmetric(vertical: paddingSmall), child: TextField(
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            prefixIcon: const Icon(Icons.language),
-                            labelText: AppLocalizations.of(context)!.primaryLanguage,
-                            hintText: AppLocalizations.of(context)!.primaryLanguage,
-                          ),
-                        ),),
+                        Padding(padding: const EdgeInsets.symmetric(vertical: paddingSmall),
+                          child: InputDecorator(
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(vertical: distanceTiny, horizontal: distanceTiny),
+                              isDense: true,
+                              border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(borderRadiusMedium)),
+                              ),
+                              prefixIcon: const Icon(Icons.language),
+                              labelText: AppLocalizations.of(context)!.language,
+                              hintText: AppLocalizations.of(context)!.language,
+                            ),
+                            child: LanguagePickerDropdown(
+                                itemBuilder: _buildDropdownItem,
+                                initialValue: Languages.german,
+                                onValuePicked: (Language language) {
+                                  print(language.name);
+                                }
+                            ),
+                          )
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: paddingSmall),
                           child: TextField(
