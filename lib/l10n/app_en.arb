@@ -37,5 +37,6 @@
   "weight": "Weight",
   "height": "Height",
   "organDonor": "Organ donor",
-  "primaryLanguage": "Mother tongue"
+  "primaryLanguage": "Mother tongue",
+  "unknown": "unknown"
 }

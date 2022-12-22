@@ -19,9 +19,6 @@ class _EmergencyPassState extends State<EmergencyPass> {
   final TextEditingController _controllerBirthdate = TextEditingController();
   final TextEditingController _controllerOrganDonor = TextEditingController();
 
-  DateTime? birthDate;
-  bool organDonor = false;
-
   @override
   Widget build(BuildContext context) {
 
@@ -68,8 +65,13 @@ class _EmergencyPassState extends State<EmergencyPass> {
                                 lastDate: DateTime.now(),
                               );
                               setState(() {
-                                _controllerBirthdate.text =
-                                    DateFormat('dd.MM.yyyy').format(selectedDate!);
+                                if (selectedDate != null) {
+                                  _controllerBirthdate.text =
+                                      DateFormat('dd.MM.yyyy').format(selectedDate);
+                                }
+                                else {
+                                  _controllerBirthdate.text = AppLocalizations.of(context)!.dateOfBirth;
+                                }
                               });
                             },
                             decoration: InputDecoration(
@@ -118,6 +120,12 @@ class _EmergencyPassState extends State<EmergencyPass> {
                                             Navigator.of(context).pop();
                                           },
                                         ),
+                                        TextButton(onPressed: () {
+                                          setState(() {
+                                            _controllerOrganDonor.text = AppLocalizations.of(context)!.organDonor;
+                                          });
+                                          Navigator.of(context).pop();
+                                          }, child: Text(AppLocalizations.of(context)!.unknown))
                                       ],
                                     );
                                   })
