@@ -93,7 +93,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                                       DateFormat('dd.MM.yyyy').format(selectedDate);
                                 }
                                 else {
-                                  _controllerBirthdate.text = AppLocalizations.of(context)!.dateOfBirth;
+                                  _controllerBirthdate.clear();
                                 }
                               });
                             },
@@ -145,7 +145,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                                         ),
                                         TextButton(onPressed: () {
                                           setState(() {
-                                            _controllerOrganDonor.text = AppLocalizations.of(context)!.organDonor;
+                                            _controllerOrganDonor.clear();
                                           });
                                           Navigator.of(context).pop();
                                           }, child: Text(AppLocalizations.of(context)!.unknown))
