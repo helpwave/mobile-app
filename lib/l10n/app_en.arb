@@ -30,5 +30,21 @@
   "notify": "Notify",
   "notifyCancel": "Cancel Notification",
   "startNavigation": "Start Navigation",
-  "message": "Message"
+  "message": "Message",
+  "medication": "Medication",
+  "medications": "Medications",
+  "currently": "currently",
+  "entries": "entries",
+  "dosage": "Dosage",
+  "search": "Search",
+  "notFound": "not found",
+  "addAnyway": "Add anyway",
+  "monthly": "1x Monthly",
+  "weekly": "1x Weekly",
+  "weekly2Times": "2x Weekly",
+  "weekly4Times": "4x Weekly",
+  "daily": "1x Daily",
+  "daily2Times": "2x Daily",
+  "daily3Times": "3x Daily",
+  "daily5Times": "5x Daily"
 }

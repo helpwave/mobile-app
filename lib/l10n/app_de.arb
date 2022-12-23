@@ -30,5 +30,21 @@
   "notify": "Benachrichtigen",
   "notifyCancel": "Benachrichtigung zurücknehmen",
   "startNavigation": "Navigation starten",
-  "message": "Nachricht"
+  "message": "Nachricht",
+  "medication": "Medikament",
+  "medications": "Medikamente",
+  "currently": "aktuell",
+  "entries": "Einträge",
+  "dosage": "Dosierung",
+  "search": "Suchen",
+  "notFound": "nicht gefunden",
+  "addAnyway": "Trotzdem hinzufügen",
+  "monthly": "1x Monatlich",
+  "weekly": "1x Wöchentlich",
+  "weekly2Times": "2x Wöchentlich",
+  "weekly4Times": "4x Wöchentlich",
+  "daily": "1x Täglich",
+  "daily2Times": "2x Täglich",
+  "daily3Times": "3x Täglich",
+  "daily5Times": "5x Täglich"
 }
