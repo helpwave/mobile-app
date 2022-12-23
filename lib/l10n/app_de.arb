@@ -1,6 +1,6 @@
 {
   "start": "starten",
-  "selectLanguage": "Sprache auswählen",
+  "selectLanguage": "Wählen Sie Ihre Sprache",
   "language": "Sprache",
   "darkMode": "Dunkles Design",
   "on": "An",
@@ -30,5 +30,14 @@
   "notify": "Benachrichtigen",
   "notifyCancel": "Benachrichtigung zurücknehmen",
   "startNavigation": "Navigation starten",
-  "message": "Nachricht"
+  "message": "Nachricht",
+  "emergencyPass": "Notfallpass",
+  "name": "Name",
+  "dateOfBirth": "Geburtsdatum",
+  "weight": "Gewicht",
+  "height": "Größe",
+  "organDonor": "Organspender",
+  "primaryLanguage": "Muttersprache",
+  "unknown": "Unbekannt",
+  "search": "Suchen"
 }
