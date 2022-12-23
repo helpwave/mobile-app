@@ -50,8 +50,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
           return Scaffold(
             appBar: AppBar(
               title: Text(AppLocalizations.of(context)!.emergencyPass),),
-              body: SingleChildScrollView(
-                child: Center(
+              body: Center(child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
                     child: Column(
