@@ -1,6 +1,6 @@
 {
   "start": "starten",
-  "selectLanguage": "Sprache auswählen",
+  "selectLanguage": "Wählen Sie Ihre Sprache",
   "language": "Sprache",
   "darkMode": "Dunkles Design",
   "on": "An",
@@ -38,5 +38,6 @@
   "height": "Größe",
   "organDonor": "Organspender",
   "primaryLanguage": "Muttersprache",
-  "unknown": "Unbekannt"
+  "unknown": "Unbekannt",
+  "search": "Suchen"
 }

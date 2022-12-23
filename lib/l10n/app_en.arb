@@ -1,6 +1,6 @@
 {
   "start": "start",
-  "selectLanguage": "select language",
+  "selectLanguage": "select your language",
   "language": "language",
   "darkMode": "Dark theme",
   "on": "On",
@@ -38,5 +38,6 @@
   "height": "Height",
   "organDonor": "Organ donor",
   "primaryLanguage": "Mother tongue",
-  "unknown": "unknown"
+  "unknown": "unknown",
+  "search": "Search"
 }

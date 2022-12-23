@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/styling/constants.dart';
 import 'package:intl/intl.dart';
-import 'package:language_picker/language_picker_dropdown.dart';
+import 'package:language_picker/language_picker_dialog.dart';
 import 'package:language_picker/languages.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -18,14 +18,29 @@ class EmergencyPass extends StatefulWidget {
 class _EmergencyPassState extends State<EmergencyPass> {
   final TextEditingController _controllerBirthdate = TextEditingController();
   final TextEditingController _controllerOrganDonor = TextEditingController();
+  final TextEditingController _controllerPrimaryLanguage = TextEditingController();
 
-  Widget _buildDropdownItem(Language language) {
+  Widget _buildDialogItem(Language language) {
     return Row(
       children: <Widget>[
         Text("${language.name} (${language.isoCode})"),
       ],
     );
   }
+
+  void _openLanguagePickerDialog() => showDialog(
+    context: context,
+    builder: (context) => LanguagePickerDialog(
+            titlePadding: const EdgeInsets.all(8.0),
+            searchInputDecoration: InputDecoration(hintText: AppLocalizations.of(context)!.search),
+            isSearchable: true,
+            title: Text(AppLocalizations.of(context)!.selectLanguage),
+            onValuePicked: (Language language) => setState(() {
+              _controllerPrimaryLanguage.text = language.name;
+            }),
+            itemBuilder: _buildDialogItem
+    )
+  );
 
 
   @override
@@ -35,7 +50,8 @@ class _EmergencyPassState extends State<EmergencyPass> {
           return Scaffold(
             appBar: AppBar(
               title: Text(AppLocalizations.of(context)!.emergencyPass),),
-              body: Center(
+              body: SingleChildScrollView(
+                child: Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
                     child: Column(
@@ -54,24 +70,24 @@ class _EmergencyPassState extends State<EmergencyPass> {
                           ),
                         ),
                         Padding(padding: const EdgeInsets.symmetric(vertical: paddingSmall),
-                          child: InputDecorator(
+                          child: TextField(
+                            controller: _controllerPrimaryLanguage,
+                            readOnly: true,
                             decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.symmetric(vertical: distanceTiny, horizontal: distanceTiny),
-                              isDense: true,
                               border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(borderRadiusMedium)),
                               ),
                               prefixIcon: const Icon(Icons.language),
-                              labelText: AppLocalizations.of(context)!.language,
-                              hintText: AppLocalizations.of(context)!.language,
+                              suffixIcon: IconButton(
+                                icon: const Icon(Icons.close),
+                                onPressed: () {
+                                  _controllerPrimaryLanguage.clear();
+                                },
+                              ),
+                              labelText: AppLocalizations.of(context)!.primaryLanguage,
+                              hintText: AppLocalizations.of(context)!.primaryLanguage,
                             ),
-                            child: LanguagePickerDropdown(
-                                itemBuilder: _buildDropdownItem,
-                                initialValue: Languages.german,
-                                onValuePicked: (Language language) {
-                                  print(language.name);
-                                }
-                            ),
+                            onTap: _openLanguagePickerDialog,
                           )
                         ),
                         Padding(
@@ -92,9 +108,6 @@ class _EmergencyPassState extends State<EmergencyPass> {
                                   _controllerBirthdate.text =
                                       DateFormat('dd.MM.yyyy').format(selectedDate);
                                 }
-                                else {
-                                  _controllerBirthdate.clear();
-                                }
                               });
                             },
                             decoration: InputDecoration(
@@ -103,6 +116,13 @@ class _EmergencyPassState extends State<EmergencyPass> {
                                 borderRadius: BorderRadius.all(Radius.circular(borderRadiusMedium)),
                               ),
                               labelText: AppLocalizations.of(context)!.dateOfBirth,
+                              hintText: AppLocalizations.of(context)!.dateOfBirth,
+                              suffixIcon: IconButton(
+                                icon: const Icon(Icons.close),
+                                onPressed: () {
+                                  _controllerBirthdate.clear();
+                                },
+                              ),
                             ),
                           ),
                         ),
@@ -115,7 +135,14 @@ class _EmergencyPassState extends State<EmergencyPass> {
                                 borderRadius: BorderRadius.all(Radius.circular(borderRadiusMedium)),
                               ),
                               prefixIcon: const Icon(Icons.favorite),
-                              labelText:  AppLocalizations.of(context)!.organDonor ,
+                              suffixIcon: IconButton(
+                                icon: const Icon(Icons.close),
+                                onPressed: () {
+                                  _controllerOrganDonor.clear();
+                                },
+                              ),
+                              labelText:  AppLocalizations.of(context)!.organDonor,
+                              hintText:  AppLocalizations.of(context)!.organDonor,
                             ),
                             onTap: () => {
                               showDialog(
@@ -143,12 +170,6 @@ class _EmergencyPassState extends State<EmergencyPass> {
                                             Navigator.of(context).pop();
                                           },
                                         ),
-                                        TextButton(onPressed: () {
-                                          setState(() {
-                                            _controllerOrganDonor.clear();
-                                          });
-                                          Navigator.of(context).pop();
-                                          }, child: Text(AppLocalizations.of(context)!.unknown))
                                       ],
                                     );
                                   })
@@ -191,7 +212,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                       ],
                     ),
                   )
-              )
+              ),)
           );
         });
   }
