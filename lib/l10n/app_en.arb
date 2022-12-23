@@ -30,5 +30,15 @@
   "notify": "Notify",
   "notifyCancel": "Cancel Notification",
   "startNavigation": "Start Navigation",
-  "message": "Message"
+  "message": "Message",
+  "bloodType": "Blood-Type",
+  "notAnswered": "N/A",
+  "rhesus": "Rhesus",
+  "type": "Type",
+  "rhPlus": "Rh+",
+  "rhMinus": "Rh-",
+  "bloodTypeA": "A",
+  "bloodTypeAB": "AB",
+  "bloodTypeB": "B",
+  "bloodTypeO": "O"
 }
