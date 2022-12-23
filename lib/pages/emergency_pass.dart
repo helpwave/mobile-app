@@ -45,6 +45,12 @@ class _EmergencyPassState extends State<EmergencyPass> {
 
   @override
   Widget build(BuildContext context) {
+    const OutlineInputBorder outlineInputBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.all(
+        Radius.circular(borderRadiusMedium),
+      ),
+    );
+
     return Consumer<LanguageModel>(
         builder: (_, LanguageModel languageNotifier, __) {
       return Scaffold(
@@ -62,10 +68,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                     padding: const EdgeInsets.symmetric(vertical: paddingSmall),
                     child: TextField(
                       decoration: InputDecoration(
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(borderRadiusMedium)),
-                        ),
+                        border: outlineInputBorder,
                         prefixIcon: const Icon(Icons.person),
                         labelText: AppLocalizations.of(context)!.name,
                         hintText: AppLocalizations.of(context)!.name,
@@ -79,10 +82,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                         controller: _controllerPrimaryLanguage,
                         readOnly: true,
                         decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(borderRadiusMedium)),
-                          ),
+                          border: outlineInputBorder,
                           prefixIcon: const Icon(Icons.language),
                           suffixIcon: IconButton(
                             icon: const Icon(Icons.close),
@@ -119,10 +119,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                       },
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.calendar_month),
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(borderRadiusMedium)),
-                        ),
+                        border: outlineInputBorder,
                         labelText: AppLocalizations.of(context)!.dateOfBirth,
                         hintText: AppLocalizations.of(context)!.dateOfBirth,
                         suffixIcon: IconButton(
@@ -140,10 +137,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                         readOnly: true,
                         controller: _controllerOrganDonor,
                         decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(borderRadiusMedium)),
-                          ),
+                          border: outlineInputBorder,
                           prefixIcon: const Icon(Icons.favorite),
                           suffixIcon: IconButton(
                             icon: const Icon(Icons.close),
@@ -201,7 +195,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                       ],
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
+                          border: outlineInputBorder,
                           prefixIcon: const Icon(Icons.monitor_weight),
                           labelText: AppLocalizations.of(context)!.weight,
                           hintText: AppLocalizations.of(context)!.weight,
@@ -218,7 +212,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                       ],
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
+                          border: outlineInputBorder,
                           prefixIcon: const Icon(Icons.height),
                           labelText: AppLocalizations.of(context)!.height,
                           hintText: AppLocalizations.of(context)!.height,
