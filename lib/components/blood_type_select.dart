@@ -57,6 +57,9 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
                   })
                 },
                 decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(
+                      left: dropDownVerticalPadding,
+                      right: dropDownVerticalPadding),
                   labelText: AppLocalizations.of(context)!.type,
                   border: inputBorder,
                 ),
@@ -100,6 +103,9 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
                   })
                 },
                 decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(
+                      left: dropDownVerticalPadding,
+                      right: dropDownVerticalPadding),
                   labelText: AppLocalizations.of(context)!.rhesus,
                   border: inputBorder,
                 ),
