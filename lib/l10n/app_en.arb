@@ -49,5 +49,6 @@
   "bloodTypeA": "A",
   "bloodTypeAB": "AB",
   "bloodTypeB": "B",
-  "bloodTypeO": "O"
+  "bloodTypeO": "O",
+  "allergies": "Allergies"
 }

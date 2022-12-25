@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/styling/constants.dart';
+import 'package:helpwave/components/allergies_form.dart';
 
 class EmergencyPass extends StatefulWidget {
   const EmergencyPass({super.key});
@@ -226,7 +227,14 @@ class _EmergencyPassState extends State<EmergencyPass> {
                     changedRhesusFactor: (rhesusFactor) {
                       // TODO save rhesusFactor
                     },
-                  )
+                  ),
+                  const SizedBox(height: distanceDefault),
+                  AllergiesForm(
+                      initialSelected: const [],
+                      changedSelected: (allergyList) {
+                        // TODO save allergyList
+                      }),
+                  const SizedBox(height: distanceDefault)
                 ],
               ),
             ),
