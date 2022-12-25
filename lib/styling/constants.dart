@@ -29,6 +29,8 @@ const double paddingSmall = 10;
 const double paddingMedium = distanceDefault;
 const double paddingBig = 40;
 
+const double dropDownVerticalPadding = 12;
+
 //margin
 const double marginSmall = 10;
 

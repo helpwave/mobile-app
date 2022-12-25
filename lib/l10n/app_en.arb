@@ -39,5 +39,15 @@
   "organDonor": "Organ donor",
   "primaryLanguage": "Mother tongue",
   "unknown": "unknown",
-  "search": "Search"
+  "search": "Search",
+  "bloodType": "Blood-Type",
+  "notAnswered": "N/A",
+  "rhesus": "Rhesus",
+  "type": "Type",
+  "rhPlus": "Rh+",
+  "rhMinus": "Rh-",
+  "bloodTypeA": "A",
+  "bloodTypeAB": "AB",
+  "bloodTypeB": "B",
+  "bloodTypeO": "O"
 }
