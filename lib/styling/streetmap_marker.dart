@@ -4,8 +4,8 @@ import 'package:helpwave/styling/constants.dart';
 
 const MarkerIcon personMarker = MarkerIcon(
   icon: Icon(
-    Icons.location_history_rounded,
-    color: Colors.red,
+    Icons.radio_button_checked,
+    color: Colors.blue,
     size: iconSizeMedium,
   ),
 );
