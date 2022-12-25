@@ -52,6 +52,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
         Radius.circular(borderRadiusMedium),
       ),
     );
+    const Widget distanceHolder = SizedBox(height: distanceDefault);
 
     return Consumer<LanguageModel>(
         builder: (_, LanguageModel languageNotifier, __) {
@@ -59,16 +60,15 @@ class _EmergencyPassState extends State<EmergencyPass> {
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.emergencyPass),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const SizedBox(height: distanceSmall),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: paddingSmall),
-                  child: TextField(
+        body: ListView(
+          children: [
+            distanceHolder,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: distanceMedium),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  TextField(
                     decoration: InputDecoration(
                       border: outlineInputBorder,
                       prefixIcon: const Icon(Icons.person),
@@ -76,30 +76,26 @@ class _EmergencyPassState extends State<EmergencyPass> {
                       hintText: AppLocalizations.of(context)!.name,
                     ),
                   ),
-                ),
-                Padding(
-                    padding: const EdgeInsets.symmetric(vertical: paddingSmall),
-                    child: TextField(
-                      controller: _controllerPrimaryLanguage,
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        border: outlineInputBorder,
-                        prefixIcon: const Icon(Icons.language),
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.close),
-                          onPressed: () {
-                            _controllerPrimaryLanguage.clear();
-                          },
-                        ),
-                        labelText:
-                            AppLocalizations.of(context)!.primaryLanguage,
-                        hintText: AppLocalizations.of(context)!.primaryLanguage,
+                  distanceHolder,
+                  TextField(
+                    controller: _controllerPrimaryLanguage,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      border: outlineInputBorder,
+                      prefixIcon: const Icon(Icons.language),
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          _controllerPrimaryLanguage.clear();
+                        },
                       ),
-                      onTap: _openLanguagePickerDialog,
-                    )),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: paddingSmall),
-                  child: TextField(
+                      labelText: AppLocalizations.of(context)!.primaryLanguage,
+                      hintText: AppLocalizations.of(context)!.primaryLanguage,
+                    ),
+                    onTap: _openLanguagePickerDialog,
+                  ),
+                  distanceHolder,
+                  TextField(
                     readOnly: true,
                     controller: _controllerBirthdate,
                     onTap: () async {
@@ -130,10 +126,8 @@ class _EmergencyPassState extends State<EmergencyPass> {
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: paddingSmall),
-                  child: TextField(
+                  distanceHolder,
+                  TextField(
                       readOnly: true,
                       controller: _controllerOrganDonor,
                       decoration: InputDecoration(
@@ -184,10 +178,8 @@ class _EmergencyPassState extends State<EmergencyPass> {
                                   );
                                 })
                           }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: paddingSmall),
-                  child: TextField(
+                  distanceHolder,
+                  TextField(
                     inputFormatters: <TextInputFormatter>[
                       LengthLimitingTextInputFormatter(3),
                       FilteringTextInputFormatter.digitsOnly
@@ -200,10 +192,8 @@ class _EmergencyPassState extends State<EmergencyPass> {
                         hintText: AppLocalizations.of(context)!.weight,
                         suffixText: "kg"),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: paddingSmall),
-                  child: TextField(
+                  distanceHolder,
+                  TextField(
                     maxLengthEnforcement: MaxLengthEnforcement.values[1],
                     inputFormatters: <TextInputFormatter>[
                       LengthLimitingTextInputFormatter(3),
@@ -217,27 +207,28 @@ class _EmergencyPassState extends State<EmergencyPass> {
                         hintText: AppLocalizations.of(context)!.height,
                         suffixText: "cm"),
                   ),
-                ),
-                BloodTypeSelect(
-                  changedBloodType: (bloodType) {
-                    // TODO save bloodType
-                  },
-                  changedRhesusFactor: (rhesusFactor) {
-                    // TODO save rhesusFactor
-                  },
-                ),
-                MedicationForm(
-                  initialMedications: const <String, Dosage>{
-                    "Coffein": Dosage.daily5Times,
-                    "Medication Name": Dosage.weekly,
-                  },
-                  changedMedicationList: (medications) {
-                    // TODO save medications
-                  },
-                )
-              ],
+                  distanceHolder,
+                ],
+              ),
             ),
-          ),
+            BloodTypeSelect(
+              changedBloodType: (bloodType) {
+                // TODO save bloodType
+              },
+              changedRhesusFactor: (rhesusFactor) {
+                // TODO save rhesusFactor
+              },
+            ),
+            MedicationForm(
+              initialMedications: const <String, Dosage>{
+                "Coffein": Dosage.daily5Times,
+                "Medication Name": Dosage.weekly,
+              },
+              changedMedicationList: (medications) {
+                // TODO save medications
+              },
+            ),
+          ],
         ),
       );
     });

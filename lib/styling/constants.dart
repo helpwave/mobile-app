@@ -23,6 +23,7 @@ ButtonStyle buttonStyle = ButtonStyle(
 // Paddings/Distances
 const double distanceTiny = 6;
 const double distanceSmall = 10;
+const double distanceMedium = 16;
 const double distanceDefault = 20;
 const double distanceBig = 40;
 const double paddingSmall = 10;
