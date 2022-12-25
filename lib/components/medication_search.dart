@@ -40,7 +40,7 @@ class _MedicationSearchPageState extends State<MedicationSearchPage> {
 
     elementList.add(
       Padding(
-        padding: EdgeInsets.all(distanceSmall),
+        padding: const EdgeInsets.all(distanceSmall),
         child: TextFormField(
           onChanged: (value) => {setState(() {})},
           controller: _searchController,
