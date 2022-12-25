@@ -25,7 +25,10 @@ class MedicationFormEntry extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("- $name", style: Theme.of(context).textTheme.bodyLarge,),
+          Text(
+            "- $name",
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -66,14 +69,18 @@ class MedicationFormEntry extends StatelessWidget {
                       child: Text(itemName),
                     );
                   }).toList(),
-                  onChanged: (_) {},
+                  onChanged: (dosage) {
+                    changedDosage(name, dosage!);
+                  },
                   decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.only(
+                        left: dropDownVerticalPadding,
+                        right: dropDownVerticalPadding),
                     labelText: AppLocalizations.of(context)!.dosage,
                     border: const OutlineInputBorder(),
                   ),
                 ),
               ),
-              const SizedBox(width: distanceDefault),
               IconButton(
                 onPressed: () {
                   deleteClicked(name);

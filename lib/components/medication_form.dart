@@ -7,8 +7,13 @@ import 'package:helpwave/styling/constants.dart';
 
 class MedicationForm extends StatefulWidget {
   final Map<String, Dosage> initialMedications;
+  final void Function(Map<String, Dosage>) changedMedicationList;
 
-  const MedicationForm({super.key, required this.initialMedications});
+  const MedicationForm({
+    super.key,
+    required this.initialMedications,
+    required this.changedMedicationList,
+  });
 
   @override
   State<StatefulWidget> createState() => _MedicationFormState();
@@ -40,11 +45,13 @@ class _MedicationFormState extends State<MedicationForm> {
               setState(() {
                 medications.remove(deletedMedicationName);
               });
+              widget.changedMedicationList(medications);
             },
-            changedDosage: (name, dosage) => {
+            changedDosage: (name, dosage) {
               setState(() {
                 medications.update(name, (_) => dosage, ifAbsent: () => dosage);
-              })
+              });
+              widget.changedMedicationList(medications);
             },
           ),
         );
@@ -71,6 +78,7 @@ class _MedicationFormState extends State<MedicationForm> {
                 medications.update(newMedicationName, (value) => value,
                     ifAbsent: () => Dosage.daily);
               });
+              widget.changedMedicationList(medications);
             });
           },
           icon: const Icon(Icons.add),
@@ -82,7 +90,8 @@ class _MedicationFormState extends State<MedicationForm> {
       children: [
         ListTile(
           title: Text(AppLocalizations.of(context)!.medications),
-          subtitle: Text("${medications.length} ${AppLocalizations.of(context)!.entries}"),
+          subtitle: Text(
+              "${medications.length} ${AppLocalizations.of(context)!.entries}"),
           leading: const Icon(Icons.medication),
           trailing: IconButton(
             icon: Icon(isExpanded ? Icons.expand_less : Icons.expand_more),
@@ -102,6 +111,7 @@ class _MedicationFormState extends State<MedicationForm> {
                 ),
               )
             : const SizedBox(),
+        const SizedBox(height: distanceDefault),
       ],
     );
   }
