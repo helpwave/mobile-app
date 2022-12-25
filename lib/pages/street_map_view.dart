@@ -14,11 +14,12 @@ class StreetMapViewPage extends StatelessWidget {
         centerTitle: true,
         title: const Text("helpwave"),
       ),
-      body: Center(
-          child: StreetMap(
+      body: StreetMap(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         trackingNotifier: trackingNotifier,
         controller: mapController,
-      )),
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         onPressed: () async {
@@ -36,7 +37,8 @@ class StreetMapViewPage extends StatelessWidget {
             if (isTracking) {
               return const Icon(Icons.gps_off_sharp);
             }
-            return const Icon(Icons.my_location);
+            return const Icon(Icons.my_location,
+                color: Colors.white);
           },
         ),
       ),

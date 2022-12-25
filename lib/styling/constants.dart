@@ -68,15 +68,5 @@ const double menuColumnDistanceBetweenPercent = 0.05;
 
 // OpenStreetMap
 MapController mapController = MapController(
-  initMapWithUserPosition: false,
-  initPosition: GeoPoint(
-    latitude: 51.9582531914801,
-    longitude: 7.614308513084836,
-  ),
-  areaLimit: BoundingBox(
-    east: 7.868367326136183,
-    north: 52.05926850228487,
-    south: 51.815854199654915,
-    west: 7.459126643491313,
-  ),
+  initMapWithUserPosition: true,
 );
