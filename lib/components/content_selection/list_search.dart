@@ -2,16 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../styling/constants.dart';
 
+/// A customizable Search within a List
+///
+/// Values need to be mapped to String with [elementToString]
+/// Should be used with
+/// [Navigator.push] and [Navigator.pop] with the latter returning the clicked result
 class ListSearch<T> extends StatefulWidget {
+  /// The Title displayed in the AppBar of the Search
   final String title;
+
+  /// The List of SearchItems that should be ignored
   final List<T> ignoreList;
+
+  /// The List of all Items for the Search
   final List<T> items;
+
+  /// Custom builder for displaying a single search result
+  /// IMPORTANT: This disables navigation pops on clicking a result, but can be implemented in the function
+  /// IMPORTANT: Overwrites default display of search results
   final Widget Function(BuildContext context, T result)? resultTileBuilder;
+
+  /// This Function returns the list of search results for [searched]
   final Future<List<T>> Function(String searched, List<T> ignoreList)?
       asyncFilteredSearchOptions;
+
+  /// Maps Elements to String
+  /// Used by default display of search result
   final String Function(T element) elementToString;
+
+  /// The filtered List of search options [items] without [ignoreList]
   late final List<T> filteredSearchOptions;
+
+  /// Allow adding user input not found in the search list
   final bool allowSelectAnyway;
+
+  /// The name of the searched Elements e.g. Medication, Name or Color
   final String? searchElementName;
 
   ListSearch({
