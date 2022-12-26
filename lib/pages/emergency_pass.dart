@@ -208,18 +208,22 @@ class _EmergencyPassState extends State<EmergencyPass> {
                         hintText: AppLocalizations.of(context)!.height,
                         suffixText: "cm"),
                   ),
-                  distanceHolder,
                 ],
               ),
             ),
-            BloodTypeSelect(
-              changedBloodType: (bloodType) {
-                // TODO save bloodType
-              },
-              changedRhesusFactor: (rhesusFactor) {
-                // TODO save rhesusFactor
-              },
+            distanceHolder,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: distanceMedium),
+              child: BloodTypeSelect(
+                changedBloodType: (bloodType) {
+                  // TODO save bloodType
+                },
+                changedRhesusFactor: (rhesusFactor) {
+                  // TODO save rhesusFactor
+                },
+              ),
             ),
+            distanceHolder,
             MedicationForm(
               initialMedications: const <String, Dosage>{
                 "Coffein": Dosage.daily5Times,
@@ -228,41 +232,14 @@ class _EmergencyPassState extends State<EmergencyPass> {
               changedMedicationList: (medications) {
                 // TODO save medications
               },
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: paddingSmall),
-                    child: TextField(
-                      maxLengthEnforcement: MaxLengthEnforcement.values[1],
-                      inputFormatters: <TextInputFormatter>[
-                        LengthLimitingTextInputFormatter(3),
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          border: outlineInputBorder,
-                          prefixIcon: const Icon(Icons.height),
-                          labelText: AppLocalizations.of(context)!.height,
-                          hintText: AppLocalizations.of(context)!.height,
-                          suffixText: "cm"),
-                    ),
-                  ),
-                  BloodTypeSelect(
-                    changedBloodType: (bloodType) {
-                      // TODO save bloodType
-                    },
-                    changedRhesusFactor: (rhesusFactor) {
-                      // TODO save rhesusFactor
-                    },
-                  ),
-                  const SizedBox(height: distanceDefault),
-                  AllergiesForm(
-                      initialSelected: const [],
-                      changedSelected: (allergyList) {
-                        // TODO save allergyList
-                      }),
-                  const SizedBox(height: distanceDefault)
-                ],
-              ),
             ),
+            AllergiesForm(
+              initialSelected: const [],
+              changedSelected: (allergyList) {
+                // TODO save allergyList
+              },
+            ),
+            distanceHolder,
           ],
         ),
       );
