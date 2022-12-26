@@ -36,104 +36,97 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
   Widget build(BuildContext context) {
     const OutlineInputBorder inputBorder = OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(borderRadiusMedium)));
-    double selectWidth = MediaQuery.of(context).size.width / 16 * 3;
-    double selectRowWidth = MediaQuery.of(context).size.width / 2;
+    double selectWidth = 80;
 
-    return ListTile(
-      title: Text(AppLocalizations.of(context)!.bloodType),
-      trailing: SizedBox(
-        width: selectRowWidth,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            SizedBox(
-              width: selectWidth,
-              child: DropdownButtonFormField<BloodType>(
-                value: selectedBloodType,
-                onChanged: (value) => {
-                  setState(() {
-                    selectedBloodType = value!;
-                    widget.changedBloodType(selectedBloodType);
-                  })
-                },
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(
-                      left: dropDownVerticalPadding,
-                      right: dropDownVerticalPadding),
-                  labelText: AppLocalizations.of(context)!.type,
-                  border: inputBorder,
-                ),
-                icon: const Icon(Icons.expand_more),
-                items: BloodType.values
-                    .map<DropdownMenuItem<BloodType>>((BloodType bloodType) {
-                  String itemName = "";
-                  switch (bloodType) {
-                    case BloodType.a:
-                      itemName = AppLocalizations.of(context)!.bloodTypeA;
-                      break;
-                    case BloodType.b:
-                      itemName = AppLocalizations.of(context)!.bloodTypeB;
-                      break;
-                    case BloodType.ab:
-                      itemName = AppLocalizations.of(context)!.bloodTypeAB;
-                      break;
-                    case BloodType.o:
-                      itemName = AppLocalizations.of(context)!.bloodTypeO;
-                      break;
-                    case BloodType.none:
-                      itemName = AppLocalizations.of(context)!.notAnswered;
-                      break;
-                  }
-                  return DropdownMenuItem<BloodType>(
-                    value: bloodType,
-                    child: Text(itemName),
-                  );
-                }).toList(),
-              ),
+    return Row(
+      children: [
+        Expanded(child: Text(AppLocalizations.of(context)!.bloodType)),
+        SizedBox(
+          width: selectWidth,
+          child: DropdownButtonFormField<BloodType>(
+            value: selectedBloodType,
+            onChanged: (value) => {
+              setState(() {
+                selectedBloodType = value!;
+                widget.changedBloodType(selectedBloodType);
+              })
+            },
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.only(
+                  left: dropDownVerticalPadding,
+                  right: dropDownVerticalPadding),
+              labelText: AppLocalizations.of(context)!.type,
+              border: inputBorder,
             ),
-            const SizedBox(width: distanceDefault),
-            SizedBox(
-              width: selectWidth,
-              child: DropdownButtonFormField<RhesusFactor>(
-                value: selectedRhesusFactor,
-                onChanged: (value) => {
-                  setState(() {
-                    selectedRhesusFactor = value!;
-                    widget.changedRhesusFactor(selectedRhesusFactor);
-                  })
-                },
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(
-                      left: dropDownVerticalPadding,
-                      right: dropDownVerticalPadding),
-                  labelText: AppLocalizations.of(context)!.rhesus,
-                  border: inputBorder,
-                ),
-                icon: const Icon(Icons.expand_more),
-                items: RhesusFactor.values.map<DropdownMenuItem<RhesusFactor>>(
-                    (RhesusFactor rhesusFactor) {
-                  String itemName = "";
-                  switch (rhesusFactor) {
-                    case RhesusFactor.rhMinus:
-                      itemName = AppLocalizations.of(context)!.rhMinus;
-                      break;
-                    case RhesusFactor.rhPlus:
-                      itemName = AppLocalizations.of(context)!.rhPlus;
-                      break;
-                    case RhesusFactor.none:
-                      itemName = AppLocalizations.of(context)!.notAnswered;
-                      break;
-                  }
-                  return DropdownMenuItem<RhesusFactor>(
-                    value: rhesusFactor,
-                    child: Text(itemName),
-                  );
-                }).toList(),
-              ),
-            ),
-          ],
+            icon: const Icon(Icons.expand_more),
+            items: BloodType.values
+                .map<DropdownMenuItem<BloodType>>((BloodType bloodType) {
+              String itemName = "";
+              switch (bloodType) {
+                case BloodType.a:
+                  itemName = AppLocalizations.of(context)!.bloodTypeA;
+                  break;
+                case BloodType.b:
+                  itemName = AppLocalizations.of(context)!.bloodTypeB;
+                  break;
+                case BloodType.ab:
+                  itemName = AppLocalizations.of(context)!.bloodTypeAB;
+                  break;
+                case BloodType.o:
+                  itemName = AppLocalizations.of(context)!.bloodTypeO;
+                  break;
+                case BloodType.none:
+                  itemName = AppLocalizations.of(context)!.notAnswered;
+                  break;
+              }
+              return DropdownMenuItem<BloodType>(
+                value: bloodType,
+                child: Text(itemName),
+              );
+            }).toList(),
+          ),
         ),
-      ),
+        const SizedBox(width: distanceDefault),
+        SizedBox(
+          width: selectWidth,
+          child: DropdownButtonFormField<RhesusFactor>(
+            value: selectedRhesusFactor,
+            onChanged: (value) => {
+              setState(() {
+                selectedRhesusFactor = value!;
+                widget.changedRhesusFactor(selectedRhesusFactor);
+              })
+            },
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.only(
+                  left: dropDownVerticalPadding,
+                  right: dropDownVerticalPadding),
+              labelText: AppLocalizations.of(context)!.rhesus,
+              border: inputBorder,
+            ),
+            icon: const Icon(Icons.expand_more),
+            items: RhesusFactor.values.map<DropdownMenuItem<RhesusFactor>>(
+                (RhesusFactor rhesusFactor) {
+              String itemName = "";
+              switch (rhesusFactor) {
+                case RhesusFactor.rhMinus:
+                  itemName = AppLocalizations.of(context)!.rhMinus;
+                  break;
+                case RhesusFactor.rhPlus:
+                  itemName = AppLocalizations.of(context)!.rhPlus;
+                  break;
+                case RhesusFactor.none:
+                  itemName = AppLocalizations.of(context)!.notAnswered;
+                  break;
+              }
+              return DropdownMenuItem<RhesusFactor>(
+                value: rhesusFactor,
+                child: Text(itemName),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
     );
   }
 }
