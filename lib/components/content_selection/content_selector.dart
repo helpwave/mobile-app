@@ -18,6 +18,7 @@ import 'package:helpwave/styling/constants.dart';
 ///   icon: Icon(Icons.ac_unit),
 ///   selectionItems: [{"weather": "cold"},{"weather": "warm"}, {"weather": "hot"}],
 ///   onChangedList: print,
+///   equalityCheck: (value1, value2) => value1["weather"] == value2["weather"],
 ///   valueToString: (value) => value["weather"]!,
 ///   loadAsyncSearchOptions: (searched, ignoreList) async {
 ///     String searchInLower = searched.toLowerCase();
@@ -107,6 +108,9 @@ class ContentSelector<V> extends StatefulWidget {
   /// IMPORTANT: If omitted or Empty the selection wont be displayed
   final List<V> selectionItems;
 
+  /// Some more Complex Objects cause issues with the native dropDown
+  final bool Function(V value1, V value2)? equalityCheck;
+
   const ContentSelector({
     super.key,
     this.onChangedList,
@@ -127,6 +131,7 @@ class ContentSelector<V> extends StatefulWidget {
     this.searchResultTileBuilder,
     this.loadAsyncSearchOptions,
     this.searchElementName,
+    this.equalityCheck,
   });
 
   @override
@@ -156,7 +161,7 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
     if (isExpanded) {
       currentSelection.forEach(
         (key, value) => children.add(
-          ListEntry(
+          ListEntry<V>(
             labelText: widget.selectionLabelText ?? "",
             name: key,
             value: value,
@@ -164,6 +169,7 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
             valueToString: widget.valueToString,
             selectWidthCustom: widget.selectWidth,
             selectValueItemBuilder: widget.selectValueItemBuilder,
+            equalityCheck: widget.equalityCheck,
             onDeleteClicked: (deletedValue) {
               setState(() {
                 currentSelection.remove(deletedValue);

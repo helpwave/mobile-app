@@ -35,6 +35,9 @@ class ListEntry<V> extends StatelessWidget {
   /// The width of the Select
   late final double? selectWidth;
 
+  /// Some more Complex Objects cause issues with the native dropDown
+  final bool Function(V value1, V value2)? equalityCheck;
+
   ListEntry({
     super.key,
     required this.labelText,
@@ -46,15 +49,15 @@ class ListEntry<V> extends StatelessWidget {
     this.valueToString,
     this.selectValueItemBuilder,
     double? selectWidthCustom,
+    this.equalityCheck,
   }) {
     selectWidth = selectWidthCustom ?? 180;
   }
 
   @override
   Widget build(BuildContext context) {
-    assert(items.isEmpty ||
-        selectValueItemBuilder != null ||
-        valueToString != null);
+    assert(items.isNotEmpty);
+    assert(selectValueItemBuilder != null || valueToString != null);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: distanceSmall),
       child: Row(
@@ -73,13 +76,16 @@ class ListEntry<V> extends StatelessWidget {
                   ? SizedBox(
                       width: selectWidth,
                       child: DropdownButtonFormField<V>(
-                        value: value,
+                        value: equalityCheck != null
+                            ? items.firstWhere(
+                                (element) => equalityCheck!(element, value))
+                            : value,
                         items: items
                             .map((e) => DropdownMenuItem<V>(
                                   value: e,
-                                  child: valueToString != null
-                                      ? Text(valueToString!(e))
-                                      : selectValueItemBuilder!(e, name),
+                                  child: selectValueItemBuilder != null
+                                      ? selectValueItemBuilder!(e, name)
+                                      : Text(valueToString!(e)),
                                 ))
                             .toList(),
                         onChanged: (value) {
