@@ -40,7 +40,10 @@ class _MedicationSearchPageState extends State<MedicationSearchPage> {
 
     elementList.add(
       Padding(
-        padding: const EdgeInsets.all(distanceSmall),
+        padding: const EdgeInsets.symmetric(
+          horizontal: distanceSmall,
+          vertical: distanceDefault,
+        ),
         child: TextFormField(
           onChanged: (value) => {setState(() {})},
           controller: _searchController,
@@ -87,14 +90,9 @@ class _MedicationSearchPageState extends State<MedicationSearchPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.medicationSearch),actions: [
-        IconButton(
-          icon: const Icon(Icons.bug_report),
-          onPressed: () {
-            // TODO open report dialog
-          },
-        ),
-      ]),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.medicationSearch),
+      ),
       body: ListView(
         children: elementList,
       ),
