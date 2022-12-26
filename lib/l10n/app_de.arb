@@ -49,5 +49,21 @@
   "bloodTypeA": "A",
   "bloodTypeAB": "AB",
   "bloodTypeB": "B",
-  "bloodTypeO": "O"
+  "bloodTypeO": "O",
+  "medication": "Medikament",
+  "medications": "Medikamente",
+  "currently": "aktuell",
+  "entries": "Einträge",
+  "dosage": "Dosierung",
+  "notFound": "nicht gefunden",
+  "addAnyway": "Trotzdem hinzufügen",
+  "monthly": "1x Monatlich",
+  "weekly": "1x Wöchentlich",
+  "weekly2Times": "2x Wöchentlich",
+  "weekly4Times": "4x Wöchentlich",
+  "daily": "1x Täglich",
+  "daily2Times": "2x Täglich",
+  "daily3Times": "3x Täglich",
+  "daily5Times": "5x Täglich",
+  "medicationSearch": "Medikamenten Suche"
 }
