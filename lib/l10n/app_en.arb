@@ -64,5 +64,6 @@
   "daily": "1x Daily",
   "daily2Times": "2x Daily",
   "daily3Times": "3x Daily",
-  "daily5Times": "5x Daily"
+  "daily5Times": "5x Daily",
+  "medicationSearch": "Medication Search"
 }

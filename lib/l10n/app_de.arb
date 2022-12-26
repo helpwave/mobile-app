@@ -64,5 +64,6 @@
   "daily": "1x Täglich",
   "daily2Times": "2x Täglich",
   "daily3Times": "3x Täglich",
-  "daily5Times": "5x Täglich"
+  "daily5Times": "5x Täglich",
+  "medicationSearch": "Medikamenten Suche"
 }

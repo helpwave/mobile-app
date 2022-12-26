@@ -87,6 +87,14 @@ class _MedicationSearchPageState extends State<MedicationSearchPage> {
     }
 
     return Scaffold(
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.medicationSearch),actions: [
+        IconButton(
+          icon: const Icon(Icons.bug_report),
+          onPressed: () {
+            // TODO open report dialog
+          },
+        ),
+      ]),
       body: ListView(
         children: elementList,
       ),
