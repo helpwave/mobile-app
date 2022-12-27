@@ -40,7 +40,11 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
 
     return Row(
       children: [
-        Expanded(child: Text(AppLocalizations.of(context)!.bloodType)),
+        const Padding(padding: EdgeInsets.only(left: distanceDefault), child: Icon(Icons.bloodtype),),
+        Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
+              child: Text(AppLocalizations.of(context)!.bloodType),)),
         SizedBox(
           width: selectWidth,
           child: DropdownButtonFormField<BloodType>(
@@ -87,44 +91,47 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
           ),
         ),
         const SizedBox(width: distanceDefault),
-        SizedBox(
-          width: selectWidth,
-          child: DropdownButtonFormField<RhesusFactor>(
-            value: selectedRhesusFactor,
-            onChanged: (value) => {
-              setState(() {
-                selectedRhesusFactor = value!;
-                widget.changedRhesusFactor(selectedRhesusFactor);
-              })
-            },
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.only(
-                  left: dropDownVerticalPadding,
-                  right: dropDownVerticalPadding),
-              labelText: AppLocalizations.of(context)!.rhesus,
-              border: inputBorder,
+        Padding(
+            padding: const EdgeInsets.only(right: paddingMedium),
+            child: SizedBox(
+              width: selectWidth,
+              child: DropdownButtonFormField<RhesusFactor>(
+                value: selectedRhesusFactor,
+                onChanged: (value) => {
+                  setState(() {
+                    selectedRhesusFactor = value!;
+                    widget.changedRhesusFactor(selectedRhesusFactor);
+                  })
+                },
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(
+                      left: dropDownVerticalPadding,
+                      right: dropDownVerticalPadding),
+                  labelText: AppLocalizations.of(context)!.rhesus,
+                  border: inputBorder,
+                ),
+                icon: const Icon(Icons.expand_more),
+                items: RhesusFactor.values.map<DropdownMenuItem<RhesusFactor>>(
+                        (RhesusFactor rhesusFactor) {
+                      String itemName = "";
+                      switch (rhesusFactor) {
+                        case RhesusFactor.rhMinus:
+                          itemName = AppLocalizations.of(context)!.rhMinus;
+                          break;
+                        case RhesusFactor.rhPlus:
+                          itemName = AppLocalizations.of(context)!.rhPlus;
+                          break;
+                        case RhesusFactor.none:
+                          itemName = AppLocalizations.of(context)!.notAnswered;
+                          break;
+                      }
+                      return DropdownMenuItem<RhesusFactor>(
+                        value: rhesusFactor,
+                        child: Text(itemName),
+                      );
+                    }).toList(),
+              ),
             ),
-            icon: const Icon(Icons.expand_more),
-            items: RhesusFactor.values.map<DropdownMenuItem<RhesusFactor>>(
-                (RhesusFactor rhesusFactor) {
-              String itemName = "";
-              switch (rhesusFactor) {
-                case RhesusFactor.rhMinus:
-                  itemName = AppLocalizations.of(context)!.rhMinus;
-                  break;
-                case RhesusFactor.rhPlus:
-                  itemName = AppLocalizations.of(context)!.rhPlus;
-                  break;
-                case RhesusFactor.none:
-                  itemName = AppLocalizations.of(context)!.notAnswered;
-                  break;
-              }
-              return DropdownMenuItem<RhesusFactor>(
-                value: rhesusFactor,
-                child: Text(itemName),
-              );
-            }).toList(),
-          ),
         ),
       ],
     );

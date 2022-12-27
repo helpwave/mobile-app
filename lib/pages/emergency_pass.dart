@@ -221,7 +221,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
             ),
             MedicationForm(
               initialMedications: const <String, Dosage>{
-                "Coffein": Dosage.daily5Times,
+                "Coffin": Dosage.daily5Times,
                 "Medication Name": Dosage.weekly,
               },
               changedMedicationList: (medications) {
