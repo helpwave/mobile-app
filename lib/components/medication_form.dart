@@ -88,7 +88,7 @@ class _MedicationFormState extends State<MedicationForm> {
 
     return Column(
       children: [
-        Padding(padding: const EdgeInsets.only(left: 4), child: ListTile(
+        ListTile(
           title: Text(AppLocalizations.of(context)!.medications),
           subtitle: Text(
               "${medications.length} ${AppLocalizations.of(context)!.entries}"),
@@ -101,8 +101,7 @@ class _MedicationFormState extends State<MedicationForm> {
               });
             },
           ),
-        ),),
-
+        ),
         isExpanded
             ? Padding(
                 padding: const EdgeInsets.only(left: columLeftPadding),

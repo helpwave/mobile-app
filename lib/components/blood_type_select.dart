@@ -7,6 +7,7 @@ import '../enums/blood_type.dart';
 class BloodTypeSelect extends StatefulWidget {
   final BloodType initialBloodType;
   final RhesusFactor initialRhesusFactor;
+
   final void Function(BloodType) changedBloodType;
   final void Function(RhesusFactor) changedRhesusFactor;
 
@@ -25,6 +26,20 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
   BloodType selectedBloodType = BloodType.none;
   RhesusFactor selectedRhesusFactor = RhesusFactor.none;
 
+  final Map<RhesusFactor, String> rhesusMap = {
+    RhesusFactor.none: 'N/A',
+    RhesusFactor.rhPlus: 'Rh+',
+    RhesusFactor.rhMinus: 'Rh-',
+  };
+
+  final Map<BloodType, String> bloodTypeMap = {
+    BloodType.none: 'N/A',
+    BloodType.a: 'A',
+    BloodType.b: 'B',
+    BloodType.ab: 'AB',
+    BloodType.o: 'O',
+  };
+
   @override
   void initState() {
     super.initState();
@@ -38,105 +53,75 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
         borderRadius: BorderRadius.all(Radius.circular(borderRadiusMedium)));
     double selectWidth = 80;
 
-    return Row(
+    return Column(
       children: [
-        const Padding(padding: EdgeInsets.only(left: distanceDefault), child: Icon(Icons.bloodtype),),
-        Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
-              child: Text(AppLocalizations.of(context)!.bloodType, style: const TextStyle(
-                fontSize: fontSizeMedium,
-              ),),
-            ),),
-        SizedBox(
-          width: selectWidth,
-          child: DropdownButtonFormField<BloodType>(
-            value: selectedBloodType,
-            onChanged: (value) => {
-              setState(() {
-                selectedBloodType = value!;
-                widget.changedBloodType(selectedBloodType);
-              })
-            },
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.only(
-                  left: dropDownVerticalPadding,
-                  right: dropDownVerticalPadding),
-              labelText: AppLocalizations.of(context)!.type,
-              border: inputBorder,
-            ),
-            icon: const Icon(Icons.expand_more),
-            items: BloodType.values
-                .map<DropdownMenuItem<BloodType>>((BloodType bloodType) {
-              String itemName = "";
-              switch (bloodType) {
-                case BloodType.a:
-                  itemName = AppLocalizations.of(context)!.bloodTypeA;
-                  break;
-                case BloodType.b:
-                  itemName = AppLocalizations.of(context)!.bloodTypeB;
-                  break;
-                case BloodType.ab:
-                  itemName = AppLocalizations.of(context)!.bloodTypeAB;
-                  break;
-                case BloodType.o:
-                  itemName = AppLocalizations.of(context)!.bloodTypeO;
-                  break;
-                case BloodType.none:
-                  itemName = AppLocalizations.of(context)!.notAnswered;
-                  break;
-              }
-              return DropdownMenuItem<BloodType>(
-                value: bloodType,
-                child: Text(itemName),
-              );
-            }).toList(),
-          ),
-        ),
-        const SizedBox(width: distanceDefault),
-        Padding(
-            padding: const EdgeInsets.only(right: paddingMedium),
-            child: SizedBox(
-              width: selectWidth,
-              child: DropdownButtonFormField<RhesusFactor>(
-                value: selectedRhesusFactor,
-                onChanged: (value) => {
-                  setState(() {
-                    selectedRhesusFactor = value!;
-                    widget.changedRhesusFactor(selectedRhesusFactor);
-                  })
-                },
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(
-                      left: dropDownVerticalPadding,
-                      right: dropDownVerticalPadding),
-                  labelText: AppLocalizations.of(context)!.rhesus,
-                  border: inputBorder,
+        ListTile(
+          title: Text(AppLocalizations.of(context)!.bloodType),
+          leading: const Icon(Icons.bloodtype),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: selectWidth,
+                child: DropdownButtonFormField<BloodType>(
+                  value: selectedBloodType,
+                  isExpanded: true,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.only(
+                        left: dropDownVerticalPadding,
+                        right: dropDownVerticalPadding),
+                    labelText: AppLocalizations.of(context)!.type,
+                    border: inputBorder,
+                  ),
+                  onChanged: (BloodType? newValue) {
+                    setState(() {
+                      selectedBloodType = newValue!;
+                    });
+                    widget.changedBloodType(selectedBloodType);
+                  },
+                  items: BloodType.values
+                      .map<DropdownMenuItem<BloodType>>((BloodType value) {
+                    return DropdownMenuItem<BloodType>(
+                      value: value,
+                      child: Text(bloodTypeMap[value]!), //Text(value.toString().split('.').last),
+                    );
+                  }).toList(),
                 ),
-                icon: const Icon(Icons.expand_more),
-                items: RhesusFactor.values.map<DropdownMenuItem<RhesusFactor>>(
-                        (RhesusFactor rhesusFactor) {
-                      String itemName = "";
-                      switch (rhesusFactor) {
-                        case RhesusFactor.rhMinus:
-                          itemName = AppLocalizations.of(context)!.rhMinus;
-                          break;
-                        case RhesusFactor.rhPlus:
-                          itemName = AppLocalizations.of(context)!.rhPlus;
-                          break;
-                        case RhesusFactor.none:
-                          itemName = AppLocalizations.of(context)!.notAnswered;
-                          break;
-                      }
-                      return DropdownMenuItem<RhesusFactor>(
-                        value: rhesusFactor,
-                        child: Text(itemName),
-                      );
-                    }).toList(),
               ),
-            ),
+              const SizedBox(width: distanceDefault),
+              SizedBox(
+                width: selectWidth,
+                child: DropdownButtonFormField<RhesusFactor>(
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.only(
+                        left: dropDownVerticalPadding,
+                        right: dropDownVerticalPadding),
+                    labelText: AppLocalizations.of(context)!.rhesus,
+                    border: inputBorder,
+                  ),
+                  value: selectedRhesusFactor,
+                  isExpanded: true,
+                  onChanged: (RhesusFactor? newValue) {
+                    setState(() {
+                      selectedRhesusFactor = newValue!;
+                    });
+                    widget.changedRhesusFactor(selectedRhesusFactor);
+                  },
+                  items: RhesusFactor.values
+                      .map<DropdownMenuItem<RhesusFactor>>(
+                          (RhesusFactor value) {
+                    return DropdownMenuItem<RhesusFactor>(
+                      value: value,
+                      child: Text(rhesusMap[value]!),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
   }
 }
+
