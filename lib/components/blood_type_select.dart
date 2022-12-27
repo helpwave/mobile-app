@@ -44,7 +44,10 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
         Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
-              child: Text(AppLocalizations.of(context)!.bloodType),)),
+              child: Text(AppLocalizations.of(context)!.bloodType, style: const TextStyle(
+                fontSize: fontSizeMedium,
+              ),),
+            ),),
         SizedBox(
           width: selectWidth,
           child: DropdownButtonFormField<BloodType>(
