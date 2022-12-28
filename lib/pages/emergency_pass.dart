@@ -258,10 +258,14 @@ class _EmergencyPassState extends State<EmergencyPass> {
               loadAsyncSearchOptions: (searched, ignoreList) async {
                 // TODO fetch form backend
                 List<String> items = [
-                  "Schalenfrüchte",
-                  "Schalentiere",
-                  "Erdnüsse",
-                  "Pollen"
+                  "Nuts",
+                  "Shellfish",
+                  "Peanut",
+                  "Pollen",
+                  "House dust"
+                  "Animal fur",
+                  "Bee sting",
+                  "Wasp sting"
                 ];
                 items.retainWhere((element) => !ignoreList.contains(element));
                 List<String> result = [];
