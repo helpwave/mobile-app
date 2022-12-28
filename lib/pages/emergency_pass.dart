@@ -10,7 +10,8 @@ import 'package:helpwave/styling/constants.dart';
 import 'package:helpwave/components/blood_type_select.dart';
 import 'package:helpwave/components/medication_form.dart';
 import 'package:helpwave/enums/dosage.dart';
-import 'package:helpwave/components/allergies_form.dart';
+import 'package:helpwave/components/content_selection/content_selector.dart';
+import 'package:helpwave/enums/severity.dart';
 
 class EmergencyPass extends StatefulWidget {
   const EmergencyPass({super.key});
@@ -233,10 +234,46 @@ class _EmergencyPassState extends State<EmergencyPass> {
                 // TODO save medications
               },
             ),
-            AllergiesForm(
-              initialSelected: const [],
-              changedSelected: (allergyList) {
+            ContentSelector<Severity>(
+              initialValues: const {},
+              searchTitle: AppLocalizations.of(context)!.allergies,
+              onChangedList: (map) {
                 // TODO save allergyList
+              },
+              selectionItems: Severity.values,
+              selectionDefaultValue: Severity.light,
+              selectionLabelText: AppLocalizations.of(context)!.severity,
+              selectWidth: 120,
+              valueToString: (value) {
+                switch (value) {
+                  case Severity.light:
+                    return AppLocalizations.of(context)!.light;
+                  case Severity.severe:
+                    return AppLocalizations.of(context)!.severe;
+                }
+              },
+              searchElementName: AppLocalizations.of(context)!.allergy,
+              icon: const Icon(Icons.warning_outlined),
+              title: AppLocalizations.of(context)!.allergies,
+              loadAsyncSearchOptions: (searched, ignoreList) async {
+                // TODO fetch form backend
+                List<String> items = [
+                  "Schalenfrüchte",
+                  "Schalentiere",
+                  "Erdnüsse",
+                  "Pollen"
+                ];
+                items.retainWhere((element) => !ignoreList.contains(element));
+                List<String> result = [];
+                for (var element in items) {
+                  if (!items.contains(searched) &&
+                      element
+                          .toLowerCase()
+                          .startsWith(searched.toLowerCase())) {
+                    result.add(element);
+                  }
+                }
+                return result;
               },
             ),
             distanceHolder,

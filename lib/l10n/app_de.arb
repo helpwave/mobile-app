@@ -68,5 +68,9 @@
   "medicationSearch": "Medikamenten Suche",
   "listSearch": "Listen-Suche",
   "list": "Liste",
-  "allergies": "Allergien"
+  "allergies": "Allergien",
+  "allergy": "Allergie",
+  "severity": "Schwere",
+  "severe": "stark",
+  "light": "leicht"
 }
