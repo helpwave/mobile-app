@@ -83,7 +83,7 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
                       .map<DropdownMenuItem<BloodType>>((BloodType value) {
                     return DropdownMenuItem<BloodType>(
                       value: value,
-                      child: Text(bloodTypeMap[value]!), //Text(value.toString().split('.').last),
+                      child: Text(bloodTypeMap[value]!),
                     );
                   }).toList(),
                 ),
