@@ -66,5 +66,7 @@
   "daily3Times": "3x Daily",
   "daily5Times": "5x Daily",
   "medicationSearch": "Medication Search",
+  "listSearch": "List-Search",
+  "list": "List",
   "allergies": "Allergies"
 }
