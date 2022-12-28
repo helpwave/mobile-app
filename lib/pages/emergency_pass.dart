@@ -262,7 +262,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                   "Shellfish",
                   "Peanut",
                   "Pollen",
-                  "House dust"
+                  "House dust",
                   "Animal fur",
                   "Bee sting",
                   "Wasp sting"
