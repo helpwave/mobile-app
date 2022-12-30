@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../styling/constants.dart';
+import 'package:helpwave/styling/constants.dart';
 
 /// A customizable Search within a List
 ///
@@ -144,7 +144,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                           const SizedBox(height: distanceBig),
                           Text(
                             "${widget.searchElementName ?? _searchController.text} ${AppLocalizations.of(context)!.notFound}",
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                           const SizedBox(height: distanceDefault),
                           widget.allowSelectAnyway

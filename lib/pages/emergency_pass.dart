@@ -208,25 +208,26 @@ class _EmergencyPassState extends State<EmergencyPass> {
                         suffixText: "cm"),
                   ),
                   distanceHolder,
+                  BloodTypeSelect(
+                    changedBloodType: (bloodType) {
+                      // TODO save bloodType
+                    },
+                    changedRhesusFactor: (rhesusFactor) {
+                      // TODO save rhesusFactor
+                    },
+                  ),
+                  distanceHolder,
+                  MedicationForm(
+                    initialMedications: const <String, Dosage>{
+                      "Coffin": Dosage.daily5Times,
+                      "Medication Name": Dosage.weekly,
+                    },
+                    changedMedicationList: (medications) {
+                      // TODO save medications
+                    },
+                  ),
                 ],
               ),
-            ),
-            BloodTypeSelect(
-              changedBloodType: (bloodType) {
-                // TODO save bloodType
-              },
-              changedRhesusFactor: (rhesusFactor) {
-                // TODO save rhesusFactor
-              },
-            ),
-            MedicationForm(
-              initialMedications: const <String, Dosage>{
-                "Coffein": Dosage.daily5Times,
-                "Medication Name": Dosage.weekly,
-              },
-              changedMedicationList: (medications) {
-                // TODO save medications
-              },
             ),
           ],
         ),
