@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:helpwave/data_classes/PatientData.dart';
+import 'package:helpwave/data_classes/patient_data.dart';
 
 /// The PersistenceService for [PatientData]
 class PatientPersistenceService {

@@ -11,7 +11,7 @@ import 'package:helpwave/components/blood_type_select.dart';
 import 'package:helpwave/enums/dosage.dart';
 import 'package:helpwave/components/content_selection/content_selector.dart';
 import 'package:helpwave/enums/severity.dart';
-import 'package:helpwave/data_classes/PatientData.dart';
+import 'package:helpwave/data_classes/patient_data.dart';
 import 'package:helpwave/services/patient_persistence.dart';
 
 class EmergencyPass extends StatefulWidget {
