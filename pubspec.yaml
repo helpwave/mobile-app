@@ -45,6 +45,8 @@ dependencies:
   flutter_native_splash: ^2.2.11
   flutter_launcher_icons: ^0.10.0
   language_picker: ^0.4.2
+  path_provider: ^2.0.11
+  json_annotation: ^4.7.0
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +58,12 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  build_runner: ^2.3.3
+
+  # One-Time: flutter pub run build_runner build --delete-conflicting-outputs
+  # On-File Update: flutter pub run build_runner watch --delete-conflicting-outputs
+  # https://docs.flutter.dev/development/data-and-backend/json#generating-code-for-nested-classes
+  json_serializable: ^6.5.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
