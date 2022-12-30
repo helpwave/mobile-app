@@ -270,7 +270,6 @@ class _EmergencyPassState extends State<EmergencyPass> {
                 "Diamannden"
               ],
             ),
-            distanceHolder,
             ContentSelector<Severity>(
               initialValues: const {},
               searchTitle: AppLocalizations.of(context)!.allergies,

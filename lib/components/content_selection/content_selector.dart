@@ -252,7 +252,6 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
                 ),
               )
             : const SizedBox(),
-        const SizedBox(height: distanceDefault),
       ],
     );
   }
