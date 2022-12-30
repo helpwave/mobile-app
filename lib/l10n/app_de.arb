@@ -67,5 +67,10 @@
   "daily5Times": "5x Täglich",
   "medicationSearch": "Medikamenten Suche",
   "listSearch": "Listen-Suche",
-  "list": "Liste"
+  "list": "Liste",
+  "allergies": "Allergien",
+  "allergy": "Allergie",
+  "severity": "Schwere",
+  "severe": "stark",
+  "light": "leicht"
 }

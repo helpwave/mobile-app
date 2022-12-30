@@ -152,8 +152,7 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
 
   @override
   Widget build(BuildContext context) {
-    assert(widget.selectionItems.isEmpty ||
-        widget.selectValueItemBuilder != null ||
+    assert(widget.selectValueItemBuilder != null ||
         widget.valueToString != null ||
         (widget.selectionItems.isNotEmpty ||
             widget.selectionDefaultValue != null));
@@ -253,7 +252,6 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
                 ),
               )
             : const SizedBox(),
-        const SizedBox(height: distanceDefault),
       ],
     );
   }
