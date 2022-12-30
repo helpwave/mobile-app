@@ -8,8 +8,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/styling/constants.dart';
 import 'package:helpwave/components/blood_type_select.dart';
-import 'package:helpwave/components/medication_form.dart';
 import 'package:helpwave/enums/dosage.dart';
+import 'package:helpwave/components/content_selection/content_selector.dart';
 
 class EmergencyPass extends StatefulWidget {
   const EmergencyPass({super.key});
@@ -208,26 +208,66 @@ class _EmergencyPassState extends State<EmergencyPass> {
                         suffixText: "cm"),
                   ),
                   distanceHolder,
-                  BloodTypeSelect(
-                    changedBloodType: (bloodType) {
-                      // TODO save bloodType
-                    },
-                    changedRhesusFactor: (rhesusFactor) {
-                      // TODO save rhesusFactor
-                    },
-                  ),
-                  distanceHolder,
-                  MedicationForm(
-                    initialMedications: const <String, Dosage>{
-                      "Coffin": Dosage.daily5Times,
-                      "Medication Name": Dosage.weekly,
-                    },
-                    changedMedicationList: (medications) {
-                      // TODO save medications
-                    },
-                  ),
                 ],
               ),
+            ),
+            BloodTypeSelect(
+              changedBloodType: (bloodType) {
+                // TODO save bloodType
+              },
+              changedRhesusFactor: (rhesusFactor) {
+                // TODO save rhesusFactor
+              },
+            ),
+            ContentSelector<Dosage>(
+              title: AppLocalizations.of(context)!.medications,
+              initialValues: const <String, Dosage>{
+                "Coffein": Dosage.daily5Times,
+                "Medication Name": Dosage.weekly,
+              },
+              onChangedList: (map) {
+                // TODO save medications
+              },
+              valueToString: (dosage) {
+                switch (dosage) {
+                  case Dosage.daily:
+                    return AppLocalizations.of(context)!.daily;
+
+                  case Dosage.daily2Times:
+                    return AppLocalizations.of(context)!.daily2Times;
+
+                  case Dosage.daily3Times:
+                    return AppLocalizations.of(context)!.daily3Times;
+
+                  case Dosage.daily5Times:
+                    return AppLocalizations.of(context)!.daily5Times;
+
+                  case Dosage.weekly:
+                    return AppLocalizations.of(context)!.weekly;
+
+                  case Dosage.weekly2Times:
+                    return AppLocalizations.of(context)!.weekly2Times;
+
+                  case Dosage.weekly4Times:
+                    return AppLocalizations.of(context)!.weekly4Times;
+
+                  case Dosage.monthly:
+                    return AppLocalizations.of(context)!.monthly;
+                }
+              },
+              selectionItems: Dosage.values,
+              selectionLabelText: AppLocalizations.of(context)!.dosage,
+              selectionDefaultValue: Dosage.daily,
+              icon: const Icon(Icons.medication),
+              searchElementName: AppLocalizations.of(context)!.medication,
+              searchTitle: AppLocalizations.of(context)!.medicationSearch,
+              searchItems: const [
+                "Coffein",
+                "Medication Name",
+                "Aspirin",
+                "Duozol",
+                "Diamannden"
+              ],
             ),
           ],
         ),
