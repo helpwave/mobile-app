@@ -1,6 +1,8 @@
 # helpwave app
 The official helpwave mobile app for android and ios
 
+This project is tested with [BrowserStack](https://www.browserstack.com).
+
 # Install and Run
 1. Install [Flutter](https://docs.flutter.dev/get-started/install) version >=3.3
 2. `flutter pub get` in project folder
