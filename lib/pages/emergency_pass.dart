@@ -226,6 +226,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                 "Coffein": Dosage.daily5Times,
                 "Medication Name": Dosage.weekly,
               },
+              isMultiSelect: true,
               onChangedList: (map) {
                 // TODO save medications
               },
@@ -271,7 +272,8 @@ class _EmergencyPassState extends State<EmergencyPass> {
               ],
             ),
             ContentSelector<Severity>(
-              initialValues: const {},
+              initialValues: const {"Nuts": Severity.severe},
+              isMultiSelect: true,
               searchTitle: AppLocalizations.of(context)!.allergies,
               onChangedList: (map) {
                 // TODO save allergyList

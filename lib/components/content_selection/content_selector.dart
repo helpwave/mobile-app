@@ -88,6 +88,12 @@ class ContentSelector<V> extends StatefulWidget {
   /// Allow adding user input not found in the search list
   final bool allowSelectAnyWay;
 
+  /// Whether options are displayed as a Multi-Select
+  final bool isMultiSelect;
+
+  /// Whether ignore list is applied in a Multi-Select
+  final bool isMultiSelectUsingIgnoreList;
+
   // -- SELECT --
   /// Maps the value to a displayable String for the Selection
   /// IMPORTANT: Overwritten by [selectValueItemBuilder]
@@ -132,6 +138,8 @@ class ContentSelector<V> extends StatefulWidget {
     this.loadAsyncSearchOptions,
     this.searchElementName,
     this.equalityCheck,
+    this.isMultiSelect = false,
+    this.isMultiSelectUsingIgnoreList = false,
   });
 
   @override
@@ -148,6 +156,29 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
     widget.initialValues.forEach((key, value) {
       currentSelection.update(key, (_) => value, ifAbsent: () => value);
     });
+  }
+
+  List<String> getIgnoreList() {
+    if (widget.isMultiSelect && !widget.isMultiSelectUsingIgnoreList) {
+      return [];
+    }
+    if (widget.searchIgnoreList != null) {
+      return widget.searchIgnoreList! + currentSelection.keys.toList();
+    }
+    return currentSelection.keys.toList();
+  }
+
+  List<String> getItems() {
+    List<String> items = [];
+    if(widget.searchItems != null){
+      items.addAll(widget.searchItems!);
+    }
+    for (var element in currentSelection.keys) {
+      if (!items.contains(element)) {
+        items.add(element);
+      }
+    }
+    return items;
   }
 
   @override
@@ -198,24 +229,53 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
                 builder: (context) => ListSearch<String>(
                   title: widget.searchTitle ??
                       AppLocalizations.of(context)!.listSearch,
-                  ignoreList: widget.searchIgnoreList != null
-                      ? widget.searchIgnoreList! +
-                          currentSelection.keys.toList()
-                      : currentSelection.keys.toList(),
-                  items: widget.searchItems ?? [],
+                  ignoreList: getIgnoreList(),
+                  items: getItems(),
                   resultTileBuilder: widget.searchResultTileBuilder,
                   elementToString: (String t) => t,
                   asyncFilteredSearchOptions: widget.loadAsyncSearchOptions,
                   allowSelectAnyway: widget.allowSelectAnyWay,
                   searchElementName: widget.searchElementName,
+                  isMultiSelect: widget.isMultiSelect,
+                  selectedItems: currentSelection.keys.toList(),
+                  isMultiSelectUsingIgnoreList:
+                      widget.isMultiSelectUsingIgnoreList,
                 ),
               ),
-            ).then((newName) {
+            ).then((value) {
+              if (value == null) {
+                return;
+              }
+              if (!widget.isMultiSelect && value == "") {
+                return;
+              }
               setState(() {
-                currentSelection.update(newName, (value) => value,
-                    ifAbsent: () =>
-                        widget.selectionDefaultValue ??
-                        widget.selectionItems[0]);
+                List<String> list = [];
+                if (widget.isMultiSelect) {
+                  if (value.runtimeType == "".runtimeType) {
+                    if (value != "") {
+                      setState(() {
+                        currentSelection.update(value, (oldValue) => oldValue,
+                            ifAbsent: () =>
+                                widget.selectionDefaultValue ??
+                                widget.selectionItems[0]);
+                      });
+                    }
+                    return;
+                  }
+                  list = value;
+                  currentSelection.removeWhere((key, _) => !list.contains(key));
+                } else {
+                  list.add(value);
+                }
+                for (var element in list) {
+                  if (!currentSelection.containsKey(element)) {
+                    currentSelection.update(element, (value) => value,
+                        ifAbsent: () =>
+                            widget.selectionDefaultValue ??
+                            widget.selectionItems[0]);
+                  }
+                }
               });
               if (widget.onChangedList != null) {
                 widget.onChangedList!(currentSelection);
