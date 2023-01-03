@@ -195,67 +195,61 @@ class _EmergencyPassState extends State<EmergencyPass> {
                       ),
                       distanceHolder,
                       TextField(
-                          readOnly: true,
-                          controller: _controllerOrganDonor,
-                          decoration: InputDecoration(
-                            border: outlineInputBorder,
-                            prefixIcon: const Icon(Icons.favorite),
-                            suffixIcon: IconButton(
-                              icon: const Icon(Icons.close),
-                              onPressed: () {
-                                _controllerOrganDonor.clear();
-                                patient.isOrganDonor = null;
-                                patient.save();
-                              },
-                            ),
-                            labelText: AppLocalizations.of(context)!.organDonor,
-                            hintText: AppLocalizations.of(context)!.organDonor,
+                        readOnly: true,
+                        controller: _controllerOrganDonor,
+                        decoration: InputDecoration(
+                          border: outlineInputBorder,
+                          prefixIcon: const Icon(Icons.favorite),
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.close),
+                            onPressed: () {
+                              _controllerOrganDonor.clear();
+                              patient.isOrganDonor = null;
+                              patient.save();
+                            },
                           ),
-                          onTap: () => {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text(
-                                            AppLocalizations.of(context)!
-                                                .organDonor),
-                                        actions: [
-                                          TextButton(
-                                            child: Text(
-                                                AppLocalizations.of(context)!
-                                                    .yes),
-                                            onPressed: () {
-                                              setState(() {
-                                                _controllerOrganDonor.text =
-                                                    AppLocalizations.of(
-                                                            context)!
-                                                        .yes;
-                                                patient.isOrganDonor = true;
-                                                patient.save();
-                                              });
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          TextButton(
-                                            child: Text(
-                                                AppLocalizations.of(context)!
-                                                    .no),
-                                            onPressed: () {
-                                              setState(() {
-                                                _controllerOrganDonor.text =
-                                                    AppLocalizations.of(
-                                                            context)!
-                                                        .no;
-                                                patient.isOrganDonor = false;
-                                                patient.save();
-                                              });
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    })
-                              }),
+                          labelText: AppLocalizations.of(context)!.organDonor,
+                          hintText: AppLocalizations.of(context)!.organDonor,
+                        ),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text(
+                                      AppLocalizations.of(context)!.organDonor),
+                                  actions: [
+                                    TextButton(
+                                      child: Text(
+                                          AppLocalizations.of(context)!.yes),
+                                      onPressed: () {
+                                        setState(() {
+                                          _controllerOrganDonor.text =
+                                              AppLocalizations.of(context)!.yes;
+                                          patient.isOrganDonor = true;
+                                          patient.save();
+                                        });
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: Text(
+                                          AppLocalizations.of(context)!.no),
+                                      onPressed: () {
+                                        setState(() {
+                                          _controllerOrganDonor.text =
+                                              AppLocalizations.of(context)!.no;
+                                          patient.isOrganDonor = false;
+                                          patient.save();
+                                        });
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
+                      ),
                       distanceHolder,
                       TextFormField(
                         initialValue: patient.height,
@@ -313,6 +307,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                 ),
                 ContentSelector<Dosage>(
                   title: AppLocalizations.of(context)!.medications,
+                  isMultiSelect: true,
                   initialValues: patient.medication,
                   onChangedList: (map) {
                     patient.medication = map;
@@ -361,6 +356,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                 ),
                 ContentSelector<Severity>(
                   initialValues: patient.allergies,
+                  isMultiSelect: true,
                   searchTitle: AppLocalizations.of(context)!.allergies,
                   onChangedList: (map) {
                     patient.allergies = map;
