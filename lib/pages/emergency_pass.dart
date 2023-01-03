@@ -389,6 +389,11 @@ class _EmergencyPassState extends State<EmergencyPass> {
                       "Bee sting",
                       "Wasp sting"
                     ];
+                    for (var element in patient.allergies.keys) {
+                      if(!items.contains(element)){
+                        items.add(element);
+                      }
+                    }
                     items.retainWhere(
                         (element) => !ignoreList.contains(element));
                     List<String> result = [];
