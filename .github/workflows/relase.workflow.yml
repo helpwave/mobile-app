@@ -2,8 +2,8 @@ name: Flutter CI
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - '*'
 
 jobs:
   build:
@@ -48,6 +48,6 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: release-apk/app-release.apk
-          asset_name: ${{ github.event.repository.name }}.apk
+          asset_name:  ${{ github.ref_name }}.apk
           asset_content_type: application/zip
 
