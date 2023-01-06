@@ -90,7 +90,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
 
   // case insensitive search
   Future<List<T>> getSearchResults(String searched) async {
-    String searchInLower = searched.toLowerCase();
+    String searchInLower = searched.trim().toLowerCase();
     List<T> result = [];
     for (var element in widget.filteredSearchOptions) {
       if (widget
@@ -129,7 +129,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                   vertical: distanceDefault,
                 ),
                 child: TextFormField(
-                  onChanged: (value) => {setState(() {})},
+                  onChanged: (_) => {setState(() {})},
                   controller: _searchController,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
@@ -209,7 +209,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                             widget.allowSelectAnyway
                                 ? TextButton(
                                     onPressed: () => Navigator.pop(
-                                        context, _searchController.text),
+                                        context, _searchController.text.trim()),
                                     child: Text(
                                         "${AppLocalizations.of(context)!.addAnyway}!"),
                                   )

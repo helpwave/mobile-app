@@ -378,6 +378,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                   icon: const Icon(Icons.warning_outlined),
                   title: AppLocalizations.of(context)!.allergies,
                   loadAsyncSearchOptions: (searched, ignoreList) async {
+                    searched = searched.trim().toLowerCase();
                     // TODO fetch form backend
                     List<String> items = [
                       "Nuts",
@@ -390,7 +391,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                       "Wasp sting"
                     ];
                     for (var element in patient.allergies.keys) {
-                      if(!items.contains(element)){
+                      if (!items.contains(element)) {
                         items.add(element);
                       }
                     }
@@ -401,7 +402,7 @@ class _EmergencyPassState extends State<EmergencyPass> {
                       if (!items.contains(searched) &&
                           element
                               .toLowerCase()
-                              .startsWith(searched.toLowerCase())) {
+                              .startsWith(searched)) {
                         result.add(element);
                       }
                     }
