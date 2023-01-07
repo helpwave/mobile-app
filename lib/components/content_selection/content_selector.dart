@@ -253,7 +253,7 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
                 List<String> list = [];
                 if (widget.isMultiSelect) {
                   if (value.runtimeType == "".runtimeType) {
-                    if (value != "") {
+                    if (value.trim() != "") {
                       setState(() {
                         currentSelection.update(value, (oldValue) => oldValue,
                             ifAbsent: () =>
