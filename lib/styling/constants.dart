@@ -50,6 +50,12 @@ const double borderRadiusMedium = 10;
 const double borderRadiusBig = 15;
 const double borderRadiusVeryBig = 20;
 
+const defaultOutlineInputBorder = OutlineInputBorder(
+  borderRadius: BorderRadius.all(
+    Radius.circular(borderRadiusMedium),
+  ),
+);
+
 // Colors
 const positiveColor = Color.fromARGB(255, 52, 199, 89);
 const negativeColor = Color.fromARGB(255, 255, 51, 51);
