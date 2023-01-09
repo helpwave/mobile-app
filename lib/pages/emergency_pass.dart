@@ -52,11 +52,6 @@ class _EmergencyPassState extends State<EmergencyPass> {
 
   @override
   Widget build(BuildContext context) {
-    const OutlineInputBorder outlineInputBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.all(
-        Radius.circular(borderRadiusMedium),
-      ),
-    );
     const Widget distanceHolder = SizedBox(height: distanceDefault);
 
     return Consumer<LanguageModel>(
@@ -124,7 +119,6 @@ class _EmergencyPassState extends State<EmergencyPass> {
                     children: <Widget>[
                       TextFormField(
                         decoration: InputDecoration(
-                          border: outlineInputBorder,
                           prefixIcon: const Icon(Icons.person),
                           labelText: AppLocalizations.of(context)!.name,
                           hintText: AppLocalizations.of(context)!.name,
@@ -140,7 +134,6 @@ class _EmergencyPassState extends State<EmergencyPass> {
                         controller: _controllerPrimaryLanguage,
                         readOnly: true,
                         decoration: InputDecoration(
-                          border: outlineInputBorder,
                           prefixIcon: const Icon(Icons.language),
                           suffixIcon: IconButton(
                             icon: const Icon(Icons.close),
@@ -180,7 +173,6 @@ class _EmergencyPassState extends State<EmergencyPass> {
                         },
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.calendar_month),
-                          border: outlineInputBorder,
                           labelText: AppLocalizations.of(context)!.dateOfBirth,
                           hintText: AppLocalizations.of(context)!.dateOfBirth,
                           suffixIcon: IconButton(
@@ -198,7 +190,6 @@ class _EmergencyPassState extends State<EmergencyPass> {
                         readOnly: true,
                         controller: _controllerOrganDonor,
                         decoration: InputDecoration(
-                          border: outlineInputBorder,
                           prefixIcon: const Icon(Icons.favorite),
                           suffixIcon: IconButton(
                             icon: const Icon(Icons.close),
@@ -263,7 +254,6 @@ class _EmergencyPassState extends State<EmergencyPass> {
                         ],
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                            border: outlineInputBorder,
                             prefixIcon: const Icon(Icons.monitor_weight),
                             labelText: AppLocalizations.of(context)!.weight,
                             hintText: AppLocalizations.of(context)!.weight,
@@ -283,7 +273,6 @@ class _EmergencyPassState extends State<EmergencyPass> {
                         ],
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                            border: outlineInputBorder,
                             prefixIcon: const Icon(Icons.height),
                             labelText: AppLocalizations.of(context)!.height,
                             hintText: AppLocalizations.of(context)!.height,

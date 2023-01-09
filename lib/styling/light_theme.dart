@@ -1,11 +1,50 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
 
+const focusedColor = Color.fromARGB(255, 30, 30, 30);
+const defaultColor = Color.fromARGB(255, 120, 120, 120);
+
 ThemeData lightTheme = ThemeData(
-  disabledColor:  const Color.fromARGB(255, 100, 100, 100),
+  disabledColor: const Color.fromARGB(255, 100, 100, 100),
   scaffoldBackgroundColor: const Color.fromARGB(255, 238, 238, 238),
+  textSelectionTheme: const TextSelectionThemeData(
+    cursorColor: Colors.blue,
+    selectionHandleColor: Colors.blueAccent,
+  ),
   bottomSheetTheme: const BottomSheetThemeData(
     backgroundColor: Color.fromARGB(255, 238, 238, 238),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    focusedBorder: defaultOutlineInputBorder.copyWith(
+      borderSide: const BorderSide(color: focusedColor),
+    ),
+    enabledBorder: defaultOutlineInputBorder.copyWith(
+      borderSide: const BorderSide(color: defaultColor),
+    ),
+    iconColor: MaterialStateColor.resolveWith((states) {
+      if (states.contains(MaterialState.focused)) {
+        return focusedColor;
+      } else {
+        return defaultColor;
+      }
+    }),
+    labelStyle: MaterialStateTextStyle.resolveWith((states) {
+      if (states.contains(MaterialState.focused)) {
+        return const TextStyle(color: focusedColor);
+      } else {
+        return const TextStyle(color: defaultColor);
+      }
+    }),
+    floatingLabelStyle: MaterialStateTextStyle.resolveWith((states) {
+      if (states.contains(MaterialState.focused)) {
+        return const TextStyle(color: focusedColor);
+      } else {
+        return const TextStyle(color: defaultColor);
+      }
+    }),
+  ),
+  listTileTheme: const ListTileThemeData(
+    iconColor: focusedColor,
   ),
   appBarTheme: const AppBarTheme(
     centerTitle: true,
@@ -26,10 +65,10 @@ ThemeData lightTheme = ThemeData(
       foregroundColor:
           MaterialStateProperty.all<Color>(const Color.fromARGB(255, 0, 0, 0)),
       backgroundColor: MaterialStateProperty.all<Color>(
-          const Color.fromARGB(255, 190, 190, 190)),
+          const Color.fromARGB(255, 238, 238, 238)),
       side: MaterialStateProperty.all<BorderSide>(
         buttonBorderSide.copyWith(
-          color: const Color.fromARGB(255, 190, 190, 190),
+          color: const Color.fromARGB(255, 0, 0, 0),
         ),
       ),
     ),
@@ -47,7 +86,7 @@ ThemeData lightTheme = ThemeData(
   colorScheme: const ColorScheme(
     // General
     brightness: Brightness.light,
-    outline: Color.fromARGB(255, 255, 255, 255),
+    outline: Color.fromARGB(255, 30, 30, 30),
     shadow: Color.fromARGB(255, 60, 60, 60),
     //Basic Colors
     primary: Color.fromARGB(255, 255, 255, 255),

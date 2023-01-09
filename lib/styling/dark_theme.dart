@@ -1,12 +1,50 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
 
+const focusedColor = Color.fromARGB(255, 255, 255, 255);
+const defaultColor = Color.fromARGB(255, 150, 150, 150);
+
 ThemeData darkTheme = ThemeData(
   disabledColor: const Color.fromARGB(255, 100, 100, 100),
-  primaryColor: const Color.fromARGB(255, 68, 68, 255),
+  textSelectionTheme: const TextSelectionThemeData(
+    cursorColor: Colors.blue,
+    selectionHandleColor: Colors.blueAccent,
+  ),
   scaffoldBackgroundColor: const Color.fromARGB(255, 27, 27, 27),
   bottomSheetTheme: const BottomSheetThemeData(
     backgroundColor: Color.fromARGB(255, 27, 27, 27),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    focusedBorder: defaultOutlineInputBorder.copyWith(
+      borderSide: const BorderSide(color: focusedColor),
+    ),
+    enabledBorder: defaultOutlineInputBorder.copyWith(
+      borderSide: const BorderSide(color: defaultColor),
+    ),
+    iconColor: MaterialStateColor.resolveWith((states) {
+      if (states.contains(MaterialState.focused)) {
+        return focusedColor;
+      } else {
+        return defaultColor;
+      }
+    }),
+    labelStyle: MaterialStateTextStyle.resolveWith((states) {
+      if (states.contains(MaterialState.focused)) {
+        return const TextStyle(color: focusedColor);
+      } else {
+        return const TextStyle(color: defaultColor);
+      }
+    }),
+    floatingLabelStyle: MaterialStateTextStyle.resolveWith((states) {
+      if (states.contains(MaterialState.focused)) {
+        return const TextStyle(color: focusedColor);
+      } else {
+        return const TextStyle(color: defaultColor);
+      }
+    }),
+  ),
+  listTileTheme: const ListTileThemeData(
+    iconColor: focusedColor,
   ),
   appBarTheme: const AppBarTheme(
     centerTitle: true,
