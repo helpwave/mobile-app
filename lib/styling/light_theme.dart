@@ -77,7 +77,7 @@ ThemeData lightTheme = ThemeData(
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(
-          const Color.fromARGB(255, 190, 190, 190)),
+          const Color.fromARGB(255, 140, 140, 140)),
     ),
   ),
   iconTheme: const IconThemeData(
@@ -103,8 +103,8 @@ ThemeData lightTheme = ThemeData(
     onError: Color.fromARGB(255, 255, 255, 255),
     // Surface
     surfaceTint: Color.fromARGB(0, 0, 0, 0),
-    surface: Color.fromARGB(255, 85, 85, 85),
-    onSurface: Color.fromARGB(255, 255, 255, 255),
+    surface: Color.fromARGB(255, 100, 100, 100),
+    onSurface: Color.fromARGB(255, 0, 0, 0),
     surfaceVariant: Color.fromARGB(255, 153, 153, 153),
     onSurfaceVariant: Color.fromARGB(255, 255, 255, 255),
     inverseSurface: Color.fromARGB(255, 153, 153, 153),

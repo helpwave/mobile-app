@@ -68,34 +68,46 @@ class ContentSelector<V> extends StatefulWidget {
   /// The Title displayed in the AppBar of the Search
   final String? searchTitle;
 
-  /// The List of SearchItems that should be ignored
-  final List<String>? searchIgnoreList;
+  /// Function for filtering unwanted items, only keeps values with true
+  final bool Function(String value)? searchFilter;
 
-  /// The List of all Items for the Search
+  /// The List of all Options for a search
+  ///
+  /// Combines with [searchAsyncItems]
   final List<String>? searchItems;
 
+  /// This Function returns the list of search items for a search
+  ///
+  /// Combines with [searchItems]
+  final Future<List<String>> Function(String searched)? searchAsyncItems;
+
   /// Custom builder for displaying a single search result
+  ///
+  /// IMPORTANT: This disables navigation pops on clicking a result, but can be implemented in the function
+  ///
+  /// IMPORTANT: Overwrites default display of search results
   final Widget Function(BuildContext context, String result)?
       searchResultTileBuilder;
 
-  /// This Function returns the list of search results for [searched]
-  final Future<List<String>> Function(String searched, List<String> ignoreList)?
-      loadAsyncSearchOptions;
+  /// Allow adding user input, if filtered search items are empty for a given search
+  final bool searchAllowSelectAnyway;
 
-  /// The name of the searched Elements e.g. Medication, Name or Color
+  /// The name of the searched elements e.g. Medication, Name or Color
+  ///
+  /// Displayed when no search entry is found
   final String? searchElementName;
 
-  /// Allow adding user input not found in the search list
-  final bool allowSelectAnyWay;
-
-  /// Whether options are displayed as a Multi-Select
+  /// Whether [searchItems] are displayed as a Multi-Select
   final bool isMultiSelect;
 
-  /// Whether ignore list is applied in a Multi-Select
-  final bool isMultiSelectUsingIgnoreList;
-
   // -- SELECT --
+  /// The items of the Selection
+  ///
+  /// IMPORTANT: If omitted or Empty the selection wont be displayed
+  final List<V> selectionItems;
+
   /// Maps the value to a displayable String for the Selection
+  ///
   /// IMPORTANT: Overwritten by [selectValueItemBuilder]
   final String Function(V value)? valueToString;
 
@@ -103,6 +115,7 @@ class ContentSelector<V> extends StatefulWidget {
   final double? selectWidth;
 
   /// A Custom builder for the DropDownItems in the select
+  ///
   /// IMPORTANT: Overwrites [valueToString]
   final DropdownMenuItem<V> Function(V value, String name)?
       selectValueItemBuilder;
@@ -110,36 +123,31 @@ class ContentSelector<V> extends StatefulWidget {
   /// The LabelText of the Selection Drop-Down
   final String? selectionLabelText;
 
-  /// The items of the Selection
-  /// IMPORTANT: If omitted or Empty the selection wont be displayed
-  final List<V> selectionItems;
-
   /// Some more Complex Objects cause issues with the native dropDown
   final bool Function(V value1, V value2)? equalityCheck;
 
   const ContentSelector({
     super.key,
-    this.onChangedList,
-    this.selectionItems = const [],
     this.title,
     this.icon = const Icon(Icons.list),
-    this.selectWidth,
-    this.valueToString,
-    this.selectionLabelText,
-    this.selectionDefaultValue,
-    this.selectValueItemBuilder,
-    this.allowSelectAnyWay = true,
     this.initialValues = const {},
+    this.onChangedList,
     this.columLeftPadding = distanceDefault,
+    this.selectionDefaultValue,
     this.searchTitle,
-    this.searchIgnoreList,
+    this.searchFilter,
     this.searchItems,
+    this.searchAsyncItems,
     this.searchResultTileBuilder,
-    this.loadAsyncSearchOptions,
+    this.searchAllowSelectAnyway = true,
     this.searchElementName,
-    this.equalityCheck,
     this.isMultiSelect = false,
-    this.isMultiSelectUsingIgnoreList = false,
+    this.selectionItems = const [],
+    this.valueToString,
+    this.selectWidth,
+    this.selectValueItemBuilder,
+    this.selectionLabelText,
+    this.equalityCheck,
   });
 
   @override
@@ -158,19 +166,9 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
     });
   }
 
-  List<String> getIgnoreList() {
-    if (widget.isMultiSelect && !widget.isMultiSelectUsingIgnoreList) {
-      return [];
-    }
-    if (widget.searchIgnoreList != null) {
-      return widget.searchIgnoreList! + currentSelection.keys.toList();
-    }
-    return currentSelection.keys.toList();
-  }
-
   List<String> getItems() {
     List<String> items = [];
-    if(widget.searchItems != null){
+    if (widget.searchItems != null) {
       items.addAll(widget.searchItems!);
     }
     for (var element in currentSelection.keys) {
@@ -229,17 +227,15 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
                 builder: (context) => ListSearch<String>(
                   title: widget.searchTitle ??
                       AppLocalizations.of(context)!.listSearch,
-                  ignoreList: getIgnoreList(),
+                  filter: widget.searchFilter,
                   items: getItems(),
+                  asyncItems: widget.searchAsyncItems,
                   resultTileBuilder: widget.searchResultTileBuilder,
                   elementToString: (String t) => t,
-                  asyncFilteredSearchOptions: widget.loadAsyncSearchOptions,
-                  allowSelectAnyway: widget.allowSelectAnyWay,
+                  allowSelectAnyway: widget.searchAllowSelectAnyway,
                   searchElementName: widget.searchElementName,
                   isMultiSelect: widget.isMultiSelect,
-                  selectedItems: currentSelection.keys.toList(),
-                  isMultiSelectUsingIgnoreList:
-                      widget.isMultiSelectUsingIgnoreList,
+                  selected: currentSelection.keys.toList(),
                 ),
               ),
             ).then((value) {
