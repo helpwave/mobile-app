@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:helpwave/pages/home.dart';
+import 'package:helpwave/services/introduction_model.dart';
 import 'package:helpwave/styling/constants.dart';
+
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
@@ -16,38 +19,43 @@ class LandingPage extends StatelessWidget {
     const double startContainerBorderRadius = borderRadiusVeryBig;
 
     Size mediaQuery = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Center(
-            child: Image.asset(
-              'assets/banner.png',
-              width: mediaQuery.width * bannerWidthPercentage,
-              height: mediaQuery.height * bannerHeightPercentage,
-            ),
-          ),
-          SizedBox(
-            width: mediaQuery.height * startContainerWidthPercentage,
-            height: mediaQuery.height * startContainerHeightPercentage,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(startContainerBorderRadius),
-              onTap: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomePage(),
-                  )),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(AppLocalizations.of(context)!.start),
-                  Container(width: startContainerTextIconDistance),
-                  const Icon(Icons.arrow_forward),
-                ],
+    return Consumer<IntroductionModel>(
+      builder: (context, IntroductionModel introductionModel, _) => Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Center(
+              child: Image.asset(
+                'assets/banner.png',
+                width: mediaQuery.width * bannerWidthPercentage,
+                height: mediaQuery.height * bannerHeightPercentage,
               ),
             ),
-          ),
-        ],
+            SizedBox(
+              width: mediaQuery.height * startContainerWidthPercentage,
+              height: mediaQuery.height * startContainerHeightPercentage,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(startContainerBorderRadius),
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomePage(),
+                      ));
+                  introductionModel.setHasSeenIntroduction();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(AppLocalizations.of(context)!.start),
+                    Container(width: startContainerTextIconDistance),
+                    const Icon(Icons.arrow_forward),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
