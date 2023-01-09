@@ -1,6 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Service for reading and writing the Language Preference
 class LanguagePreferences {
+  /// Key of the Shared Preference
   final String sharedPreferencesLanguageKey = "language";
 
   setLanguage(String locale) async {

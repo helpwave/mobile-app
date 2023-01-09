@@ -4,6 +4,7 @@ import 'constants.dart';
 const focusedColor = Color.fromARGB(255, 30, 30, 30);
 const defaultColor = Color.fromARGB(255, 120, 120, 120);
 
+/// Theme data for Light-Theme
 ThemeData lightTheme = ThemeData(
   disabledColor: const Color.fromARGB(255, 100, 100, 100),
   scaffoldBackgroundColor: const Color.fromARGB(255, 238, 238, 238),

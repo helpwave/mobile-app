@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:helpwave/styling/constants.dart';
 
+/// Markers for the OpenStreetMap
 const MarkerIcon personMarker = MarkerIcon(
   icon: Icon(
     Icons.radio_button_checked,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:helpwave/pages/home.dart';
+import 'package:helpwave/pages/home_page.dart';
 import 'package:helpwave/styling/constants.dart';
 
+/// Landing-Page, if the user start the app for the first time
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
 

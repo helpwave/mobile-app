@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave/pages/emergency_chat_page.dart';
 
 import '../styling/constants.dart';
 
+/// Widget for displaying a chat message
+///
+/// Used by [EmergencyChatPage]
 class ChatMessage extends StatelessWidget {
+  /// The Message which will be displayed by this Widget
   final Map<String, dynamic> message;
 
   const ChatMessage({required this.message, super.key});
