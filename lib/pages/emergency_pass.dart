@@ -314,31 +314,22 @@ class _EmergencyPassState extends State<EmergencyPass> {
                     patient.save();
                   },
                   valueToString: (dosage) {
-                    switch (dosage) {
-                      case Dosage.daily:
-                        return AppLocalizations.of(context)!.daily;
-
-                      case Dosage.daily2Times:
-                        return AppLocalizations.of(context)!.daily2Times;
-
-                      case Dosage.daily3Times:
-                        return AppLocalizations.of(context)!.daily3Times;
-
-                      case Dosage.daily5Times:
-                        return AppLocalizations.of(context)!.daily5Times;
-
-                      case Dosage.weekly:
-                        return AppLocalizations.of(context)!.weekly;
-
-                      case Dosage.weekly2Times:
-                        return AppLocalizations.of(context)!.weekly2Times;
-
-                      case Dosage.weekly4Times:
-                        return AppLocalizations.of(context)!.weekly4Times;
-
-                      case Dosage.monthly:
-                        return AppLocalizations.of(context)!.monthly;
-                    }
+                    Map<Dosage, String> translation = {
+                      Dosage.daily: AppLocalizations.of(context)!.daily,
+                      Dosage.daily3Times:
+                          AppLocalizations.of(context)!.daily3Times,
+                      Dosage.daily2Times:
+                          AppLocalizations.of(context)!.daily2Times,
+                      Dosage.daily5Times:
+                          AppLocalizations.of(context)!.daily5Times,
+                      Dosage.weekly: AppLocalizations.of(context)!.weekly,
+                      Dosage.weekly2Times:
+                          AppLocalizations.of(context)!.weekly2Times,
+                      Dosage.weekly4Times:
+                          AppLocalizations.of(context)!.weekly4Times,
+                      Dosage.monthly: AppLocalizations.of(context)!.monthly,
+                    };
+                    return translation[dosage]!;
                   },
                   selectionItems: Dosage.values,
                   selectionLabelText: AppLocalizations.of(context)!.dosage,
@@ -377,10 +368,9 @@ class _EmergencyPassState extends State<EmergencyPass> {
                   searchElementName: AppLocalizations.of(context)!.allergy,
                   icon: const Icon(Icons.warning_outlined),
                   title: AppLocalizations.of(context)!.allergies,
-                  loadAsyncSearchOptions: (searched, ignoreList) async {
-                    searched = searched.trim().toLowerCase();
+                  searchAsyncItems: (searched) async {
                     // TODO fetch form backend
-                    List<String> items = [
+                    return [
                       "Nuts",
                       "Shellfish",
                       "Peanut",
@@ -390,23 +380,6 @@ class _EmergencyPassState extends State<EmergencyPass> {
                       "Bee sting",
                       "Wasp sting"
                     ];
-                    for (var element in patient.allergies.keys) {
-                      if (!items.contains(element)) {
-                        items.add(element);
-                      }
-                    }
-                    items.retainWhere(
-                        (element) => !ignoreList.contains(element));
-                    List<String> result = [];
-                    for (var element in items) {
-                      if (!items.contains(searched) &&
-                          element
-                              .toLowerCase()
-                              .startsWith(searched)) {
-                        result.add(element);
-                      }
-                    }
-                    return result;
                   },
                 ),
                 distanceHolder,
