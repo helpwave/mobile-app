@@ -10,7 +10,7 @@ const TextStyle buttonTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
 );
 ButtonStyle buttonStyle = ButtonStyle(
-  fixedSize:
+  minimumSize:
       MaterialStateProperty.all<Size>(const Size(buttonWidth, buttonHeight)),
   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
     RoundedRectangleBorder(

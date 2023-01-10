@@ -127,25 +127,21 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
     const double chipListviewHeight = 35;
 
     List<Widget> chipList = [];
-    chipList.add(
-        Transform(
-          transform: Matrix4.identity()..scale(chipTransformScale),
-          child:  Chip(
-            padding: const EdgeInsets.all(chipPadding),
-            label: Text(
-              widget.emergencyRoom["open"]
-                  ? AppLocalizations.of(context)!.open
-                  : AppLocalizations.of(context)!.closed,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: fontSizeTiny),
-            ),
-            backgroundColor:
+    chipList.add(Transform(
+      transform: Matrix4.identity()..scale(chipTransformScale),
+      child: Chip(
+        padding: const EdgeInsets.all(chipPadding),
+        label: Text(
+          widget.emergencyRoom["open"]
+              ? AppLocalizations.of(context)!.open
+              : AppLocalizations.of(context)!.closed,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: fontSizeTiny),
+        ),
+        backgroundColor:
             widget.emergencyRoom["open"] ? positiveColor : negativeColor,
-          ),
-        )
-    );
-
-
+      ),
+    ));
 
     chipList.addAll(
       facilities.map(
@@ -243,7 +239,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                   ),
                   SizedBox(
                     height: iconSizeSmall,
-                    child:   ElevatedButton.icon(
+                    child: ElevatedButton.icon(
                       onPressed: () {},
                       icon: const Icon(
                         Icons.phone,
@@ -255,14 +251,13 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                       style: tableButtonStyle,
                     ),
                   ),
-
                 ],
               ),
               TableRow(
                 children: [
                   SizedBox(
                     height: iconSizeSmall,
-                    child:  ElevatedButton.icon(
+                    child: ElevatedButton.icon(
                       onPressed: () {},
                       icon: const Icon(
                         Icons.location_on_outlined,
@@ -343,24 +338,24 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                   style: buttonStylePositive,
                   child: Text(AppLocalizations.of(context)!.notify),
                 ),
-          hasNotified
-              ? ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.navigation),
-                  style: buttonStylePositive,
-                  label: Text(AppLocalizations.of(context)!.startNavigation),
-                )
-              : Container(
-                margin: const EdgeInsets.all(marginSmall),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  style: buttonStyleNeutral,
-                  child:
-                      Text(AppLocalizations.of(context)!.otherEmergencyRooms),
-                ),
-              ),
+          Container(
+            margin: const EdgeInsets.all(marginSmall),
+            child: hasNotified
+                ? ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.navigation),
+                    style: buttonStylePositive,
+                    label: Text(AppLocalizations.of(context)!.startNavigation),
+                  )
+                : ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: buttonStyleNeutral,
+                    child:
+                        Text(AppLocalizations.of(context)!.otherEmergencyRooms),
+                  ),
+          ),
         ],
       ),
     );
