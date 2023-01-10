@@ -23,10 +23,8 @@ class SettingLanguageSelectionPage extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return RadioListTile(
                 value: languages[index],
-                onChanged: (Map<String, String>? language) => {
-                  languageNotifier.setLanguage(
-                      language!["Shortname"]!, language["Name"]!)
-                },
+                onChanged: (Map<String, String>? language) =>
+                    languageNotifier.setLanguage(language!["Local"]!),
                 title: Text(languages[index]["Name"]!),
                 groupValue: languages.firstWhere(
                     (language) => language["Name"] == languageNotifier.name),

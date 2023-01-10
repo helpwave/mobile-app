@@ -7,21 +7,30 @@ class LanguageModel extends ChangeNotifier {
   String _name = languages[defaultLanguageIndex]["Name"]!;
 
   final LanguagePreferences _preferences = LanguagePreferences();
+
   String get shortname => _shortname;
+
   String get name => _name;
 
-  languageModel() {
+  LanguageModel() {
     getPreferences();
   }
 
-  setLanguage(String shortname, String name) {
-    _shortname = shortname;
-    _name = name;
+  setLanguage(String local) {
+    Map<String, String> languageMap =
+        languages.firstWhere((element) => element["Local"]! == local);
+    _shortname = languageMap["Shortname"]!;
+    _name = languageMap["Name"]!;
+    _preferences.setLanguage(local);
     notifyListeners();
   }
 
   getPreferences() async {
-    _shortname = await _preferences.getLanguage();
+    String local = await _preferences.getLanguage();
+    Map<String, String> languageMap =
+        languages.firstWhere((element) => element["Local"]! == local);
+    _shortname = languageMap["Shortname"]!;
+    _name = languageMap["Name"]!;
     notifyListeners();
   }
 }
