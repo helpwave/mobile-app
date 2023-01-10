@@ -18,18 +18,25 @@ class LanguageModel extends ChangeNotifier {
 
   String get name => _name;
 
-  languageModel() {
+  LanguageModel() {
     getPreferences();
   }
 
-  setLanguage(String shortname, String name) {
-    _shortname = shortname;
-    _name = name;
+  setLanguage(String local) {
+    Map<String, String> languageMap =
+        languages.firstWhere((element) => element["Local"]! == local);
+    _shortname = languageMap["Shortname"]!;
+    _name = languageMap["Name"]!;
+    _preferences.setLanguage(local);
     notifyListeners();
   }
 
   getPreferences() async {
-    _shortname = await _preferences.getLanguage();
+    String local = await _preferences.getLanguage();
+    Map<String, String> languageMap =
+        languages.firstWhere((element) => element["Local"]! == local);
+    _shortname = languageMap["Shortname"]!;
+    _name = languageMap["Name"]!;
     notifyListeners();
   }
 }

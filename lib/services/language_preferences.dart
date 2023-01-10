@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:helpwave/config/language.dart';
 
 /// Service for reading and writing the Language Preference
 class LanguagePreferences {
@@ -12,6 +13,7 @@ class LanguagePreferences {
 
   getLanguage() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getString(sharedPreferencesLanguageKey) ?? "de";
+    return sharedPreferences.getString(sharedPreferencesLanguageKey) ??
+        languages[defaultLanguageIndex]["Local"];
   }
 }
