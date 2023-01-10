@@ -3,8 +3,17 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:helpwave/components/street_map.dart';
 import 'package:helpwave/styling/constants.dart';
 
+/// Bottom Sheet to display when the user requires more information about the
+/// [EmergencyRoom]
+///
+/// Shows Location and allows Navigation
+///
+/// The [EmergencyRoom] can be notified of arrival
 class EmergencyRoomBottomSheet extends StatefulWidget {
+  /// A Custom Widget to display as an header
   final Widget? title;
+
+  /// The [EmergencyRoom] used to display information or to notify
   final Map<String, dynamic> emergencyRoom;
 
   const EmergencyRoomBottomSheet(this.emergencyRoom, {super.key, this.title});
@@ -50,7 +59,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
         children: [
           Positioned(
             child: StreetMap(
-              border: 0,
+              borderRadius: 0,
               width: mediaQuery.width,
               height: mediaQuery.height,
               trackingNotifier: trackingNotifier,
@@ -127,25 +136,21 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
     const double chipListviewHeight = 35;
 
     List<Widget> chipList = [];
-    chipList.add(
-        Transform(
-          transform: Matrix4.identity()..scale(chipTransformScale),
-          child:  Chip(
-            padding: const EdgeInsets.all(chipPadding),
-            label: Text(
-              widget.emergencyRoom["open"]
-                  ? AppLocalizations.of(context)!.open
-                  : AppLocalizations.of(context)!.closed,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: fontSizeTiny),
-            ),
-            backgroundColor:
+    chipList.add(Transform(
+      transform: Matrix4.identity()..scale(chipTransformScale),
+      child: Chip(
+        padding: const EdgeInsets.all(chipPadding),
+        label: Text(
+          widget.emergencyRoom["open"]
+              ? AppLocalizations.of(context)!.open
+              : AppLocalizations.of(context)!.closed,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: fontSizeTiny),
+        ),
+        backgroundColor:
             widget.emergencyRoom["open"] ? positiveColor : negativeColor,
-          ),
-        )
-    );
-
-
+      ),
+    ));
 
     chipList.addAll(
       facilities.map(
@@ -243,7 +248,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                   ),
                   SizedBox(
                     height: iconSizeSmall,
-                    child:   ElevatedButton.icon(
+                    child: ElevatedButton.icon(
                       onPressed: () {},
                       icon: const Icon(
                         Icons.phone,
@@ -255,14 +260,13 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                       style: tableButtonStyle,
                     ),
                   ),
-
                 ],
               ),
               TableRow(
                 children: [
                   SizedBox(
                     height: iconSizeSmall,
-                    child:  ElevatedButton.icon(
+                    child: ElevatedButton.icon(
                       onPressed: () {},
                       icon: const Icon(
                         Icons.location_on_outlined,
@@ -351,16 +355,16 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                   label: Text(AppLocalizations.of(context)!.startNavigation),
                 )
               : Container(
-                margin: const EdgeInsets.all(marginSmall),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  style: buttonStyleNeutral,
-                  child:
-                      Text(AppLocalizations.of(context)!.otherEmergencyRooms),
+                  margin: const EdgeInsets.all(marginSmall),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: buttonStyleNeutral,
+                    child:
+                        Text(AppLocalizations.of(context)!.otherEmergencyRooms),
+                  ),
                 ),
-              ),
         ],
       ),
     );

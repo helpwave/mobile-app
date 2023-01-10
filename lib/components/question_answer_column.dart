@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../styling/constants.dart';
 
+/// Column with a Question and Answer-Button
 class QuestionAnswerColumn extends StatefulWidget {
+  /// Callback when an answer is picked
   final Function(int, String) answerHandler;
+
+  /// The Question string
   final String question;
+
+  /// The List of Strings for the Answer
   final List<String> answers;
+
+  /// A String to display if the User needs help to answer the question
   final String? helpText;
 
   const QuestionAnswerColumn({
@@ -33,7 +41,7 @@ class _QuestionAnswerColumnState extends State<QuestionAnswerColumn> {
     const double closeDistance = elementDistance / 2;
     const double questionCloseDistance = elementDistance / 4;
     const double openHelpFontSize = 14;
-    const double helpShownWidth = buttonWidth-20;
+    const double helpShownWidth = buttonWidth - 20;
     const double helpShownPadding = paddingSmall;
     const double helpShownBorderRadius = borderRadiusMedium;
     const double helpTitleFontSize = 18;
@@ -91,24 +99,27 @@ class _QuestionAnswerColumnState extends State<QuestionAnswerColumn> {
                 Container(
                   height: closeDistance,
                 ),
-                Align(alignment: Alignment.centerRight,child: ActionChip(
-                  shadowColor: const Color.fromARGB(0, 0, 0, 0),
-                  label: Text(
-                    AppLocalizations.of(context)!.closeHelpText,
-                    style: const TextStyle(
-                      fontSize: openHelpFontSize,
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ActionChip(
+                    shadowColor: const Color.fromARGB(0, 0, 0, 0),
+                    label: Text(
+                      AppLocalizations.of(context)!.closeHelpText,
+                      style: const TextStyle(
+                        fontSize: openHelpFontSize,
+                      ),
                     ),
+                    avatar: const Icon(
+                      Icons.check,
+                      size: iconSizeVeryTiny,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        isHelpShown = false;
+                      });
+                    },
                   ),
-                  avatar: const Icon(
-                    Icons.check,
-                    size: iconSizeVeryTiny,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isHelpShown = false;
-                    });
-                  },
-                ),),
+                ),
               ],
             ),
           ),

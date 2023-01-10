@@ -4,11 +4,21 @@ import 'package:helpwave/enums/rhesus_factor.dart';
 import 'package:helpwave/styling/constants.dart';
 import '../enums/blood_type.dart';
 
+/// ListTile for the Selection of the patients blood type
+///
+/// BloodType is divided to the Blood-Group [initialBloodType] and
+/// Rhesus-Factor [initialRhesusFactor]
 class BloodTypeSelect extends StatefulWidget {
+  /// Initial Value for the [BloodType] in the Selection
   final BloodType initialBloodType;
+
+  /// Initial Value for the [RhesusFactor] in the Selection
   final RhesusFactor initialRhesusFactor;
 
+  /// Callback for changes to the [BloodType]
   final void Function(BloodType) changedBloodType;
+
+  /// Callback for changes to the [RhesusFactor]
   final void Function(RhesusFactor) changedRhesusFactor;
 
   const BloodTypeSelect(
@@ -124,4 +134,3 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
     );
   }
 }
-

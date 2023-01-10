@@ -3,6 +3,10 @@ import '../styling/constants.dart';
 import 'emergency_room_bottom_sheet.dart';
 import 'emergency_room_list_view_card.dart';
 
+/// A [ListView] from which the User can select a Emergency Room
+///
+/// The displayed [EmergencyRoomListViewCard] allows to get more information
+/// about the [EmergencyRoom] or to start a navigation to its location
 class EmergencyRoomListView extends StatefulWidget {
   const EmergencyRoomListView({super.key});
 
@@ -14,8 +18,9 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView>
     with SingleTickerProviderStateMixin {
   late Future<List<Map<String, dynamic>>> future;
 
-  // TODO Remove when Backend-integration implemented
+  /// Function to load Emergency Rooms to Display
   Future<List<Map<String, dynamic>>> getEmergencyRooms() async {
+    // TODO Remove when Backend-integration implemented
     return [
       {
         'location': '0.0,0.0',
@@ -68,9 +73,11 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView>
                 text: "Text Text Text",
                 style: Theme.of(context).textTheme.headlineSmall,
                 children: const <TextSpan>[
-                  TextSpan(text: " TEXT TEXT", style: TextStyle(color: positiveColor)),
+                  TextSpan(
+                      text: " TEXT TEXT",
+                      style: TextStyle(color: positiveColor)),
                   TextSpan(text: " Text Text."),
-                ]
+                ],
               ),
             ),
           );
