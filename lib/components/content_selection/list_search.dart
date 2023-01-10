@@ -5,17 +5,30 @@ import 'package:helpwave/styling/constants.dart';
 /// A customizable Search within a List
 ///
 /// Values need to be mapped to String with [elementToString]
+///
 /// Should be used with
-/// [Navigator.push] and [Navigator.pop] with the latter returning the clicked result
+/// [Navigator.push] and [Navigator.pop] with the latter returning the result
 class ListSearch<T> extends StatefulWidget {
   /// The Title displayed in the AppBar of the Search
   final String? title;
 
-  /// The List of SearchItems that should be ignored
-  final List<T> ignoreList;
+  /// Function for filtering unwanted items, only keeps values with true
+  final bool Function(T value)? filter;
 
-  /// The List of all Items for the Search
+  /// The List of all Options for a search
+  ///
+  /// Combines with [asyncItems]
   final List<T> items;
+
+  /// This Function returns the list of search items for a search
+  ///
+  /// Combines with [items]
+  final Future<List<T>> Function(String searched)? asyncItems;
+
+  /// Maps Elements to String
+  ///
+  /// Used by default display of search result
+  final String Function(T element) elementToString;
 
   /// Custom builder for displaying a single search result
   ///
@@ -24,53 +37,35 @@ class ListSearch<T> extends StatefulWidget {
   /// IMPORTANT: Overwrites default display of search results
   final Widget Function(BuildContext context, T result)? resultTileBuilder;
 
-  /// This Function returns the list of search results for [searched]
-  final Future<List<T>> Function(String searched, List<T> ignoreList)?
-      asyncFilteredSearchOptions;
-
-  /// Maps Elements to String
-  /// Used by default display of search result
-  final String Function(T element) elementToString;
-
-  /// The filtered List of search options [items] without [ignoreList]
-  late final List<T> filteredSearchOptions;
-
-  /// Allow adding user input not found in the search list
+  /// Allow adding user input, if filtered search items are empty for a given search
   final bool allowSelectAnyway;
 
-  /// List of Selected items in a Multi-Select
-  final List<T> selectedItems;
-
-  /// Whether options are displayed as a Multi-Select
-  final bool isMultiSelect;
-
-  /// Whether ignore list is applied in a Multi-Select
-  final bool isMultiSelectUsingIgnoreList;
-
-  /// The name of the searched Elements e.g. Medication, Name or Color
+  /// The name of the searched elements e.g. Medication, Name or Color
+  ///
+  /// Displayed when no search entry is found
   final String? searchElementName;
 
-  ListSearch({
+  // Multi Select
+
+  /// Whether [items] are displayed as a Multi-Select
+  final bool isMultiSelect;
+
+  /// Subset of [items] that are selected in a Multi-Select ([isMultiSelect] == true)
+  final List<T> selected;
+
+  const ListSearch({
     super.key,
     required this.elementToString,
     this.title,
     this.resultTileBuilder,
     this.allowSelectAnyway = false,
-    this.ignoreList = const [],
+    this.filter,
     this.items = const [],
-    this.asyncFilteredSearchOptions,
+    this.asyncItems,
     this.searchElementName,
     this.isMultiSelect = false,
-    this.isMultiSelectUsingIgnoreList = false,
-    this.selectedItems = const [],
-  }) {
-    List<T> list = [];
-    list.addAll(items);
-    if (!isMultiSelect || isMultiSelectUsingIgnoreList) {
-      list.retainWhere((element) => !ignoreList.contains(element));
-    }
-    filteredSearchOptions = list;
-  }
+    this.selected = const [],
+  });
 
   @override
   State<StatefulWidget> createState() => _ListSearchState<T>();
@@ -83,23 +78,32 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
   @override
   initState() {
     if (widget.isMultiSelect) {
-      selected.addAll(widget.selectedItems);
+      selected.addAll(widget.selected);
     }
     super.initState();
   }
 
-  // case insensitive search
+  /// returns the search result and applies [filter]
   Future<List<T>> getSearchResults(String searched) async {
-    String searchInLower = searched.trim().toLowerCase();
+    searched = searched.trim();
     List<T> result = [];
-    for (var element in widget.filteredSearchOptions) {
-      if (widget
-          .elementToString(element)
-          .toLowerCase()
-          .startsWith(searchInLower)) {
-        result.add(element);
-      }
+    if (widget.asyncItems != null) {
+      await widget.asyncItems!(searched).then((value) => result = value);
     }
+    result.addAll(widget.items.where((element) => !result.contains(element)));
+
+    if (widget.filter != null) {
+      result = result.where(widget.filter!).toList();
+    }
+    result = result
+        .where(
+          (element) => widget
+              .elementToString(element)
+              .trim()
+              .toLowerCase()
+              .startsWith(searched),
+        )
+        .toList();
     return result;
   }
 
@@ -146,10 +150,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                 ),
               ),
               FutureBuilder(
-                future: widget.asyncFilteredSearchOptions != null
-                    ? widget.asyncFilteredSearchOptions!(
-                        _searchController.text, widget.ignoreList)
-                    : getSearchResults(_searchController.text),
+                future: getSearchResults(_searchController.text),
                 builder: (context, snapshot) {
                   List<Widget> children = [];
                   if (snapshot.hasData) {

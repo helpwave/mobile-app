@@ -1,3 +1,4 @@
+/// Possible Dosages for Medication
 enum Dosage {
   monthly,
   weekly,

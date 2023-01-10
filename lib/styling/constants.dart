@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
-// Buttons
+/// Button attributes and
 const double buttonWidth = 250;
 const double buttonHeight = 50;
 const BorderSide buttonBorderSide = BorderSide(width: 1);
@@ -11,16 +11,16 @@ const TextStyle buttonTextStyle = TextStyle(
 );
 ButtonStyle buttonStyle = ButtonStyle(
   minimumSize:
-      MaterialStateProperty.all<Size>(const Size(buttonWidth, buttonHeight)),
-  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      const MaterialStatePropertyAll<Size>(Size(buttonWidth, buttonHeight)),
+  shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
     RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(borderRadiusMedium),
     ),
   ),
-  textStyle: MaterialStateProperty.all<TextStyle>(buttonTextStyle),
+  textStyle: const MaterialStatePropertyAll<TextStyle>(buttonTextStyle),
 );
 
-// Paddings/Distances
+/// Paddings/Distances
 const double distanceTiny = 6;
 const double distanceSmall = 10;
 const double distanceMedium = 16;
@@ -32,10 +32,10 @@ const double paddingBig = 40;
 
 const double dropDownVerticalPadding = 12;
 
-//margin
+/// margin
 const double marginSmall = 10;
 
-// Icon
+/// Icon
 const double iconSizeVeryTiny = 16;
 const double iconSizeTiny = 24;
 const double iconSizeSmall = 32;
@@ -43,7 +43,7 @@ const double iconSizeMedium = 48;
 const double iconSizeBig = 64;
 const double iconSizeVeryBig = 128;
 
-// Border Radius
+/// Border Radius
 const double borderRadiusTiny = 3;
 const double borderRadiusSmall = 5;
 const double borderRadiusMedium = 10;
@@ -56,26 +56,27 @@ const defaultOutlineInputBorder = OutlineInputBorder(
   ),
 );
 
-// Colors
+/// Colors
 const positiveColor = Color.fromARGB(255, 52, 199, 89);
 const negativeColor = Color.fromARGB(255, 255, 51, 51);
 
-// Animation
+/// Animation
 const Duration zeroDuration = Duration.zero;
 const Duration bottomSheetOpenDuration = Duration(milliseconds: 100);
 
-// Font size
+/// Font size
 const double fontSizeTiny = 12;
 const double fontSizeSmall = 14;
 const double fontSizeMedium = 16;
 const double fontSizeBig = 20;
 
+/// Column-Padding
 const double columnPadding = paddingMedium;
 const double columnPaddingBottomPercent = 0.07;
 const double menuColumnPaddingTopPercent = 0.2;
 const double menuColumnDistanceBetweenPercent = 0.05;
 
-// OpenStreetMap
+/// OpenStreetMap
 MapController mapController = MapController(
   initMapWithUserPosition: true,
 );

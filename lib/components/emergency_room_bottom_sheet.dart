@@ -3,8 +3,17 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:helpwave/components/street_map.dart';
 import 'package:helpwave/styling/constants.dart';
 
+/// Bottom Sheet to display when the user requires more information about the
+/// [EmergencyRoom]
+///
+/// Shows Location and allows Navigation
+///
+/// The [EmergencyRoom] can be notified of arrival
 class EmergencyRoomBottomSheet extends StatefulWidget {
+  /// A Custom Widget to display as an header
   final Widget? title;
+
+  /// The [EmergencyRoom] used to display information or to notify
   final Map<String, dynamic> emergencyRoom;
 
   const EmergencyRoomBottomSheet(this.emergencyRoom, {super.key, this.title});
@@ -50,7 +59,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
         children: [
           Positioned(
             child: StreetMap(
-              border: 0,
+              borderRadius: 0,
               width: mediaQuery.width,
               height: mediaQuery.height,
               trackingNotifier: trackingNotifier,
