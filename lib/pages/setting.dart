@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:helpwave/components/accept_dialog.dart';
 import 'package:helpwave/pages/emergency_pass.dart';
+import 'package:helpwave/pages/landing.dart';
 import 'package:helpwave/pages/setting_language_selection.dart';
+import 'package:helpwave/services/introduction_model.dart';
 import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/services/theme_model.dart';
-import 'package:provider/provider.dart';
+import 'package:helpwave/styling/constants.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -16,9 +20,9 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer2<ThemeModel, LanguageModel>(
-      builder:
-          (_, ThemeModel themeNotifier, LanguageModel languageNotifier, __) {
+    return Consumer3<ThemeModel, LanguageModel, IntroductionModel>(
+      builder: (_, ThemeModel themeNotifier, LanguageModel languageNotifier,
+          IntroductionModel introductionModel, __) {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -74,11 +78,32 @@ class _SettingsPageState extends State<SettingsPage> {
                 onTap: () => Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            const EmergencyPass())),
+                        builder: (context) => const EmergencyPass())),
                 title: Text(AppLocalizations.of(context)!.emergencyPass),
                 trailing: const Icon(
                   Icons.arrow_forward,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(paddingMedium),
+                child: TextButton(
+                  onPressed: () => showDialog(
+                    context: context,
+                    builder: (context) => AcceptDialog(
+                      titleText: AppLocalizations.of(context)!.resetQuestion,
+                    ),
+                  ).then((value) {
+                    if (value == true) {
+                      introductionModel.setHasSeenIntroduction(
+                          hasSeenIntroduction: false);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LandingPage(),
+                          ));
+                    }
+                  }),
+                  child: Text(AppLocalizations.of(context)!.reset),
                 ),
               ),
             ],
