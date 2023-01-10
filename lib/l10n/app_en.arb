@@ -74,7 +74,9 @@
   "severity": "Severity",
   "severe": "severe",
   "light": "light",
-  "reset": "Reset App",
+  "resetApp": "Reset App",
   "resetQuestion": "Completely reset?",
-  "acceptQuestion": "Accept?"
+  "acceptQuestion": "Accept?",
+  "resetIntroduction": "Reset Introduction",
+  "showIntroduction": "Show Introduction?"
 }

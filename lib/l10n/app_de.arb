@@ -74,7 +74,9 @@
   "severity": "Schwere",
   "severe": "stark",
   "light": "leicht",
-  "reset": "App Zurücksetzen",
+  "resetApp": "App Zurücksetzen",
   "resetQuestion": "Wirklich komplett zurücksetzen?",
-  "acceptQuestion": "Wirklich akzeptieren?"
+  "acceptQuestion": "Wirklich akzeptieren?",
+  "resetIntroduction": "Einführung zurücksetzen",
+  "showIntroduction": "Einführung anzeigen?"
 }

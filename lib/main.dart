@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter/services.dart';
 import 'package:helpwave/config/language.dart';
+import 'package:helpwave/pages/home_page.dart';
 import 'package:helpwave/services/introduction_model.dart';
 import 'package:helpwave/pages/landing_page.dart';
 import 'package:helpwave/services/language_model.dart';
