@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave/components/accept_dialog.dart';
-import 'package:helpwave/pages/emergency_pass.dart';
-import 'package:helpwave/pages/landing.dart';
-import 'package:helpwave/pages/setting_language_selection.dart';
+import 'package:helpwave/pages/landing_page.dart';
 import 'package:helpwave/services/introduction_model.dart';
 import 'package:helpwave/pages/emergency_pass_page.dart';
 import 'package:helpwave/pages/language_selection_page.dart';
 import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/services/theme_model.dart';
-import 'package:helpwave/styling/constants.dart';
 
 /// Page for displaying basic Settings
 ///
@@ -89,27 +86,25 @@ class _SettingsPageState extends State<SettingsPage> {
                   Icons.arrow_forward,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(paddingMedium),
-                child: TextButton(
-                  onPressed: () => showDialog(
-                    context: context,
-                    builder: (context) => AcceptDialog(
-                      titleText: AppLocalizations.of(context)!.resetQuestion,
-                    ),
-                  ).then((value) {
-                    if (value == true) {
-                      introductionModel.setHasSeenIntroduction(
-                          hasSeenIntroduction: false);
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LandingPage(),
-                          ));
-                    }
-                  }),
-                  child: Text(AppLocalizations.of(context)!.reset),
-                ),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!.resetIntroduction),
+                leading: const Icon(Icons.refresh),
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => AcceptDialog(
+                    titleText: AppLocalizations.of(context)!.showIntroduction,
+                  ),
+                ).then((value) {
+                  if (value == true) {
+                    introductionModel.setHasSeenIntroduction(
+                        hasSeenIntroduction: false);
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LandingPage(),
+                        ));
+                  }
+                }),
               ),
             ],
           ),
