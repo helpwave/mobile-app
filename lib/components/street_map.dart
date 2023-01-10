@@ -3,18 +3,28 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:helpwave/styling/constants.dart';
 import 'package:helpwave/styling/streetmap_marker.dart';
 
+/// Widget for displaying a sized map
 class StreetMap extends StatefulWidget {
-  final double width;
-  final double height;
-  final double border;
+  /// Width of Map
+  final double? width;
+
+  /// Height of Map
+  final double? height;
+
+  /// Border around Map
+  final double borderRadius;
+
+  /// Controller of Map
   final MapController controller;
+
+  /// Notifier whether position tracking is allowed by the user
   final ValueNotifier<bool> trackingNotifier;
 
   const StreetMap({
     super.key,
-    this.width = -1,
-    this.height = -1,
-    this.border = 5,
+    this.width,
+    this.height,
+    this.borderRadius = borderRadiusSmall,
     required this.trackingNotifier,
     required this.controller,
   });
@@ -29,7 +39,7 @@ class _StreetMapState extends State<StreetMap> {
     const double loadingCircleSize = iconSizeBig;
     const double circleTextDistance = distanceDefault;
     const double defaultWidthPercentage = 0.8;
-    double border = widget.border;
+    double border = widget.borderRadius;
 
     List<StaticPositionGeoPoint> staticPoints = [
       StaticPositionGeoPoint(
@@ -89,12 +99,8 @@ class _StreetMapState extends State<StreetMap> {
 
     Size mediaQuery = MediaQuery.of(context).size;
     return Container(
-      width: widget.width > 0
-          ? widget.width
-          : mediaQuery.width * defaultWidthPercentage,
-      height: widget.height > 0
-          ? widget.height
-          : mediaQuery.width * defaultWidthPercentage,
+      width: widget.width ?? mediaQuery.width * defaultWidthPercentage,
+      height: widget.height ?? mediaQuery.width * defaultWidthPercentage,
       padding: EdgeInsets.all(border),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(border),

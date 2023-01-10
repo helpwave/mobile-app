@@ -14,14 +14,15 @@ import 'package:helpwave/enums/severity.dart';
 import 'package:helpwave/data_classes/patient_data.dart';
 import 'package:helpwave/services/patient_persistence.dart';
 
-class EmergencyPass extends StatefulWidget {
-  const EmergencyPass({super.key});
+/// Page to see and edit the [PatientData]
+class EmergencyPassPage extends StatefulWidget {
+  const EmergencyPassPage({super.key});
 
   @override
-  State<EmergencyPass> createState() => _EmergencyPassState();
+  State<EmergencyPassPage> createState() => _EmergencyPassPageState();
 }
 
-class _EmergencyPassState extends State<EmergencyPass> {
+class _EmergencyPassPageState extends State<EmergencyPassPage> {
   final TextEditingController _controllerBirthdate = TextEditingController();
   final TextEditingController _controllerOrganDonor = TextEditingController();
   final TextEditingController _controllerPrimaryLanguage =

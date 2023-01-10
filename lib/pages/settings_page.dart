@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:helpwave/pages/emergency_pass.dart';
-import 'package:helpwave/pages/setting_language_selection.dart';
+import 'package:helpwave/pages/emergency_pass_page.dart';
+import 'package:helpwave/pages/language_selection_page.dart';
 import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/services/theme_model.dart';
 import 'package:provider/provider.dart';
 
+/// Page for displaying basic Settings
+///
+/// for example: Theme, Language and a Navigation to [EmergencyPassPage]
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -55,8 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 onTap: () => Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            const SettingLanguageSelectionPage())),
+                        builder: (context) => const LanguageSelectionPage())),
                 title: Text(AppLocalizations.of(context)!.language),
                 trailing: const Icon(
                   Icons.arrow_forward,
@@ -72,10 +74,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
                 onTap: () => Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const EmergencyPass())),
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const EmergencyPassPage()),
+                ),
                 title: Text(AppLocalizations.of(context)!.emergencyPass),
                 trailing: const Icon(
                   Icons.arrow_forward,

@@ -4,9 +4,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:helpwave/data_classes/patient_data.dart';
 
 /// The PersistenceService for [PatientData]
+///
+/// Loads and Saves PatientData to a file on the users device
 class PatientPersistenceService {
+  /// Singleton static variable
   static final PatientPersistenceService _serviceSingleton =
       PatientPersistenceService._internal();
+
+  /// Name of the file which will be stored on the device
   final String _filename = "patientData.json";
 
   factory PatientPersistenceService() => _serviceSingleton;

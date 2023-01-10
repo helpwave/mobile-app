@@ -3,7 +3,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:helpwave/components/emergency_room_bottom_sheet.dart';
 import 'package:helpwave/styling/constants.dart';
 
+/// The Widget allows to get more information about the [EmergencyRoom]
+///  or to start a navigation to its location
 class EmergencyRoomListViewCard extends StatelessWidget {
+  /// The [EmergencyRoom] used for Information and Navigation
   final Map<String, dynamic> emergencyRoom;
 
   const EmergencyRoomListViewCard(this.emergencyRoom, {super.key});

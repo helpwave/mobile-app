@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:helpwave/components/question_answer_column.dart';
-import 'package:helpwave/pages/emergency_room_overview.dart';
+import 'package:helpwave/pages/emergency_room_overview_page.dart';
 import 'package:helpwave/styling/constants.dart';
 
+/// Page for displaying Questions in case of an emergency
+///
+/// Used make the best possible advice for a emergency room
+///
+/// See [QuestionAnswerColumn] for actual implementation
 class QuestionnairePage extends StatefulWidget {
   const QuestionnairePage({super.key});
 
@@ -53,7 +58,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => const EmergencyRoomOverview(),
+                builder: (_) => const EmergencyRoomOverviewPage(),
               ),
             );
           } else {
@@ -64,7 +69,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
               const Duration(seconds: 2),
               () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => const EmergencyRoomOverview(),
+                  builder: (_) => const EmergencyRoomOverviewPage(),
                 ),
               ),
             );

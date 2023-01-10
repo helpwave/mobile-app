@@ -3,7 +3,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:helpwave/components/chat_message.dart';
 import 'package:helpwave/styling/constants.dart';
 
+/// A Chat where the user can communicate with the Emergency
 class EmergencyChatPage extends StatefulWidget {
+  /// Information of the Emergency Room mainly used to display the name
   final Map<String, dynamic> emergencyRoom;
 
   const EmergencyChatPage({required this.emergencyRoom, super.key});
@@ -13,6 +15,7 @@ class EmergencyChatPage extends StatefulWidget {
 }
 
 class _EmergencyChatPageState extends State<EmergencyChatPage> {
+  // TODO replace with loading from device cache
   List<Map<String, dynamic>> messages = [
     {"isFromEmergencyRoom": true, "message": "How are you?"},
     {"isFromEmergencyRoom": false, "message": "Fine"},

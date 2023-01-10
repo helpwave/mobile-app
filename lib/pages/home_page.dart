@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:helpwave/pages/questionnaire.dart';
-import 'package:helpwave/pages/setting.dart';
-import 'package:helpwave/pages/street_map_view.dart';
+import 'package:helpwave/pages/questionnaire_page.dart';
+import 'package:helpwave/pages/settings_page.dart';
+import 'package:helpwave/pages/street_map_page.dart';
 import 'package:helpwave/styling/constants.dart';
 
+/// The Homepage of the App with Navigation
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
-
 
     return Scaffold(
       appBar: AppBar(
@@ -31,7 +31,8 @@ class HomePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: mediaQuery.height * menuColumnPaddingTopPercent),
+                  SizedBox(
+                      height: mediaQuery.height * menuColumnPaddingTopPercent),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -44,14 +45,15 @@ class HomePage extends StatelessWidget {
                     child: Text(AppLocalizations.of(context)!.questionnaire),
                   ),
                   SizedBox(
-                    height: mediaQuery.height * menuColumnDistanceBetweenPercent,
+                    height:
+                        mediaQuery.height * menuColumnDistanceBetweenPercent,
                   ),
                   OutlinedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const StreetMapViewPage(),
+                          builder: (_) => const StreetMapPage(),
                         ),
                       );
                     },

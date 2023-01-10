@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:helpwave/components/street_map.dart';
 import 'package:helpwave/styling/constants.dart';
 
-class StreetMapViewPage extends StatelessWidget {
-  const StreetMapViewPage({super.key});
+/// Page for displaying a Map with Emergency Rooms as Markers
+///
+/// Uses [StreetMap] as a Map
+///
+/// Tracking of the Patients position can be toggled
+class StreetMapPage extends StatelessWidget {
+  const StreetMapPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +42,7 @@ class StreetMapViewPage extends StatelessWidget {
             if (isTracking) {
               return const Icon(Icons.gps_off_sharp);
             }
-            return const Icon(Icons.my_location,
-                color: Colors.white);
+            return const Icon(Icons.my_location, color: Colors.white);
           },
         ),
       ),

@@ -4,6 +4,7 @@ import 'constants.dart';
 const focusedColor = Color.fromARGB(255, 255, 255, 255);
 const defaultColor = Color.fromARGB(255, 150, 150, 150);
 
+/// Theme data for Dark-Theme
 ThemeData darkTheme = ThemeData(
   disabledColor: const Color.fromARGB(255, 100, 100, 100),
   textSelectionTheme: const TextSelectionThemeData(
