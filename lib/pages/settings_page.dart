@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:helpwave/components/accept_dialog.dart';
+import 'package:helpwave/pages/landing_page.dart';
+import 'package:helpwave/services/introduction_model.dart';
 import 'package:helpwave/pages/emergency_pass_page.dart';
 import 'package:helpwave/pages/language_selection_page.dart';
 import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/services/theme_model.dart';
-import 'package:provider/provider.dart';
 
 /// Page for displaying basic Settings
 ///
@@ -19,9 +22,9 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer2<ThemeModel, LanguageModel>(
-      builder:
-          (_, ThemeModel themeNotifier, LanguageModel languageNotifier, __) {
+    return Consumer3<ThemeModel, LanguageModel, IntroductionModel>(
+      builder: (_, ThemeModel themeNotifier, LanguageModel languageNotifier,
+          IntroductionModel introductionModel, __) {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -82,6 +85,26 @@ class _SettingsPageState extends State<SettingsPage> {
                 trailing: const Icon(
                   Icons.arrow_forward,
                 ),
+              ),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!.resetIntroduction),
+                leading: const Icon(Icons.refresh),
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => AcceptDialog(
+                    titleText: AppLocalizations.of(context)!.showIntroduction,
+                  ),
+                ).then((value) {
+                  if (value == true) {
+                    introductionModel.setHasSeenIntroduction(
+                        hasSeenIntroduction: false);
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LandingPage(),
+                        ));
+                  }
+                }),
               ),
             ],
           ),

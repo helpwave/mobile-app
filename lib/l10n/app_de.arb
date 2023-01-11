@@ -73,5 +73,10 @@
   "allergy": "Allergie",
   "severity": "Schwere",
   "severe": "stark",
-  "light": "leicht"
+  "light": "leicht",
+  "resetApp": "App Zurücksetzen",
+  "resetQuestion": "Wirklich komplett zurücksetzen?",
+  "acceptQuestion": "Wirklich akzeptieren?",
+  "resetIntroduction": "Einführung zurücksetzen",
+  "showIntroduction": "Einführung anzeigen?"
 }

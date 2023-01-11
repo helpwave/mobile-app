@@ -4,6 +4,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter/services.dart';
 import 'package:helpwave/config/language.dart';
+import 'package:helpwave/pages/home_page.dart';
+import 'package:helpwave/services/introduction_model.dart';
 import 'package:helpwave/pages/landing_page.dart';
 import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/services/theme_model.dart';
@@ -35,10 +37,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => LanguageModel(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => IntroductionModel(),
+        ),
       ],
-      child: Consumer2<ThemeModel, LanguageModel>(
-        builder:
-            (_, ThemeModel themeNotifier, LanguageModel languageNotifier, __) {
+      child: Consumer3<ThemeModel, LanguageModel, IntroductionModel>(
+        builder: (_, ThemeModel themeNotifier, LanguageModel languageNotifier,
+            IntroductionModel introductionModel, __) {
           return MaterialApp(
             title: 'helpwave',
             theme: lightTheme,
@@ -54,7 +59,9 @@ class MyApp extends StatelessWidget {
                 .map((language) =>
                     Locale(language["Shortname"]!, language["Local"]!))
                 .toList(),
-            home: const LandingPage(),
+            home: introductionModel.hasSeenIntroduction
+                ? const HomePage()
+                : const LandingPage(),
             locale: Locale(languageNotifier.shortname),
           );
         },

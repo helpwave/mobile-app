@@ -73,5 +73,10 @@
   "allergy": "Allergy",
   "severity": "Severity",
   "severe": "severe",
-  "light": "light"
+  "light": "light",
+  "resetApp": "Reset App",
+  "resetQuestion": "Completely reset?",
+  "acceptQuestion": "Accept?",
+  "resetIntroduction": "Reset Introduction",
+  "showIntroduction": "Show Introduction?"
 }
