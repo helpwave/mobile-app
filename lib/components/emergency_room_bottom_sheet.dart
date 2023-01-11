@@ -347,16 +347,16 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                   style: buttonStylePositive,
                   child: Text(AppLocalizations.of(context)!.notify),
                 ),
-          hasNotified
-              ? ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.navigation),
-                  style: buttonStylePositive,
-                  label: Text(AppLocalizations.of(context)!.startNavigation),
-                )
-              : Container(
-                  margin: const EdgeInsets.all(marginSmall),
-                  child: ElevatedButton(
+          Container(
+            margin: const EdgeInsets.all(marginSmall),
+            child: hasNotified
+                ? ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.navigation),
+                    style: buttonStylePositive,
+                    label: Text(AppLocalizations.of(context)!.startNavigation),
+                  )
+                : ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -364,7 +364,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                     child:
                         Text(AppLocalizations.of(context)!.otherEmergencyRooms),
                   ),
-                ),
+          ),
         ],
       ),
     );
