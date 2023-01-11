@@ -17,10 +17,98 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
+
       - run: flutter --version
+
       - run: flutter pub get
+
       - run: flutter analyze
+
+  build-android:
+    runs-on: ubuntu-20.04
+    needs: lint
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Build apk
+        run: |
+          flutter build apk
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: apk
+          path: build/app/outputs/apk/release/app-release.apk
+
+  build-ios:
+    runs-on: macos-12
+    needs: lint
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+          architecture: x64
+
+      - name: Build ipa
+        run: |
+          flutter build ios --no-codesign
+          mkdir Payload
+          cp -r build/ios/Release-iphoneos/Runner.app Payload
+          zip -r helpwave.ipa Payload
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ipa
+          path: helpwave.ipa
+
+  browserstack:
+    runs-on: ubuntu-20.04
+    if: github.event_name == 'pull_request'
+    needs:
+      - build-android
+      - build-ios
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: apk
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: ipa
+
+      - name: Upload apk and ipa to BrowserStack
+        id: upload-to-browserstack
+        run: |
+          echo "apkHash=$(curl --silent --user ${{ secrets.BROWSERSTACK_USER }}:${{ secrets.BROWSERSTACK_PASS }} -X POST https://api-cloud.browserstack.com/app-live/upload -F file=@app-release.apk | jq --raw-output .app_url | awk -F // '{print $2}')" >> $GITHUB_OUTPUT
+          echo "ipaHash=$(curl --silent --user ${{ secrets.BROWSERSTACK_USER }}:${{ secrets.BROWSERSTACK_PASS }} -X POST https://api-cloud.browserstack.com/app-live/upload -F file=@helpwave.ipa | jq --raw-output .app_url | awk -F // '{print $2}')" >> $GITHUB_OUTPUT
+
+      - name: Short SHA
+        id: short-sha
+        run: |
+          echo "shortSha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Comment BrowserStack URLs to Pull-Request
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          comment_tag: browserstack
+          message: |
+            ## BrowserStack
+            Commit: `${{ steps.short-sha.outputs.shortSha }}`
+            - **Android (13.0)**
+              - [Google Pixel 7 Pro](https://app-live.browserstack.com/dashboard#os=android&os_version=13.0&device=Google+Pixel+7+Pro&start=true&app_hashed_id=${{ steps.upload-to-browserstack.outputs.apkHash }})
+            - **iOS (16.0)**
+              - [iPhone 14 Pro](https://app-live.browserstack.com/dashboard#os=iOS&os_version=16.0&device=iPhone+14+Pro&start=true&app_hashed_id=${{ steps.upload-to-browserstack.outputs.ipaHash }})
