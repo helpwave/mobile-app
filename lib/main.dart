@@ -44,11 +44,16 @@ class MyApp extends StatelessWidget {
       child: Consumer3<ThemeModel, LanguageModel, IntroductionModel>(
         builder: (_, ThemeModel themeNotifier, LanguageModel languageNotifier,
             IntroductionModel introductionModel, __) {
+          ThemeMode themeMode = ThemeMode.system;
+          if (themeNotifier.isDark != null) {
+            themeMode =
+                themeNotifier.isDark! ? ThemeMode.dark : ThemeMode.light;
+          }
           return MaterialApp(
             title: 'helpwave',
             theme: lightTheme,
             darkTheme: darkTheme,
-            themeMode: themeNotifier.isDark ? ThemeMode.dark : ThemeMode.light,
+            themeMode: themeMode,
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,

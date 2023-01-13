@@ -25,6 +25,8 @@ class _SettingsPageState extends State<SettingsPage> {
     return Consumer3<ThemeModel, LanguageModel, IntroductionModel>(
       builder: (_, ThemeModel themeNotifier, LanguageModel languageNotifier,
           IntroductionModel introductionModel, __) {
+        bool isDarkTheme = themeNotifier.isDark ??
+            Theme.of(context).brightness == Brightness.dark;
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -33,7 +35,7 @@ class _SettingsPageState extends State<SettingsPage> {
           body: ListView(
             children: [
               SwitchListTile(
-                value: themeNotifier.isDark,
+                value: isDarkTheme,
                 secondary: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
@@ -42,7 +44,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ],
                 ),
-                subtitle: Text(themeNotifier.isDark
+                subtitle: Text(isDarkTheme
                     ? AppLocalizations.of(context)!.on
                     : AppLocalizations.of(context)!.off),
                 title: Text(AppLocalizations.of(context)!.darkMode),

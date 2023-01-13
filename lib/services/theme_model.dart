@@ -5,15 +5,21 @@ import 'package:helpwave/services/theme_preferences.dart';
 ///
 /// Notifies about changes in light or dark theme preference
 class ThemeModel extends ChangeNotifier {
-  bool _isDark=false;
+  bool? _isDark;
   final ThemePreferences _preferences = ThemePreferences();
-  bool get isDark => _isDark;
+
+  bool? get isDark => _isDark;
 
   ThemeModel() {
     getPreferences();
   }
 
-  set isDark(bool value) {
+  set isDark(bool? value) {
+    if (value == null) {
+      _preferences.clearTheme();
+      notifyListeners();
+      return;
+    }
     _isDark = value;
     _preferences.setTheme(value);
     notifyListeners();
