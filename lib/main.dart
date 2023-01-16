@@ -57,12 +57,12 @@ class MyApp extends StatelessWidget {
             ],
             supportedLocales: languages
                 .map((language) =>
-                    Locale(language["Shortname"]!, language["Local"]!))
+                    Locale(language["Language"]!, language["Local"]!))
                 .toList(),
             home: introductionModel.hasSeenIntroduction
                 ? const HomePage()
                 : const LandingPage(),
-            locale: Locale(languageNotifier.shortname),
+            locale: Locale(languageNotifier.language),
           );
         },
       ),
