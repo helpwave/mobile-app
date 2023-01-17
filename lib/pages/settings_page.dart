@@ -59,7 +59,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
                 subtitle: Text(languageNotifier.name),
-                onTap: () => Navigator.pushReplacement(
+                onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const LanguageSelectionPage())),
@@ -77,7 +77,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ],
                 ),
-                onTap: () => Navigator.pushReplacement(
+                onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const EmergencyPassPage()),
