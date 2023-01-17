@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave/styling/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave/components/accept_dialog.dart';
 import 'package:helpwave/pages/landing_page.dart';
@@ -84,6 +85,18 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: Text(AppLocalizations.of(context)!.emergencyPass),
                 trailing: const Icon(
                   Icons.arrow_forward,
+                ),
+              ),
+              AboutListTile(
+                icon: const Icon(Icons.info),
+                applicationIcon: Center(
+                  child: Image.asset(
+                    height: iconSizeMedium,
+                    width: iconSizeMedium,
+                    Theme.of(context).brightness == Brightness.light
+                        ? 'assets/helpwave-icon-light.png'
+                        : 'assets/helpwave-icon-dark.png',
+                  ),
                 ),
               ),
               ListTile(
