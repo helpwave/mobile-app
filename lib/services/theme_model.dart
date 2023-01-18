@@ -17,11 +17,10 @@ class ThemeModel extends ChangeNotifier {
   set isDark(bool? value) {
     if (value == null) {
       _preferences.clearTheme();
-      notifyListeners();
-      return;
+    } else {
+      _preferences.setTheme(value);
     }
     _isDark = value;
-    _preferences.setTheme(value);
     notifyListeners();
   }
 
