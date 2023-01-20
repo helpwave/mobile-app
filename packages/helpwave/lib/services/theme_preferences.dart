@@ -5,13 +5,18 @@ class ThemePreferences {
   /// Key of the Shared Preference
   final String sharedPreferencesThemeKey = "is_dark_theme";
 
+  clearTheme() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.remove(sharedPreferencesThemeKey);
+  }
+
   setTheme(bool value) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setBool(sharedPreferencesThemeKey, value);
   }
 
-  getTheme() async {
+  Future<bool?> getTheme() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getBool(sharedPreferencesThemeKey) ?? false;
+    return sharedPreferences.getBool(sharedPreferencesThemeKey);
   }
 }
