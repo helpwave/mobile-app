@@ -1,0 +1,8 @@
+name: helpwave
+repository: https://github.com/helpwave/mobile-app
+packages:
+  - packages/**
+
+scripts:
+  analyze:
+    exec: dart analyze .
