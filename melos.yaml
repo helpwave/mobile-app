@@ -6,3 +6,6 @@ packages:
 scripts:
   analyze:
     exec: dart analyze .
+
+  intl:
+    exec: flutter gen-l10n .
