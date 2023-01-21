@@ -29,7 +29,7 @@ class DatabaseHandler {
     _database = await openDatabase(
       join(await getDatabasesPath(), _dbName),
       version: _version,
-      onCreate: (db, version) async {
+      onCreate: (db, _) async {
         await db.execute('CREATE TABLE Patient('
             'id INTEGER PRIMARY KEY,'
             'name TEXT, language TEXT,'
