@@ -42,9 +42,8 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
 
-      - run: cd apps/helpwave/
-
       - name: Build apk
+        working-directory: ./apps/helpwave/
         run: |
           flutter build apk
 
@@ -65,9 +64,8 @@ jobs:
           cache: true
           architecture: x64
 
-      - run: cd apps/helpwave/
-
       - name: Build ipa
+        working-directory: ./apps/helpwave/
         run: |
           flutter build ios --no-codesign
           mkdir Payload
