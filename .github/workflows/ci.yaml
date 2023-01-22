@@ -27,10 +27,6 @@ jobs:
           with:
             run-bootstrap: true
 
-      - run: flutter --version
-
-      - run: flutter pub get
-
       - run: melos run analyze
 
   build-android:
