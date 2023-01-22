@@ -24,8 +24,8 @@ jobs:
           cache: true
 
       - uses: bluefireteam/melos-action@v1
-          with:
-            run-bootstrap: true
+        with:
+          run-bootstrap: true
 
       - run: melos run analyze
 
