@@ -2,6 +2,7 @@ name: helpwave
 repository: https://github.com/helpwave/mobile-app
 packages:
   - packages/**
+  - apps/**
 
 scripts:
   analyze:

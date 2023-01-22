@@ -23,11 +23,15 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
 
+      - uses: bluefireteam/melos-action@v1
+          with:
+            run-bootstrap: true
+
       - run: flutter --version
 
       - run: flutter pub get
 
-      - run: flutter analyze
+      - run: melos run analyze
 
   build-android:
     runs-on: ubuntu-20.04
