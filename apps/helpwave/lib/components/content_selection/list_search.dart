@@ -95,6 +95,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
     if (widget.filter != null) {
       result = result.where(widget.filter!).toList();
     }
+    searched = searched.toLowerCase();
     result = result
         .where(
           (element) => widget
