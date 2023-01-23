@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
 
-const focusedColor = Color.fromARGB(255, 255, 255, 255);
-const defaultColor = Color.fromARGB(255, 150, 150, 150);
+const focusedColor = Color.fromARGB(255, 30, 30, 30);
+const defaultColor = Color.fromARGB(255, 120, 120, 120);
 
-/// Theme data for Dark-Theme
-ThemeData darkTheme = ThemeData(
+/// Theme data for Light-Theme
+ThemeData lightTheme = ThemeData(
   disabledColor: const Color.fromARGB(255, 100, 100, 100),
+  scaffoldBackgroundColor: const Color.fromARGB(255, 238, 238, 238),
   textSelectionTheme: const TextSelectionThemeData(
     cursorColor: Colors.blue,
     selectionHandleColor: Colors.blueAccent,
   ),
-  scaffoldBackgroundColor: const Color.fromARGB(255, 27, 27, 27),
   bottomSheetTheme: const BottomSheetThemeData(
-    backgroundColor: Color.fromARGB(255, 27, 27, 27),
+    backgroundColor: Color.fromARGB(255, 238, 238, 238),
   ),
   inputDecorationTheme: InputDecorationTheme(
     focusedBorder: defaultOutlineInputBorder.copyWith(
@@ -54,8 +54,7 @@ ThemeData darkTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: buttonStyle.copyWith(
-      backgroundColor: MaterialStateProperty.all<Color>(
-          const Color.fromARGB(255, 255, 51, 51)),
+      backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 255, 51, 51)),
       foregroundColor: MaterialStateProperty.all<Color>(
         const Color.fromARGB(255, 255, 255, 255),
       ),
@@ -63,29 +62,28 @@ ThemeData darkTheme = ThemeData(
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: buttonStyle.copyWith(
-      backgroundColor: MaterialStateProperty.all<Color>(
-          const Color.fromARGB(255, 27, 27, 27)),
+      foregroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 0, 0, 0)),
+      backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 238, 238, 238)),
       side: MaterialStateProperty.all<BorderSide>(
         buttonBorderSide.copyWith(
-          color: const Color.fromARGB(255, 255, 255, 255),
+          color: const Color.fromARGB(255, 0, 0, 0),
         ),
       ),
     ),
   ),
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all<Color>(
-          const Color.fromARGB(255, 153, 153, 153)),
+      backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 140, 140, 140)),
     ),
   ),
   iconTheme: const IconThemeData(
     size: iconSizeSmall,
-    color: Color.fromARGB(255, 255, 255, 255),
+    color: Color.fromARGB(255, 0, 0, 0),
   ),
   colorScheme: const ColorScheme(
     // General
-    brightness: Brightness.dark,
-    outline: Color.fromARGB(255, 255, 255, 255),
+    brightness: Brightness.light,
+    outline: Color.fromARGB(255, 30, 30, 30),
     shadow: Color.fromARGB(255, 60, 60, 60),
     //Basic Colors
     primary: Color.fromARGB(255, 255, 255, 255),
@@ -93,7 +91,7 @@ ThemeData darkTheme = ThemeData(
     onPrimary: Color.fromARGB(255, 0, 0, 0),
     background: Color.fromARGB(255, 153, 153, 153),
     onBackground: Color.fromARGB(255, 255, 255, 255),
-    secondary: Color.fromARGB(255, 238, 238, 238),
+    secondary: Color.fromARGB(255, 190, 190, 190),
     onSecondary: Color.fromARGB(255, 0, 0, 0),
     tertiary: Color.fromARGB(255, 153, 153, 153),
     onTertiary: Color.fromARGB(255, 255, 255, 255),
@@ -101,8 +99,8 @@ ThemeData darkTheme = ThemeData(
     onError: Color.fromARGB(255, 255, 255, 255),
     // Surface
     surfaceTint: Color.fromARGB(0, 0, 0, 0),
-    surface: Color.fromARGB(255, 85, 85, 85),
-    onSurface: Color.fromARGB(255, 255, 255, 255),
+    surface: Color.fromARGB(255, 100, 100, 100),
+    onSurface: Color.fromARGB(255, 0, 0, 0),
     surfaceVariant: Color.fromARGB(255, 153, 153, 153),
     onSurfaceVariant: Color.fromARGB(255, 255, 255, 255),
     inverseSurface: Color.fromARGB(255, 153, 153, 153),

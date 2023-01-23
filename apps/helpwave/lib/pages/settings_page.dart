@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:helpwave/styling/constants.dart';
 import 'package:provider/provider.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/components/accept_dialog.dart';
 import 'package:helpwave/pages/landing_page.dart';
 import 'package:helpwave/services/introduction_model.dart';
@@ -24,10 +24,8 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer3<ThemeModel, LanguageModel, IntroductionModel>(
-      builder: (_, ThemeModel themeNotifier, LanguageModel languageNotifier,
-          IntroductionModel introductionModel, __) {
-        bool isDarkTheme = themeNotifier.isDark ??
-            Theme.of(context).brightness == Brightness.dark;
+      builder: (_, ThemeModel themeNotifier, LanguageModel languageNotifier, IntroductionModel introductionModel, __) {
+        bool isDarkTheme = themeNotifier.isDark ?? Theme.of(context).brightness == Brightness.dark;
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -45,9 +43,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ],
                 ),
-                subtitle: Text(isDarkTheme
-                    ? AppLocalizations.of(context)!.on
-                    : AppLocalizations.of(context)!.off),
+                subtitle: Text(isDarkTheme ? AppLocalizations.of(context)!.on : AppLocalizations.of(context)!.off),
                 title: Text(AppLocalizations.of(context)!.darkMode),
                 onChanged: (value) => themeNotifier.isDark = value,
               ),
@@ -61,10 +57,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
                 subtitle: Text(languageNotifier.name),
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const LanguageSelectionPage())),
+                onTap: () =>
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LanguageSelectionPage())),
                 title: Text(AppLocalizations.of(context)!.language),
                 trailing: const Icon(
                   Icons.arrow_forward,
@@ -81,8 +75,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const EmergencyPassPage()),
+                  MaterialPageRoute(builder: (context) => const EmergencyPassPage()),
                 ),
                 title: Text(AppLocalizations.of(context)!.emergencyPass),
                 trailing: const Icon(
@@ -111,8 +104,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ).then((value) {
                   if (value == true) {
-                    introductionModel.setHasSeenIntroduction(
-                        hasSeenIntroduction: false);
+                    introductionModel.setHasSeenIntroduction(hasSeenIntroduction: false);
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

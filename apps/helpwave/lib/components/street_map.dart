@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
-import 'package:helpwave/styling/constants.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/styling/streetmap_marker.dart';
 
 /// Widget for displaying a sized map

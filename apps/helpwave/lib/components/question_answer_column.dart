@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../styling/constants.dart';
+import 'package:helpwave_theme/constants.dart';
 
 /// Column with a Question and Answer-Button
 class QuestionAnswerColumn extends StatefulWidget {
@@ -93,8 +93,7 @@ class _QuestionAnswerColumnState extends State<QuestionAnswerColumn> {
                 ),
                 Text(
                   widget.helpText!,
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSecondary),
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
                 ),
                 Container(
                   height: closeDistance,
@@ -158,10 +157,8 @@ class _QuestionAnswerColumnState extends State<QuestionAnswerColumn> {
       children.add(
         ElevatedButton(
           style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all<Color>(
-                Theme.of(context).colorScheme.onSecondary),
-            backgroundColor: MaterialStateProperty.all<Color>(
-                Theme.of(context).colorScheme.secondary),
+            foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.onSecondary),
+            backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.secondary),
           ),
           onPressed: () => widget.answerHandler(index, answer),
           child: Text(answer),

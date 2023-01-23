@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/components/content_selection/content_selector.dart';
-import '../../styling/constants.dart';
 
 /// The ListEntry used by [ContentSelector]
 class ListEntry<V> extends StatelessWidget {
@@ -23,8 +23,7 @@ class ListEntry<V> extends StatelessWidget {
 
   /// A Custom builder for the DropDownItems in the select
   /// IMPORTANT: Overwrites [valueToString]
-  final DropdownMenuItem<V> Function(V value, String name)?
-      selectValueItemBuilder;
+  final DropdownMenuItem<V> Function(V value, String name)? selectValueItemBuilder;
 
   /// Callback when a Entry is deleted
   final void Function(String name) onDeleteClicked;
@@ -77,8 +76,7 @@ class ListEntry<V> extends StatelessWidget {
                       width: selectWidth,
                       child: DropdownButtonFormField<V>(
                         value: equalityCheck != null
-                            ? items.firstWhere(
-                                (element) => equalityCheck!(element, value))
+                            ? items.firstWhere((element) => equalityCheck!(element, value))
                             : value,
                         items: items
                             .map((e) => DropdownMenuItem<V>(
@@ -92,9 +90,8 @@ class ListEntry<V> extends StatelessWidget {
                           onChangedSelection(name, value as V);
                         },
                         decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.only(
-                              left: dropDownVerticalPadding,
-                              right: dropDownVerticalPadding),
+                          contentPadding:
+                              const EdgeInsets.only(left: dropDownVerticalPadding, right: dropDownVerticalPadding),
                           labelText: labelText,
                           border: const OutlineInputBorder(),
                         ),
