@@ -1,0 +1,24 @@
+name: helpwave
+repository: https://github.com/helpwave/mobile-app
+packages:
+  - packages/**
+  - apps/**
+
+scripts:
+  analyze:
+    exec: dart analyze .
+
+  intl:
+    ignore:
+      - "packages/**"
+    exec: flutter gen-l10n .
+
+  build-apk:
+    ignore:
+      - "packages/**"
+    exec: flutter build apk
+
+  build-ios:
+    ignore:
+      - "packages/**"
+    exec: flutter build ios --no-codesign

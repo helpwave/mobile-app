@@ -23,11 +23,13 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
 
-      - run: flutter --version
+      - uses: bluefireteam/melos-action@v1
+        with:
+          run-bootstrap: true
 
-      - run: flutter pub get
+      - run: melos run intl
 
-      - run: flutter analyze
+      - run: melos run analyze
 
   build-android:
     runs-on: ubuntu-20.04
@@ -41,13 +43,14 @@ jobs:
           cache: true
 
       - name: Build apk
+        working-directory: ./apps/helpwave/
         run: |
           flutter build apk
 
       - uses: actions/upload-artifact@v3
         with:
           name: apk
-          path: build/app/outputs/apk/release/app-release.apk
+          path: ./apps/helpwave/build/app/outputs/apk/release/app-release.apk
 
   build-ios:
     runs-on: macos-12
@@ -62,6 +65,7 @@ jobs:
           architecture: x64
 
       - name: Build ipa
+        working-directory: ./apps/helpwave/
         run: |
           flutter build ios --no-codesign
           mkdir Payload
@@ -71,7 +75,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: ipa
-          path: helpwave.ipa
+          path: ./apps/helpwave/helpwave.ipa
 
   browserstack:
     runs-on: ubuntu-20.04

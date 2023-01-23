@@ -6,7 +6,7 @@ import 'package:helpwave/enums/rhesus_factor.dart';
 import 'package:helpwave/enums/severity.dart';
 import 'package:helpwave/services/patient_persistence.dart';
 
-part "patient_data.g.dart";
+part 'patient_data.g.dart';
 
 /// The Data-Class containing all relevant data for a patient
 ///
