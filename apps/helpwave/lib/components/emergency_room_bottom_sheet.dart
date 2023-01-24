@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave/components/street_map.dart';
 import 'package:helpwave/styling/constants.dart';
 
@@ -41,9 +42,9 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
   final double _mainWidthPercentage = 0.90;
   final double _sectionDistance = distanceDefault;
 
-  Color getMainBackGroundColor(context) => Theme.of(context).colorScheme.inversePrimary;
+  Color getMainBackGroundColor(BuildContext context) => Theme.of(context).colorScheme.inversePrimary;
 
-  Widget getMapWidget(context) {
+  Widget getMapWidget(BuildContext context) {
     const double mainTopBorder = distanceSmall;
     const double mapIconDistance = distanceDefault;
     const double mapIconSize = iconSizeSmall;
@@ -112,7 +113,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
     );
   }
 
-  Widget getMainContent(context) {
+  Widget getMainContent(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
     double mainPaddingPercentage = (1 - _mainWidthPercentage) / 2;
     ButtonStyle tableButtonStyle = ButtonStyle(
@@ -277,7 +278,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
     );
   }
 
-  Widget getBottomButtons(context) {
+  Widget getBottomButtons(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
     ButtonStyle buttonStyleBase = ButtonStyle(
       fixedSize: MaterialStatePropertyAll<Size>(
