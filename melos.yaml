@@ -9,9 +9,7 @@ scripts:
     exec: dart analyze .
 
   intl:
-    ignore:
-      - "packages/**"
-    exec: flutter gen-l10n .
+    run: melos exec --dir-exists="../helpwave_localization" -- "flutter gen-l10n"
 
   build-apk:
     ignore:

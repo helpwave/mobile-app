@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave/styling/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave/components/accept_dialog.dart';
@@ -24,10 +24,8 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer3<ThemeModel, LanguageModel, IntroductionModel>(
-      builder: (_, ThemeModel themeNotifier, LanguageModel languageNotifier,
-          IntroductionModel introductionModel, __) {
-        bool isDarkTheme = themeNotifier.isDark ??
-            Theme.of(context).brightness == Brightness.dark;
+      builder: (_, ThemeModel themeNotifier, LanguageModel languageNotifier, IntroductionModel introductionModel, __) {
+        bool isDarkTheme = themeNotifier.isDark ?? Theme.of(context).brightness == Brightness.dark;
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -45,10 +43,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ],
                 ),
-                subtitle: Text(isDarkTheme
-                    ? AppLocalizations.of(context)!.on
-                    : AppLocalizations.of(context)!.off),
-                title: Text(AppLocalizations.of(context)!.darkMode),
+                subtitle: Text(isDarkTheme ? context.localization!.on : context.localization!.off),
+                title: Text(context.localization!.darkMode),
                 onChanged: (value) => themeNotifier.isDark = value,
               ),
               ListTile(
@@ -61,11 +57,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
                 subtitle: Text(languageNotifier.name),
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const LanguageSelectionPage())),
-                title: Text(AppLocalizations.of(context)!.language),
+                onTap: () =>
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LanguageSelectionPage())),
+                title: Text(context.localization!.language),
                 trailing: const Icon(
                   Icons.arrow_forward,
                 ),
@@ -81,10 +75,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const EmergencyPassPage()),
+                  MaterialPageRoute(builder: (context) => const EmergencyPassPage()),
                 ),
-                title: Text(AppLocalizations.of(context)!.emergencyPass),
+                title: Text(context.localization!.emergencyPass),
                 trailing: const Icon(
                   Icons.arrow_forward,
                 ),
@@ -102,17 +95,16 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               ListTile(
-                title: Text(AppLocalizations.of(context)!.resetIntroduction),
+                title: Text(context.localization!.resetIntroduction),
                 leading: const Icon(Icons.refresh),
                 onTap: () => showDialog(
                   context: context,
                   builder: (context) => AcceptDialog(
-                    titleText: AppLocalizations.of(context)!.showIntroduction,
+                    titleText: context.localization!.showIntroduction,
                   ),
                 ).then((value) {
                   if (value == true) {
-                    introductionModel.setHasSeenIntroduction(
-                        hasSeenIntroduction: false);
+                    introductionModel.setHasSeenIntroduction(hasSeenIntroduction: false);
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter/services.dart';
+import 'package:helpwave_localization/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave/services/database_handler.dart';
 import 'package:helpwave/config/language.dart';
 import 'package:helpwave/pages/home_page.dart';

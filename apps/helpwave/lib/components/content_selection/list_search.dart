@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave/styling/constants.dart';
 
 /// A customizable Search within a List
@@ -97,11 +97,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
     }
     result = result
         .where(
-          (element) => widget
-              .elementToString(element)
-              .trim()
-              .toLowerCase()
-              .startsWith(searched),
+          (element) => widget.elementToString(element).trim().toLowerCase().startsWith(searched),
         )
         .toList();
     return result;
@@ -119,7 +115,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title ?? AppLocalizations.of(context)!.searchNoun),
+          title: Text(widget.title ?? context.localization!.searchNoun),
         ),
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -144,7 +140,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                       },
                       icon: const Icon(Icons.close),
                     ),
-                    hintText: AppLocalizations.of(context)!.search,
+                    hintText: context.localization!.search,
                     border: const OutlineInputBorder(),
                   ),
                 ),
@@ -155,12 +151,9 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                   List<Widget> children = [];
                   if (snapshot.hasData) {
                     if (snapshot.data!.isNotEmpty) {
-                      if (!widget.isMultiSelect &&
-                          widget.resultTileBuilder != null) {
-                        children = snapshot.data!
-                            .map((element) =>
-                                widget.resultTileBuilder!(context, element))
-                            .toList();
+                      if (!widget.isMultiSelect && widget.resultTileBuilder != null) {
+                        children =
+                            snapshot.data!.map((element) => widget.resultTileBuilder!(context, element)).toList();
                       } else {
                         children = snapshot.data!.map((element) {
                           return ListTile(
@@ -176,8 +169,8 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                                         }
                                       });
                                     },
-                                    value: selected.contains(
-                                        element), // TODO use equal check contains potentially always false
+                                    value: selected
+                                        .contains(element), // TODO use equal check contains potentially always false
                                   )
                                 : const SizedBox(),
                             onTap: () {
@@ -203,16 +196,14 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                           children: [
                             const SizedBox(height: distanceBig),
                             Text(
-                              "${widget.searchElementName ?? _searchController.text} ${AppLocalizations.of(context)!.notFound}",
+                              "${widget.searchElementName ?? _searchController.text} ${context.localization!.notFound}",
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                             const SizedBox(height: distanceDefault),
                             widget.allowSelectAnyway
                                 ? TextButton(
-                                    onPressed: () => Navigator.pop(
-                                        context, _searchController.text.trim()),
-                                    child: Text(
-                                        "${AppLocalizations.of(context)!.addAnyway}!"),
+                                    onPressed: () => Navigator.pop(context, _searchController.text.trim()),
+                                    child: Text("${context.localization!.addAnyway}!"),
                                   )
                                 : const SizedBox(),
                           ],

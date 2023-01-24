@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave/enums/rhesus_factor.dart';
 import 'package:helpwave/styling/constants.dart';
 import '../enums/blood_type.dart';
@@ -59,14 +59,14 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
 
   @override
   Widget build(BuildContext context) {
-    const OutlineInputBorder inputBorder = OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(borderRadiusMedium)));
+    const OutlineInputBorder inputBorder =
+        OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(borderRadiusMedium)));
     double selectWidth = 80;
 
     return Column(
       children: [
         ListTile(
-          title: Text(AppLocalizations.of(context)!.bloodType),
+          title: Text(context.localization!.bloodType),
           leading: const Icon(Icons.bloodtype),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
@@ -77,10 +77,9 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
                   value: selectedBloodType,
                   isExpanded: true,
                   decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.only(
-                        left: dropDownVerticalPadding,
-                        right: dropDownVerticalPadding),
-                    labelText: AppLocalizations.of(context)!.type,
+                    contentPadding:
+                        const EdgeInsets.only(left: dropDownVerticalPadding, right: dropDownVerticalPadding),
+                    labelText: context.localization!.type,
                     border: inputBorder,
                   ),
                   onChanged: (BloodType? newValue) {
@@ -89,8 +88,7 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
                     });
                     widget.changedBloodType(selectedBloodType);
                   },
-                  items: BloodType.values
-                      .map<DropdownMenuItem<BloodType>>((BloodType value) {
+                  items: BloodType.values.map<DropdownMenuItem<BloodType>>((BloodType value) {
                     return DropdownMenuItem<BloodType>(
                       value: value,
                       child: Text(bloodTypeMap[value]!),
@@ -103,10 +101,9 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
                 width: selectWidth,
                 child: DropdownButtonFormField<RhesusFactor>(
                   decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.only(
-                        left: dropDownVerticalPadding,
-                        right: dropDownVerticalPadding),
-                    labelText: AppLocalizations.of(context)!.rhesus,
+                    contentPadding:
+                        const EdgeInsets.only(left: dropDownVerticalPadding, right: dropDownVerticalPadding),
+                    labelText: context.localization!.rhesus,
                     border: inputBorder,
                   ),
                   value: selectedRhesusFactor,
@@ -117,9 +114,7 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
                     });
                     widget.changedRhesusFactor(selectedRhesusFactor);
                   },
-                  items: RhesusFactor.values
-                      .map<DropdownMenuItem<RhesusFactor>>(
-                          (RhesusFactor value) {
+                  items: RhesusFactor.values.map<DropdownMenuItem<RhesusFactor>>((RhesusFactor value) {
                     return DropdownMenuItem<RhesusFactor>(
                       value: value,
                       child: Text(rhesusMap[value]!),

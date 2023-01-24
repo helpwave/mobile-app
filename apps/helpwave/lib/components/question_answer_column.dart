@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave_localization/localization.dart';
 import '../styling/constants.dart';
 
 /// Column with a Question and Answer-Button
@@ -81,7 +81,7 @@ class _QuestionAnswerColumnState extends State<QuestionAnswerColumn> {
             child: Column(
               children: [
                 Text(
-                  AppLocalizations.of(context)!.helpTextTitle,
+                  context.localization!.helpTextTitle,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSecondary,
                     fontWeight: FontWeight.w500,
@@ -93,8 +93,7 @@ class _QuestionAnswerColumnState extends State<QuestionAnswerColumn> {
                 ),
                 Text(
                   widget.helpText!,
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSecondary),
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
                 ),
                 Container(
                   height: closeDistance,
@@ -104,7 +103,7 @@ class _QuestionAnswerColumnState extends State<QuestionAnswerColumn> {
                   child: ActionChip(
                     shadowColor: const Color.fromARGB(0, 0, 0, 0),
                     label: Text(
-                      AppLocalizations.of(context)!.closeHelpText,
+                      context.localization!.closeHelpText,
                       style: const TextStyle(
                         fontSize: openHelpFontSize,
                       ),
@@ -134,7 +133,7 @@ class _QuestionAnswerColumnState extends State<QuestionAnswerColumn> {
               });
             },
             label: Text(
-              AppLocalizations.of(context)!.openHelpText,
+              context.localization!.openHelpText,
               style: const TextStyle(
                 fontSize: openHelpFontSize,
               ),
@@ -158,10 +157,8 @@ class _QuestionAnswerColumnState extends State<QuestionAnswerColumn> {
       children.add(
         ElevatedButton(
           style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all<Color>(
-                Theme.of(context).colorScheme.onSecondary),
-            backgroundColor: MaterialStateProperty.all<Color>(
-                Theme.of(context).colorScheme.secondary),
+            foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.onSecondary),
+            backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.secondary),
           ),
           onPressed: () => widget.answerHandler(index, answer),
           child: Text(answer),

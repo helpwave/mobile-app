@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave/components/question_answer_column.dart';
 import 'package:helpwave/pages/emergency_room_overview_page.dart';
 import 'package:helpwave/styling/constants.dart';
@@ -36,7 +36,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
             height: loadingCircleSize,
             child: const CircularProgressIndicator(),
           ),
-          Text(AppLocalizations.of(context)!.loadEmergencyWard),
+          Text(context.localization!.loadEmergencyWard),
         ],
       ),
     );
@@ -46,15 +46,11 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
       child: QuestionAnswerColumn(
         // TODO replace with current Question from Tree and a handler
         // TODO and load correct emergency rooms
-        answers: [
-          AppLocalizations.of(context)!.yes,
-          AppLocalizations.of(context)!.no
-        ],
+        answers: [context.localization!.yes, context.localization!.no],
         question: "Ist das eine Frage?",
-        helpText:
-            "Dies ist ein überaus hilfreicher Text, der zu beantwortung der Frage helfen könnte.",
+        helpText: "Dies ist ein überaus hilfreicher Text, der zu beantwortung der Frage helfen könnte.",
         answerHandler: (index, answer) {
-          if (answer == AppLocalizations.of(context)!.yes) {
+          if (answer == context.localization!.yes) {
             Navigator.push(
               context,
               MaterialPageRoute(

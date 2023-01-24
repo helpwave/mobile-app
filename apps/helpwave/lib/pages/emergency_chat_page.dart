@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave/components/chat_message.dart';
 import 'package:helpwave/styling/constants.dart';
 
@@ -32,8 +32,7 @@ class _EmergencyChatPageState extends State<EmergencyChatPage> {
     addMessage() {
       setState(() {
         canSend = false;
-        messages.add(
-            {"isFromEmergencyRoom": false, "message": _controller.text.trim()});
+        messages.add({"isFromEmergencyRoom": false, "message": _controller.text.trim()});
         _controller.clear();
       });
       FocusScope.of(context).unfocus();
@@ -52,8 +51,7 @@ class _EmergencyChatPageState extends State<EmergencyChatPage> {
         height: distanceSmall,
       )
     ];
-    listViewContent
-        .addAll(messages.map((e) => ChatMessage(message: e)).toList());
+    listViewContent.addAll(messages.map((e) => ChatMessage(message: e)).toList());
 
     return Scaffold(
       appBar: AppBar(
@@ -75,10 +73,7 @@ class _EmergencyChatPageState extends State<EmergencyChatPage> {
             ),
             Text(
               widget.emergencyRoom["name"],
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge!
-                  .copyWith(fontSize: fontSizeMedium),
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: fontSizeMedium),
             ),
           ],
         ),
@@ -106,7 +101,7 @@ class _EmergencyChatPageState extends State<EmergencyChatPage> {
                         minLines: 1,
                         maxLines: 5,
                         decoration: InputDecoration(
-                          hintText: AppLocalizations.of(context)!.message,
+                          hintText: context.localization!.message,
                           focusedBorder: outlineInputBorder.copyWith(
                             borderSide: BorderSide(
                               color: Theme.of(context).colorScheme.secondary,
@@ -136,9 +131,7 @@ class _EmergencyChatPageState extends State<EmergencyChatPage> {
                       child: Center(
                         child: Ink(
                           decoration: ShapeDecoration(
-                            color: canSend
-                                ? positiveColor
-                                : Theme.of(context).disabledColor,
+                            color: canSend ? positiveColor : Theme.of(context).disabledColor,
                             shape: const CircleBorder(),
                           ),
                           child: IconButton(

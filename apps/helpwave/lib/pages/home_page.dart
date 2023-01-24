@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave/pages/questionnaire_page.dart';
 import 'package:helpwave/pages/settings_page.dart';
 import 'package:helpwave/pages/street_map_page.dart';
@@ -21,8 +21,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(columnPadding)
-            .copyWith(bottom: mediaQuery.height * columnPaddingBottomPercent),
+        padding: const EdgeInsets.all(columnPadding).copyWith(bottom: mediaQuery.height * columnPaddingBottomPercent),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,8 +30,7 @@ class HomePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
-                      height: mediaQuery.height * menuColumnPaddingTopPercent),
+                  SizedBox(height: mediaQuery.height * menuColumnPaddingTopPercent),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -42,11 +40,10 @@ class HomePage extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Text(AppLocalizations.of(context)!.questionnaire),
+                    child: Text(context.localization!.questionnaire),
                   ),
                   SizedBox(
-                    height:
-                        mediaQuery.height * menuColumnDistanceBetweenPercent,
+                    height: mediaQuery.height * menuColumnDistanceBetweenPercent,
                   ),
                   OutlinedButton(
                     onPressed: () {
@@ -57,7 +54,7 @@ class HomePage extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Text(AppLocalizations.of(context)!.emergencyMap),
+                    child: Text(context.localization!.emergencyMap),
                   ),
                 ],
               ),
@@ -72,7 +69,7 @@ class HomePage extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text(AppLocalizations.of(context)!.settings),
+                child: Text(context.localization!.settings),
               ),
             ),
           ],

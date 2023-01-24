@@ -1,0 +1,23 @@
+name: helpwave_localization
+description: A new Flutter package project.
+version: 0.0.1
+homepage: https://github.com/helpwave/mobile-app
+
+environment:
+  sdk: '>=2.18.2 <3.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  generate: true
