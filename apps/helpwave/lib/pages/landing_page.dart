@@ -11,8 +11,6 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double bannerWidthPercentage = 0.9;
-    const double bannerHeightPercentage = 0.3;
     const double startContainerWidthPercentage = 0.4;
     const double startContainerHeightPercentage = 0.1;
     const double startContainerTextIconDistance = distanceDefault;
@@ -25,10 +23,24 @@ class LandingPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Center(
-              child: Image.asset(
-                'assets/banner.png',
-                width: mediaQuery.width * bannerWidthPercentage,
-                height: mediaQuery.height * bannerHeightPercentage,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    Theme.of(context).brightness == Brightness.light
+                        ? 'assets/helpwave-icon-dark.png'
+                        : 'assets/helpwave-icon-light.png',
+                    width: iconSizeBig,
+                    height: iconSizeBig,
+                  ),
+                  const SizedBox(
+                    width: distanceSmall,
+                  ),
+                  Text("helpwave",
+                      style: Theme.of(context).textTheme.headline4!.copyWith(
+                            color: Theme.of(context).colorScheme.onBackground,
+                          )),
+                ],
               ),
             ),
             SizedBox(
