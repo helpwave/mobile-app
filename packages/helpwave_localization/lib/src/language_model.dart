@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:helpwave/config/language.dart';
-import 'package:helpwave/services/language_preferences.dart';
+import 'package:helpwave_localization/src/config/language.dart';
+import 'package:helpwave_localization/src/language_preferences.dart';
 
 /// Model for Language Localization
 ///

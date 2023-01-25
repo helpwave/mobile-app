@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
-import 'package:helpwave/config/language.dart';
-import 'package:helpwave/services/language_model.dart';
+import 'package:helpwave_localization/localization_model.dart';
 
 /// Page for displaying language option and changing to the selected one
 class LanguageSelectionPage extends StatelessWidget {
@@ -10,6 +9,7 @@ class LanguageSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Map<String, String>> languages = getSupportedLocalsMap();
     return Consumer<LanguageModel>(builder: (_, LanguageModel languageNotifier, __) {
       return Scaffold(
         appBar: AppBar(

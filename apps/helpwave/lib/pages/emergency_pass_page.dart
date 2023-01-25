@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_localization/localization_model.dart';
 import 'package:language_picker/language_picker_dialog.dart';
 import 'package:language_picker/languages.dart';
 import 'package:provider/provider.dart';
-import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/styling/constants.dart';
 import 'package:helpwave/components/blood_type_select.dart';
 import 'package:helpwave/enums/dosage.dart';
@@ -92,8 +92,7 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
             PatientData patient = snapshot.data!;
 
             if (patient.isOrganDonor != null) {
-              _controllerOrganDonor.text =
-                  patient.isOrganDonor! ? context.localization!.yes : context.localization!.no;
+              _controllerOrganDonor.text = patient.isOrganDonor! ? context.localization!.yes : context.localization!.no;
             }
             if (patient.birthDate != null) {
               _controllerBirthdate.text = DateFormat('dd.MM.yyyy').format(patient.birthDate!);

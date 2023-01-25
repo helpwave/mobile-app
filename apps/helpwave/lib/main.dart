@@ -4,12 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:helpwave_localization/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_localization/localization_model.dart';
 import 'package:helpwave/services/database_handler.dart';
-import 'package:helpwave/config/language.dart';
 import 'package:helpwave/pages/home_page.dart';
 import 'package:helpwave/services/introduction_model.dart';
 import 'package:helpwave/pages/landing_page.dart';
-import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/services/theme_model.dart';
 import 'package:helpwave/styling/dark_theme.dart';
 import 'package:helpwave/styling/light_theme.dart';
@@ -60,7 +59,7 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: languages.map((language) => Locale(language["Language"]!, language["Local"]!)).toList(),
+            supportedLocales: getSupportedLocals(),
             home: introductionModel.hasSeenIntroduction ? const HomePage() : const LandingPage(),
             locale: Locale(languageNotifier.language),
           );
