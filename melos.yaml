@@ -9,10 +9,10 @@ scripts:
     exec: dart analyze .
 
   intl:
-    run: melos exec --dir-exists="../helpwave_localization" -- "flutter gen-l10n"
+    run: melos exec --file-exists="l10n.yaml" -- "flutter gen-l10n"
 
   build-apk:
-    run: melos exec --dir-exists="../../apps" "flutter build apk"
+    run: melos exec --file-exists="./lib/main.dart" "flutter build apk"
 
   build-ios:
-    exec: melos exec --dir-exists="../../apps" "flutter build ios --no-codesign"
+    exec: melos exec --file-exists="./lib/main.dart" "flutter build ios --no-codesign"
