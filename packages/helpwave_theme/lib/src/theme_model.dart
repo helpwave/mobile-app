@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:helpwave/services/theme_preferences.dart';
+import 'package:helpwave_theme/src/theme_preferences.dart';
 
 /// Model for the Color Theme
 ///
