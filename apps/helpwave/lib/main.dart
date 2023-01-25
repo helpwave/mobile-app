@@ -5,14 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_localization/localization_model.dart';
+import 'package:helpwave_localization/l10n/app_localizations.dart';
 import 'package:helpwave/services/database_handler.dart';
 import 'package:helpwave/pages/home_page.dart';
 import 'package:helpwave/services/introduction_model.dart';
 import 'package:helpwave/pages/landing_page.dart';
-import 'package:helpwave/services/theme_model.dart';
-import 'package:helpwave/styling/dark_theme.dart';
-import 'package:helpwave/styling/light_theme.dart';
-import 'package:helpwave/services/language_model.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
