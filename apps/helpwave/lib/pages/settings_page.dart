@@ -89,8 +89,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     height: iconSizeMedium,
                     width: iconSizeMedium,
                     Theme.of(context).brightness == Brightness.light
-                        ? 'assets/helpwave-icon-light.png'
-                        : 'assets/helpwave-icon-dark.png',
+                        ? 'assets/helpwave-icon-dark.png'
+                        : 'assets/helpwave-icon-light.png',
                   ),
                 ),
               ),

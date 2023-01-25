@@ -38,7 +38,9 @@ dependencies:
   flutter_osm_plugin: ^0.40.3
   provider: ^6.0.3
   shared_preferences: ^2.0.15
+  # flutter pub run flutter_native_splash:create
   flutter_native_splash: ^2.2.11
+  # flutter pub run flutter_launcher_icons:main
   flutter_launcher_icons: ^0.10.0
   language_picker: ^0.4.2
   path_provider: ^2.0.11

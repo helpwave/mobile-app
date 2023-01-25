@@ -94,7 +94,7 @@ ThemeData lightTheme = ThemeData(
     inversePrimary: Color.fromARGB(255, 30, 30, 30),
     onPrimary: Color.fromARGB(255, 0, 0, 0),
     background: Color.fromARGB(255, 153, 153, 153),
-    onBackground: Color.fromARGB(255, 255, 255, 255),
+    onBackground: Color.fromARGB(255, 0, 0, 0),
     secondary: Color.fromARGB(255, 190, 190, 190),
     onSecondary: Color.fromARGB(255, 0, 0, 0),
     tertiary: Color.fromARGB(255, 153, 153, 153),
