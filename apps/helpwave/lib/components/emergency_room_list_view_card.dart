@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/components/emergency_room_bottom_sheet.dart';
-import 'package:helpwave/styling/constants.dart';
 
 /// The Widget allows to get more information about the [EmergencyRoom]
 ///  or to start a navigation to its location

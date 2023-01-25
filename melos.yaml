@@ -12,11 +12,7 @@ scripts:
     run: melos exec --dir-exists="../helpwave_localization" -- "flutter gen-l10n"
 
   build-apk:
-    ignore:
-      - "packages/**"
-    exec: flutter build apk
+    run: melos exec --dir-exists="../../apps" "flutter build apk"
 
   build-ios:
-    ignore:
-      - "packages/**"
-    exec: flutter build ios --no-codesign
+    exec: melos exec --dir-exists="../../apps" "flutter build ios --no-codesign"

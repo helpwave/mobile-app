@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/pages/emergency_chat_page.dart';
-import '../styling/constants.dart';
 
 /// Widget for displaying a chat message
 ///

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/enums/rhesus_factor.dart';
-import 'package:helpwave/styling/constants.dart';
 import '../enums/blood_type.dart';
 
 /// ListTile for the Selection of the patients blood type

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave/components/content_selection/list_entry.dart';
 import 'package:helpwave/components/content_selection/list_search.dart';
-import 'package:helpwave/styling/constants.dart';
 
 /// Manages and updates a map of entries with a build in search function
 ///
@@ -86,8 +86,7 @@ class ContentSelector<V> extends StatefulWidget {
   /// IMPORTANT: This disables navigation pops on clicking a result, but can be implemented in the function
   ///
   /// IMPORTANT: Overwrites default display of search results
-  final Widget Function(BuildContext context, String result)?
-      searchResultTileBuilder;
+  final Widget Function(BuildContext context, String result)? searchResultTileBuilder;
 
   /// Allow adding user input, if filtered search items are empty for a given search
   final bool searchAllowSelectAnyway;
@@ -117,8 +116,7 @@ class ContentSelector<V> extends StatefulWidget {
   /// A Custom builder for the DropDownItems in the select
   ///
   /// IMPORTANT: Overwrites [valueToString]
-  final DropdownMenuItem<V> Function(V value, String name)?
-      selectValueItemBuilder;
+  final DropdownMenuItem<V> Function(V value, String name)? selectValueItemBuilder;
 
   /// The LabelText of the Selection Drop-Down
   final String? selectionLabelText;
@@ -183,8 +181,7 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
   Widget build(BuildContext context) {
     assert(widget.selectValueItemBuilder != null ||
         widget.valueToString != null ||
-        (widget.selectionItems.isNotEmpty ||
-            widget.selectionDefaultValue != null));
+        (widget.selectionItems.isNotEmpty || widget.selectionDefaultValue != null));
     List<Widget> children = <Widget>[];
     if (isExpanded) {
       currentSelection.forEach(
@@ -208,8 +205,7 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
             },
             onChangedSelection: (name, value) {
               setState(() {
-                currentSelection.update(name, (_) => value,
-                    ifAbsent: () => value);
+                currentSelection.update(name, (_) => value, ifAbsent: () => value);
               });
               if (widget.onChangedList != null) {
                 widget.onChangedList!(currentSelection);
@@ -252,9 +248,7 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
                     if (value.trim() != "") {
                       setState(() {
                         currentSelection.update(value, (oldValue) => oldValue,
-                            ifAbsent: () =>
-                                widget.selectionDefaultValue ??
-                                widget.selectionItems[0]);
+                            ifAbsent: () => widget.selectionDefaultValue ?? widget.selectionItems[0]);
                       });
                     }
                     return;
@@ -267,9 +261,7 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
                 for (var element in list) {
                   if (!currentSelection.containsKey(element)) {
                     currentSelection.update(element, (value) => value,
-                        ifAbsent: () =>
-                            widget.selectionDefaultValue ??
-                            widget.selectionItems[0]);
+                        ifAbsent: () => widget.selectionDefaultValue ?? widget.selectionItems[0]);
                   }
                 }
               });

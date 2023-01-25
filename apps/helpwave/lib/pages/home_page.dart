@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/pages/questionnaire_page.dart';
 import 'package:helpwave/pages/settings_page.dart';
 import 'package:helpwave/pages/street_map_page.dart';
-import 'package:helpwave/styling/constants.dart';
 
 /// The Homepage of the App with Navigation
 class HomePage extends StatelessWidget {

@@ -54,8 +54,7 @@ ThemeData darkTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: buttonStyle.copyWith(
-      backgroundColor: MaterialStateProperty.all<Color>(
-          const Color.fromARGB(255, 255, 51, 51)),
+      backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 255, 51, 51)),
       foregroundColor: MaterialStateProperty.all<Color>(
         const Color.fromARGB(255, 255, 255, 255),
       ),
@@ -63,8 +62,7 @@ ThemeData darkTheme = ThemeData(
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: buttonStyle.copyWith(
-      backgroundColor: MaterialStateProperty.all<Color>(
-          const Color.fromARGB(255, 27, 27, 27)),
+      backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 27, 27, 27)),
       side: MaterialStateProperty.all<BorderSide>(
         buttonBorderSide.copyWith(
           color: const Color.fromARGB(255, 255, 255, 255),
@@ -74,8 +72,7 @@ ThemeData darkTheme = ThemeData(
   ),
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all<Color>(
-          const Color.fromARGB(255, 153, 153, 153)),
+      backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 153, 153, 153)),
     ),
   ),
   iconTheme: const IconThemeData(

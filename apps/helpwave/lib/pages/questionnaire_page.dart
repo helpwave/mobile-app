@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/components/question_answer_column.dart';
 import 'package:helpwave/pages/emergency_room_overview_page.dart';
-import 'package:helpwave/styling/constants.dart';
 
 /// Page for displaying Questions in case of an emergency
 ///

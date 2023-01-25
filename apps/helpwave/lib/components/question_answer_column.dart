@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
-import '../styling/constants.dart';
+import 'package:helpwave_theme/constants.dart';
 
 /// Column with a Question and Answer-Button
 class QuestionAnswerColumn extends StatefulWidget {
