@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../styling/constants.dart';
-import 'emergency_room_bottom_sheet.dart';
-import 'emergency_room_list_view_card.dart';
+import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave/components/emergency_room_bottom_sheet.dart';
+import 'package:helpwave/components/emergency_room_list_view_card.dart';
 
 /// A [ListView] from which the User can select a Emergency Room
 ///
@@ -14,8 +14,7 @@ class EmergencyRoomListView extends StatefulWidget {
   State<StatefulWidget> createState() => _EmergencyRoomListViewState();
 }
 
-class _EmergencyRoomListViewState extends State<EmergencyRoomListView>
-    with SingleTickerProviderStateMixin {
+class _EmergencyRoomListViewState extends State<EmergencyRoomListView> with SingleTickerProviderStateMixin {
   late Future<List<Map<String, dynamic>>> future;
 
   /// Function to load Emergency Rooms to Display
@@ -73,9 +72,7 @@ class _EmergencyRoomListViewState extends State<EmergencyRoomListView>
                 text: "Text Text Text",
                 style: Theme.of(context).textTheme.headlineSmall,
                 children: const <TextSpan>[
-                  TextSpan(
-                      text: " TEXT TEXT",
-                      style: TextStyle(color: positiveColor)),
+                  TextSpan(text: " TEXT TEXT", style: TextStyle(color: positiveColor)),
                   TextSpan(text: " Text Text."),
                 ],
               ),

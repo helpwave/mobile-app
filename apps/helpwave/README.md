@@ -1,6 +1,6 @@
 # Install and Run
 1. Follow [Getting Started](../../README.md)
-
+   `dart pub global activate melos`
 Alternative:
 1. `flutter pub get` in project folder
 2. `flutter run` 

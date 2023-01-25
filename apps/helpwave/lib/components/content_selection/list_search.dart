@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:helpwave/styling/constants.dart';
+import 'package:helpwave_theme/constants.dart';
 
 /// A customizable Search within a List
 ///
@@ -98,11 +98,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
     searched = searched.toLowerCase();
     result = result
         .where(
-          (element) => widget
-              .elementToString(element)
-              .trim()
-              .toLowerCase()
-              .startsWith(searched),
+          (element) => widget.elementToString(element).trim().toLowerCase().startsWith(searched),
         )
         .toList();
     return result;
@@ -156,12 +152,9 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                   List<Widget> children = [];
                   if (snapshot.hasData) {
                     if (snapshot.data!.isNotEmpty) {
-                      if (!widget.isMultiSelect &&
-                          widget.resultTileBuilder != null) {
-                        children = snapshot.data!
-                            .map((element) =>
-                                widget.resultTileBuilder!(context, element))
-                            .toList();
+                      if (!widget.isMultiSelect && widget.resultTileBuilder != null) {
+                        children =
+                            snapshot.data!.map((element) => widget.resultTileBuilder!(context, element)).toList();
                       } else {
                         children = snapshot.data!.map((element) {
                           return ListTile(
@@ -177,8 +170,8 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                                         }
                                       });
                                     },
-                                    value: selected.contains(
-                                        element), // TODO use equal check contains potentially always false
+                                    value: selected
+                                        .contains(element), // TODO use equal check contains potentially always false
                                   )
                                 : const SizedBox(),
                             onTap: () {
@@ -210,10 +203,8 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                             const SizedBox(height: distanceDefault),
                             widget.allowSelectAnyway
                                 ? TextButton(
-                                    onPressed: () => Navigator.pop(
-                                        context, _searchController.text.trim()),
-                                    child: Text(
-                                        "${AppLocalizations.of(context)!.addAnyway}!"),
+                                    onPressed: () => Navigator.pop(context, _searchController.text.trim()),
+                                    child: Text("${AppLocalizations.of(context)!.addAnyway}!"),
                                   )
                                 : const SizedBox(),
                           ],

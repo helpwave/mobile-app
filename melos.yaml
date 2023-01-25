@@ -9,16 +9,10 @@ scripts:
     exec: dart analyze .
 
   intl:
-    ignore:
-      - "packages/**"
-    exec: flutter gen-l10n .
+    run: melos exec --file-exists="./lib/main.dart" -- "flutter gen-l10n"
 
   build-apk:
-    ignore:
-      - "packages/**"
-    exec: flutter build apk
+    run: melos exec --file-exists="./lib/main.dart" "flutter build apk"
 
   build-ios:
-    ignore:
-      - "packages/**"
-    exec: flutter build ios --no-codesign
+    exec: melos exec --file-exists="./lib/main.dart" "flutter build ios --no-codesign"

@@ -50,6 +50,8 @@ dependencies:
   json_annotation: ^4.7.0
   sqflite: ^2.2.3
   path: ^1.8.2
+  helpwave_theme:
+    path: "../../packages/helpwave_theme"
 
 dev_dependencies:
   flutter_test:
