@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:helpwave_theme/theme.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/components/accept_dialog.dart';
 import 'package:helpwave/pages/landing_page.dart';
@@ -8,7 +9,6 @@ import 'package:helpwave/services/introduction_model.dart';
 import 'package:helpwave/pages/emergency_pass_page.dart';
 import 'package:helpwave/pages/language_selection_page.dart';
 import 'package:helpwave/services/language_model.dart';
-import 'package:helpwave/services/theme_model.dart';
 
 /// Page for displaying basic Settings
 ///

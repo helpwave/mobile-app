@@ -10,7 +10,6 @@ import 'package:helpwave/pages/home_page.dart';
 import 'package:helpwave/services/introduction_model.dart';
 import 'package:helpwave/pages/landing_page.dart';
 import 'package:helpwave/services/language_model.dart';
-import 'package:helpwave/services/theme_model.dart';
 import 'package:helpwave_theme/theme.dart';
 
 void main() {
