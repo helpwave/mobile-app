@@ -1,4 +1,4 @@
-package com.example.tasks
+package com.helpwave.tasks
 
 import io.flutter.embedding.android.FlutterActivity
 
