@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave/components/content_selection/list_entry.dart';
 import 'package:helpwave/components/content_selection/list_search.dart';
 
@@ -221,7 +221,8 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
               context,
               MaterialPageRoute(
                 builder: (context) => ListSearch<String>(
-                  title: widget.searchTitle ?? AppLocalizations.of(context)!.listSearch,
+                  title: widget.searchTitle ??
+                      context.localization!.listSearch,
                   filter: widget.searchFilter,
                   items: getItems(),
                   asyncItems: widget.searchAsyncItems,
@@ -277,8 +278,9 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
     return Column(
       children: [
         ListTile(
-          title: Text(widget.title ?? AppLocalizations.of(context)!.list),
-          subtitle: Text("${currentSelection.length} ${AppLocalizations.of(context)!.entries}"),
+          title: Text(widget.title ?? context.localization!.list),
+          subtitle: Text(
+              "${currentSelection.length} ${context.localization!.entries}"),
           leading: widget.icon,
           trailing: IconButton(
             icon: Icon(isExpanded ? Icons.expand_less : Icons.expand_more),

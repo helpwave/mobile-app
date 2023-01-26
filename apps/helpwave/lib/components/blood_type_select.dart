@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/enums/rhesus_factor.dart';
 import '../enums/blood_type.dart';
@@ -66,7 +66,7 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
     return Column(
       children: [
         ListTile(
-          title: Text(AppLocalizations.of(context)!.bloodType),
+          title: Text(context.localization!.bloodType),
           leading: const Icon(Icons.bloodtype),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
@@ -79,7 +79,7 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
                   decoration: InputDecoration(
                     contentPadding:
                         const EdgeInsets.only(left: dropDownVerticalPadding, right: dropDownVerticalPadding),
-                    labelText: AppLocalizations.of(context)!.type,
+                    labelText: context.localization!.type,
                     border: inputBorder,
                   ),
                   onChanged: (BloodType? newValue) {
@@ -103,7 +103,7 @@ class _BloodTypeSelectState extends State<BloodTypeSelect> {
                   decoration: InputDecoration(
                     contentPadding:
                         const EdgeInsets.only(left: dropDownVerticalPadding, right: dropDownVerticalPadding),
-                    labelText: AppLocalizations.of(context)!.rhesus,
+                    labelText: context.localization!.rhesus,
                     border: inputBorder,
                   ),
                   value: selectedRhesusFactor,

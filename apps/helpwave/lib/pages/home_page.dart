@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/pages/questionnaire_page.dart';
 import 'package:helpwave/pages/settings_page.dart';
@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Text(AppLocalizations.of(context)!.questionnaire),
+                    child: Text(context.localization!.questionnaire),
                   ),
                   SizedBox(
                     height: mediaQuery.height * menuColumnDistanceBetweenPercent,
@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Text(AppLocalizations.of(context)!.emergencyMap),
+                    child: Text(context.localization!.emergencyMap),
                   ),
                 ],
               ),
@@ -69,7 +69,7 @@ class HomePage extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text(AppLocalizations.of(context)!.settings),
+                child: Text(context.localization!.settings),
               ),
             ),
           ],

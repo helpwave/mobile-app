@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave/styling/constants.dart';
 
 /// A customizable Search within a List
 ///
@@ -116,7 +117,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title ?? AppLocalizations.of(context)!.searchNoun),
+          title: Text(widget.title ?? context.localization!.searchNoun),
         ),
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -141,7 +142,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                       },
                       icon: const Icon(Icons.close),
                     ),
-                    hintText: AppLocalizations.of(context)!.search,
+                    hintText: context.localization!.search,
                     border: const OutlineInputBorder(),
                   ),
                 ),
@@ -197,14 +198,14 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                           children: [
                             const SizedBox(height: distanceBig),
                             Text(
-                              "${widget.searchElementName ?? _searchController.text} ${AppLocalizations.of(context)!.notFound}",
+                              "${widget.searchElementName ?? _searchController.text} ${context.localization!.notFound}",
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                             const SizedBox(height: distanceDefault),
                             widget.allowSelectAnyway
                                 ? TextButton(
                                     onPressed: () => Navigator.pop(context, _searchController.text.trim()),
-                                    child: Text("${AppLocalizations.of(context)!.addAnyway}!"),
+                                    child: Text("${context.localization!.addAnyway}!"),
                                   )
                                 : const SizedBox(),
                           ],

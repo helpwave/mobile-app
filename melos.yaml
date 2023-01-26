@@ -9,7 +9,7 @@ scripts:
     exec: dart analyze .
 
   intl:
-    run: melos exec --file-exists="./lib/main.dart" -- "flutter gen-l10n"
+    run: melos exec --file-exists="l10n.yaml" -- "flutter gen-l10n"
 
   build-apk:
     run: melos exec --file-exists="./lib/main.dart" "flutter build apk"

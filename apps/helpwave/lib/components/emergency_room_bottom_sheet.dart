@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/components/street_map.dart';
 import 'package:helpwave/styling/constants.dart';
@@ -43,9 +43,9 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
   final double _mainWidthPercentage = 0.90;
   final double _sectionDistance = distanceDefault;
 
-  Color getMainBackGroundColor(context) => Theme.of(context).colorScheme.inversePrimary;
+  Color getMainBackGroundColor(BuildContext context) => Theme.of(context).colorScheme.inversePrimary;
 
-  Widget getMapWidget(context) {
+  Widget getMapWidget(BuildContext context) {
     const double mainTopBorder = distanceSmall;
     const double mapIconDistance = distanceDefault;
     const double mapIconSize = iconSizeSmall;
@@ -114,7 +114,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
     );
   }
 
-  Widget getMainContent(context) {
+  Widget getMainContent(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
     double mainPaddingPercentage = (1 - _mainWidthPercentage) / 2;
     ButtonStyle tableButtonStyle = ButtonStyle(
@@ -137,7 +137,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
       child: Chip(
         padding: const EdgeInsets.all(chipPadding),
         label: Text(
-          widget.emergencyRoom["open"] ? AppLocalizations.of(context)!.open : AppLocalizations.of(context)!.closed,
+          widget.emergencyRoom["open"] ? context.localization!.open : context.localization!.closed,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(fontSize: fontSizeTiny),
         ),
@@ -193,7 +193,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
             height: _sectionDistance,
           ),
           Text(
-            AppLocalizations.of(context)!.address,
+            context.localization!.address,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.secondary),
           ),
           Text(
@@ -204,7 +204,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
             height: _sectionDistance,
           ),
           Text(
-            AppLocalizations.of(context)!.otherFunctions,
+            context.localization!.otherFunctions,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.secondary),
           ),
           SizedBox(
@@ -222,7 +222,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                         Icons.home,
                         size: tableButtonSize,
                       ),
-                      label: Text(AppLocalizations.of(context)!.giveDetails),
+                      label: Text(context.localization!.giveDetails),
                       style: tableButtonStyle,
                     ),
                   ),
@@ -234,7 +234,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                         Icons.phone,
                         size: tableButtonSize,
                       ),
-                      label: Text("$emergencyNumber ${AppLocalizations.of(context)!.call}",
+                      label: Text("$emergencyNumber ${context.localization!.call}",
                           style: const TextStyle(color: negativeColor)),
                       style: tableButtonStyle,
                     ),
@@ -251,7 +251,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                         Icons.location_on_outlined,
                         size: tableButtonSize,
                       ),
-                      label: Text(AppLocalizations.of(context)!.searchDoctorsOffices),
+                      label: Text(context.localization!.searchDoctorsOffices),
                       style: tableButtonStyle,
                     ),
                   ),
@@ -264,7 +264,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                         size: tableButtonSize,
                       ),
                       label: Text(
-                        "$helpNumber ${AppLocalizations.of(context)!.call}",
+                        "$helpNumber ${context.localization!.call}",
                         style: const TextStyle(color: negativeColor),
                       ),
                       style: tableButtonStyle,
@@ -279,7 +279,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
     );
   }
 
-  Widget getBottomButtons(context) {
+  Widget getBottomButtons(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
     ButtonStyle buttonStyleBase = ButtonStyle(
       fixedSize: MaterialStatePropertyAll<Size>(
@@ -313,7 +313,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                   },
                   style: buttonStyleNegative,
                   icon: const Icon(Icons.close),
-                  label: Text(AppLocalizations.of(context)!.notifyCancel),
+                  label: Text(context.localization!.notifyCancel),
                 )
               : ElevatedButton(
                   onPressed: () {
@@ -322,7 +322,7 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                     });
                   },
                   style: buttonStylePositive,
-                  child: Text(AppLocalizations.of(context)!.notify),
+                  child: Text(context.localization!.notify),
                 ),
           Container(
             margin: const EdgeInsets.all(marginSmall),
@@ -331,14 +331,14 @@ class _EmergencyRoomBottomSheetState extends State<EmergencyRoomBottomSheet> {
                     onPressed: () {},
                     icon: const Icon(Icons.navigation),
                     style: buttonStylePositive,
-                    label: Text(AppLocalizations.of(context)!.startNavigation),
+                    label: Text(context.localization!.startNavigation),
                   )
                 : ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                     style: buttonStyleNeutral,
-                    child: Text(AppLocalizations.of(context)!.otherEmergencyRooms),
+                    child: Text(context.localization!.otherEmergencyRooms),
                   ),
           ),
         ],

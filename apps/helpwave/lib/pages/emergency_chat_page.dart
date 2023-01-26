@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/components/chat_message.dart';
 
@@ -101,7 +101,7 @@ class _EmergencyChatPageState extends State<EmergencyChatPage> {
                         minLines: 1,
                         maxLines: 5,
                         decoration: InputDecoration(
-                          hintText: AppLocalizations.of(context)!.message,
+                          hintText: context.localization!.message,
                           focusedBorder: outlineInputBorder.copyWith(
                             borderSide: BorderSide(
                               color: Theme.of(context).colorScheme.secondary,
