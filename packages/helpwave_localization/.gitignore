@@ -30,3 +30,5 @@ migrate_working_dir/
 .dart_tool/
 .packages
 build/
+
+lib/l10n/app_localizations*
