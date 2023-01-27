@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
-import 'package:helpwave/components/content_selection/content_selector.dart';
+import 'package:helpwave_widget/src/content_selection/content_selector.dart';
 
 /// The ListEntry used by [ContentSelector]
 class ListEntry<V> extends StatelessWidget {

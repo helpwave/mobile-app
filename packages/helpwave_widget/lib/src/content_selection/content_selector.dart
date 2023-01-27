@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
-import 'package:helpwave_localization/localization.dart';
-import 'package:helpwave/components/content_selection/list_entry.dart';
-import 'package:helpwave/components/content_selection/list_search.dart';
+import 'package:helpwave_widget/src/content_selection/list_entry.dart';
+import 'package:helpwave_widget/src/content_selection/list_search.dart';
 
 /// Manages and updates a map of entries with a build in search function
 ///
@@ -64,6 +63,9 @@ class ContentSelector<V> extends StatefulWidget {
   /// The Default Value for the selection when adding a new Entry
   final V? selectionDefaultValue;
 
+  /// The name used to describe the elements of the list
+  final String? entryName;
+
   // -- SEARCH --
   /// The Title displayed in the AppBar of the Search
   final String? searchTitle;
@@ -91,10 +93,14 @@ class ContentSelector<V> extends StatefulWidget {
   /// Allow adding user input, if filtered search items are empty for a given search
   final bool searchAllowSelectAnyway;
 
-  /// The name of the searched elements e.g. Medication, Name or Color
-  ///
-  /// Displayed when no search entry is found
-  final String? searchElementName;
+  /// Hint Text for Search Input
+  final String? searchHintText;
+
+  /// Element not found Text
+  final String Function(String searched)? elementNotFoundText;
+
+  /// AddAnyway Button Text
+  final String? addAnywayText;
 
   /// Whether [searchItems] are displayed as a Multi-Select
   final bool isMultiSelect;
@@ -132,13 +138,16 @@ class ContentSelector<V> extends StatefulWidget {
     this.onChangedList,
     this.columLeftPadding = distanceDefault,
     this.selectionDefaultValue,
+    this.entryName,
     this.searchTitle,
     this.searchFilter,
     this.searchItems,
     this.searchAsyncItems,
     this.searchResultTileBuilder,
     this.searchAllowSelectAnyway = true,
-    this.searchElementName,
+    this.searchHintText,
+    this.elementNotFoundText,
+    this.addAnywayText,
     this.isMultiSelect = false,
     this.selectionItems = const [],
     this.valueToString,
@@ -221,15 +230,16 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
               context,
               MaterialPageRoute(
                 builder: (context) => ListSearch<String>(
-                  title: widget.searchTitle ??
-                      context.localization!.listSearch,
+                  title: widget.searchTitle,
                   filter: widget.searchFilter,
                   items: getItems(),
                   asyncItems: widget.searchAsyncItems,
                   resultTileBuilder: widget.searchResultTileBuilder,
                   elementToString: (String t) => t,
                   allowSelectAnyway: widget.searchAllowSelectAnyway,
-                  searchElementName: widget.searchElementName,
+                  searchHintText: widget.searchHintText,
+                  elementNotFoundText: widget.elementNotFoundText,
+                  addAnywayText: widget.addAnywayText,
                   isMultiSelect: widget.isMultiSelect,
                   selected: currentSelection.keys.toList(),
                 ),
@@ -278,9 +288,8 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
     return Column(
       children: [
         ListTile(
-          title: Text(widget.title ?? context.localization!.list),
-          subtitle: Text(
-              "${currentSelection.length} ${context.localization!.entries}"),
+          title: Text(widget.title ?? "List"),
+          subtitle: Text("${currentSelection.length} ${widget.entryName ?? "Entries"}"),
           leading: widget.icon,
           trailing: IconButton(
             icon: Icon(isExpanded ? Icons.expand_less : Icons.expand_more),

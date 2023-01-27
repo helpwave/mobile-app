@@ -51,6 +51,8 @@ dependencies:
     path: "../../packages/helpwave_localization"
   helpwave_theme:
     path: "../../packages/helpwave_theme"
+  helpwave_widget:
+    path: "../../packages/helpwave_widget"
 
 dev_dependencies:
   flutter_test:
