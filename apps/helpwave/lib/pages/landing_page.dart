@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/pages/home_page.dart';
-import 'package:helpwave/pages/home_page.dart';
 import 'package:helpwave/services/introduction_model.dart';
 
 /// Landing-Page, if the user start the app for the first time
