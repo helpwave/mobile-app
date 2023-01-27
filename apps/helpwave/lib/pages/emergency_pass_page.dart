@@ -38,9 +38,9 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
       context: context,
       builder: (context) => LanguagePickerDialog(
           titlePadding: const EdgeInsets.all(8.0),
-          searchInputDecoration: InputDecoration(hintText: context.localization.search),
+          searchInputDecoration: InputDecoration(hintText: context.localization!.search),
           isSearchable: true,
-          title: Text(context.localization.selectLanguage),
+          title: Text(context.localization!.selectLanguage),
           onValuePicked: (Language language) => setState(() {
                 _controllerPrimaryLanguage.text = language.name;
                 patientData.language = language.name;
@@ -55,7 +55,7 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
     return Consumer<LanguageModel>(builder: (_, LanguageModel languageNotifier, __) {
       return Scaffold(
         appBar: AppBar(
-          title: Text(context.localization.emergencyPass),
+          title: Text(context.localization!.emergencyPass),
         ),
         body: FutureBuilder(
           future: PatientPersistenceService().load(),
