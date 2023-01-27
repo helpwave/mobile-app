@@ -11,8 +11,7 @@ on:
       - 'v*'
   pull_request:
 
-jobs:
-
+jobs:  
   lint:
     runs-on: ubuntu-20.04
     steps:
@@ -41,7 +40,13 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
+          
+      - uses: bluefireteam/melos-action@v1
+        with:
+          run-bootstrap: true
 
+      - run: melos run intl
+      
       - name: Build apk
         working-directory: ./apps/helpwave/
         run: |
@@ -63,7 +68,13 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
           architecture: x64
+      
+      - uses: bluefireteam/melos-action@v1
+        with:
+          run-bootstrap: true
 
+      - run: melos run intl
+      
       - name: Build ipa
         working-directory: ./apps/helpwave/
         run: |
