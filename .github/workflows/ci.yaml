@@ -109,7 +109,7 @@ jobs:
           name: ipa-tasks
           path: ./apps/tasks/tasks.ipa    
 
-  browserstack-helpwave:
+  browserstack:
     runs-on: ubuntu-20.04
     if: github.event_name == 'pull_request'
     needs:
