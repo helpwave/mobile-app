@@ -83,11 +83,10 @@ jobs:
 
       - run: melos run intl
       
-      - run: melos run build-ios
-      
       - name: package helpwave ipa
         working-directory: ./apps/helpwave/
         run: |
+          flutter build ios --no-codesign
           mkdir Payload
           cp -r build/ios/Release-iphoneos/Runner.app Payload
           zip -r helpwave.ipa Payload
@@ -95,6 +94,7 @@ jobs:
       - name: package tasks ipa
         working-directory: ./apps/tasks/
         run: |
+          flutter build ios --no-codesign
           mkdir Payload
           cp -r build/ios/Release-iphoneos/Runner.app Payload
           zip -r tasks.ipa Payload
