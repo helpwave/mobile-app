@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_localization/l10n/app_localizations.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_localization/localization_model.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
@@ -26,12 +28,21 @@ class MyApp extends StatelessWidget {
         builder:
         (_, ThemeModel themeNotifier, LanguageModel languageNotifier, __) {
           return MaterialApp(
-            themeMode:  themeNotifier.isDark != null  &&  themeNotifier.isDark != null
+            darkTheme: darkTheme,
+            themeMode:  themeNotifier.isDark != null && themeNotifier.isDark != null
                 ? ThemeMode.dark : ThemeMode.light,
             title: 'Flutter Demo',
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: getSupportedLocals(),
+            locale: Locale(languageNotifier.language),
             home: const MyHomePage(title: 'Flutter Demo Home Page'),
           );
         }
