@@ -154,12 +154,12 @@ jobs:
           message: |
             ## BrowserStack
             Commit: `${{ steps.short-sha.outputs.shortSha }}`
-            #### Helpwave
+            #### helpwave
             - **Android (13.0)**
               - [Google Pixel 7 Pro](https://app-live.browserstack.com/dashboard#os=android&os_version=13.0&device=Google+Pixel+7+Pro&start=true&app_hashed_id=${{ steps.upload-to-browserstack.outputs.apkHashHelpwave }})
             - **iOS (16.0)**
               - [iPhone 14 Pro](https://app-live.browserstack.com/dashboard#os=iOS&os_version=16.0&device=iPhone+14+Pro&start=true&app_hashed_id=${{ steps.upload-to-browserstack.outputs.ipaHashHelpwave }})
-            #### Tasks
+            #### helpwave tasks
             - **Android (13.0)**
               - [Google Pixel 7 Pro](https://app-live.browserstack.com/dashboard#os=android&os_version=13.0&device=Google+Pixel+7+Pro&start=true&app_hashed_id=${{ steps.upload-to-browserstack.outputs.apkHashTasks }})
             - **iOS (16.0)**
