@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
-import 'package:helpwave/styling/constants.dart';
 
 /// A customizable Search within a List
 ///
@@ -41,10 +39,14 @@ class ListSearch<T> extends StatefulWidget {
   /// Allow adding user input, if filtered search items are empty for a given search
   final bool allowSelectAnyway;
 
-  /// The name of the searched elements e.g. Medication, Name or Color
-  ///
-  /// Displayed when no search entry is found
-  final String? searchElementName;
+  /// Hint Text for Search Input
+  final String? searchHintText;
+
+  /// Element not found Text
+  final String Function(String searched)? elementNotFoundText;
+
+  /// AddAnyway Button Text
+  final String? addAnywayText;
 
   // Multi Select
 
@@ -63,7 +65,9 @@ class ListSearch<T> extends StatefulWidget {
     this.filter,
     this.items = const [],
     this.asyncItems,
-    this.searchElementName,
+    this.searchHintText,
+    this.elementNotFoundText,
+    this.addAnywayText,
     this.isMultiSelect = false,
     this.selected = const [],
   });
@@ -117,7 +121,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title ?? context.localization!.searchNoun),
+          title: Text(widget.title ?? "List-Search"),
         ),
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -142,7 +146,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                       },
                       icon: const Icon(Icons.close),
                     ),
-                    hintText: context.localization!.search,
+                    hintText: widget.searchHintText ?? "Search...",
                     border: const OutlineInputBorder(),
                   ),
                 ),
@@ -198,14 +202,16 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                           children: [
                             const SizedBox(height: distanceBig),
                             Text(
-                              "${widget.searchElementName ?? _searchController.text} ${context.localization!.notFound}",
+                              widget.elementNotFoundText != null
+                                  ? widget.elementNotFoundText!(_searchController.text)
+                                  : "Not item ${_searchController.text} found",
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                             const SizedBox(height: distanceDefault),
                             widget.allowSelectAnyway
                                 ? TextButton(
                                     onPressed: () => Navigator.pop(context, _searchController.text.trim()),
-                                    child: Text("${context.localization!.addAnyway}!"),
+                                    child: Text(widget.addAnywayText ?? "Add anyway!"),
                                   )
                                 : const SizedBox(),
                           ],

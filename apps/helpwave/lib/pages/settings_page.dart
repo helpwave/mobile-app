@@ -4,7 +4,7 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_localization/localization_model.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:helpwave_theme/constants.dart';
-import 'package:helpwave/components/accept_dialog.dart';
+import 'package:helpwave_widget/dialog.dart';
 import 'package:helpwave/pages/landing_page.dart';
 import 'package:helpwave/services/introduction_model.dart';
 import 'package:helpwave/pages/emergency_pass_page.dart';
@@ -100,6 +100,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 onTap: () => showDialog(
                   context: context,
                   builder: (context) => AcceptDialog(
+                    yesText: context.localization!.yes,
+                    noText: context.localization!.no,
                     titleText: context.localization!.showIntroduction,
                   ),
                 ).then((value) {

@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_localization/localization_model.dart';
+import 'package:helpwave_widget/content_selection.dart';
 import 'package:language_picker/language_picker_dialog.dart';
 import 'package:language_picker/languages.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave/components/blood_type_select.dart';
 import 'package:helpwave/enums/dosage.dart';
-import 'package:helpwave/components/content_selection/content_selector.dart';
 import 'package:helpwave/enums/severity.dart';
 import 'package:helpwave/data_classes/patient_data.dart';
 import 'package:helpwave/services/patient_persistence.dart';
@@ -302,7 +302,10 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
                   selectionLabelText: context.localization!.dosage,
                   selectionDefaultValue: Dosage.daily,
                   icon: const Icon(Icons.medication),
-                  searchElementName: context.localization!.medication,
+                  entryName: context.localization!.entries,
+                  searchHintText: context.localization!.search,
+                  elementNotFoundText: (searched) => "$searched ${context.localization!.notFound}",
+                  addAnywayText: context.localization!.addAnyway,
                   searchTitle: context.localization!.medicationSearch,
                   searchItems: const ["Coffein", "Medication Name", "Aspirin", "Duozol", "Diamannden"],
                 ),
@@ -326,7 +329,10 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
                         return context.localization!.severe;
                     }
                   },
-                  searchElementName: context.localization!.allergy,
+                  entryName: context.localization!.entries,
+                  searchHintText: context.localization!.search,
+                  elementNotFoundText: (searched) => "$searched ${context.localization!.notFound}",
+                  addAnywayText: context.localization!.addAnyway,
                   icon: const Icon(Icons.warning_outlined),
                   title: context.localization!.allergies,
                   searchAsyncItems: (searched) async {

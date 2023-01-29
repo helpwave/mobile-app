@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:helpwave_localization/localization.dart';
 
 /// Dialog for accepting or declining
-class AcceptDialog extends StatelessWidget {
+class AcceptDialog<V> extends StatelessWidget {
+  /// Text for a positive answer
+  final String? yesText;
+
+  /// Text for a negative answer
+  final String? noText;
+
   /// String to display as a Title
   ///
   /// Overwritten by [title]
@@ -18,6 +23,8 @@ class AcceptDialog extends StatelessWidget {
 
   const AcceptDialog({
     super.key,
+    this.yesText,
+    this.noText,
     this.titleText,
     this.title,
     this.content,
@@ -26,15 +33,15 @@ class AcceptDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: title ?? Text(titleText ?? context.localization!.acceptQuestion),
+      title: title ?? Text(titleText ?? ""),
       content: content,
       actions: [
         TextButton(
-          child: Text(context.localization!.yes),
+          child: Text(yesText ?? "Yes"),
           onPressed: () => Navigator.of(context).pop(true),
         ),
         TextButton(
-          child: Text(context.localization!.no),
+          child: Text(noText ?? "No"),
           onPressed: () => Navigator.of(context).pop(false),
         ),
       ],
