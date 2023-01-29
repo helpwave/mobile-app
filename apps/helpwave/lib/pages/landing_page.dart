@@ -45,7 +45,7 @@ class LandingPage extends StatelessWidget {
                           style: Theme
                               .of(context)
                               .textTheme
-                              .headline4!
+                              .headlineMedium!
                               .copyWith(
                             color: Theme
                                 .of(context)
