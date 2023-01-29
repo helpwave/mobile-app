@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_localization/localization_model.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_widget/dialog.dart';
 import 'package:helpwave_service/introduction.dart';
 import 'package:helpwave/components/accept_dialog.dart';
 import 'package:helpwave/pages/landing_page.dart';
 import 'package:helpwave/pages/emergency_pass_page.dart';
 import 'package:helpwave/pages/language_selection_page.dart';
-import 'package:helpwave/services/language_model.dart';
 
 /// Page for displaying basic Settings
 ///
@@ -43,8 +44,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ],
                 ),
-                subtitle: Text(isDarkTheme ? AppLocalizations.of(context)!.on : AppLocalizations.of(context)!.off),
-                title: Text(AppLocalizations.of(context)!.darkMode),
+                subtitle: Text(isDarkTheme ? context.localization!.on : context.localization!.off),
+                title: Text(context.localization!.darkMode),
                 onChanged: (value) => themeNotifier.isDark = value,
               ),
               ListTile(
@@ -59,7 +60,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 subtitle: Text(languageNotifier.name),
                 onTap: () =>
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const LanguageSelectionPage())),
-                title: Text(AppLocalizations.of(context)!.language),
+                title: Text(context.localization!.language),
                 trailing: const Icon(
                   Icons.arrow_forward,
                 ),
@@ -77,7 +78,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   context,
                   MaterialPageRoute(builder: (context) => const EmergencyPassPage()),
                 ),
-                title: Text(AppLocalizations.of(context)!.emergencyPass),
+                title: Text(context.localization!.emergencyPass),
                 trailing: const Icon(
                   Icons.arrow_forward,
                 ),
@@ -95,12 +96,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               ListTile(
-                title: Text(AppLocalizations.of(context)!.resetIntroduction),
+                title: Text(context.localization!.resetIntroduction),
                 leading: const Icon(Icons.refresh),
                 onTap: () => showDialog(
                   context: context,
                   builder: (context) => AcceptDialog(
-                    titleText: AppLocalizations.of(context)!.showIntroduction,
+                    yesText: context.localization!.yes,
+                    noText: context.localization!.no,
+                    titleText: context.localization!.showIntroduction,
                   ),
                 ).then((value) {
                   if (value == true) {

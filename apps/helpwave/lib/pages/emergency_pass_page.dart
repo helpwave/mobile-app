@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
+import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_localization/localization_model.dart';
+import 'package:helpwave_widget/content_selection.dart';
 import 'package:language_picker/language_picker_dialog.dart';
 import 'package:language_picker/languages.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:helpwave_theme/constants.dart';
-import 'package:helpwave/services/language_model.dart';
 import 'package:helpwave/components/blood_type_select.dart';
 import 'package:helpwave/enums/dosage.dart';
-import 'package:helpwave/components/content_selection/content_selector.dart';
 import 'package:helpwave/enums/severity.dart';
 import 'package:helpwave/data_classes/patient_data.dart';
 import 'package:helpwave/services/patient_persistence.dart';
@@ -39,9 +38,9 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
       context: context,
       builder: (context) => LanguagePickerDialog(
           titlePadding: const EdgeInsets.all(8.0),
-          searchInputDecoration: InputDecoration(hintText: AppLocalizations.of(context)!.search),
+          searchInputDecoration: InputDecoration(hintText: context.localization!.search),
           isSearchable: true,
-          title: Text(AppLocalizations.of(context)!.selectLanguage),
+          title: Text(context.localization!.selectLanguage),
           onValuePicked: (Language language) => setState(() {
                 _controllerPrimaryLanguage.text = language.name;
                 patientData.language = language.name;
@@ -56,7 +55,7 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
     return Consumer<LanguageModel>(builder: (_, LanguageModel languageNotifier, __) {
       return Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.emergencyPass),
+          title: Text(context.localization!.emergencyPass),
         ),
         body: FutureBuilder(
           future: PatientPersistenceService().load(),
@@ -93,8 +92,7 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
             PatientData patient = snapshot.data!;
 
             if (patient.isOrganDonor != null) {
-              _controllerOrganDonor.text =
-                  patient.isOrganDonor! ? AppLocalizations.of(context)!.yes : AppLocalizations.of(context)!.no;
+              _controllerOrganDonor.text = patient.isOrganDonor! ? context.localization!.yes : context.localization!.no;
             }
             if (patient.birthDate != null) {
               _controllerBirthdate.text = DateFormat('dd.MM.yyyy').format(patient.birthDate!);
@@ -114,8 +112,8 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
                       TextFormField(
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.person),
-                          labelText: AppLocalizations.of(context)!.name,
-                          hintText: AppLocalizations.of(context)!.name,
+                          labelText: context.localization!.name,
+                          hintText: context.localization!.name,
                         ),
                         onChanged: (value) {
                           patient.name = value;
@@ -137,8 +135,8 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
                               patient.save();
                             },
                           ),
-                          labelText: AppLocalizations.of(context)!.primaryLanguage,
-                          hintText: AppLocalizations.of(context)!.primaryLanguage,
+                          labelText: context.localization!.primaryLanguage,
+                          hintText: context.localization!.primaryLanguage,
                         ),
                         onTap: () => _openLanguagePickerDialog(patient),
                       ),
@@ -163,8 +161,8 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
                         },
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.calendar_month),
-                          labelText: AppLocalizations.of(context)!.dateOfBirth,
-                          hintText: AppLocalizations.of(context)!.dateOfBirth,
+                          labelText: context.localization!.dateOfBirth,
+                          hintText: context.localization!.dateOfBirth,
                           suffixIcon: IconButton(
                             icon: const Icon(Icons.close),
                             onPressed: () {
@@ -189,21 +187,21 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
                               patient.save();
                             },
                           ),
-                          labelText: AppLocalizations.of(context)!.organDonor,
-                          hintText: AppLocalizations.of(context)!.organDonor,
+                          labelText: context.localization!.organDonor,
+                          hintText: context.localization!.organDonor,
                         ),
                         onTap: () {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text(AppLocalizations.of(context)!.organDonor),
+                                  title: Text(context.localization!.organDonor),
                                   actions: [
                                     TextButton(
-                                      child: Text(AppLocalizations.of(context)!.yes),
+                                      child: Text(context.localization!.yes),
                                       onPressed: () {
                                         setState(() {
-                                          _controllerOrganDonor.text = AppLocalizations.of(context)!.yes;
+                                          _controllerOrganDonor.text = context.localization!.yes;
                                           patient.isOrganDonor = true;
                                           patient.save();
                                         });
@@ -211,10 +209,10 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
                                       },
                                     ),
                                     TextButton(
-                                      child: Text(AppLocalizations.of(context)!.no),
+                                      child: Text(context.localization!.no),
                                       onPressed: () {
                                         setState(() {
-                                          _controllerOrganDonor.text = AppLocalizations.of(context)!.no;
+                                          _controllerOrganDonor.text = context.localization!.no;
                                           patient.isOrganDonor = false;
                                           patient.save();
                                         });
@@ -240,8 +238,8 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.monitor_weight),
-                            labelText: AppLocalizations.of(context)!.weight,
-                            hintText: AppLocalizations.of(context)!.weight,
+                            labelText: context.localization!.weight,
+                            hintText: context.localization!.weight,
                             suffixText: "kg"),
                       ),
                       distanceHolder,
@@ -259,8 +257,8 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.height),
-                            labelText: AppLocalizations.of(context)!.height,
-                            hintText: AppLocalizations.of(context)!.height,
+                            labelText: context.localization!.height,
+                            hintText: context.localization!.height,
                             suffixText: "cm"),
                       ),
                       distanceHolder,
@@ -280,7 +278,7 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
                   },
                 ),
                 ContentSelector<Dosage>(
-                  title: AppLocalizations.of(context)!.medications,
+                  title: context.localization!.medications,
                   isMultiSelect: true,
                   initialValues: patient.medication,
                   onChangedList: (map) {
@@ -289,48 +287,54 @@ class _EmergencyPassPageState extends State<EmergencyPassPage> {
                   },
                   valueToString: (dosage) {
                     Map<Dosage, String> translation = {
-                      Dosage.daily: AppLocalizations.of(context)!.daily,
-                      Dosage.daily3Times: AppLocalizations.of(context)!.daily3Times,
-                      Dosage.daily2Times: AppLocalizations.of(context)!.daily2Times,
-                      Dosage.daily5Times: AppLocalizations.of(context)!.daily5Times,
-                      Dosage.weekly: AppLocalizations.of(context)!.weekly,
-                      Dosage.weekly2Times: AppLocalizations.of(context)!.weekly2Times,
-                      Dosage.weekly4Times: AppLocalizations.of(context)!.weekly4Times,
-                      Dosage.monthly: AppLocalizations.of(context)!.monthly,
+                      Dosage.daily: context.localization!.daily,
+                      Dosage.daily3Times: context.localization!.daily3Times,
+                      Dosage.daily2Times: context.localization!.daily2Times,
+                      Dosage.daily5Times: context.localization!.daily5Times,
+                      Dosage.weekly: context.localization!.weekly,
+                      Dosage.weekly2Times: context.localization!.weekly2Times,
+                      Dosage.weekly4Times: context.localization!.weekly4Times,
+                      Dosage.monthly: context.localization!.monthly,
                     };
                     return translation[dosage]!;
                   },
                   selectionItems: Dosage.values,
-                  selectionLabelText: AppLocalizations.of(context)!.dosage,
+                  selectionLabelText: context.localization!.dosage,
                   selectionDefaultValue: Dosage.daily,
                   icon: const Icon(Icons.medication),
-                  searchElementName: AppLocalizations.of(context)!.medication,
-                  searchTitle: AppLocalizations.of(context)!.medicationSearch,
+                  entryName: context.localization!.entries,
+                  searchHintText: context.localization!.search,
+                  elementNotFoundText: (searched) => "$searched ${context.localization!.notFound}",
+                  addAnywayText: context.localization!.addAnyway,
+                  searchTitle: context.localization!.medicationSearch,
                   searchItems: const ["Coffein", "Medication Name", "Aspirin", "Duozol", "Diamannden"],
                 ),
                 ContentSelector<Severity>(
                   initialValues: patient.allergies,
                   isMultiSelect: true,
-                  searchTitle: AppLocalizations.of(context)!.allergies,
+                  searchTitle: context.localization!.allergies,
                   onChangedList: (map) {
                     patient.allergies = map;
                     patient.save();
                   },
                   selectionItems: Severity.values,
                   selectionDefaultValue: Severity.light,
-                  selectionLabelText: AppLocalizations.of(context)!.severity,
+                  selectionLabelText: context.localization!.severity,
                   selectWidth: 120,
                   valueToString: (value) {
                     switch (value) {
                       case Severity.light:
-                        return AppLocalizations.of(context)!.light;
+                        return context.localization!.light;
                       case Severity.severe:
-                        return AppLocalizations.of(context)!.severe;
+                        return context.localization!.severe;
                     }
                   },
-                  searchElementName: AppLocalizations.of(context)!.allergy,
+                  entryName: context.localization!.entries,
+                  searchHintText: context.localization!.search,
+                  elementNotFoundText: (searched) => "$searched ${context.localization!.notFound}",
+                  addAnywayText: context.localization!.addAnyway,
                   icon: const Icon(Icons.warning_outlined),
-                  title: AppLocalizations.of(context)!.allergies,
+                  title: context.localization!.allergies,
                   searchAsyncItems: (searched) async {
                     // TODO fetch form backend
                     return [

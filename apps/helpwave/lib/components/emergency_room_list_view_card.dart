@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/components/emergency_room_bottom_sheet.dart';
 
@@ -33,13 +33,13 @@ class EmergencyRoomListViewCard extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const Divider(),
-            Text("${AppLocalizations.of(context)!.location}: "
+            Text("${context.localization!.location}: "
                 "${emergencyRoom["location"]}"),
-            Text("${AppLocalizations.of(context)!.address}: "
+            Text("${context.localization!.address}: "
                 "${emergencyRoom["displayableAddress"]}"),
-            Text("${AppLocalizations.of(context)!.availability}: "
-                " ${(emergencyRoom["open"] ? AppLocalizations.of(context)!.open : AppLocalizations.of(context)!.closed)}"),
-            Text("${AppLocalizations.of(context)!.utilization}: "
+            Text("${context.localization!.availability}: "
+                " ${(emergencyRoom["open"] ? context.localization!.open : context.localization!.closed)}"),
+            Text("${context.localization!.utilization}: "
                 " ${emergencyRoom["utilization"].toString()}"),
             const Divider(),
             Row(
@@ -53,7 +53,7 @@ class EmergencyRoomListViewCard extends StatelessWidget {
                         emergencyRoom: emergencyRoom,
                       );
                     },
-                    child: Text(AppLocalizations.of(context)!.more),
+                    child: Text(context.localization!.more),
                   ),
                 ),
                 Container(
@@ -62,7 +62,7 @@ class EmergencyRoomListViewCard extends StatelessWidget {
                 Expanded(
                   child: TextButton(
                     onPressed: () {},
-                    child: Text(AppLocalizations.of(context)!.route),
+                    child: Text(context.localization!.route),
                   ),
                 ),
               ],

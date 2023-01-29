@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:helpwave_theme/theme.dart';
+import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_localization/localization_model.dart';
+import 'package:helpwave_localization/l10n/app_localizations.dart';
 import 'package:helpwave_service/introduction.dart';
 import 'package:helpwave/services/database_handler.dart';
-import 'package:helpwave/config/language.dart';
 import 'package:helpwave/pages/home_page.dart';
 import 'package:helpwave/pages/landing_page.dart';
-import 'package:helpwave/services/language_model.dart';
-import 'package:helpwave_theme/theme.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -58,7 +57,7 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: languages.map((language) => Locale(language["Language"]!, language["Local"]!)).toList(),
+            supportedLocales: getSupportedLocals(),
             home: introductionModel.hasSeenIntroduction ? const HomePage() : const LandingPage(),
             locale: Locale(languageNotifier.language),
           );
