@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:helpwave/services/introduction_preference.dart';
+import 'package:helpwave_service/src/introduction_preference.dart';
 
 /// Model for Introduction Settings
 ///

@@ -5,8 +5,8 @@ import 'package:helpwave_localization/localization_model.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/dialog.dart';
+import 'package:helpwave_service/introduction.dart';
 import 'package:helpwave/pages/landing_page.dart';
-import 'package:helpwave/services/introduction_model.dart';
 import 'package:helpwave/pages/emergency_pass_page.dart';
 import 'package:helpwave/pages/language_selection_page.dart';
 
