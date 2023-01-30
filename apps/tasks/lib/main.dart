@@ -10,11 +10,13 @@ void main() {
   runApp(const MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
+    ThemeMode themeMode = ThemeMode.system;
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -27,10 +29,14 @@ class MyApp extends StatelessWidget {
       child: Consumer2<ThemeModel, LanguageModel>(
         builder:
         (_, ThemeModel themeNotifier, LanguageModel languageNotifier, __) {
+
+          if(themeNotifier.isDark != null){
+            themeMode = themeNotifier.isDark! ? ThemeMode.dark : ThemeMode.light;
+          }
+
           return MaterialApp(
             darkTheme: darkTheme,
-            themeMode:  themeNotifier.isDark != null && themeNotifier.isDark != null
-                ? ThemeMode.dark : ThemeMode.light,
+            themeMode: themeMode,
             title: 'Flutter Demo',
             theme: ThemeData(
               primarySwatch: Colors.blue,
