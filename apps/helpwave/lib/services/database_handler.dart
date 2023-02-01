@@ -7,7 +7,7 @@ class DatabaseHandler {
   Database? _database;
 
   /// The current version of the db change when updating
-  final int _version = 1;
+  final int _version = 2;
 
   /// The file name which represents the database on the device
   final String _dbName = "database.db";
@@ -34,7 +34,7 @@ class DatabaseHandler {
             'id INTEGER PRIMARY KEY,'
             'name TEXT, language TEXT,'
             'birthDate TEXT,'
-            'isOrganDonor BOOLEAN,'
+            'isOrganDonor INTEGER,'
             'weight TEXT, height TEXT,'
             'bloodType TEXT,'
             'rhesusFactor TEXT);');
