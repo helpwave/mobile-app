@@ -6,7 +6,8 @@ This project is tested with [BrowserStack](https://www.browserstack.com).
 # Projects
 This repository uses [melos](https://melos.invertase.dev/getting-started) all projects can be found in `packages/*`
 
-- helpwave the main application (see [helpwave](/packages/helpwave))
+- **helpwave** the main application (see [helpwave](/apps/helpwave))
+- **helpwave tasks** the planning app for healthcare professionals (see [helpwave tasks](/apps/tasks))
 
 # Getting Started
 
