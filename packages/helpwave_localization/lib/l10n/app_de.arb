@@ -78,5 +78,14 @@
   "resetQuestion": "Wirklich komplett zurücksetzen?",
   "acceptQuestion": "Wirklich akzeptieren?",
   "resetIntroduction": "Einführung zurücksetzen",
-  "showIntroduction": "Einführung anzeigen?"
+  "showIntroduction": "Einführung anzeigen?",
+  "login": "Login",
+  "email": "Email",
+  "password": "Passwort",
+  "emailNotValid": "Sie müssen eine korrekte Email angeben",
+  "register": "Registrieren",
+  "passwordNotEqual": "Passwörter müssen identisch sein",
+  "alreadyHaveAnAccount": "Account bereits erstellt?",
+  "passwordLengthError": "Passworter müssen mindestens 6 Zeichen lang sein",
+  "noPassword": "Passwortfeld darf nicht leer sein"
 }
