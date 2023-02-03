@@ -16,13 +16,19 @@ ThemeData lightTheme = ThemeData(
     backgroundColor: Color.fromARGB(255, 238, 238, 238),
   ),
   inputDecorationTheme: InputDecorationTheme(
-    focusedBorder: defaultOutlineInputBorder.copyWith(
-      borderSide: const BorderSide(color: focusedColor),
-    ),
-    enabledBorder: defaultOutlineInputBorder.copyWith(
-      borderSide: const BorderSide(color: defaultColor),
-    ),
+    focusColor: focusedColor,
+    focusedBorder: defaultOutlineInputBorder.copyWith(borderSide: const BorderSide(color: focusedColor)),
+    enabledBorder: defaultOutlineInputBorder.copyWith(borderSide: const BorderSide(color: defaultColor)),
+    errorBorder: defaultOutlineInputBorder.copyWith(borderSide: const BorderSide(color: errorColor)),
+    focusedErrorBorder: defaultOutlineInputBorder.copyWith(borderSide: const BorderSide(color: errorColor)),
     iconColor: MaterialStateColor.resolveWith((states) {
+      if (states.contains(MaterialState.focused)) {
+        return focusedColor;
+      } else {
+        return defaultColor;
+      }
+    }),
+    suffixIconColor: MaterialStateColor.resolveWith((states) {
       if (states.contains(MaterialState.focused)) {
         return focusedColor;
       } else {
@@ -74,6 +80,7 @@ ThemeData lightTheme = ThemeData(
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 140, 140, 140)),
+      foregroundColor: const MaterialStatePropertyAll(Color.fromARGB(255, 255, 255, 255)),
     ),
   ),
   iconTheme: const IconThemeData(
@@ -95,7 +102,7 @@ ThemeData lightTheme = ThemeData(
     onSecondary: Color.fromARGB(255, 0, 0, 0),
     tertiary: Color.fromARGB(255, 153, 153, 153),
     onTertiary: Color.fromARGB(255, 255, 255, 255),
-    error: Color.fromARGB(255, 255, 51, 51),
+    error: errorColor,
     onError: Color.fromARGB(255, 255, 255, 255),
     // Surface
     surfaceTint: Color.fromARGB(0, 0, 0, 0),
@@ -112,7 +119,7 @@ ThemeData lightTheme = ThemeData(
     onSecondaryContainer: Color.fromARGB(255, 255, 255, 255),
     tertiaryContainer: Color.fromARGB(255, 0, 0, 0),
     onTertiaryContainer: Color.fromARGB(255, 255, 255, 255),
-    errorContainer: Color.fromARGB(255, 255, 51, 51),
+    errorContainer: errorColor,
     onErrorContainer: Color.fromARGB(255, 255, 255, 255),
   ),
 );

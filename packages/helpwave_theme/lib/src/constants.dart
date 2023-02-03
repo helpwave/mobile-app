@@ -9,8 +9,7 @@ const TextStyle buttonTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
 );
 ButtonStyle buttonStyle = ButtonStyle(
-  minimumSize:
-  const MaterialStatePropertyAll<Size>(Size(buttonWidth, buttonHeight)),
+  minimumSize: const MaterialStatePropertyAll<Size>(Size(buttonWidth, buttonHeight)),
   shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
     RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(borderRadiusMedium),
@@ -58,6 +57,8 @@ const defaultOutlineInputBorder = OutlineInputBorder(
 /// Colors
 const positiveColor = Color.fromARGB(255, 52, 199, 89);
 const negativeColor = Color.fromARGB(255, 255, 51, 51);
+
+const errorColor = Color.fromARGB(255, 255, 51, 51);
 
 /// Animation
 const Duration zeroDuration = Duration.zero;
