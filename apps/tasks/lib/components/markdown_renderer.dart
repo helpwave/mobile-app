@@ -15,55 +15,61 @@ class _MarkDownRendererState extends State<MarkDownRenderer> {
   List<String> stringLines = [];
 
   TextSpan inlineTranslateMarkdown(String inlineString, TextStyle textStyle) {
-    // TODO make some check to find the biggest open and closed independent of Map sorting
     Map<String, TextStyle> markdownIdentifier = {
       "**": textStyle.copyWith(fontWeight: FontWeight.bold),
       "_": textStyle.copyWith(fontStyle: FontStyle.italic),
       "~~": textStyle.copyWith(decoration: TextDecoration.lineThrough),
     };
-    // Check all identifiers and on match apply the effect
+    String firstSign = "";
+    int firstStartIndex = inlineString.length;
+    int firstEndIndex = -1;
+    String firstAfterOpened = "";
     for (String sign in markdownIdentifier.keys) {
-      List<TextSpan> children = [];
-      int startIndex = -1;
-      int endIndex = -1;
-      if (inlineString.startsWith(sign)) {
-        startIndex = 0;
-      } else {
-        startIndex = inlineString.indexOf(" $sign");
-      }
+      int startIndex = inlineString.length;
+      startIndex = inlineString.startsWith(sign) ? 0 : inlineString.indexOf(" $sign");
       if (startIndex == -1) {
         continue;
       }
-      String afterOpened = inlineString.substring(startIndex + sign.length + 1);
-      if (inlineString.endsWith(sign)) {
-        endIndex = afterOpened.length - 1;
-      } else {
-        endIndex = afterOpened.indexOf("$sign ");
+      String afterOpened = inlineString.substring(startIndex + sign.length + (inlineString.startsWith(sign) ? 0 : 1));
+      int endIndex = afterOpened.indexOf("$sign ");
+      if (endIndex == -1 && inlineString.endsWith(sign)) {
+        endIndex = afterOpened.length - sign.length;
       }
       if (endIndex == -1) {
         continue;
       }
+      if (startIndex < firstStartIndex) {
+        firstSign = sign;
+        firstStartIndex = startIndex;
+        firstEndIndex = endIndex;
+        firstAfterOpened = afterOpened;
+      }
+    }
+
+    if (firstSign != "") {
+      List<TextSpan> children = [];
       // Split the String in part before, middle, and after (only middle is affected)
       children.add(
         inlineTranslateMarkdown(
-          inlineString.substring(0, startIndex) + (startIndex != 0 ? " " : ""),
+          inlineString.substring(0, firstStartIndex),
           textStyle,
         ),
       );
       children.add(inlineTranslateMarkdown(
-        afterOpened.substring(0, endIndex - 1),
-        markdownIdentifier[sign]!,
+        firstAfterOpened.substring(0, firstEndIndex),
+        markdownIdentifier[firstSign]!,
       ));
-      if (endIndex != afterOpened.length - 1) {
+      if (firstEndIndex != firstAfterOpened.length - 1) {
         children.add(
           inlineTranslateMarkdown(
-            afterOpened.substring(endIndex + sign.length, afterOpened.length),
+            firstAfterOpened.substring(firstEndIndex + firstSign.length, firstAfterOpened.length),
             textStyle,
           ),
         );
       }
       return TextSpan(children: children);
     }
+
     return TextSpan(
       text: inlineString,
       style: textStyle,
@@ -106,12 +112,11 @@ class _MarkDownRendererState extends State<MarkDownRenderer> {
           ),
         );
       } else if (line.startsWith("* ") || line.startsWith("- ")) {
-        bool hasBulletBefore = false;
-        if (i > 0 && (stringLines[i - 1].startsWith("* ") || (stringLines[i - 1].startsWith("- ") && !stringLines[i -
-            1].startsWith("- [ ] ") && !stringLines[i -
-            1].startsWith("- [x] ")))) {
-          hasBulletBefore = true;
-        }
+        bool hasBulletBefore = i > 0 &&
+            (stringLines[i - 1].startsWith("* ") ||
+                (stringLines[i - 1].startsWith("- ") &&
+                    !stringLines[i - 1].startsWith("- [ ] ") &&
+                    !stringLines[i - 1].startsWith("- [x] ")));
         widgets.add(
           Padding(
             padding: EdgeInsets.only(top: hasBulletBefore ? 0 : distanceSmall, bottom: distanceSmall),
