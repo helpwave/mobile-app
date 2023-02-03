@@ -36,6 +36,7 @@ dependencies:
   # flutter pub run flutter_launcher_icons:main
   flutter_launcher_icons: ^0.10.0
   provider: ^6.0.3
+  markdown_editable_textinput: ^2.2.0
   helpwave_localization:
     path: "../../packages/helpwave_localization"
   helpwave_theme:
