@@ -78,5 +78,14 @@
   "resetQuestion": "Completely reset?",
   "acceptQuestion": "Accept?",
   "resetIntroduction": "Reset Introduction",
-  "showIntroduction": "Show Introduction?"
+  "showIntroduction": "Show Introduction?",
+  "login": "Login",
+  "email": "Email",
+  "password": "Password",
+  "emailNotValid": "Please enter a valid Email",
+  "register": "Register",
+  "passwordNotEqual": "Passwords need to be identical",
+  "alreadyHaveAnAccount": "Already created an Account?",
+  "passwordLengthError": "Password length must be a least 6 characters",
+  "noPassword": "Please enter a password"
 }
