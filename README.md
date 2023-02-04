@@ -1,18 +1,21 @@
-# helpwave app
-The official helpwave mobile app for android and ios
+# helpwave mobile-app
+The official repository for helpwave mobile apps for android and ios
 
 This project is tested with [BrowserStack](https://www.browserstack.com).
 
-# Projects
-This repository uses [melos](https://melos.invertase.dev/getting-started) all projects can be found in `packages/*`
+# [Projects](apps/)
+- **[helpwave](/apps/helpwave)** the main application
+- **[helpwave tasks](/apps/tasks)** the planning app for healthcare professionals
 
-- **helpwave** the main application (see [helpwave](/apps/helpwave))
-- **helpwave tasks** the planning app for healthcare professionals (see [helpwave tasks](/apps/tasks))
+# [Packages](packages/)
+- **[helpwave_localization](/packages/helpwave_localization)** the localization of all apps
+- **[helpwave_service](/packages/helpwave_service)** the services used by the apps
+- **[helpwave_theme](/packages/helpwave_theme)** the theme used by all apps
+- **[helpwave_widget](/packages/helpwave_widget)** the reusable widgets shared between all apps
 
 # Getting Started
-
-1. install [Flutter](https://docs.flutter.dev/get-started/install) version >=3.3 and [melos](https://melos.invertase.dev/getting-started)
+1. install [Flutter](https://docs.flutter.dev/get-started/install) version >=3.3 and [melos](https://melos.invertase.dev/getting-started) (`dart pub global activate melos`)
 2. run `melos bootstrap`
-3. run `melos intl`
-4. navigate to `/packages/<project>`
+3. run `melos run intl`
+4. navigate to `/apps/<project>`
 5. run application in emulator `flutter run`
