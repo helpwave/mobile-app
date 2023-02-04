@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
-import 'package:helpwave_theme/constants.dart';
 
 class WardPage extends StatefulWidget{
   const WardPage({super.key});
@@ -21,46 +20,30 @@ class WardPageState extends State<WardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded),
-            onPressed: () {
-
-              },
-          ),),
-          body: Column(
-            children: [
-              Padding(padding:const EdgeInsets.all(distanceDefault),
-                child: TextField(decoration: InputDecoration(
-                    hintText: context.localization!.search,
-                    suffixIcon: IconButton(onPressed: () {},
-                        icon: const Icon(Icons.search))),),
-              ),
-            ],
-          ),
+    return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items:  [
           BottomNavigationBarItem(
-            activeIcon: const Icon(Icons.door_back_door,
+            activeIcon: const Icon(Icons.local_hospital,
               color: Colors.white,),
-            icon: const Icon(Icons.door_back_door,
+            icon: const Icon(Icons.local_hospital,
                 color: Colors.grey),
-            label: context.localization!.rooms,
+            label: context.localization!.organisations,
           ),
           BottomNavigationBarItem(
-            activeIcon: const Icon(Icons.person,
+            activeIcon: const Icon(Icons.medical_information,
               color: Colors.white,),
-            icon: const Icon(Icons.person,
+            icon: const Icon(Icons.medical_information,
                 color: Colors.grey),
-            label: context.localization!.patients,
+            label: context.localization!.station,
           ),
           BottomNavigationBarItem(
-            activeIcon: const Icon(Icons.bed,
+            activeIcon: const Icon(Icons.task,
               color: Colors.white,),
-            icon: const Icon(Icons.bed,
+            icon: const Icon(Icons.task,
                 color: Colors.grey),
-            label: context.localization!.beds,
+            label: context.localization!.tasks,
           ),
           BottomNavigationBarItem(
             activeIcon: const Icon(Icons.settings,

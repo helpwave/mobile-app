@@ -1,4 +1,7 @@
 {
+  "station": "Stationen",
+  "tasks": "Aufgaben",
+  "organisations":"Organisationen",
   "patients": "Patienten",
   "rooms": "Räume",
   "beds": "Betten",
