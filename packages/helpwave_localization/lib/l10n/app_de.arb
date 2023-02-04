@@ -1,4 +1,7 @@
 {
+  "patients": "Patienten",
+  "rooms": "Räume",
+  "beds": "Betten",
   "start": "starten",
   "selectLanguage": "Wählen Sie Ihre Sprache",
   "language": "Sprache",
