@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
 
+/// A Widget used to render Markdown in flutter
 class MarkDownRenderer extends StatefulWidget {
+  /// Function that will be called once the Markdown has been edited
+  ///
+  /// e.g. a checkbox has been checked and therefore the markdown string changed
   final void Function(String value)? callback;
+
+  /// The string written in Markdown
   final String markdownString;
 
   const MarkDownRenderer({super.key, this.callback, required this.markdownString});

@@ -87,5 +87,9 @@
   "passwordNotEqual": "Passwords need to be identical",
   "alreadyHaveAnAccount": "Already created an Account?",
   "passwordLengthError": "Password length must be a least 6 characters",
-  "noPassword": "Please enter a password"
+  "noPassword": "Please enter a password",
+  "text": "Text",
+  "markdown": "Markdown",
+  "room": "Room",
+  "patientID": "Patient-ID"
 }
