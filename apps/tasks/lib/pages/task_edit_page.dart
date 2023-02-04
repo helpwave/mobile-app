@@ -183,30 +183,21 @@ class _TaskEditPageState extends State<TaskEditPage> {
                       ),
                     ),
                   )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: paddingSmall, top: paddingSmall),
-                          child: InkWell(
-                            onTap: startEditingTitle,
-                            child: Text(
-                              title,
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                          ),
-                        ),
+                : ListTile(
+                    contentPadding: const EdgeInsets.only(left: paddingSmall),
+                    horizontalTitleGap: distanceSmall,
+                    title: Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    onTap: startEditingTitle,
+                    trailing: IconButton(
+                      onPressed: startEditingTitle,
+                      icon: const Icon(
+                        Icons.edit,
+                        size: iconSizeTiny,
                       ),
-                      IconButton(
-                        onPressed: startEditingTitle,
-                        icon: const Icon(
-                          Icons.edit,
-                          size: iconSizeTiny,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
             const SizedBox(height: distanceSmall),
             isMarkdownView

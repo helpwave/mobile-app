@@ -20,6 +20,15 @@ class MarkDownRenderer extends StatefulWidget {
 class _MarkDownRendererState extends State<MarkDownRenderer> {
   List<String> stringLines = [];
 
+  Widget leadingSymbol(Widget child) {
+    return Container(
+      padding: const EdgeInsets.only(right: distanceSmall),
+      height: iconSizeSmall,
+      width: iconSizeSmall,
+      child: child,
+    );
+  }
+
   TextSpan inlineTranslateMarkdown(String inlineString, TextStyle textStyle) {
     Map<String, TextStyle> markdownIdentifier = {
       "**": textStyle.copyWith(fontWeight: FontWeight.bold),
@@ -82,6 +91,8 @@ class _MarkDownRendererState extends State<MarkDownRenderer> {
     );
   }
 
+  Match? match;
+
   List<Widget> translateMarkdown(TextStyle textStyle) {
     stringLines = widget.markdownString.split("\n");
     List<Widget> widgets = [];
@@ -93,10 +104,8 @@ class _MarkDownRendererState extends State<MarkDownRenderer> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: iconSizeTiny,
-                width: iconSizeTiny,
-                child: Checkbox(
+              leadingSymbol(
+                Checkbox(
                   visualDensity: VisualDensity.compact,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   value: isChecked,
@@ -110,8 +119,8 @@ class _MarkDownRendererState extends State<MarkDownRenderer> {
               ),
               Flexible(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 3),
-                  child: RichText(text: inlineTranslateMarkdown(line.substring(5), textStyle)),
+                  padding: const EdgeInsets.only(top: 6),
+                  child: RichText(text: inlineTranslateMarkdown(line.substring(6), textStyle)),
                 ),
               ),
             ],
@@ -126,11 +135,27 @@ class _MarkDownRendererState extends State<MarkDownRenderer> {
         widgets.add(
           Padding(
             padding: EdgeInsets.only(top: hasBulletBefore ? 0 : distanceSmall, bottom: distanceSmall),
-            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text("•", style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(width: 4),
-              Flexible(child: RichText(text: inlineTranslateMarkdown(line.substring(2), textStyle))),
-            ]),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                leadingSymbol(
+                  const Center(
+                    child: Text(
+                      "•",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 6),
+                    child: RichText(
+                      text: inlineTranslateMarkdown(line.substring(2), textStyle),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
         // After a "#" there needs to be a whitespace at least at the 7th character
@@ -149,6 +174,27 @@ class _MarkDownRendererState extends State<MarkDownRenderer> {
               line.substring(hashTagCount + 1 < line.length ? hashTagCount + 1 : hashTagCount),
               textStyle.copyWith(fontSize: textStyle.fontSize! + (7 - hashTagCount) * 2),
             ),
+          ),
+        );
+      } else if ((match = RegExp(r'((\d{1,2})\. )').matchAsPrefix(line)) != null) {
+        widgets.add(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              leadingSymbol(
+                Text(
+                  // Edit string to be only two digits long
+                  line.substring(match!.start, match!.end - 1).padLeft(3, " ").substring(0, 3),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.right,
+                ),
+              ),
+              Flexible(
+                child: RichText(
+                  text: inlineTranslateMarkdown(line.substring(match!.end), textStyle),
+                ),
+              ),
+            ],
           ),
         );
       } else {
