@@ -98,7 +98,7 @@ class _MarkDownRendererState extends State<MarkDownRenderer> {
     List<Widget> widgets = [];
     for (int i = 0; i < stringLines.length; i++) {
       String line = stringLines[i];
-      if (line.startsWith("- [ ] ") || line.startsWith("- [x] ")) {
+      if ((match = RegExp(r'([*-] \[[x ]] )').matchAsPrefix(line)) != null) {
         bool isChecked = line[3] == "x";
         widgets.add(
           Row(
@@ -119,19 +119,15 @@ class _MarkDownRendererState extends State<MarkDownRenderer> {
               ),
               Flexible(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 6),
+                  padding: const EdgeInsets.only(top: 8),
                   child: RichText(text: inlineTranslateMarkdown(line.substring(6), textStyle)),
                 ),
               ),
             ],
           ),
         );
-      } else if (line.startsWith("* ") || line.startsWith("- ")) {
-        bool hasBulletBefore = i > 0 &&
-            (stringLines[i - 1].startsWith("* ") ||
-                (stringLines[i - 1].startsWith("- ") &&
-                    !stringLines[i - 1].startsWith("- [ ] ") &&
-                    !stringLines[i - 1].startsWith("- [x] ")));
+      } else if ((match = RegExp(r'([*-] )').matchAsPrefix(line)) != null) {
+        bool hasBulletBefore = i > 0 && (RegExp(r'([*-] )').matchAsPrefix(stringLines[i-1])) != null;
         widgets.add(
           Padding(
             padding: EdgeInsets.only(top: hasBulletBefore ? 0 : distanceSmall, bottom: distanceSmall),
@@ -159,15 +155,8 @@ class _MarkDownRendererState extends State<MarkDownRenderer> {
           ),
         );
         // After a "#" there needs to be a whitespace at least at the 7th character
-      } else if (line.startsWith("#") && line.substring(0, line.length < 7 ? line.length : 7).contains(" ")) {
-        int hashTagCount = 1;
-        for (int i = 1; i < line.length && i < 6; i++) {
-          if (line[i] == "#") {
-            hashTagCount++;
-          } else {
-            break;
-          }
-        }
+      } else if ((match = RegExp(r'((#{1,6}) )').matchAsPrefix(line)) != null) {
+        int hashTagCount = match!.end - 1;
         widgets.add(
           RichText(
             text: inlineTranslateMarkdown(
