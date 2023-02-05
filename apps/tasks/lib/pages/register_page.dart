@@ -63,6 +63,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(title: Text(context.localization!.register)),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: padding),
@@ -112,7 +113,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   if (email == null || email.isEmpty) {
                     return context.localization!.emailNotValid;
                   }
-                  if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email)) {
+                  if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email)) {
                     return context.localization!.emailNotValid;
                   }
                   return null;
