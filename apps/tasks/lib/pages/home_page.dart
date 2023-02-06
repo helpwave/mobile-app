@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 
-class WardPage extends StatefulWidget{
-  const WardPage({super.key});
+class HomePage extends StatefulWidget{
+  const HomePage({super.key});
 
   @override
-  State<StatefulWidget> createState()  => WardPageState();
+  State<StatefulWidget> createState()  => HomePageState();
 
 }
 
-class WardPageState extends State<WardPage> {
+class HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
