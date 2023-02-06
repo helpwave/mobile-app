@@ -25,13 +25,6 @@ class WardPageState extends State<WardPage> {
         type: BottomNavigationBarType.fixed,
         items:  [
           BottomNavigationBarItem(
-            activeIcon: const Icon(Icons.local_hospital,
-              color: Colors.white,),
-            icon: const Icon(Icons.local_hospital,
-                color: Colors.grey),
-            label: context.localization!.organisations,
-          ),
-          BottomNavigationBarItem(
             activeIcon: const Icon(Icons.medical_information,
               color: Colors.white,),
             icon: const Icon(Icons.medical_information,
