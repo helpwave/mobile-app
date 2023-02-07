@@ -88,7 +88,9 @@ class ContentSelector<V> extends StatefulWidget {
   /// IMPORTANT: This disables navigation pops on clicking a result, but can be implemented in the function
   ///
   /// IMPORTANT: Overwrites default display of search results
-  final Widget Function(BuildContext context, String result)? searchResultTileBuilder;
+  final Widget Function(
+          BuildContext context, String result, void Function(String item, BuildContext context) selectItem)?
+      searchResultTileBuilder;
 
   /// Allow adding user input, if filtered search items are empty for a given search
   final bool searchAllowSelectAnyway;
@@ -291,6 +293,11 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
           title: Text(widget.title ?? "List"),
           subtitle: Text("${currentSelection.length} ${widget.entryName ?? "Entries"}"),
           leading: widget.icon,
+          onTap: () {
+            setState(() {
+              isExpanded = !isExpanded;
+            });
+          },
           trailing: IconButton(
             icon: Icon(isExpanded ? Icons.expand_less : Icons.expand_more),
             onPressed: () {

@@ -34,7 +34,8 @@ class ListSearch<T> extends StatefulWidget {
   /// IMPORTANT: This disables navigation pops on clicking a result, but can be implemented in the function
   ///
   /// IMPORTANT: Overwrites default display of search results
-  final Widget Function(BuildContext context, T result)? resultTileBuilder;
+  final Widget Function(BuildContext context, T item, void Function(T item, BuildContext context) selectItem)?
+      resultTileBuilder;
 
   /// Allow adding user input, if filtered search items are empty for a given search
   final bool allowSelectAnyway;
@@ -109,6 +110,21 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
     return result;
   }
 
+  void selectItem(T item, BuildContext context) {
+    if (!widget.isMultiSelect) {
+      Navigator.of(context).pop(item);
+      return;
+    }
+    // TODO use equal check contains potentially always false
+    setState(() {
+      if (selected.contains(item)) {
+        selected.remove(item);
+      } else {
+        selected.add(item);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -158,41 +174,21 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                   if (snapshot.hasData) {
                     if (snapshot.data!.isNotEmpty) {
                       if (!widget.isMultiSelect && widget.resultTileBuilder != null) {
-                        children =
-                            snapshot.data!.map((element) => widget.resultTileBuilder!(context, element)).toList();
+                        children = snapshot.data!
+                            .map((element) => widget.resultTileBuilder!(context, element, selectItem))
+                            .toList();
                       } else {
                         children = snapshot.data!.map((element) {
                           return ListTile(
                             title: Text(widget.elementToString(element)),
                             trailing: widget.isMultiSelect
                                 ? Checkbox(
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (value!) {
-                                          selected.add(element);
-                                        } else {
-                                          selected.remove(element);
-                                        }
-                                      });
-                                    },
+                                    onChanged: (_) => selectItem(element, context),
                                     value: selected
                                         .contains(element), // TODO use equal check contains potentially always false
                                   )
                                 : const SizedBox(),
-                            onTap: () {
-                              if (!widget.isMultiSelect) {
-                                Navigator.of(context).pop(element);
-                                return;
-                              }
-                              // TODO use equal check contains potentially always false
-                              setState(() {
-                                if (selected.contains(element)) {
-                                  selected.remove(element);
-                                } else {
-                                  selected.add(element);
-                                }
-                              });
-                            },
+                            onTap: () => selectItem(element, context),
                           );
                         }).toList();
                       }
