@@ -96,6 +96,8 @@
   "noPassword": "Please enter a password",
   "errorOnLoad": "Error: Couldn't load data",
   "loading": "Loading",
+  "myWards": "My Wards",
+  "otherWards": "Other Wards in Organization",
   "myOrganizations": "My Organisations",
   "allOrganizations": "All Organisations"
 }

@@ -30,9 +30,8 @@ class OrganizationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle titleStyle = Theme.of(context).textTheme.titleLarge!;
     // TODO remove scaffold later on
-    return Scaffold(
-      appBar: AppBar(),
-      body: FutureBuilder(
+    return SafeArea(
+      child: FutureBuilder(
         future: Future.wait([getMyOrganizations(), getAllOrganizations()]),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -49,11 +48,11 @@ class OrganizationPage extends StatelessWidget {
           }
           List<Widget> children = [];
           if (snapshot.data![0].isNotEmpty) {
-            children.add(Text(context.localization!.myOrganizations, style: titleStyle));
+            children.add(Text(context.localization!.myWards, style: titleStyle));
             children.addAll(snapshot.data![0].map(
               (organization) => OrganizationCard(
                 organization: organization,
-                margin: const EdgeInsets.symmetric(vertical: distanceDefault / 2),
+                margin: const EdgeInsets.only(top: distanceSmall),
                 isInOrganization: true,
               ),
             ));
@@ -62,18 +61,18 @@ class OrganizationPage extends StatelessWidget {
             if (snapshot.data![0].isNotEmpty) {
               children.add(const SizedBox(height: distanceDefault));
             }
-            children.add(Text(context.localization!.allOrganizations, style: titleStyle));
+            children.add(Text(context.localization!.otherWards, style: titleStyle));
             children.addAll(snapshot.data![1].map(
               (organization) => OrganizationCard(
                 organization: organization,
-                margin: const EdgeInsets.symmetric(vertical: distanceDefault / 2),
+                margin: const EdgeInsets.only(top: distanceSmall),
                 isInOrganization: false,
               ),
             ));
           }
           return SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: distanceDefault),
+              padding: const EdgeInsets.all(distanceDefault),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: children,
