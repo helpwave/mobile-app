@@ -57,6 +57,7 @@ class PatientPersistenceService {
       patientMap.putIfAbsent("id", () => patientId);
       Map<String, dynamic> medication = patientMap.remove("medication");
       Map<String, dynamic> allergies = patientMap.remove("allergies");
+      patientMap.update("isOrganDonor", (value) => value ? 1 : 0);
 
       // insert data into db
       await db.insert("Patient", patientMap, conflictAlgorithm: ConflictAlgorithm.replace);
