@@ -4,11 +4,11 @@ import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:tasks/components/organization_card.dart';
 
-/// Page to display all Organizations a user is in or could join
+/// Page to display all Wards in the Organization the user has joined
 class OrganizationPage extends StatelessWidget {
   const OrganizationPage({super.key});
 
-  Future<List<Map<String, String>>> getMyOrganizations() async {
+  Future<List<Map<String, String>>> getMyWards() async {
     return [
       {"name": "Ward 1", "id": "id1"},
       {"name": "Ward 2", "id": "id2"},
@@ -16,7 +16,7 @@ class OrganizationPage extends StatelessWidget {
     ];
   }
 
-  Future<List<Map<String, String>>> getAllOrganizations() async {
+  Future<List<Map<String, String>>> getAllOrganizationWards() async {
     return await Future.delayed(
       const Duration(seconds: 1, milliseconds: 200),
       () => [
@@ -32,7 +32,7 @@ class OrganizationPage extends StatelessWidget {
     // TODO remove scaffold later on
     return SafeArea(
       child: FutureBuilder(
-        future: Future.wait([getMyOrganizations(), getAllOrganizations()]),
+        future: Future.wait([getMyWards(), getAllOrganizationWards()]),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return LoadErrorWidget(
