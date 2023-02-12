@@ -93,5 +93,11 @@
   "passwordNotEqual": "Passwords need to be identical",
   "alreadyHaveAnAccount": "Already created an Account?",
   "passwordLengthError": "Password length must be a least 6 characters",
-  "noPassword": "Please enter a password"
+  "noPassword": "Please enter a password",
+  "errorOnLoad": "Error: Couldn't load data",
+  "loading": "Loading",
+  "myWards": "My Wards",
+  "otherWards": "Other Wards in Organization",
+  "myOrganizations": "My Organisations",
+  "allOrganizations": "All Organisations"
 }
