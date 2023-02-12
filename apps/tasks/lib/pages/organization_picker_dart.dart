@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_widget/loading.dart';
+import 'package:helpwave_widget/widgets.dart';
+import 'package:tasks/pages/home_page.dart';
 
 /// Page for Picking the Organizations the us
-class OrganizationPickerPage extends StatelessWidget {
+class OrganizationPickerPage extends StatefulWidget {
   const OrganizationPickerPage({super.key});
 
+  @override
+  State<StatefulWidget> createState() => _OrganizationPickerPageState();
+}
+
+class _OrganizationPickerPageState extends State<OrganizationPickerPage> {
   Future<List<Map<String, String>>> getMyOrganizations() async {
+    await Future.delayed(const Duration(milliseconds: 500));
     return [
       {"name": "Ward 1"},
       {"name": "Ward 2"},
@@ -16,13 +25,12 @@ class OrganizationPickerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle titleStyle = Theme.of(context).textTheme.titleLarge!;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text(context.localization!.selectOrganizations)),
       body: FutureBuilder(
         future: getMyOrganizations(),
         builder: (context, snapshot) {
-          // TODO delete when required widgets are merged
-          /*
           if (snapshot.hasError) {
             return LoadErrorWidget(
               iconColor: Theme.of(context).colorScheme.primary,
@@ -36,26 +44,16 @@ class OrganizationPickerPage extends StatelessWidget {
             );
           }
           List<Widget> children = [];
-          if (snapshot.data![0].isNotEmpty) {
-            children.add(Text(context.localization!.myWards, style: titleStyle));
-            children.addAll(snapshot.data![0].map(
-              (organization) => OrganizationCard(
-                organization: organization,
+          if (snapshot.data!.isNotEmpty) {
+            children.addAll(snapshot.data!.map(
+              (organization) => ListTileCard(
+                titleText: organization["name"]!,
                 margin: const EdgeInsets.only(top: distanceSmall),
-                isInOrganization: true,
-              ),
-            ));
-          }
-          if (snapshot.data![1].isNotEmpty) {
-            if (snapshot.data![0].isNotEmpty) {
-              children.add(const SizedBox(height: distanceDefault));
-            }
-            children.add(Text(context.localization!.otherWards, style: titleStyle));
-            children.addAll(snapshot.data![1].map(
-              (organization) => Card(
-                organization: organization,
-                margin: const EdgeInsets.only(top: distanceSmall),
-                isInOrganization: false,
+                trailing: const Icon(Icons.arrow_forward_rounded),
+                onTap: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
+                  // TODO set current organization
+                },
               ),
             ));
           }
@@ -64,11 +62,24 @@ class OrganizationPickerPage extends StatelessWidget {
               padding: const EdgeInsets.all(distanceDefault),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: children,
+                children: [
+                  Text(context.localization!.myOrganizations, style: titleStyle),
+                  const SizedBox(height: distanceSmall),
+                  ...children,
+                  const SizedBox(height: distanceBig),
+                  Text(context.localization!.askForInvite, style: Theme.of(context).textTheme.titleMedium,),
+                  const SizedBox(height: distanceSmall),
+                  Center(
+                    child: TextButton(
+                      // TODO ad something to indicate reloading e.g. loading Spinner for at least 0.5 sec
+                      onPressed: () => setState(() {}),
+                      child: Text(context.localization!.refresh),
+                    ),
+                  ),
+                ],
               ),
             ),
-          );*/
-          return Container();
+          );
         },
       ),
     );
