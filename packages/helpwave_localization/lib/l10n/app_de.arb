@@ -93,5 +93,11 @@
   "passwordNotEqual": "Passwörter müssen identisch sein",
   "alreadyHaveAnAccount": "Account bereits erstellt?",
   "passwordLengthError": "Passworter müssen mindestens 6 Zeichen lang sein",
-  "noPassword": "Passwortfeld darf nicht leer sein"
+  "noPassword": "Passwortfeld darf nicht leer sein",
+  "errorOnLoad": "Error: Daten konnten nicht gelagen werden",
+  "loading": "Laden",
+  "myWards": "Meine Stationen",
+  "otherWards": "Andere Stationen in Organisation",
+  "myOrganizations": "Meine Organisationen",
+  "allOrganizations": "Alle Organisationen"
 }

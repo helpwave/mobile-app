@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:tasks/pages/home_page.dart';
 import 'package:tasks/pages/login_page.dart';
 import 'package:tasks/config/config.dart';
 
@@ -75,6 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
               // TODO do use email password here
 
               // TODO onSuccess push to app home-screen
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
             }
           },
           child: Text(
