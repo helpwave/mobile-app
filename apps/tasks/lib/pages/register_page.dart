@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_widget/text_input.dart';
 import 'package:tasks/pages/home_page.dart';
 import 'package:tasks/pages/login_page.dart';
 import 'package:tasks/config/config.dart';
@@ -21,8 +22,6 @@ class _RegisterPageState extends State<RegisterPage> {
   String _email = "";
   String _password = "";
   String _passwordRepeat = "";
-  bool _isPasswordVisible = false;
-  bool _isPasswordRepeatVisible = false;
 
   // used for ux improvements
   final FocusNode _emailFocusNode = FocusNode();
@@ -131,20 +130,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               const SizedBox(height: distanceSmall),
-              TextFormField(
-                key: _passwordKey,
+              PasswordTextEditingField(
+                textEditingFieldKey: _passwordKey,
                 focusNode: _passwordFocusNode,
-                enableSuggestions: false,
-                autocorrect: false,
-                obscureText: !_isPasswordVisible,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    onPressed: () => setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    }),
-                    icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off),
-                  ),
-                ),
                 onSaved: (value) => _password = value!,
                 onChanged: (value) {
                   _password = value;
@@ -168,20 +156,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 },
               ),
               const SizedBox(height: distanceSmall),
-              TextFormField(
-                key: _passwordRepeatKey,
+              PasswordTextEditingField(
+                textEditingFieldKey: _passwordRepeatKey,
                 focusNode: _passwordRepeatFocusNode,
-                enableSuggestions: false,
-                autocorrect: false,
-                obscureText: !_isPasswordRepeatVisible,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    onPressed: () => setState(() {
-                      _isPasswordRepeatVisible = !_isPasswordRepeatVisible;
-                    }),
-                    icon: Icon(_isPasswordRepeatVisible ? Icons.visibility : Icons.visibility_off),
-                  ),
-                ),
                 onSaved: (value) => _passwordRepeat = value!,
                 onChanged: (value) {
                   _passwordRepeat = value;
