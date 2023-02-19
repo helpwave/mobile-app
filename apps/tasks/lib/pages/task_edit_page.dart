@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
-import 'package:markdown_editable_textinput/format_markdown.dart';
-import 'package:markdown_editable_textinput/markdown_text_input.dart';
-import 'package:tasks/components/markdown_renderer.dart';
 
 /// Page for Editing or Creating a [Task]
 ///
@@ -19,23 +16,15 @@ import 'package:tasks/components/markdown_renderer.dart';
 /// ),
 /// ```
 class TaskEditPage extends StatefulWidget {
-  /// The ID of the [Patient] the Task refers to
-  final String? patientId;
-
-  /// The name of the room the [Patient] or [Task] is located in
-  final String? roomName;
-
   // TODO replace later with [Task] data type
-  /// The [Task] that contains the content and title of the [Task]
+  /// The ID of the [Task]
   ///
   /// Here it is used to edit a existing [Task] or to be used as an Template which can be used to create a new Task
-  final Map<String, String>? task;
+  final String taskID;
 
   const TaskEditPage({
     super.key,
-    this.patientId,
-    this.roomName,
-    this.task,
+    required this.taskID,
   });
 
   @override
@@ -43,191 +32,161 @@ class TaskEditPage extends StatefulWidget {
 }
 
 class _TaskEditPageState extends State<TaskEditPage> {
-  final TextEditingController _contentTextEditingController = TextEditingController();
-  final TextEditingController _titleTextEditingController = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
-  String content = "";
-  String title = "Title";
-  bool isMarkdownView = false;
-  bool isEditingTitle = false;
-
-  @override
-  void initState() {
-    if (widget.task != null) {
-      content = widget.task!["content"]!;
-      title = widget.task!["title"]!;
-    }
-    _titleTextEditingController.text = title;
-    _focusNode.addListener(() {
-      if (!_focusNode.hasFocus) {
-        stopEditingTitle();
-      }
-    });
-    super.initState();
-  }
-
-  stopEditingTitle() {
-    setState(() {
-      title = _titleTextEditingController.text;
-      isEditingTitle = false;
-    });
-  }
-
-  startEditingTitle() {
-    setState(() {
-      isEditingTitle = true;
-      _focusNode.requestFocus();
-    });
+  Future<Map<String, dynamic>> getTask() async {
+    // TODO make ApiCall here with widget.taskID
+    await Future.delayed(const Duration(milliseconds: 500));
+    return {
+      "id": "UUID",
+      "name": "Task Name",
+      "description": "Description",
+      "subtasks": [
+        {
+          "name": "subtask1",
+          "done": false,
+        },
+      ],
+      "assignee": {
+        "id": "UUID",
+        "fullName": "string",
+        "nickName": "string",
+      },
+      "bed": {
+        "id": "UUID",
+        "name": "Bed Nr. 6",
+      },
+      "patient": {
+        "id": "UUID",
+      },
+      "room": {
+        "id": "UUID",
+        "name": "string",
+      },
+      "ward": {
+        "id": "UUID",
+        "name": "string",
+      },
+      "organization": {
+        "id": "UUID",
+        "longName": "string",
+        "shortName": "string",
+      },
+    };
   }
 
   @override
   Widget build(BuildContext context) {
     const double padding = distanceDefault;
-    const double outlineWidth = 3;
-    const Color activeBorder = Color.fromARGB(255, 50, 50, 255);
-    const Color inactiveBorder = Color.fromARGB(255, 0, 0, 90);
-    bool hasTopCard = widget.patientId != null || widget.roomName != null;
-    Size buttonSize = Size(MediaQuery.of(context).size.width * 0.5 - padding, 50);
-    return Scaffold(
-      appBar: AppBar(title: const Text("Task Editor")),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextButton(
-            style: ButtonStyle(
-              shape: MaterialStatePropertyAll(
-                RoundedRectangleBorder(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(borderRadiusBig),
-                    bottomLeft: Radius.circular(borderRadiusBig),
+    Size buttonSize =
+        Size(MediaQuery.of(context).size.width * 0.5 - padding, 50);
+
+    return FutureBuilder(
+        future: getTask(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return LoadErrorWidget(
+              iconColor: Theme.of(context).colorScheme.primary,
+              errorText: context.localization!.errorOnLoad,
+            );
+          }
+          if (!snapshot.hasData) {
+            return LoadingSpinner(
+              text: context.localization!.loading,
+              color: Theme.of(context).colorScheme.primary,
+            );
+          }
+
+          Map<String, dynamic> task = snapshot.data[0];
+          List<Map<String, dynamic>> subtasks = task["subtask"];
+          List<Widget> subtaskWidgets = subtasks
+              .map((subtask) => Row(
+                    children: [
+                      Checkbox(
+                        value: subtask["done"],
+                        onChanged: (value) => setState(() => subtask["done"]),
+                      ),
+                      const SizedBox(width: distanceDefault),
+                      Flexible(
+                        child: TextFormField(
+                          onChanged: (value) => subtask["name"] = value,
+                          initialValue: subtask["name"],
+                        ),
+                      ),
+                    ],
+                  ))
+              .toList();
+          return Scaffold(
+            appBar: AppBar(title: Text(task["name"])),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: TextButton(
+              style: ButtonStyle(
+                shape: const MaterialStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(borderRadiusBig),
+                      bottomLeft: Radius.circular(borderRadiusBig),
+                    ),
                   ),
-                  side: BorderSide(width: outlineWidth, color: isMarkdownView ? activeBorder : inactiveBorder),
                 ),
+                minimumSize: MaterialStatePropertyAll(buttonSize),
               ),
-              minimumSize: MaterialStatePropertyAll(buttonSize),
+              onPressed: () => setState(() {
+                for (var element in subtasks) {
+                  element["done"] = true;
+                }
+                // TODO also change status of entire task to done
+                // TODO make api call here for update
+              }),
+              child: Text(context.localization!.finishAllTasks),
             ),
-            onPressed: () => setState(() {
-              isMarkdownView = true;
-            }),
-            child: Text(context.localization!.markdown),
-          ),
-          TextButton(
-            style: ButtonStyle(
-              shape: MaterialStatePropertyAll(
-                RoundedRectangleBorder(
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(borderRadiusBig),
-                    bottomRight: Radius.circular(borderRadiusBig),
-                  ),
-                  side: BorderSide(width: outlineWidth, color: isMarkdownView ? inactiveBorder : activeBorder),
-                ),
-              ),
-              minimumSize: MaterialStatePropertyAll(buttonSize),
-            ),
-            onPressed: () => setState(() {
-              isMarkdownView = false;
-            }),
-            child: Text(context.localization!.text),
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(padding),
-        child: Column(
-          children: [
-            hasTopCard
-                ? Card(
+            body: SingleChildScrollView(
+              padding: const EdgeInsets.all(padding),
+              child: Column(
+                children: [
+                  Card(
                     margin: EdgeInsets.zero,
-                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(paddingSmall))),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(paddingSmall))),
                     child: Padding(
                       padding: const EdgeInsets.all(paddingSmall),
                       child: Column(
                         children: [
-                          widget.roomName != null
-                              ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text("${context.localization!.room}:"),
-                                    Text(widget.roomName!),
-                                  ],
-                                )
-                              : const SizedBox(),
-                          SizedBox(height: widget.patientId != null && widget.roomName != null ? distanceSmall : 0),
-                          widget.patientId != null
-                              ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text("${context.localization!.patientID}:"),
-                                    Text(widget.patientId!),
-                                  ],
-                                )
-                              : const SizedBox(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("${context.localization!.room}:"),
+                              Text(task["room"]["name"]),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("${context.localization!.bed}:"),
+                              Text(task["bed"]["name"]),
+                            ],
+                          ),
                         ],
                       ),
                     ),
-                  )
-                : const SizedBox(),
-            SizedBox(height: hasTopCard ? distanceMedium : 0),
-            isEditingTitle
-                ? TextFormField(
-                    focusNode: _focusNode,
-                    controller: _titleTextEditingController,
-                    decoration: InputDecoration(
-                      border: const UnderlineInputBorder(),
-                      enabledBorder: const UnderlineInputBorder(),
-                      focusedBorder: const UnderlineInputBorder(),
-                      suffixIcon: IconButton(
-                        onPressed: stopEditingTitle,
-                        icon: const Icon(Icons.check, color: positiveColor),
-                      ),
-                    ),
-                  )
-                : ListTile(
-                    contentPadding: const EdgeInsets.only(left: paddingSmall),
-                    horizontalTitleGap: distanceSmall,
-                    title: Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    onTap: startEditingTitle,
-                    trailing: IconButton(
-                      onPressed: startEditingTitle,
-                      icon: const Icon(
-                        Icons.edit,
-                        size: iconSizeTiny,
-                      ),
-                    ),
                   ),
-            const SizedBox(height: distanceSmall),
-            isMarkdownView
-                ? MarkdownTextInput(
-                    (value) => setState(() => content = value),
-                    content,
-                    actions: const [
-                      MarkdownType.list,
-                      MarkdownType.bold,
-                      MarkdownType.title,
-                      MarkdownType.italic,
-                      MarkdownType.link,
-                      MarkdownType.strikethrough,
-                    ],
-                    controller: _contentTextEditingController,
-                  )
-                : SizedBox(
-                    width: MediaQuery.of(context).size.width - 2 * padding,
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: MarkDownRenderer(
-                      markdownString: content,
-                      callback: (value) => setState(() {
-                        _contentTextEditingController.text = value;
-                        content = value;
+                  ...subtaskWidgets,
+                  Center(
+                    child: TextButton(
+                      style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Colors.transparent),
+                      ),
+                      onPressed: () => setState(() {
+                        subtasks.add({"done": false, "name": ""});
                       }),
+                      child: Text(context.localization!.addSubtask),
                     ),
                   ),
-          ],
-        ),
-      ),
-    );
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

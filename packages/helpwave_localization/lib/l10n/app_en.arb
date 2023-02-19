@@ -91,5 +91,8 @@
   "text": "Text",
   "markdown": "Markdown",
   "room": "Room",
-  "patientID": "Patient-ID"
+  "patientID": "Patient-ID",
+  "finishAllTasks": "Finish all Tasks",
+  "bed": "Bed",
+  "addSubtask": "Add Subtask"
 }

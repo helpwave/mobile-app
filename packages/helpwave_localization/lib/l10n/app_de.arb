@@ -91,5 +91,8 @@
   "text": "Text",
   "markdown": "Markdown",
   "room": "Raum",
-  "patientID": "Patienten-ID"
+  "patientID": "Patienten-ID",
+  "finishAllTasks": "Alle Aufgaben erledigt",
+  "bed": "Bett",
+  "addSubtask": "Teilaufgabe hinzufügen"
 }
