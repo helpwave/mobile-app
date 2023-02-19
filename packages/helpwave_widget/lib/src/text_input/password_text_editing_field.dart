@@ -35,6 +35,9 @@ class PasswordTextEditingField extends StatefulWidget {
   /// The [validator] function of the [TextFormField]
   final String? Function(String? value)? validator;
 
+  /// The callback function when the visibility is changed
+  final void Function(bool isObscured)? onVisibilityChanged;
+
   /// The [FocusNode] of the [TextFormField]
   final FocusNode? focusNode;
 
@@ -54,13 +57,14 @@ class PasswordTextEditingField extends StatefulWidget {
     this.onSaved,
     this.validator,
     this.focusNode,
+    this.onVisibilityChanged,
   });
 
   @override
-  State<StatefulWidget> createState() => _PasswordTextEditingFieldState();
+  State<StatefulWidget> createState() => PasswordTextEditingFieldState();
 }
 
-class _PasswordTextEditingFieldState extends State<PasswordTextEditingField> {
+class PasswordTextEditingFieldState extends State<PasswordTextEditingField> {
   bool _isPasswordObscured = true;
   late ObscuringTextEditingController _controller;
 
@@ -68,7 +72,8 @@ class _PasswordTextEditingFieldState extends State<PasswordTextEditingField> {
   void initState() {
     _controller = widget.controller ?? ObscuringTextEditingController();
     _isPasswordObscured = !widget.isInitiallyVisible;
-    _controller.isObscuring = widget.isUsingNativeObscure ? false : _isPasswordObscured;
+    _controller.isObscuring =
+    widget.isUsingNativeObscure ? false : _isPasswordObscured;
     super.initState();
   }
 
@@ -85,6 +90,9 @@ class _PasswordTextEditingFieldState extends State<PasswordTextEditingField> {
         _controller.isObscuring = _isPasswordObscured;
       }
     });
+    if (widget.onVisibilityChanged != null) {
+      widget.onVisibilityChanged!(_isPasswordObscured);
+    }
   }
 
   @override
@@ -122,10 +130,12 @@ class ObscuringTextEditingController extends TextEditingController {
   }) : super(text: text);
 
   @override
-  TextSpan buildTextSpan({required BuildContext context, TextStyle? style, required bool withComposing}) {
+  TextSpan buildTextSpan(
+      {required BuildContext context, TextStyle? style, required bool withComposing}) {
     if (isObscuring) {
       return TextSpan(text: '•' * value.text.length, style: style);
     }
-    return super.buildTextSpan(context: context, withComposing: withComposing, style: style);
+    return super.buildTextSpan(
+        context: context, withComposing: withComposing, style: style);
   }
 }
