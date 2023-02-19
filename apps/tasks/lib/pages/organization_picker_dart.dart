@@ -15,7 +15,8 @@ class OrganizationPickerPage extends StatefulWidget {
 
 class _OrganizationPickerPageState extends State<OrganizationPickerPage> {
   Future<List<Map<String, String>>> getMyOrganizations() async {
-    await Future.delayed(const Duration(milliseconds: 500));
+    // TODO API Call here, use the future wait to always take at least 0.5 seconds to load
+    await Future.wait([Future.delayed(const Duration(milliseconds: 500))]);
     return [
       {"name": "Ward 1"},
       {"name": "Ward 2"},
@@ -51,7 +52,8 @@ class _OrganizationPickerPageState extends State<OrganizationPickerPage> {
                 margin: const EdgeInsets.only(top: distanceSmall),
                 trailing: const Icon(Icons.arrow_forward_rounded),
                 onTap: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (_) => const HomePage()));
                   // TODO set current organization
                 },
               ),
@@ -63,16 +65,27 @@ class _OrganizationPickerPageState extends State<OrganizationPickerPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(context.localization!.myOrganizations, style: titleStyle),
+                  Text(context.localization!.myOrganizations,
+                      style: titleStyle),
                   const SizedBox(height: distanceSmall),
                   ...children,
                   const SizedBox(height: distanceBig),
-                  Text(context.localization!.askForInvite, style: Theme.of(context).textTheme.titleMedium,),
+                  Text(
+                    context.localization!.askForInvite,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                   const SizedBox(height: distanceSmall),
                   Center(
                     child: TextButton(
-                      // TODO ad something to indicate reloading e.g. loading Spinner for at least 0.5 sec
-                      onPressed: () => setState(() {}),
+                      onPressed: () => Navigator.of(context).pushReplacement(
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const OrganizationPickerPage(),
+                          transitionDuration: Duration.zero,
+                          reverseTransitionDuration: Duration.zero,
+                        ),
+                      ),
                       child: Text(context.localization!.refresh),
                     ),
                   ),
