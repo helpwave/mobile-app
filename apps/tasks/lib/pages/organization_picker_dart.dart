@@ -5,7 +5,7 @@ import 'package:helpwave_widget/loading.dart';
 import 'package:helpwave_widget/widgets.dart';
 import 'package:tasks/pages/home_page.dart';
 
-/// Page for Picking the Organizations the us
+/// Page for Picking the Organizations the user wants to join
 class OrganizationPickerPage extends StatefulWidget {
   const OrganizationPickerPage({super.key});
 
