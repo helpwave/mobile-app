@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_widget/text_input.dart';
 import 'package:tasks/pages/organization_picker_dart.dart';
 
 /// Page for logging in an existing user
@@ -15,7 +16,6 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   String _email = "";
   String _password = "";
-  bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -84,18 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: distanceSmall),
-              TextFormField(
-                enableSuggestions: false,
-                autocorrect: false,
-                obscureText: !_isPasswordVisible,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    onPressed: () => setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    }),
-                    icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off),
-                  ),
-                ),
+              PasswordTextEditingField(
                 onChanged: (value) => _password,
                 onSaved: (value) => _password = value!,
                 validator: (password) {
