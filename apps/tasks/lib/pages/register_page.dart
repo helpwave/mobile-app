@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_widget/text_input.dart';
 import 'package:tasks/pages/login_page.dart';
 import 'package:tasks/config/config.dart';
+import 'package:tasks/pages/organization_picker_dart.dart';
 
 /// Page for registering a new user
 class RegisterPage extends StatefulWidget {
@@ -15,13 +17,13 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailKey = GlobalKey<FormFieldState>();
-  final _passwordKey = GlobalKey<FormFieldState>();
-  final _passwordRepeatKey = GlobalKey<FormFieldState>();
+  final _passwordTextFieldKey = GlobalKey<FormFieldState>();
+  final _passwordRepeatTextFieldKey = GlobalKey<FormFieldState>();
+  final _passwordKey = GlobalKey<PasswordTextEditingFieldState>();
+  final _passwordRepeatKey = GlobalKey<PasswordTextEditingFieldState>();
   String _email = "";
   String _password = "";
   String _passwordRepeat = "";
-  bool _isPasswordVisible = false;
-  bool _isPasswordRepeatVisible = false;
 
   // used for ux improvements
   final FocusNode _emailFocusNode = FocusNode();
@@ -42,13 +44,13 @@ class _RegisterPageState extends State<RegisterPage> {
     _passwordFocusNode.addListener(() {
       if (!_passwordFocusNode.hasFocus) {
         _hasEditedPasswordOnce = true;
-        _passwordKey.currentState!.validate();
+        _passwordTextFieldKey.currentState!.validate();
       }
     });
     _passwordRepeatFocusNode.addListener(() {
       if (!_passwordRepeatFocusNode.hasFocus) {
         _hasEditedPasswordRepeatOnce = true;
-        _passwordRepeatKey.currentState!.validate();
+        _passwordRepeatTextFieldKey.currentState!.validate();
       }
     });
     super.initState();
@@ -72,9 +74,11 @@ class _RegisterPageState extends State<RegisterPage> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
-              // TODO do use email password here
+              // TODO do use email password here for registration
 
               // TODO onSuccess push to app home-screen
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (_) => const OrganizationPickerPage()));
             }
           },
           child: Text(
@@ -113,7 +117,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   if (email == null || email.isEmpty) {
                     return context.localization!.emailNotValid;
                   }
-                  if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email)) {
+                  if (!RegExp(
+                          r"^[a-zA-Z0-9a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(email)) {
                     return context.localization!.emailNotValid;
                   }
                   return null;
@@ -129,29 +135,23 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               const SizedBox(height: distanceSmall),
-              TextFormField(
+              PasswordTextEditingField(
                 key: _passwordKey,
+                textEditingFieldKey: _passwordTextFieldKey,
                 focusNode: _passwordFocusNode,
-                enableSuggestions: false,
-                autocorrect: false,
-                obscureText: !_isPasswordVisible,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    onPressed: () => setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    }),
-                    icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off),
-                  ),
-                ),
+                onVisibilityChanged: (isObscured) =>
+                    _passwordRepeatKey.currentState?.changeVisibility(),
                 onSaved: (value) => _password = value!,
                 onChanged: (value) {
                   _password = value;
                   if (_hasEditedPasswordOnce) {
-                    _passwordKey.currentState!.validate();
+                    _passwordTextFieldKey.currentState!.validate();
                     // case where the use wants to change the original password to match the repeated one
-                    String? passwordRepeatValue = _passwordRepeatKey.currentState!.value as String?;
-                    if (passwordRepeatValue != null && passwordRepeatValue.isNotEmpty) {
-                      _passwordRepeatKey.currentState!.validate();
+                    String? passwordRepeatValue = _passwordRepeatTextFieldKey
+                        .currentState!.value as String?;
+                    if (passwordRepeatValue != null &&
+                        passwordRepeatValue.isNotEmpty) {
+                      _passwordRepeatTextFieldKey.currentState!.validate();
                     }
                   }
                 },
@@ -166,26 +166,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 },
               ),
               const SizedBox(height: distanceSmall),
-              TextFormField(
+              PasswordTextEditingField(
                 key: _passwordRepeatKey,
+                textEditingFieldKey: _passwordRepeatTextFieldKey,
                 focusNode: _passwordRepeatFocusNode,
-                enableSuggestions: false,
-                autocorrect: false,
-                obscureText: !_isPasswordRepeatVisible,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    onPressed: () => setState(() {
-                      _isPasswordRepeatVisible = !_isPasswordRepeatVisible;
-                    }),
-                    icon: Icon(_isPasswordRepeatVisible ? Icons.visibility : Icons.visibility_off),
-                  ),
-                ),
+                onVisibilityChanged: (isObscured) =>
+                    _passwordKey.currentState?.changeVisibility(),
                 onSaved: (value) => _passwordRepeat = value!,
                 onChanged: (value) {
                   _passwordRepeat = value;
                   if (_hasEditedPasswordRepeatOnce) {
-                    _passwordKey.currentState!.validate();
-                    _passwordRepeatKey.currentState!.validate();
+                    _passwordTextFieldKey.currentState!.validate();
+                    _passwordRepeatTextFieldKey.currentState!.validate();
                   }
                 },
                 validator: (password) {
@@ -202,8 +194,10 @@ class _RegisterPageState extends State<RegisterPage> {
               Text(context.localization!.alreadyHaveAnAccount),
               const SizedBox(height: distanceSmall),
               TextButton(
-                style: const ButtonStyle(minimumSize: MaterialStatePropertyAll(Size.zero)),
-                onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const LoginPage())),
+                style: const ButtonStyle(
+                    minimumSize: MaterialStatePropertyAll(Size.zero)),
+                onPressed: () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => const LoginPage())),
                 child: Text(context.localization!.login),
               ),
             ],
