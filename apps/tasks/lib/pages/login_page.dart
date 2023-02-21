@@ -21,6 +21,8 @@ class _LoginPageState extends State<LoginPage> {
     const padding = distanceDefault;
     double rowWidth = MediaQuery.of(context).size.width - 2 * padding;
     ButtonStyle loginButtonStyle = ButtonStyle(
+      side: MaterialStateProperty.all(const BorderSide(style: BorderStyle.solid)),
+      backgroundColor: MaterialStateProperty.all(Colors.transparent),
       minimumSize: MaterialStatePropertyAll(Size(rowWidth, 50)),
     );
 
@@ -45,58 +47,47 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(padding),
-          child: Column(
-            children: [
-              SizedBox(
-                width: rowWidth,
-                child: Text(
-                  context.localization!.email,
-                  textAlign: TextAlign.left,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
+      body: Center(
+        child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(padding),
+              child: Column(
+                children: [
+                  const SizedBox(height: distanceSmall),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        hintText: context.localization!.email
+                    ),
+                    onSaved: (value) => _email = value!,
+                    validator: (email) {
+                      if (email == null || email.isEmpty) {
+                        return context.localization!.emailNotValid;
+                      }
+                      if (!RegExp(r"^[a-zA-Z0-9a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email)) {
+                        return context.localization!.emailNotValid;
+                      }
+                      return null;
+                      },
+                  ),
+                  const SizedBox(height: distanceDefault),
+                  const SizedBox(height: distanceSmall),
+                  PasswordTextEditingField(
+                    hintText: context.localization!.password,
+                    onChanged: (value) => _password,
+                    onSaved: (value) => _password = value!,
+                    validator: (password) {
+                      if (password == null || password.isEmpty) {
+                        return context.localization!.noPassword;
+                      }
+                      return null;
+                      },
+                  ),
+                ],
               ),
-              const SizedBox(height: distanceSmall),
-              TextFormField(
-                decoration: const InputDecoration(),
-                onSaved: (value) => _email = value!,
-                validator: (email) {
-                  if (email == null || email.isEmpty) {
-                    return context.localization!.emailNotValid;
-                  }
-                  if (!RegExp(r"^[a-zA-Z0-9a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email)) {
-                    return context.localization!.emailNotValid;
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: distanceDefault),
-              SizedBox(
-                width: rowWidth,
-                child: Text(
-                  context.localization!.password,
-                  textAlign: TextAlign.left,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-              ),
-              const SizedBox(height: distanceSmall),
-              PasswordTextEditingField(
-                onChanged: (value) => _password,
-                onSaved: (value) => _password = value!,
-                validator: (password) {
-                  if (password == null || password.isEmpty) {
-                    return context.localization!.noPassword;
-                  }
-                  return null;
-                },
-              ),
-            ],
-          ),
+            )
         ),
-      ),
+      )
     );
   }
 }

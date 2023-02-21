@@ -86,7 +86,7 @@
   "resetIntroduction": "Reset Introduction",
   "showIntroduction": "Show Introduction?",
   "login": "Login",
-  "email": "Email",
+  "email": "E-Mail-Address",
   "password": "Password",
   "emailNotValid": "Please enter a valid Email",
   "register": "Register",
