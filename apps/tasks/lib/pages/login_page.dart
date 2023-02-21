@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/text_input.dart';
+import 'package:tasks/pages/organization_picker_dart.dart';
 
 /// Page for logging in an existing user
 class LoginPage extends StatefulWidget {
@@ -33,9 +34,9 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
-              // TODO do use email password here
+              // TODO do use email password here for login
 
-              // TODO onSuccess push to app home-screen
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const OrganizationPickerPage()));
             }
           },
           child: Text(

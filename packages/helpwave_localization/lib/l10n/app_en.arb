@@ -99,5 +99,8 @@
   "myWards": "My Wards",
   "otherWards": "Other Wards in Organization",
   "myOrganizations": "My Organisations",
-  "allOrganizations": "All Organisations"
+  "allOrganizations": "All Organisations",
+  "selectOrganizations": "Select Organization",
+  "askForInvite": "Ask an Organization leader to invite you",
+  "refresh": "Refresh"
 }

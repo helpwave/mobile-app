@@ -99,5 +99,8 @@
   "myWards": "Meine Stationen",
   "otherWards": "Andere Stationen in Organisation",
   "myOrganizations": "Meine Organisationen",
-  "allOrganizations": "Alle Organisationen"
+  "allOrganizations": "Alle Organisationen",
+  "selectOrganizations": "Organisation auswählen",
+  "askForInvite": "Ein Organisationsmanager muss dich einladen",
+  "refresh": "Aktualisieren"
 }
