@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/text_input.dart';
-import 'package:tasks/pages/home_page.dart';
 import 'package:tasks/pages/login_page.dart';
 import 'package:tasks/config/config.dart';
+import 'package:tasks/pages/organization_picker_dart.dart';
 
 /// Page for registering a new user
 class RegisterPage extends StatefulWidget {
@@ -74,11 +74,11 @@ class _RegisterPageState extends State<RegisterPage> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
-              // TODO do use email password here
+              // TODO do use email password here for registration
 
               // TODO onSuccess push to app home-screen
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const HomePage()));
+                  MaterialPageRoute(builder: (_) => const OrganizationPickerPage()));
             }
           },
           child: Text(
@@ -118,7 +118,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     return context.localization!.emailNotValid;
                   }
                   if (!RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          r"^[a-zA-Z0-9a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                       .hasMatch(email)) {
                     return context.localization!.emailNotValid;
                   }
