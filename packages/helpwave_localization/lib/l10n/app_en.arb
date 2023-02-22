@@ -99,5 +99,6 @@
   "myWards": "My Wards",
   "otherWards": "Other Wards in Organization",
   "myOrganizations": "My Organisations",
-  "allOrganizations": "All Organisations"
+  "allOrganizations": "All Organisations",
+  "forgotPassword": "Forgot password?"
 }
