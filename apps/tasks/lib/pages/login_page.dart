@@ -23,9 +23,6 @@ class _LoginPageState extends State<LoginPage> {
     double rowWidth = MediaQuery.of(context).size.width - 2 * padding;
 
     ButtonStyle loginButtonStyle = ButtonStyle(
-      side: MaterialStateProperty.all(const BorderSide(style: BorderStyle.solid,
-          color: Colors.grey)),
-      backgroundColor: MaterialStateProperty.all(Colors.transparent),
       minimumSize: MaterialStatePropertyAll(Size(rowWidth, 50)),
     );
 
@@ -33,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
         appBar: AppBar(title: Text(context.localization!.login)),
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(bottom: padding),
-          child: TextButton(
+          child: OutlinedButton(
             style: loginButtonStyle,
             onPressed: () {
               if (_formKey.currentState!.validate()) {
