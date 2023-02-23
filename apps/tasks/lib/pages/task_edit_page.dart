@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_widget/dialog.dart';
 import 'package:helpwave_widget/loading.dart';
 
 /// Page for Editing or Creating a [Task]
@@ -33,6 +34,7 @@ class TaskEditPage extends StatefulWidget {
 }
 
 class _TaskEditPageState extends State<TaskEditPage> {
+  List<TextEditingController> textEditingControllers = [];
   Map<String, dynamic>? task;
   bool hasError = false;
 
@@ -76,6 +78,28 @@ class _TaskEditPageState extends State<TaskEditPage> {
         "shortName": "string",
       },
     };
+    for (var _ in (task!["subtasks"] as List<Map<String, dynamic>>)) {
+      textEditingControllers.add(TextEditingController());
+    }
+    setState(() {});
+  }
+
+  addEntry() {
+    // Type cast needed, otherwise type error on add to list
+    // ignore: unnecessary_cast
+    Map<String, dynamic> subtask = {
+      "name": "",
+      "done": false,
+    } as Map<String, dynamic>;
+    task!["subtasks"].add(subtask);
+    textEditingControllers.add(TextEditingController());
+    setState(() {});
+  }
+
+  removeEntry(Map<String, dynamic> subtask) {
+    task!["subtasks"].remove(subtask);
+    TextEditingController controller = textEditingControllers.removeLast();
+    controller.dispose();
     setState(() {});
   }
 
@@ -83,6 +107,14 @@ class _TaskEditPageState extends State<TaskEditPage> {
   void initState() {
     getTask();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    for (var element in textEditingControllers) {
+      element.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -109,35 +141,85 @@ class _TaskEditPageState extends State<TaskEditPage> {
       }
 
       List<Map<String, dynamic>> subtasks = task!["subtasks"];
-      List<Widget> subtaskWidgets = subtasks
-          .map(
-            (subtask) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: distanceSmall),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Checkbox(
-                    visualDensity: VisualDensity.compact,
-                    value: subtask["done"],
-                    onChanged: (value) => setState(() {
-                      subtask["done"] = value;
-                    }),
-                  ),
-                  const SizedBox(width: distanceSmall),
-                  Flexible(
-                    child: TextFormField(
-                      decoration: const InputDecoration(contentPadding: EdgeInsets.all(distanceSmall)),
-                      maxLines: null,
-                      onChanged: (value) => subtask["name"] = value,
-                      initialValue: subtask["name"],
+      List<Widget> subtaskWidgets = [];
+      for (int i = 0; i < subtasks.length; i++) {
+        Map<String, dynamic> subtask = subtasks[i];
+        TextEditingController textEditingController = textEditingControllers[i];
+        textEditingController.text = subtask["name"];
+        subtaskWidgets.add(
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: distanceSmall),
+            child: ListTile(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(borderRadiusBig)),
+              ),
+              minLeadingWidth: iconSizeSmall,
+              horizontalTitleGap: distanceSmall,
+              contentPadding: EdgeInsets.zero,
+              leading: Checkbox(
+                visualDensity: VisualDensity.compact,
+                value: subtask["done"],
+                onChanged: (value) => setState(() {
+                  subtask["done"] = value;
+                }),
+              ),
+              title: TextFormField(
+                decoration: const InputDecoration(contentPadding: EdgeInsets.all(distanceSmall)),
+                maxLines: null,
+                onChanged: (value) => subtask["name"] = value,
+                controller: textEditingController,
+              ),
+              trailing: IconButton(
+                icon: const Icon(
+                  Icons.delete,
+                  color: negativeColor,
+                  size: iconSizeSmall,
+                ),
+                onPressed: () {
+                  if (subtask["name"] == "") {
+                    removeEntry(subtask);
+                    return;
+                  }
+                  showDialog(
+                    context: context,
+                    builder: (context) => AcceptDialog(
+                      titleText: "Delete Subtask?",
+                      content: Text(subtask["name"]),
                     ),
-                  ),
-                ],
+                  ).then((value) {
+                    if (value == true) {
+                      removeEntry(subtask);
+                    }
+                  });
+                },
               ),
             ),
-          )
-          .toList();
+          ),
+        );
+      }
       return Scaffold(
+        floatingActionButton: Visibility(
+          visible: MediaQuery.of(context).viewInsets.bottom == 0,
+          child: TextButton(
+            style: ButtonStyle(
+              shape: const MaterialStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(borderRadiusBig)),
+                ),
+              ),
+              minimumSize: MaterialStatePropertyAll(buttonSize),
+            ),
+            onPressed: () => setState(() {
+              for (var element in subtasks) {
+                element["done"] = true;
+              }
+              // TODO also change status of entire task to done
+              // TODO make api call here for update
+            }),
+            child: Text(context.localization!.finishAllTasks),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         appBar: AppBar(title: Text(task!["name"])),
         body: Column(
           children: [
@@ -194,44 +276,11 @@ class _TaskEditPageState extends State<TaskEditPage> {
                             ),
                           ),
                         ),
-                        onPressed: () {
-                          // Type cast need otherwise type error on line below assignment
-                          // ignore: unnecessary_cast
-                          Map<String, dynamic> subtask = {
-                            "name": "",
-                            "done": false,
-                          } as Map<String, dynamic>;
-                          task!["subtasks"].add(subtask);
-                          setState(() {});
-                        },
+                        onPressed: addEntry,
                         label: Text(context.localization!.addSubtask),
                       ),
                     ),
                   ],
-                ),
-              ),
-            ),
-            Visibility(
-              visible: MediaQuery.of(context).viewInsets.bottom == 0,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: padding),
-                child: TextButton(
-                  style: ButtonStyle(
-                    shape: const MaterialStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(borderRadiusBig)),
-                      ),
-                    ),
-                    minimumSize: MaterialStatePropertyAll(buttonSize),
-                  ),
-                  onPressed: () => setState(() {
-                    for (var element in subtasks) {
-                      element["done"] = true;
-                    }
-                    // TODO also change status of entire task to done
-                    // TODO make api call here for update
-                  }),
-                  child: Text(context.localization!.finishAllTasks),
                 ),
               ),
             ),
