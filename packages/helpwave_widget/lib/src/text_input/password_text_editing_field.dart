@@ -44,7 +44,7 @@ class PasswordTextEditingField extends StatefulWidget {
   /// The Key of the [TextFormField]
   final Key? textEditingFieldKey;
 
-  /// The Text shown in the [TextFormField]
+  /// The hint text shown in the [TextFormField]
   final String? hintText;
 
   const PasswordTextEditingField({
