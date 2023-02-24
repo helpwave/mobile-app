@@ -44,6 +44,9 @@ class PasswordTextEditingField extends StatefulWidget {
   /// The Key of the [TextFormField]
   final Key? textEditingFieldKey;
 
+  /// The hint text shown in the [TextFormField]
+  final String? hintText;
+
   const PasswordTextEditingField({
     super.key,
     this.textEditingFieldKey,
@@ -58,6 +61,7 @@ class PasswordTextEditingField extends StatefulWidget {
     this.validator,
     this.focusNode,
     this.onVisibilityChanged,
+    this.hintText,
   });
 
   @override
@@ -98,6 +102,7 @@ class PasswordTextEditingFieldState extends State<PasswordTextEditingField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+
       key: widget.textEditingFieldKey,
       focusNode: widget.focusNode,
       controller: _controller,
@@ -105,6 +110,7 @@ class PasswordTextEditingFieldState extends State<PasswordTextEditingField> {
       autocorrect: false,
       obscureText: widget.isUsingNativeObscure ? _isPasswordObscured : false,
       decoration: InputDecoration(
+        hintText: widget.hintText,
         suffixIcon: IconButton(
           onPressed: changeVisibility,
           icon: _isPasswordObscured ? widget.obscureIcon : widget.visibleIcon,
