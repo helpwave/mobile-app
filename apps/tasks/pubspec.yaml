@@ -42,6 +42,7 @@ dependencies:
     path: "../../packages/helpwave_theme"
   helpwave_widget:
     path: "../../packages/helpwave_widget"
+  flutter_html: ^3.0.0-alpha.6
 
 dev_dependencies:
   flutter_test:
