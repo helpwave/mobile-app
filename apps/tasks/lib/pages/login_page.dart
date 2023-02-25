@@ -20,18 +20,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     const padding = distanceDefault;
-    double rowWidth = MediaQuery.of(context).size.width - 2 * padding;
-
-    ButtonStyle loginButtonStyle = ButtonStyle(
-      minimumSize: MaterialStatePropertyAll(Size(rowWidth, 50)),
-    );
 
     return Scaffold(
         appBar: AppBar(title: Text(context.localization!.login)),
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(bottom: padding),
           child: OutlinedButton(
-            style: loginButtonStyle,
+            style: buttonStyle,
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
@@ -42,7 +37,6 @@ class _LoginPageState extends State<LoginPage> {
             },
             child: Text(
               context.localization!.login,
-              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
         ),
