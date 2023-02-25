@@ -103,5 +103,7 @@
   "forgotPassword": "Passwort vergessen?",
   "selectOrganizations": "Organisation auswählen",
   "askForInvite": "Ein Organisationsmanager muss dich einladen",
-  "refresh": "Aktualisieren"
+  "refresh": "Aktualisieren",
+  "termsOfUseInfoLogin" : "Wenn Sie sich anmelden, stimmen Sie unseren <u><b>Nutzungsbedingungen</b></u> zu",
+  "termsOfUse": "Nutzungsbedingungen"
 }

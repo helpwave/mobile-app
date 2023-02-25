@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 /// Button attributes and
-const double buttonWidth = 250;
-const double buttonHeight = 50;
+const double buttonWidth = 300;
+const double buttonHeight = 65;
+
 const BorderSide buttonBorderSide = BorderSide(width: 1);
+
 const TextStyle buttonTextStyle = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w500,

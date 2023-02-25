@@ -103,5 +103,7 @@
   "forgotPassword": "Forgot password?",
   "selectOrganizations": "Select Organization",
   "askForInvite": "Ask an Organization leader to invite you",
-  "refresh": "Refresh"
+  "refresh": "Refresh",
+  "termsOfUseInfoLogin" : "When you register, you agree to our <u><b>terms of use</b></u>",
+  "termsOfUse": "terms of use"
 }
