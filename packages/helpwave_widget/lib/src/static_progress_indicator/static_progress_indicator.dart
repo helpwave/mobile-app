@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
 
 /// A Circular Progress indicator
+///
+/// Example:
+/// ```dart
+/// StaticProgressIndicator(
+///   progress: 0.2,
+/// )
+/// ```
 class StaticProgressIndicator extends StatelessWidget {
   final Size size;
 
@@ -13,10 +20,10 @@ class StaticProgressIndicator extends StatelessWidget {
   /// Progress as a Percentage between 0.0 to 1.0
   final double progress;
 
-  /// Color that indicates Progress
+  /// [Color] that indicates Progress
   final Color? color;
 
-  /// Color that is the background of the ring
+  /// [Color] that is the background of the ring
   final Color? backgroundColor;
 
   const StaticProgressIndicator({
@@ -37,14 +44,9 @@ class StaticProgressIndicator extends StatelessWidget {
       child: CircularProgressIndicator(
         strokeWidth: strokeWidth,
         semanticsLabel: semanticsLabel,
-        color: color ?? Theme
-            .of(context)
-            .colorScheme
-            .onBackground,
-        backgroundColor: backgroundColor ?? Theme
-            .of(context)
-            .colorScheme
-            .background,
+        color: color ?? Theme.of(context).colorScheme.onBackground,
+        backgroundColor:
+            backgroundColor ?? Theme.of(context).colorScheme.background,
         value: progress,
       ),
     );
