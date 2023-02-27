@@ -3,16 +3,16 @@ import 'package:helpwave_theme/constants.dart';
 
 /// The Spinner to show when Loading data
 class LoadingSpinner extends StatelessWidget {
-  /// Text below the error Icon
+  /// Text below the Spinner
   final String text;
 
-  /// Size of the Error icon
+  /// Size of the Spinner
   final double size;
 
-  /// Size of the Error icon
+  /// Size of the Spinner stroke
   final double width;
 
-  /// Color of the Error icon
+  /// Color of the Spinner
   final Color? color;
 
   const LoadingSpinner({
