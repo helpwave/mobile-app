@@ -11,8 +11,10 @@ import 'package:helpwave_theme/constants.dart';
 /// )
 /// ```
 class StaticProgressIndicator extends StatelessWidget {
+  /// The [Size] of the indicator
   final Size size;
-
+  
+  /// The width of the ring which displays the progress  
   final double strokeWidth;
 
   /// The semanticsLabel for Screen Reading Software
