@@ -63,6 +63,7 @@ class TaskStatusPillBox extends StatelessWidget {
             onLeft: false,
             onRight: true,
           ),
+          // TODO implement color in ThemeUpdate
           backgroundColor: backgroundColor,
           pillBackgroundColor: const Color.fromARGB(255, 254, 224, 221),
           dotColor: const Color.fromARGB(255, 214, 114, 104),
@@ -75,6 +76,7 @@ class TaskStatusPillBox extends StatelessWidget {
             onLeft: true,
             onRight: true,
           ),
+          // TODO implement color in ThemeUpdate
           backgroundColor: backgroundColor,
           pillBackgroundColor: const Color.fromARGB(255, 254, 234, 203),
           dotColor: const Color.fromARGB(255, 199, 147, 69),
@@ -91,6 +93,7 @@ class TaskStatusPillBox extends StatelessWidget {
             onLeft: true,
             onRight: false,
           ),
+          // TODO implement color in ThemeUpdate
           backgroundColor: backgroundColor,
           pillBackgroundColor: const Color.fromARGB(255, 206, 253, 219),
           dotColor: const Color.fromARGB(255, 77, 132, 102),

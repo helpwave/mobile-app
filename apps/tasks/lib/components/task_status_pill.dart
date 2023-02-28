@@ -46,7 +46,7 @@ class TaskStatusPill extends StatelessWidget {
     return Container(
       decoration: ShapeDecoration(
         shape: shape ?? const RoundedRectangleBorder(),
-        color: backgroundColor ?? Colors.white,
+        color: backgroundColor ?? Colors.transparent,
       ),
       child: ClipPath(
         clipper: diagonalClipper,
