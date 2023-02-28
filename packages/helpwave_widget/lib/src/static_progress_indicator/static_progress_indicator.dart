@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 import 'package:helpwave_theme/constants.dart';
 
 /// A Circular Progress indicator
@@ -21,10 +22,22 @@ class StaticProgressIndicator extends StatelessWidget {
   final double progress;
 
   /// [Color] that indicates Progress
+  ///
+  /// Default from [CircularProgressIndicator] is [ProgressIndicatorThemeData.color]
+  /// if that also null then [ColorScheme.primary]
   final Color? color;
 
   /// [Color] that is the background of the ring
+  ///
+  /// Default from [CircularProgressIndicator] is
+  /// [ProgressIndicatorThemeData.circularTrackColor] or transparent if null
   final Color? backgroundColor;
+
+  /// Fill clockwise
+  final bool isClockwise;
+
+  /// The rotation angle as degree
+  final double angle;
 
   const StaticProgressIndicator({
     super.key,
@@ -34,20 +47,31 @@ class StaticProgressIndicator extends StatelessWidget {
     this.semanticsLabel,
     this.color,
     this.backgroundColor,
+    this.isClockwise = true,
+    this.angle = 0,
   });
+
+  double angleToRadian(double angle) {
+    return angle * math.pi /180;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: size.height - strokeWidth,
-      width: size.width - strokeWidth,
-      child: CircularProgressIndicator(
-        strokeWidth: strokeWidth,
-        semanticsLabel: semanticsLabel,
-        color: color ?? Theme.of(context).colorScheme.onBackground,
-        backgroundColor:
-            backgroundColor ?? Theme.of(context).colorScheme.background,
-        value: progress,
+    return Transform.rotate(
+      angle: isClockwise ? angleToRadian(angle) : angleToRadian(-angle),
+      child: Transform.scale(
+        scaleX: isClockwise ? 1 : -1,
+        child: SizedBox(
+          height: size.height - strokeWidth,
+          width: size.width - strokeWidth,
+          child: CircularProgressIndicator(
+            strokeWidth: strokeWidth,
+            semanticsLabel: semanticsLabel,
+            color: color,
+            backgroundColor: backgroundColor,
+            value: progress,
+          ),
+        ),
       ),
     );
   }
