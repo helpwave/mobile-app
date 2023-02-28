@@ -47,8 +47,8 @@ class StaticProgressIndicator extends StatelessWidget {
     this.semanticsLabel,
     this.color,
     this.backgroundColor,
-    this.isClockwise = true,
-    this.angle = 0,
+    this.isClockwise = false,
+    this.angle = 90,
   });
 
   double angleToRadian(double angle) {
@@ -57,11 +57,11 @@ class StaticProgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.rotate(
-      angle: isClockwise ? angleToRadian(angle) : angleToRadian(-angle),
-      child: Transform.scale(
+    return  Transform.scale(
         scaleX: isClockwise ? 1 : -1,
-        child: SizedBox(
+        child: Transform.rotate(
+          angle: isClockwise ? angleToRadian(angle) : angleToRadian(-angle),
+          child:SizedBox(
           height: size.height - strokeWidth,
           width: size.width - strokeWidth,
           child: CircularProgressIndicator(
