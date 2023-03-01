@@ -7,9 +7,13 @@ class Circle extends StatelessWidget {
   final double diameter;
 
   /// The [Color] of th circle
-  final Color? color;
+  final Color color;
 
-  const Circle({super.key, this.diameter = distanceSmall, this.color});
+  const Circle({
+    super.key,
+    this.diameter = distanceSmall,
+    this.color = Colors.black,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,7 @@ class Circle extends StatelessWidget {
       height: diameter,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: color ?? Colors.black,
+        color: color,
       ),
     );
   }
