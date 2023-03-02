@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/components/question_answer_column.dart';
-import 'package:helpwave/pages/emergency_room_overview_page.dart';
+import 'package:helpwave/screens/emergency_room_overview_screen.dart';
 
-/// Page for displaying Questions in case of an emergency
+/// Screen for displaying Questions in case of an emergency
 ///
 /// Used make the best possible advice for a emergency room
 ///
 /// See [QuestionAnswerColumn] for actual implementation
-class QuestionnairePage extends StatefulWidget {
-  const QuestionnairePage({super.key});
+class QuestionnaireScreen extends StatefulWidget {
+  const QuestionnaireScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _QuestionnairePageState();
+  State<StatefulWidget> createState() => _QuestionnaireScreenState();
 }
 
-class _QuestionnairePageState extends State<QuestionnairePage> {
+class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   bool isLoadingEmergencyRooms = false;
 
   @override
@@ -54,7 +54,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => const EmergencyRoomOverviewPage(),
+                builder: (_) => const EmergencyRoomOverviewScreen(),
               ),
             );
           } else {
@@ -65,7 +65,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
               const Duration(seconds: 2),
               () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => const EmergencyRoomOverviewPage(),
+                  builder: (_) => const EmergencyRoomOverviewScreen(),
                 ),
               ),
             );

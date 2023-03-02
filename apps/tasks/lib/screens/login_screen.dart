@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/text_input.dart';
-import 'package:tasks/pages/organization_picker_dart.dart';
+import 'package:tasks/screens/organization_picker_screen.dart';
 
-/// Page for logging in an existing user
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+/// Screen for logging in an existing user
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _LoginPageState();
+  State<StatefulWidget> createState() => _LoginScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   String _email = "";
   String _password = "";
@@ -37,7 +37,8 @@ class _LoginPageState extends State<LoginPage> {
                 _formKey.currentState!.save();
                 // TODO do use email password here
 
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const OrganizationPickerPage()));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (_) => const OrganizationPickerScreen()));
               }
             },
             child: Text(
@@ -97,15 +98,11 @@ class _LoginPageState extends State<LoginPage> {
                                 style: const TextStyle(
                                     decoration: TextDecoration.underline,
                                     color: Colors.grey),
-                              )
-                          )
+                              ))
                         ],
                       ),
                     ],
                   ),
-                )
-            )
-        )
-    );
+                ))));
   }
 }

@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/text_input.dart';
-import 'package:tasks/pages/login_page.dart';
 import 'package:tasks/config/config.dart';
-import 'package:tasks/pages/organization_picker_dart.dart';
+import 'package:tasks/screens/login_screen.dart';
+import 'package:tasks/screens/organization_picker_screen.dart';
 
-/// Page for registering a new user
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+/// Screen for registering a new user
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _RegisterPageState();
+  State<StatefulWidget> createState() => _RegisterScreenState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailKey = GlobalKey<FormFieldState>();
   final _passwordTextFieldKey = GlobalKey<FormFieldState>();
@@ -77,8 +77,8 @@ class _RegisterPageState extends State<RegisterPage> {
               // TODO do use email password here for registration
 
               // TODO onSuccess push to app home-screen
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const OrganizationPickerPage()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (_) => const OrganizationPickerScreen()));
             }
           },
           child: Text(
@@ -196,8 +196,8 @@ class _RegisterPageState extends State<RegisterPage> {
               TextButton(
                 style: const ButtonStyle(
                     minimumSize: MaterialStatePropertyAll(Size.zero)),
-                onPressed: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => const LoginPage())),
+                onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const LoginScreen())),
                 child: Text(context.localization!.login),
               ),
             ],
