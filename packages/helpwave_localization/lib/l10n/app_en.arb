@@ -7,7 +7,7 @@
   "beds":"Beds",
   "start": "start",
   "selectLanguage": "select your language",
-  "language": "language",
+  "language": "Language",
   "darkMode": "Dark theme",
   "on": "On",
   "off": "Off",
@@ -103,5 +103,7 @@
   "forgotPassword": "Forgot password?",
   "selectOrganizations": "Select Organization",
   "askForInvite": "Ask an Organization leader to invite you",
-  "refresh": "Refresh"
+  "refresh": "Refresh",
+  "logout": "Logout",
+  "licenses": "Licenses"
 }
