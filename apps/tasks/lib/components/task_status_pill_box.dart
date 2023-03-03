@@ -40,7 +40,6 @@ class TaskStatusPillBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color backgroundColor = dividerColor ?? Colors.white;
     EdgeInsets pillPadding = const EdgeInsets.all(distanceTiny);
     ShapeBorder leftShape = RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
@@ -64,7 +63,7 @@ class TaskStatusPillBox extends StatelessWidget {
             onRight: true,
           ),
           // TODO implement color in ThemeUpdate
-          backgroundColor: backgroundColor,
+          backgroundColor: dividerColor,
           pillBackgroundColor: const Color.fromARGB(255, 254, 224, 221),
           dotColor: const Color.fromARGB(255, 214, 114, 104),
           textColor: const Color.fromARGB(255, 89, 25, 23),
@@ -77,7 +76,7 @@ class TaskStatusPillBox extends StatelessWidget {
             onRight: true,
           ),
           // TODO implement color in ThemeUpdate
-          backgroundColor: backgroundColor,
+          backgroundColor: dividerColor,
           pillBackgroundColor: const Color.fromARGB(255, 254, 234, 203),
           dotColor: const Color.fromARGB(255, 199, 147, 69),
           textColor: const Color.fromARGB(255, 65, 42, 29),
@@ -94,7 +93,7 @@ class TaskStatusPillBox extends StatelessWidget {
             onRight: false,
           ),
           // TODO implement color in ThemeUpdate
-          backgroundColor: backgroundColor,
+          backgroundColor: dividerColor,
           pillBackgroundColor: const Color.fromARGB(255, 206, 253, 219),
           dotColor: const Color.fromARGB(255, 77, 132, 102),
           textColor: const Color.fromARGB(255, 39, 52, 41),
