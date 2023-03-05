@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 
+
+/// Screen for settings and other app options
 class SettingsPage extends StatefulWidget{
   const SettingsPage({super.key});
 
