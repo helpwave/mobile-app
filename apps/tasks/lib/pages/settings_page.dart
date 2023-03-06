@@ -67,7 +67,9 @@ class _SettingsPageState extends State<SettingsPage> {
                             title: Text(context.localization!.licenses),
                             trailing: const Icon(Icons.arrow_forward),
                             onTap: () => {
-
+                              showLicensePage(
+                                context: context
+                              )
                             },
                           ),
                           ListTile(
