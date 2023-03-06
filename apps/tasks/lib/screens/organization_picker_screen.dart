@@ -3,17 +3,17 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:helpwave_widget/widgets.dart';
-import 'package:tasks/pages/home_page.dart';
+import 'package:tasks/screens/home_screen.dart';
 
-/// Page for Picking the Organizations the user wants to join
-class OrganizationPickerPage extends StatefulWidget {
-  const OrganizationPickerPage({super.key});
+/// Screen for Picking the Organizations the user wants to join
+class OrganizationPickerScreen extends StatefulWidget {
+  const OrganizationPickerScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _OrganizationPickerPageState();
+  State<StatefulWidget> createState() => _OrganizationPickerScreenState();
 }
 
-class _OrganizationPickerPageState extends State<OrganizationPickerPage> {
+class _OrganizationPickerScreenState extends State<OrganizationPickerScreen> {
   Future<List<Map<String, String>>> getMyOrganizations() async {
     // TODO API Call here, use the future wait to always take at least 0.5 seconds to load
     await Future.wait([Future.delayed(const Duration(milliseconds: 500))]);
@@ -53,7 +53,7 @@ class _OrganizationPickerPageState extends State<OrganizationPickerPage> {
                 trailing: const Icon(Icons.arrow_forward_rounded),
                 onTap: () {
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (_) => const HomePage()));
+                      MaterialPageRoute(builder: (_) => const HomeScreen()));
                   // TODO set current organization
                 },
               ),
@@ -81,7 +81,7 @@ class _OrganizationPickerPageState extends State<OrganizationPickerPage> {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  const OrganizationPickerPage(),
+                                  const OrganizationPickerScreen(),
                           transitionDuration: Duration.zero,
                           reverseTransitionDuration: Duration.zero,
                         ),

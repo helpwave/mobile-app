@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
-import 'package:helpwave/pages/questionnaire_page.dart';
-import 'package:helpwave/pages/settings_page.dart';
-import 'package:helpwave/pages/street_map_page.dart';
+import 'package:helpwave/screens/questionnaire_screen.dart';
+import 'package:helpwave/screens/settings_screen.dart';
+import 'package:helpwave/screens/street_map_screen.dart';
 
-/// The Homepage of the App with Navigation
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+/// The Home Screen of the App with Navigation
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const QuestionnairePage(),
+                          builder: (_) => const QuestionnaireScreen(),
                         ),
                       );
                     },
@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const StreetMapPage(),
+                          builder: (_) => const StreetMapScreen(),
                         ),
                       );
                     },
@@ -65,7 +65,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const SettingsPage(),
+                      builder: (_) => const SettingsScreen(),
                     ),
                   );
                 },
