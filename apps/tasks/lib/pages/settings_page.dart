@@ -6,14 +6,14 @@ import 'package:provider/provider.dart';
 
 
 /// Screen for settings and other app options
-class SettingsPage extends StatefulWidget{
-  const SettingsPage({super.key});
+class SettingsScreen extends StatefulWidget{
+  const SettingsScreen({super.key});
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
