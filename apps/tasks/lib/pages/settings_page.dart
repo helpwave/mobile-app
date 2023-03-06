@@ -38,10 +38,11 @@ class _SettingsPageState extends State<SettingsPage> {
             appBar: AppBar(
               title: Text(context.localization!.settings),
             ),
-            body: ListView(
-              children: [
-                Padding(padding: const EdgeInsets.symmetric(horizontal: paddingSmall), child:
-                Column(
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
+              child: ListView(
+                children: [
+                  Column(
                     children:
                     ListTile.divideTiles(context: context,
                         tiles: [
@@ -68,7 +69,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             trailing: const Icon(Icons.arrow_forward),
                             onTap: () => {
                               showLicensePage(
-                                context: context
+                                  context: context
                               )
                             },
                           ),
@@ -81,9 +82,8 @@ class _SettingsPageState extends State<SettingsPage> {
                           )
                         ]
                     ).toList())
-                )
               ],
-            ),
+            ),),
           );
         },
       )
