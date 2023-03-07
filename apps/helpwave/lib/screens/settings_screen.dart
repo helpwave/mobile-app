@@ -6,21 +6,21 @@ import 'package:helpwave_theme/theme.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/dialog.dart';
 import 'package:helpwave_service/introduction.dart';
-import 'package:helpwave/pages/landing_page.dart';
-import 'package:helpwave/pages/emergency_pass_page.dart';
-import 'package:helpwave/pages/language_selection_page.dart';
+import 'package:helpwave/screens/landing_screen.dart';
+import 'package:helpwave/screens/emergency_pass_screen.dart';
+import 'package:helpwave/screens/language_selection_screen.dart';
 
-/// Page for displaying basic Settings
+/// Screen for displaying basic Settings
 ///
-/// for example: Theme, Language and a Navigation to [EmergencyPassPage]
-class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+/// for example: Theme, Language and a Navigation to [EmergencyPassScreen]
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _SettingsPageState();
+  State<StatefulWidget> createState() => _SettingsScreenState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer3<ThemeModel, LanguageModel, IntroductionModel>(
@@ -58,7 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 subtitle: Text(languageNotifier.name),
                 onTap: () =>
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LanguageSelectionPage())),
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LanguageSelectionScreen())),
                 title: Text(context.localization!.language),
                 trailing: const Icon(
                   Icons.arrow_forward,
@@ -75,7 +75,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const EmergencyPassPage()),
+                  MaterialPageRoute(builder: (context) => const EmergencyPassScreen()),
                 ),
                 title: Text(context.localization!.emergencyPass),
                 trailing: const Icon(
@@ -110,7 +110,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const LandingPage(),
+                          builder: (context) => const LandingScreen(),
                         ));
                   }
                 }),

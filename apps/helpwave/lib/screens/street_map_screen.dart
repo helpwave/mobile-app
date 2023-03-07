@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:helpwave/components/street_map.dart';
 import 'package:helpwave/styling/constants.dart';
 
-/// Page for displaying a Map with Emergency Rooms as Markers
+/// Screen for displaying a Map with Emergency Rooms as Markers
 ///
 /// Uses [StreetMap] as a Map
 ///
 /// Tracking of the Patients position can be toggled
-class StreetMapPage extends StatelessWidget {
-  const StreetMapPage({super.key});
+class StreetMapScreen extends StatelessWidget {
+  const StreetMapScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

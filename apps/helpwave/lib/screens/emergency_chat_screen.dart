@@ -4,17 +4,17 @@ import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave/components/chat_message.dart';
 
 /// A Chat where the user can communicate with the Emergency
-class EmergencyChatPage extends StatefulWidget {
+class EmergencyChatScreen extends StatefulWidget {
   /// Information of the Emergency Room mainly used to display the name
   final Map<String, dynamic> emergencyRoom;
 
-  const EmergencyChatPage({required this.emergencyRoom, super.key});
+  const EmergencyChatScreen({required this.emergencyRoom, super.key});
 
   @override
-  State<StatefulWidget> createState() => _EmergencyChatPageState();
+  State<StatefulWidget> createState() => _EmergencyChatScreenState();
 }
 
-class _EmergencyChatPageState extends State<EmergencyChatPage> {
+class _EmergencyChatScreenState extends State<EmergencyChatScreen> {
   // TODO replace with loading from device cache
   List<Map<String, dynamic>> messages = [
     {"isFromEmergencyRoom": true, "message": "How are you?"},

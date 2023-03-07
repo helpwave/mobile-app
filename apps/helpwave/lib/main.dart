@@ -8,8 +8,8 @@ import 'package:helpwave_localization/localization_model.dart';
 import 'package:helpwave_localization/l10n/app_localizations.dart';
 import 'package:helpwave_service/introduction.dart';
 import 'package:helpwave/services/database_handler.dart';
-import 'package:helpwave/pages/home_page.dart';
-import 'package:helpwave/pages/landing_page.dart';
+import 'package:helpwave/screens/home_screen.dart';
+import 'package:helpwave/screens/landing_screen.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: getSupportedLocals(),
-            home: introductionModel.hasSeenIntroduction ? const HomePage() : const LandingPage(),
+            home: introductionModel.hasSeenIntroduction ? const HomeScreen() : const LandingScreen(),
             locale: Locale(languageNotifier.language),
           );
         },

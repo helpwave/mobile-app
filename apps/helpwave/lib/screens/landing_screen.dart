@@ -3,11 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_service/introduction.dart';
-import 'package:helpwave/pages/home_page.dart';
+import 'package:helpwave/screens/home_screen.dart';
 
-/// Landing-Page, if the user start the app for the first time
-class LandingPage extends StatelessWidget {
-  const LandingPage({super.key});
+/// Landing Screen, if the user starts the app for the first time
+class LandingScreen extends StatelessWidget {
+  const LandingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class LandingPage extends StatelessWidget {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const HomePage(),
+                            builder: (context) => const HomeScreen(),
                           ));
                       introductionModel.setHasSeenIntroduction();
                     },

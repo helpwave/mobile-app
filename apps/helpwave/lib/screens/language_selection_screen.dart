@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_localization/localization_model.dart';
 
-/// Page for displaying language option and changing to the selected one
-class LanguageSelectionPage extends StatelessWidget {
-  const LanguageSelectionPage({super.key});
+/// Screen for displaying language option and changing to the selected one
+class LanguageSelectionScreen extends StatelessWidget {
+  const LanguageSelectionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -5,8 +5,8 @@ import 'package:helpwave_widget/loading.dart';
 import 'package:tasks/components/organization_card.dart';
 
 /// Page to display all Wards in the Organization the user has joined
-class OrganizationPage extends StatelessWidget {
-  const OrganizationPage({super.key});
+class OrganizationScreen extends StatelessWidget {
+  const OrganizationScreen({super.key});
 
   Future<List<Map<String, String>>> getMyWards() async {
     return [

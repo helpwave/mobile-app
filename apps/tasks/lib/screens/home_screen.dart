@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
-import 'package:tasks/pages/organization_page.dart';
+import 'package:tasks/screens/organization_screen.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => HomePageState();
+  State<StatefulWidget> createState() => HomeScreenState();
 }
 
-class HomePageState extends State<HomePage> {
-  // TaskPage should be the default
+class HomeScreenState extends State<HomeScreen> {
+  // TaskScreen should be the default
   int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
@@ -19,14 +19,14 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  Widget pageForCurrentIndex() {
-    // TODO add other pages
+  Widget screenForCurrentIndex() {
+    // TODO add other screen
     switch (_selectedIndex) {
       case 1:
-        return const OrganizationPage();
+        return const OrganizationScreen();
       default:
-        // TODO Replace with Homepage as default
-        return const OrganizationPage();
+        // TODO Replace with home screen as default
+        return const OrganizationScreen();
     }
   }
 
@@ -59,7 +59,7 @@ class HomePageState extends State<HomePage> {
         selectedItemColor: activeColor,
         unselectedItemColor: inactiveColor,
       ),
-      body: pageForCurrentIndex(),
+      body: screenForCurrentIndex(),
     );
   }
 }
