@@ -103,5 +103,7 @@
   "forgotPassword": "Passwort vergessen?",
   "selectOrganizations": "Organisation auswählen",
   "askForInvite": "Ein Organisationsmanager muss dich einladen",
-  "refresh": "Aktualisieren"
+  "refresh": "Aktualisieren",
+  "logout": "Ausloggen",
+  "licenses": "Lizenzen"
 }
