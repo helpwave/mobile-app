@@ -30,13 +30,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: Text(context.localization!.darkMode),
                 trailing: Consumer<ThemeModel>(
                     builder: (_, ThemeModel themeNotifier, __) {
-                  // Check System mode
-                  bool isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-                  if (themeNotifier.isDark != null) {
-                    isDarkTheme = themeNotifier.isDark!;
-                  }
                   return Switch(
-                    value: isDarkTheme,
+                    value: themeNotifier.getIsDarkNullSafe(context),
                     onChanged: (bool value) {
                       setState(() {
                         themeNotifier.isDark = value;

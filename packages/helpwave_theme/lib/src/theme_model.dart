@@ -8,11 +8,11 @@ class ThemeModel extends ChangeNotifier {
   bool? _isDark;
   final ThemePreferences _preferences = ThemePreferences();
 
-  bool? get isDark => _isDark;
-
   ThemeModel() {
     getPreferences();
   }
+
+  bool? get isDark => _isDark;
 
   set isDark(bool? value) {
     if (value == null) {
@@ -24,6 +24,25 @@ class ThemeModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool get isUsingSystemTheme => isDark == null;
+
+  /// Get the [ThemeMode] of based on the given preference
+  ThemeMode get themeMode {
+    ThemeMode themeMode = ThemeMode.system;
+    if (!isUsingSystemTheme) {
+      themeMode = isDark! ? ThemeMode.dark : ThemeMode.light;
+    }
+    return themeMode;
+  }
+
+  /// A NullSafe Variant of getting the current dark/light mode
+  ///
+  /// Uses the [BuildContext] to determine the [Theme]'s brightness, which
+  /// corresponds to the System setting
+  bool getIsDarkNullSafe(BuildContext context) =>
+      isDark ?? Theme.of(context).brightness == Brightness.dark;
+
+  /// Load the preferences with the [ThemePreferences]
   getPreferences() async {
     _isDark = await _preferences.getTheme();
     notifyListeners();

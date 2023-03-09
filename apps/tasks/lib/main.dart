@@ -15,8 +15,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeMode themeMode = ThemeMode.system;
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -28,13 +26,9 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer2<ThemeModel, LanguageModel>(builder:
           (_, ThemeModel themeNotifier, LanguageModel languageNotifier, __) {
-        if (themeNotifier.isDark != null) {
-          themeMode = themeNotifier.isDark! ? ThemeMode.dark : ThemeMode.light;
-        }
-
         return MaterialApp(
           title: 'helpwave tasks',
-          themeMode: themeMode,
+          themeMode: themeNotifier.themeMode,
           theme: lightTheme,
           darkTheme: darkTheme,
           localizationsDelegates: const [
