@@ -8,7 +8,7 @@ class RoomOverviewScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavigationDrawer(currentPage: NavigationOptions.roomoverview),
+      drawer: const TasksNavigationDrawer(currentPage: NavigationOptions.roomoverview),
       appBar: AppBar(),
       body: const Center(child: Text("RoomOverviewScreen")),
     );

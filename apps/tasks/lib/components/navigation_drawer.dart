@@ -16,11 +16,11 @@ enum NavigationOptions {
 }
 
 /// A Drawer for navigating through the application
-class NavigationDrawer extends StatelessWidget {
+class TasksNavigationDrawer extends StatelessWidget {
   /// The current Page the User is on
   final NavigationOptions currentPage;
 
-  const NavigationDrawer({
+  const TasksNavigationDrawer({
     super.key,
     required this.currentPage,
   });

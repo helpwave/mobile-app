@@ -17,7 +17,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavigationDrawer(currentPage: NavigationOptions.settings),
+      drawer: const TasksNavigationDrawer(currentPage: NavigationOptions.settings),
       appBar: AppBar(
         title: Text(context.localization!.settings),
       ),

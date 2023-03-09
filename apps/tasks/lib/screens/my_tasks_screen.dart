@@ -8,7 +8,7 @@ class MyTasksScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavigationDrawer(currentPage: NavigationOptions.myTasks),
+      drawer: const TasksNavigationDrawer(currentPage: NavigationOptions.myTasks),
       appBar: AppBar(),
       body: const Center(child: Text("MyTasksScreen")),
     );
