@@ -3,6 +3,7 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:tasks/components/navigation_drawer.dart';
 
 /// Screen for settings and other app options
 class SettingsScreen extends StatefulWidget {
@@ -16,6 +17,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const NavigationDrawer(currentPage: NavigationOptions.settings),
       appBar: AppBar(
         title: Text(context.localization!.settings),
       ),

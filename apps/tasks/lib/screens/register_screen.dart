@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/text_input.dart';
+import 'package:tasks/components/navigation_drawer.dart';
 import 'package:tasks/config/config.dart';
 import 'package:tasks/screens/login_screen.dart';
 import 'package:tasks/screens/organization_picker_screen.dart';
@@ -66,6 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      drawer: const NavigationDrawer(currentPage: NavigationOptions.myTasks),
       appBar: AppBar(title: Text(context.localization!.register)),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: padding),
