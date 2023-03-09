@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/dialog.dart';
-import 'package:tasks/screens/register_screen.dart';
+import 'package:tasks/screens/my_tasks_screen.dart';
 
 /// A Card to display the [User] information
 class UserCard extends StatelessWidget {
@@ -41,7 +41,8 @@ class UserCard extends StatelessWidget {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => const RegisterScreen(),
+                  // TODO change to landing screen
+                  builder: (_) => const MyTasksScreen(),
                 ));
           }
         });

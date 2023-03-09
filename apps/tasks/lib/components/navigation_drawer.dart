@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
+import 'package:tasks/components/user_card.dart';
 import 'package:tasks/screens/my_tasks_screen.dart';
 import 'package:tasks/screens/room_overview_screen.dart';
 import 'package:tasks/screens/settings_screen.dart';
@@ -85,7 +86,11 @@ class NavigationDrawer extends StatelessWidget {
                   : () => pushReplace(context, const SettingsScreen()),
               title: Text(context.localization!.settings),
             ),
-            // TODO add [UserCard]
+            Flexible(child: Container()),
+            const Padding(
+              padding: EdgeInsets.all(distanceDefault),
+              child: UserCard(),
+            ),
           ],
         ),
       ),
