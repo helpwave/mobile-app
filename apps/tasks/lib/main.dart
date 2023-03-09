@@ -4,7 +4,7 @@ import 'package:helpwave_localization/l10n/app_localizations.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_localization/localization_model.dart';
 import 'package:helpwave_theme/theme.dart';
-import 'package:tasks/screens/register_screen.dart';
+import 'package:tasks/screens/settings_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: getSupportedLocals(),
           locale: Locale(languageNotifier.language),
-          home: const RegisterScreen(),
+          home: const SettingsScreen(),
         );
       }),
     );
