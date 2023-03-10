@@ -4,6 +4,7 @@ import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/navigation_drawer.dart';
+import 'package:tasks/screens/landing_screen.dart';
 
 /// Screen for settings and other app options
 class SettingsScreen extends StatefulWidget {
@@ -17,7 +18,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const TasksNavigationDrawer(currentPage: NavigationOptions.settings),
+      drawer:
+          const TasksNavigationDrawer(currentPage: NavigationOptions.settings),
       appBar: AppBar(
         title: Text(context.localization!.settings),
       ),
@@ -57,7 +59,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ListTile(
                 leading: const Icon(Icons.logout),
                 title: Text(context.localization!.logout),
-                onTap: () => {},
+                onTap: () {
+                  // TODO logout user in [AuthService]
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (_) => const LandingScreen()),
+                  );
+                },
               )
             ]).toList())
           ],
