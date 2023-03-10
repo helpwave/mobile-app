@@ -24,7 +24,7 @@ jobs:
 
       - uses: bluefireteam/melos-action@v1
         with:
-          run-bootstrap: true
+          melos-version: '2.9.0'
 
       - run: melos run intl
 
@@ -43,7 +43,7 @@ jobs:
           
       - uses: bluefireteam/melos-action@v1
         with:
-          run-bootstrap: true
+          melos-version: '2.9.0'
 
       - run: melos run intl
       
@@ -79,7 +79,7 @@ jobs:
       
       - uses: bluefireteam/melos-action@v1
         with:
-          run-bootstrap: true
+          melos-version: '2.9.0'
 
       - run: melos run intl
       
