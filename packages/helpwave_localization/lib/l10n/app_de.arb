@@ -1,4 +1,7 @@
 {
+  "logoutInformation": "Sie müssen sich danach wieder einloggen",
+  "roomoverview": "Raumübersicht",
+  "myTasks": "Meine Aufgaben",
   "loginSlogan": "Let's ride the wave!",
   "station": "Stationen",
   "tasks": "Aufgaben",
