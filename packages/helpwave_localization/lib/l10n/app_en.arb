@@ -1,4 +1,7 @@
 {
+  "logoutInformation": "You will have to login again",
+  "roomoverview": "Roomoverview",
+  "myTasks": "My Tasks",
   "station": "Wards",
   "tasks": "tasks",
   "organisations":"organisations",
