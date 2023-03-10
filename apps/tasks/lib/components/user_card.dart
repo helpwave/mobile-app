@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/dialog.dart';
-import 'package:tasks/screens/my_tasks_screen.dart';
+
+import '../screens/landing_screen.dart';
 
 /// A Card to display the [User] information
 class UserCard extends StatelessWidget {
@@ -38,12 +39,11 @@ class UserCard extends StatelessWidget {
           ),
         ).then((value) {
           if (value != null && value) {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  // TODO change to landing screen
-                  builder: (_) => const MyTasksScreen(),
-                ));
+            Navigator.pop(context);
+            // TODO logout user in [AuthService]
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => const LandingScreen()),
+            );
           }
         });
       },
