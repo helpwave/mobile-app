@@ -6,7 +6,7 @@ packages:
 
 scripts:
   analyze:
-    exec: dart analyze .
+    run: melos exec -- "dart analyze ."
 
   intl:
     run: melos exec --file-exists="l10n.yaml" -- "flutter gen-l10n && melos bootstrap"
@@ -15,4 +15,4 @@ scripts:
     run: melos exec --file-exists="./lib/main.dart" "flutter build apk"
 
   build-ios:
-    exec: melos exec --file-exists="./lib/main.dart" "flutter build ios --no-codesign"
+    run: melos exec --file-exists="./lib/main.dart" "flutter build ios --no-codesign"
