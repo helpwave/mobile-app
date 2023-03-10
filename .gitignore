@@ -13,7 +13,7 @@ coverage/
 lib/generated_plugin_registrant.dart
 # For library packages, don’t commit the pubspec.lock file.
 # exception here because of melos see https://melos.invertase.dev/guides/migrations#200-to-300
-pubspec.lock
+#pubspec.lock
 
 # Android related
 **/android/**/gradle-wrapper.jar
