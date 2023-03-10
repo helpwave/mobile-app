@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -11,10 +12,22 @@ class LandingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.04),
+        padding: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.height * 0.04,
+          horizontal: MediaQuery.of(context).size.height * 0.05,
+        ),
         child: OutlinedButton(
-          child: Text(context.localization!.loginSlogan),
+          style: ButtonStyle(
+            shape: MaterialStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(borderRadiusSmall),
+              ),
+            ),
+          ),
+          child: Text(
+            context.localization!.loginSlogan,
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
           onPressed: () => {
             // TODO navigate to next Screen
           },
