@@ -1,4 +1,6 @@
 {
+  "addTasks": "New Task",
+  "bedPosition": "Bed Position",
   "station": "Wards",
   "tasks": "tasks",
   "organisations":"organisations",
