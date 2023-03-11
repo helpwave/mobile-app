@@ -10,6 +10,7 @@
   "patients": "Patienten",
   "room": "Raum",
   "rooms": "Räume",
+  "noBedAvailable": "Es ist momentan kein Bett verfügbar!",
   "bed": "Bett",
   "beds": "Betten",
   "start": "starten",

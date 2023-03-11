@@ -1,6 +1,6 @@
 {
   "logoutInformation": "You will have to login again",
-  "roomoverview": "Roomoverview",
+  "roomoverview": "Room Overview",
   "myTasks": "My Tasks",
   "loginSlogan": "Let's ride the wave!",
   "station": "Wards",
@@ -10,6 +10,7 @@
   "rooms":"Rooms",
   "patient":"Patient",
   "patients":"Patients",
+  "noBedAvailable": "Currently no bed available!",
   "bed": "Bed",
   "beds":"Beds",
   "start": "start",
