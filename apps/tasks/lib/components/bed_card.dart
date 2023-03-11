@@ -25,10 +25,12 @@ class PatientDTO {
 class BedCard extends StatelessWidget {
   // Patient data including bed information
   final PatientDTO patient;
+  final IconData? icon;
 
   const BedCard({
     super.key,
     required this.patient,
+    this.icon,
   });
 
   @override
@@ -68,10 +70,22 @@ class BedCard extends StatelessWidget {
               ],
             ),
             Container(height: 10),
-            TaskStatusPillBox(
-              unscheduledCount: patient.tasksUnscheduledCount,
-              inProgressCount: patient.tasksInProgressCount,
-              finishedCount: patient.tasksDoneCount,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TaskStatusPillBox(
+                  unscheduledCount: patient.tasksUnscheduledCount,
+                  inProgressCount: patient.tasksInProgressCount,
+                  finishedCount: patient.tasksDoneCount,
+                ),
+                icon != null
+                    ? Icon(
+                        icon,
+                        size: 17.5,
+                        color: Colors.grey,
+                      )
+                    : const Spacer(),
+              ],
             ),
           ],
         ),

@@ -10,13 +10,13 @@ class RoomOverviewScreen extends StatelessWidget {
 
   RoomOverviewScreen({super.key});
 
-  int _getRandomNumber({int min = 0, int max = 20}) =>
+  int _getRandomNumber({int min = 0, int max = 10}) =>
       min + _random.nextInt(max - min);
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width * 0.5;
-    double height = 100;
+    double height = 85;
     double ratio = width / height;
 
     return Scaffold(
@@ -39,6 +39,7 @@ class RoomOverviewScreen extends StatelessWidget {
               tasksInProgressCount: _getRandomNumber(),
               tasksDoneCount: _getRandomNumber(),
             ),
+            icon: Icons.sos,
           ),
         ),
       ),

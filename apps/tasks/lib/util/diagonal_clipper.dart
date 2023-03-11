@@ -16,7 +16,7 @@ class DiagonalClipper extends CustomClipper<Path> {
   const DiagonalClipper({
     required this.onLeft,
     required this.onRight,
-    this.diagonalIndent = distanceTiny,
+    this.diagonalIndent = 4,
   });
 
   @override

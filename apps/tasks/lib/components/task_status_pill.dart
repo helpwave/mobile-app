@@ -57,11 +57,17 @@ class TaskStatusPill extends StatelessWidget {
             shape: shape ?? const RoundedRectangleBorder(),
           ),
           child: Row(children: [
-            Circle(color: dotColor ?? Colors.black),
-            const SizedBox(width: distanceTiny),
+            Circle(
+              color: dotColor ?? Colors.black,
+              diameter: 7.5,
+            ),
+            const SizedBox(width: 4),
             Text(
               text,
-              style: TextStyle(color: textColor ?? Colors.black),
+              style: TextStyle(
+                color: textColor ?? Colors.black,
+                fontSize: 12.5,
+              ),
             ),
           ]),
         ),
