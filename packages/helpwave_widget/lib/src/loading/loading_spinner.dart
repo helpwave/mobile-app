@@ -4,7 +4,7 @@ import 'package:helpwave_theme/constants.dart';
 /// The Spinner to show when Loading data
 class LoadingSpinner extends StatelessWidget {
   /// Text below the Spinner
-  final String text;
+  final String? text;
 
   /// Size of the Spinner
   final double size;
@@ -17,7 +17,7 @@ class LoadingSpinner extends StatelessWidget {
 
   const LoadingSpinner({
     super.key,
-    this.text = "Loading",
+    this.text,
     this.size = iconSizeBig,
     this.width = 4,
     this.color,
@@ -34,12 +34,12 @@ class LoadingSpinner extends StatelessWidget {
             width: size,
             child: CircularProgressIndicator(
               strokeWidth: width,
-              semanticsLabel: text,
+              semanticsLabel: text ?? "Loading",
               color: color,
             ),
           ),
           const SizedBox(height: distanceBig),
-          Text(text),
+          Text(text ?? "Loading"),
         ],
       ),
     );
