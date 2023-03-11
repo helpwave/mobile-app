@@ -76,7 +76,7 @@ class TasksNavigationDrawer extends StatelessWidget {
               tileColor: tileColorForPage(NavigationOptions.roomoverview),
               onTap: currentPage == NavigationOptions.roomoverview
                   ? null
-                  : () => pushReplace(context, const RoomOverviewScreen()),
+                  : () => pushReplace(context, RoomOverviewScreen()),
               title: Text(context.localization!.roomoverview),
             ),
             ListTile(

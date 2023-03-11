@@ -271,3 +271,7 @@ hs_err_pid*
 ### AndroidStudio Patch ###
 
 !/gradle/wrapper/gradle-wrapper.jar
+
+### Melos ###
+# https://melos.invertase.dev/guides/migrations#local-package-linking-with-pubspec_overridesyaml
+pubspec_overrides.yaml

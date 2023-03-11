@@ -30,7 +30,7 @@ class LandingScreen extends StatelessWidget {
             style: Theme.of(context).textTheme.labelLarge,
           ),
           onPressed: () => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const RoomOverviewScreen()),
+            MaterialPageRoute(builder: (context) => RoomOverviewScreen()),
           ),
         ),
       ),
