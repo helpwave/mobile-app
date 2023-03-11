@@ -45,10 +45,10 @@ class StaticProgressIndicator extends StatelessWidget {
     super.key,
     required this.progress,
     this.size = const Size.square(iconSizeSmall),
-    this.strokeWidth = 8,
+    this.strokeWidth = 7,
     this.semanticsLabel,
     this.color,
-    this.backgroundColor,
+    this.backgroundColor = Colors.grey,
     this.isClockwise = false,
     this.angle = 90,
   });
