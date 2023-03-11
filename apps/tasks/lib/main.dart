@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
           themeMode: themeNotifier.themeMode,
           theme: lightTheme,
           darkTheme: darkTheme,
+          debugShowCheckedModeBanner: false,
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -39,7 +40,9 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: getSupportedLocals(),
           locale: Locale(languageNotifier.language),
-          home: const LandingScreen(),
+          home: const SafeArea(
+            child: LandingScreen(),
+          ),
         );
       }),
     );

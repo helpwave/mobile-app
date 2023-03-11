@@ -11,6 +11,7 @@ class PatientDTO {
   int tasksUnscheduledCount;
   int tasksInProgressCount;
   int tasksDoneCount;
+  IconData? icon;
 
   PatientDTO({
     required this.id,
@@ -18,6 +19,7 @@ class PatientDTO {
     required this.tasksUnscheduledCount,
     required this.tasksInProgressCount,
     required this.tasksDoneCount,
+    this.icon,
   });
 }
 
@@ -25,12 +27,10 @@ class PatientDTO {
 class BedCard extends StatelessWidget {
   // Patient data including bed information
   final PatientDTO patient;
-  final IconData? icon;
 
   const BedCard({
     super.key,
     required this.patient,
-    this.icon,
   });
 
   @override
@@ -78,9 +78,9 @@ class BedCard extends StatelessWidget {
                   inProgressCount: patient.tasksInProgressCount,
                   finishedCount: patient.tasksDoneCount,
                 ),
-                icon != null
+                patient.icon != null
                     ? Icon(
-                        icon,
+                        patient.icon,
                         size: 17.5,
                         color: Colors.grey,
                       )

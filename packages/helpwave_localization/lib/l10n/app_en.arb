@@ -6,6 +6,7 @@
   "station": "Wards",
   "tasks": "tasks",
   "organisations":"organisations",
+  "room": "Room",
   "rooms":"Rooms",
   "patient":"Patient",
   "patients":"Patients",
