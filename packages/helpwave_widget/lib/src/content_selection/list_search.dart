@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 
 /// A customizable Search within a List
@@ -34,7 +35,8 @@ class ListSearch<T> extends StatefulWidget {
   /// IMPORTANT: This disables navigation pops on clicking a result, but can be implemented in the function
   ///
   /// IMPORTANT: Overwrites default display of search results
-  final Widget Function(BuildContext context, T item, void Function(T item, BuildContext context) selectItem)?
+  final Widget Function(BuildContext context, T item,
+          void Function(T item, BuildContext context) selectItem)?
       resultTileBuilder;
 
   /// Allow adding user input, if filtered search items are empty for a given search
@@ -137,7 +139,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title ?? "List-Search"),
+          title: Text(widget.title ?? context.localization!.listSearch),
         ),
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -162,7 +164,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                       },
                       icon: const Icon(Icons.close),
                     ),
-                    hintText: widget.searchHintText ?? "Search...",
+                    hintText: widget.searchHintText ?? "${context.localization!.search}...",
                     border: const OutlineInputBorder(),
                   ),
                 ),
@@ -200,14 +202,14 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                             Text(
                               widget.elementNotFoundText != null
                                   ? widget.elementNotFoundText!(_searchController.text)
-                                  : "Not item ${_searchController.text} found",
+                                  : "${context.localization!.noItem} ${_searchController.text} ${context.localization!.found}",
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                             const SizedBox(height: distanceDefault),
                             widget.allowSelectAnyway
                                 ? TextButton(
                                     onPressed: () => Navigator.pop(context, _searchController.text.trim()),
-                                    child: Text(widget.addAnywayText ?? "Add anyway!"),
+                                    child: Text(widget.addAnywayText ?? "${context.localization!.addAnyway}!"),
                                   )
                                 : const SizedBox(),
                           ],
@@ -222,7 +224,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                         size: iconSizeBig,
                       ),
                       const SizedBox(height: distanceBig),
-                      Text('Error: ${snapshot.error}'),
+                      Text('${context.localization!.error}: ${snapshot.error}'),
                     ];
                   }
                   return Expanded(

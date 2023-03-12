@@ -10,30 +10,18 @@ class LoadingFutureBuilder<T> extends StatelessWidget {
   /// The Builder for the [Widget] upon an successful [Future]
   final Widget Function(BuildContext context, T data) thenWidgetBuilder;
 
-  /// The String to show beneath the default [loadingWidget] which is a [LoadingSpinner]
-  ///
-  /// Overwritten by [errorWidget]
-  final String? loadingWidgetText;
-
   /// The Builder for the [Widget] when loading the [Future]
-  final Widget? loadingWidget;
-
-  /// The String to show beneath the default [errorWidget] which is a [LoadErrorWidget]
-  ///
-  /// Overwritten by [errorWidget]
-  final String? errorWidgetText;
+  final Widget loadingWidget;
 
   /// The [Widget] for an error containing [Future]
-  final Widget? errorWidget;
+  final Widget errorWidget;
 
   const LoadingFutureBuilder({
     super.key,
     required this.future,
     required this.thenWidgetBuilder,
-    this.loadingWidget,
-    this.loadingWidgetText,
-    this.errorWidget,
-    this.errorWidgetText,
+    this.loadingWidget = const LoadingSpinner(),
+    this.errorWidget = const LoadErrorWidget(),
   });
 
   @override
@@ -42,10 +30,10 @@ class LoadingFutureBuilder<T> extends StatelessWidget {
       future: future,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return errorWidget ?? LoadErrorWidget(errorText: errorWidgetText);
+          return Center(child: errorWidget);
         }
         if (!snapshot.hasData) {
-          return loadingWidget ?? LoadingSpinner(text: loadingWidgetText);
+          return Center(child:loadingWidget);
         }
         return thenWidgetBuilder(context, snapshot.data as T);
       },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 
 /// The Spinner to show when Loading data
@@ -34,12 +35,12 @@ class LoadingSpinner extends StatelessWidget {
             width: size,
             child: CircularProgressIndicator(
               strokeWidth: width,
-              semanticsLabel: text ?? "Loading",
+              semanticsLabel: text ?? context.localization!.loading,
               color: color,
             ),
           ),
           const SizedBox(height: distanceBig),
-          Text(text ?? "Loading"),
+          Text(text ?? context.localization!.loading),
         ],
       ),
     );

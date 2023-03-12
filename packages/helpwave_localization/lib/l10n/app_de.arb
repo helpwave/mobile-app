@@ -1,4 +1,5 @@
 {
+  "error": "Fehler",
   "logoutInformation": "Sie müssen sich danach wieder einloggen",
   "roomoverview": "Raumübersicht",
   "myTasks": "Meine Aufgaben",
@@ -68,7 +69,8 @@
   "currently": "aktuell",
   "entries": "Einträge",
   "dosage": "Dosierung",
-  "notFound": "nicht gefunden",
+  "noItem": "Kein Eintrag",
+  "found": "gefunden",
   "addAnyway": "Trotzdem hinzufügen",
   "monthly": "1x Monatlich",
   "weekly": "1x Wöchentlich",
