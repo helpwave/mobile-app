@@ -6,6 +6,7 @@ import 'package:helpwave_widget/static_progress_indicator.dart';
 class TaskListTile extends StatefulWidget{
   const TaskListTile({
     super.key,
+    required this.index,
     required this.statusColor,
     required this.progress,
     required this.title,
@@ -27,6 +28,9 @@ class TaskListTile extends StatefulWidget{
 
   /// The SubTitle for [ListTile]
   final String subTitle;
+
+  /// The index for [ReorderableDragStartListener]
+  final int index;
 
   @override
   State<TaskListTile> createState() => _TaskListTileState();
@@ -75,7 +79,9 @@ class _TaskListTileState extends State<TaskListTile> {
               color: widget.statusColor,
             ),
           ),
-          const Icon(Icons.drag_indicator),
+          ReorderableDragStartListener(
+            index: widget.index,
+            child: const Icon(Icons.drag_indicator),),
         ],
       ),
       title: Text(widget.title),
