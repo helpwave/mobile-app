@@ -41,9 +41,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
           currentPage: NavigationOptions.myTasks,
         ),
         appBar: AppBar(),
-        body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
-            child: ReorderableListView(
+        body: ReorderableListView(
               buildDefaultDragHandles: false,
               children: [
                 for (int index = 0; index < _items.length; index += 1)
@@ -69,7 +67,6 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                   _items.insert(newIndex, item);
                 });
               },
-            )
         )
     );
   }
