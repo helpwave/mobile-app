@@ -66,6 +66,7 @@ class TasksNavigationDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
+              leading: const Icon(Icons.task_alt),
               tileColor: tileColorForPage(NavigationOptions.myTasks),
               onTap: currentPage == NavigationOptions.myTasks
                   ? null
