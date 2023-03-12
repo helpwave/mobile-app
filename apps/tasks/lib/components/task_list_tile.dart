@@ -16,10 +16,10 @@ class TaskDTO{
 
   TaskDTO({
     required this.statusColor,
-    required this.isChecked,
     required this.progress,
     required this.title,
     required this.subTitle,
+    this.isChecked = false,
   });
 
 }
