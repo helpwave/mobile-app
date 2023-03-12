@@ -2,35 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/static_progress_indicator.dart';
 
-/// A ListTile to Display a StaticProgressIndicator and Status
-class TaskListTile extends StatefulWidget{
-  const TaskListTile({
-    super.key,
-    required this.index,
+
+
+
+/// Temporary data class for Task
+// TODO replace this by grpc definition
+class TaskDTO{
+  final Color statusColor;
+  final bool isChecked;
+  final double progress;
+  final String title;
+  final String subTitle;
+
+  TaskDTO({
     required this.statusColor,
+    required this.isChecked,
     required this.progress,
     required this.title,
     required this.subTitle,
-    this.isChecked = false
   });
 
-  /// The [Color] of [Checkbox] and [StaticProgressIndicator]
-  final Color statusColor;
+}
 
-  /// The default value of status [Checkbox]
-  final bool? isChecked;
+/// A ListTile to Display a StaticProgressIndicator and Status
+class TaskListTile extends StatefulWidget{
 
-  /// Progress as a Percentage between 0.0 to 1.0
-  final double progress;
+  /// Task data
+  final TaskDTO task;
 
-  /// The Title for [ListTile]
-  final String title;
-
-  /// The SubTitle for [ListTile]
-  final String subTitle;
-
-  /// The index for [ReorderableDragStartListener]
+  /// Index for [ReorderableDragStartListener]
   final int index;
+
+  const TaskListTile({
+    super.key,
+    required this.task,
+    required this.index
+  });
+
 
   @override
   State<TaskListTile> createState() => _TaskListTileState();
@@ -46,7 +54,7 @@ class _TaskListTileState extends State<TaskListTile> {
   void initState() {
     super.initState();
 
-    isChecked = widget.isChecked;
+    isChecked = widget.task.isChecked;
   }
 
   @override
@@ -60,8 +68,8 @@ class _TaskListTileState extends State<TaskListTile> {
             fillColor:
             MaterialStateColor.resolveWith((states) => Colors.transparent),
             side: MaterialStateBorderSide.resolveWith(
-                    (states) => BorderSide(width: 1.5, color: widget.statusColor)),
-            checkColor: widget.statusColor,
+                    (states) => BorderSide(width: 1.5, color: widget.task.statusColor)),
+            checkColor: widget.task.statusColor,
             onChanged: (bool? value) {
               //  TODO API-Call here
               setState(() {
@@ -75,8 +83,8 @@ class _TaskListTileState extends State<TaskListTile> {
           Padding(
             padding: const EdgeInsets.all(paddingSmall),
             child: StaticProgressIndicator(
-              progress: widget.progress,
-              color: widget.statusColor,
+              progress: widget.task.progress,
+              color: widget.task.statusColor,
             ),
           ),
           ReorderableDragStartListener(
@@ -84,8 +92,8 @@ class _TaskListTileState extends State<TaskListTile> {
             child: const Icon(Icons.drag_indicator),),
         ],
       ),
-      title: Text(widget.title),
-      subtitle: Text(widget.subTitle),
+      title: Text(widget.task.title),
+      subtitle: Text(widget.task.subTitle),
     );
   }
 }
