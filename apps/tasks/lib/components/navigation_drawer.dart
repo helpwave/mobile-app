@@ -66,6 +66,7 @@ class TasksNavigationDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
+              leading: const Icon(Icons.task_alt),
               tileColor: tileColorForPage(NavigationOptions.myTasks),
               onTap: currentPage == NavigationOptions.myTasks
                   ? null
@@ -73,6 +74,7 @@ class TasksNavigationDrawer extends StatelessWidget {
               title: Text(context.localization!.myTasks),
             ),
             ListTile(
+              leading: const Icon(Icons.grid_view),
               tileColor: tileColorForPage(NavigationOptions.roomoverview),
               onTap: currentPage == NavigationOptions.roomoverview
                   ? null
@@ -80,6 +82,7 @@ class TasksNavigationDrawer extends StatelessWidget {
               title: Text(context.localization!.roomoverview),
             ),
             ListTile(
+              leading: const Icon(Icons.settings),
               tileColor: tileColorForPage(NavigationOptions.settings),
               onTap: currentPage == NavigationOptions.settings
                   ? null
