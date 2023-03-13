@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:helpwave_theme/constants.dart';
 import 'package:tasks/components/navigation_drawer.dart';
 import 'package:tasks/components/task_list_tile.dart';
+import 'package:helpwave_localization/localization.dart';
 
 /// The Screen for showing all [Task]'s the [User] has in the current [ ]
 class MyTasksScreen extends StatefulWidget{
@@ -40,7 +40,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
         drawer: const TasksNavigationDrawer(
           currentPage: NavigationOptions.myTasks,
         ),
-        appBar: AppBar(),
+        appBar: AppBar(title: Text(context.localization!.myTasks),),
         body: ReorderableListView(
               buildDefaultDragHandles: false,
               children: [
