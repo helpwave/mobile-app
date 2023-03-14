@@ -60,18 +60,14 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                           return true;
                         }
                         else{
-                          // TODO: mark as task done
+                          // TODO: mark task as done
                           return false;
                         }
                       },
                       onDismissed: (direction){
                         setState(() {
-                          // TODO: replace with API-Call here
                           if (direction ==  DismissDirection.endToStart){
                             _items.removeAt(index);
-                          }
-                          else{
-                            // TODO: mark task as done
                           }
                         });
                       },
