@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:tasks/components/navigation_drawer.dart';
 import 'package:tasks/components/task_list_tile.dart';
 import 'package:helpwave_localization/localization.dart';
@@ -52,9 +53,53 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                         )
                     ),
                     key: ValueKey(_items[index]),
-                    child: TaskListTile(
-                      index: index,
-                      task: _items[index],
+                    child: Dismissible(
+                      confirmDismiss: (DismissDirection direction) async {
+                        if (direction == DismissDirection.endToStart) {
+                          // TODO: replace with API-Call
+                          return true;
+                        }
+                        else{
+                          // TODO: mark as task done
+                          return false;
+                        }
+                      },
+                      onDismissed: (direction){
+                        setState(() {
+                          // TODO: replace with API-Call here
+                          if (direction ==  DismissDirection.endToStart){
+                            _items.removeAt(index);
+                          }
+                          else{
+                            // TODO: mark task as done
+                          }
+                        });
+                      },
+                      key: ValueKey(_items[index]),
+                      secondaryBackground: const ColoredBox(
+                        color: Colors.red,
+                         child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: EdgeInsets.all(paddingMedium),
+                              child: Icon(Icons.delete),
+                            ),
+                          )
+                      ),
+                      background: const ColoredBox(
+                        color: Colors.green,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(paddingMedium),
+                            child: Icon(Icons.done),
+                          ),
+                        ),
+                      ),
+                      child:  TaskListTile(
+                        index: index,
+                        task: _items[index],
+                      ),
                     ),
                   )
               ],
