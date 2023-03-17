@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:helpwave_theme/constants.dart';
 import 'package:tasks/components/navigation_drawer.dart';
 import 'package:tasks/components/task_list_tile.dart';
 import 'package:helpwave_localization/localization.dart';
@@ -53,17 +52,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                         )
                     ),
                     key: ValueKey(_items[index]),
-                    child: Dismissible(
-                      confirmDismiss: (DismissDirection direction) async {
-                        if (direction == DismissDirection.endToStart) {
-                          // TODO: replace with API-Call
-                          return true;
-                        }
-                        else{
-                          // TODO: mark task as done
-                          return false;
-                        }
-                      },
+                    child: TaskListTile(
                       onDismissed: (direction){
                         setState(() {
                           if (direction ==  DismissDirection.endToStart){
@@ -71,31 +60,22 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                           }
                         });
                       },
-                      key: ValueKey(_items[index]),
-                      secondaryBackground: const ColoredBox(
-                        color: Colors.red,
-                         child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: EdgeInsets.all(paddingMedium),
-                              child: Icon(Icons.delete),
-                            ),
-                          )
-                      ),
-                      background: const ColoredBox(
-                        color: Colors.green,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.all(paddingMedium),
-                            child: Icon(Icons.done),
-                          ),
-                        ),
-                      ),
-                      child:  TaskListTile(
-                        index: index,
-                        task: _items[index],
-                      ),
+                      confirmDismiss: (DismissDirection direction) async {
+                        if (direction == DismissDirection.startToEnd) {
+                          // TODO: add API Call
+                          setState(() {
+                            _items[index].isChecked = !_items[index].isChecked;
+                          });
+
+                          // The widget should not dismissible on set done action
+                          return false;
+                        }
+                        else{
+                          return true;
+                        }
+                      },
+                      index: index,
+                      task: _items[index],
                     ),
                   )
               ],
