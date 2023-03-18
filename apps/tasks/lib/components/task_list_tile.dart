@@ -59,7 +59,7 @@ class _TaskListTileState extends State<TaskListTile> {
       confirmDismiss: widget.confirmDismiss,
         onDismissed: widget.onDismissed,
         key: ValueKey(widget.index),
-        secondaryBackground: const ColoredBox(
+        secondaryBackground: ColoredBox(
             color: Colors.red,
             child: Align(
               alignment: Alignment.centerRight,
@@ -77,7 +77,7 @@ class _TaskListTileState extends State<TaskListTile> {
               ),
             )
         ),
-        background: const ColoredBox(
+        background:  ColoredBox(
           color: Colors.green,
           child: Align(
             alignment: Alignment.centerLeft,
