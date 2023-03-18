@@ -111,5 +111,7 @@
   "askForInvite": "Ein Organisationsmanager muss dich einladen",
   "refresh": "Aktualisieren",
   "logout": "Ausloggen",
-  "licenses": "Lizenzen"
+  "licenses": "Lizenzen",
+  "delete": "Löschen",
+  "setDone": "Als erledigt markieren"
 }

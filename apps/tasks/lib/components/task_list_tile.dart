@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/static_progress_indicator.dart';
 
@@ -63,8 +64,16 @@ class _TaskListTileState extends State<TaskListTile> {
             child: Align(
               alignment: Alignment.centerRight,
               child: Padding(
-                padding: EdgeInsets.all(paddingMedium),
-                child: Icon(Icons.delete),
+                padding: const EdgeInsets.all(paddingMedium),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
+                      child: Text(context.localization!.delete),),
+                    const Icon(Icons.delete)
+                  ],
+                ),
               ),
             )
         ),
@@ -73,9 +82,17 @@ class _TaskListTileState extends State<TaskListTile> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: EdgeInsets.all(paddingMedium),
-              child: Icon(Icons.done),
-            ),
+              padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Icon(Icons.done),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
+                    child: Text(context.localization!.setDone),),
+                ],
+              ),
+            )
           ),
         ),
 
