@@ -64,7 +64,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                         if (direction == DismissDirection.startToEnd) {
                           // TODO: add API Call
                           setState(() {
-                            _items[index].isChecked = !_items[index].isChecked;
+                            _items[index].isChecked = true;
                           });
 
                           // The widget should not dismissible on set done action
