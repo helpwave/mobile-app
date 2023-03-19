@@ -60,20 +60,6 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                           }
                         });
                       },
-                      confirmDismiss: (DismissDirection direction) async {
-                        if (direction == DismissDirection.startToEnd) {
-                          // TODO: add API Call
-                          setState(() {
-                            _items[index].isChecked = true;
-                          });
-
-                          // The widget should not dismissible on set done action
-                          return false;
-                        }
-                        else{
-                          return true;
-                        }
-                      },
                       index: index,
                       task: _items[index],
                     ),

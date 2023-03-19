@@ -35,15 +35,11 @@ class TaskListTile extends StatefulWidget {
   /// onDismissed Callback for [Dismissible]
   final Function(DismissDirection?) onDismissed;
 
-  /// confirmDismiss Callback for [Dismissible]
-  final Future<bool> Function(DismissDirection direction) confirmDismiss;
-
   const TaskListTile({
     super.key,
     required this.task,
     required this.index,
     required this.onDismissed,
-    required this.confirmDismiss
   });
 
 
@@ -56,7 +52,18 @@ class _TaskListTileState extends State<TaskListTile> {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      confirmDismiss: widget.confirmDismiss,
+        confirmDismiss: (DismissDirection direction) async{
+          if (direction == DismissDirection.startToEnd) {
+            // TODO: add API Call
+            setState(() {
+              widget.task.isChecked = true;
+            });
+
+            // The widget should not dismissible on set done action
+            return false;
+          }
+            return true;
+        },
         onDismissed: widget.onDismissed,
         key: ValueKey(widget.index),
         secondaryBackground: ColoredBox(
