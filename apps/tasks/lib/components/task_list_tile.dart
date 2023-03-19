@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/static_progress_indicator.dart';
 
-
-
-
 /// Temporary data class for Task
 // TODO replace this by grpc definition
-class TaskDTO{
+class TaskDTO {
+
+
+  bool isChecked;
+
   final Color statusColor;
-  final bool isChecked;
   final double progress;
   final String title;
   final String subTitle;
@@ -21,22 +22,24 @@ class TaskDTO{
     required this.subTitle,
     this.isChecked = false,
   });
-
 }
 
 /// A ListTile to Display a StaticProgressIndicator and Status
-class TaskListTile extends StatefulWidget{
-
+class TaskListTile extends StatefulWidget {
   /// Task data
   final TaskDTO task;
 
   /// Index for [ReorderableDragStartListener]
   final int index;
 
+  /// onDismissed Callback for [Dismissible]
+  final Function(DismissDirection?) onDismissed;
+
   const TaskListTile({
     super.key,
     required this.task,
-    required this.index
+    required this.index,
+    required this.onDismissed,
   });
 
 
@@ -44,56 +47,99 @@ class TaskListTile extends StatefulWidget{
   State<TaskListTile> createState() => _TaskListTileState();
 }
 
-
-
 class _TaskListTileState extends State<TaskListTile> {
-
-  bool? isChecked = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    isChecked = widget.task.isChecked;
-  }
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Transform.scale(
-        scale: 1.5,
-        child: Checkbox(
-            value: isChecked,
-            shape: const CircleBorder(),
-            fillColor:
-            MaterialStateColor.resolveWith((states) => Colors.transparent),
-            side: MaterialStateBorderSide.resolveWith(
-                    (states) => BorderSide(width: 1.5, color: widget.task.statusColor)),
-            checkColor: widget.task.statusColor,
-            onChanged: (bool? value) {
-              //  TODO API-Call here
-              setState(() {
-                isChecked = value;
-              });
-            }),
-      ),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(paddingSmall),
-            child: StaticProgressIndicator(
-              progress: widget.task.progress,
-              color: widget.task.statusColor,
-            ),
+    return Dismissible(
+        confirmDismiss: (DismissDirection direction) async{
+          if (direction == DismissDirection.startToEnd) {
+            // TODO: add API Call
+            setState(() {
+              widget.task.isChecked = true;
+            });
+
+            // The widget should not dismissible on set done action
+            return false;
+          }
+            return true;
+        },
+        onDismissed: widget.onDismissed,
+        key: ValueKey(widget.index),
+        secondaryBackground: ColoredBox(
+            color: Colors.red,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.all(paddingMedium),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
+                      child: Text(context.localization!.delete),),
+                    const Icon(Icons.delete)
+                  ],
+                ),
+              ),
+            )
+        ),
+        background:  ColoredBox(
+          color: Colors.green,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Icon(Icons.done),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
+                    child: Text(context.localization!.setDone),),
+                ],
+              ),
+            )
           ),
-          ReorderableDragStartListener(
-            index: widget.index,
-            child: const Icon(Icons.drag_indicator),),
-        ],
-      ),
-      title: Text(widget.task.title),
-      subtitle: Text(widget.task.subTitle),
+        ),
+
+        child: ListTile(
+          leading: Transform.scale(
+            scale: 1.5,
+            child: Checkbox(
+                value: widget.task.isChecked,
+                shape: const CircleBorder(),
+                fillColor: MaterialStateColor.resolveWith(
+                    (states) => Colors.transparent),
+                side: MaterialStateBorderSide.resolveWith((states) =>
+                    BorderSide(width: 1.5, color: widget.task.statusColor)),
+                checkColor: widget.task.statusColor,
+                onChanged: (bool? value) {
+                  //  TODO API-Call here
+                  setState(() {
+                    widget.task.isChecked = value!;
+                  });
+                }),
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(paddingSmall),
+                child: StaticProgressIndicator(
+                  progress: widget.task.progress,
+                  color: widget.task.statusColor,
+                ),
+              ),
+              ReorderableDragStartListener(
+                index: widget.index,
+                child: const Icon(Icons.drag_indicator),
+              ),
+            ],
+          ),
+          title: Text(widget.task.title),
+          subtitle: Text(widget.task.subTitle),
+        )
     );
   }
 }

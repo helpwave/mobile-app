@@ -111,5 +111,7 @@
   "askForInvite": "Ask an Organization leader to invite you",
   "refresh": "Refresh",
   "logout": "Logout",
-  "licenses": "Licenses"
+  "licenses": "Licenses",
+  "delete": "Delete",
+  "setDone": "Set as done"
 }

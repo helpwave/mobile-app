@@ -53,6 +53,13 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                     ),
                     key: ValueKey(_items[index]),
                     child: TaskListTile(
+                      onDismissed: (direction){
+                        setState(() {
+                          if (direction ==  DismissDirection.endToStart){
+                            _items.removeAt(index);
+                          }
+                        });
+                      },
                       index: index,
                       task: _items[index],
                     ),
