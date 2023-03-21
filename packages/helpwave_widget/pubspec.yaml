@@ -14,6 +14,8 @@ dependencies:
     sdk: flutter
   helpwave_theme:
     path: "../helpwave_theme"
+  helpwave_localization:
+    path: "../helpwave_localization"
 
 dev_dependencies:
   flutter_test:

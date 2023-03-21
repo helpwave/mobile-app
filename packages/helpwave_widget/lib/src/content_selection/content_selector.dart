@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/src/content_selection/list_entry.dart';
 import 'package:helpwave_widget/src/content_selection/list_search.dart';
@@ -290,8 +291,8 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
     return Column(
       children: [
         ListTile(
-          title: Text(widget.title ?? "List"),
-          subtitle: Text("${currentSelection.length} ${widget.entryName ?? "Entries"}"),
+          title: Text(widget.title ?? context.localization!.list),
+          subtitle: Text("${currentSelection.length} ${widget.entryName ?? context.localization!.entries}"),
           leading: widget.icon,
           onTap: () {
             setState(() {

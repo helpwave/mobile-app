@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 
 /// Widget to show when a FutureBuilder contains an error
 class LoadErrorWidget extends StatelessWidget {
   /// Text below the error Icon
-  final String errorText;
+  final String? errorText;
 
   /// Color of the Error icon
   final Color iconColor;
@@ -14,7 +15,7 @@ class LoadErrorWidget extends StatelessWidget {
 
   const LoadErrorWidget({
     super.key,
-    this.errorText = "Error on Load",
+    this.errorText,
     this.iconColor = negativeColor,
     this.iconSize = iconSizeBig,
   });
@@ -32,7 +33,7 @@ class LoadErrorWidget extends StatelessWidget {
             color: iconColor,
           ),
           const SizedBox(height: distanceBig),
-          Text(errorText),
+          Text(errorText ?? context.localization!.errorOnLoad),
         ],
       ),
     );
