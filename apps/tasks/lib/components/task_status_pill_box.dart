@@ -41,7 +41,7 @@ class TaskStatusPillBox extends StatelessWidget {
   // TODO define size variables in constants
   @override
   Widget build(BuildContext context) {
-    EdgeInsets pillPadding = const EdgeInsets.all(2);
+    const EdgeInsets pillPadding = EdgeInsets.all(2);
     ShapeBorder leftShape = RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
         bottomLeft: Radius.circular(borderRadius),
