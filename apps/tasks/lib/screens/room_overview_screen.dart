@@ -25,7 +25,7 @@ class WardDTO {
   });
 }
 
-/// A widget containing a room title bar and the associated bed cards
+/// A [Widget] containing a [Room] title bar and the associated [BedCard]'s
 class _RoomSection extends StatelessWidget {
   final RoomDTO room;
 
