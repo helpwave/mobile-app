@@ -84,6 +84,7 @@ class _RoomSection extends StatelessWidget {
                 child: Text(
                   context.localization!.noBedAvailable,
                   style: const TextStyle(
+                    // TODO change while doing theming update
                     fontWeight: FontWeight.w300,
                   ),
                 ),

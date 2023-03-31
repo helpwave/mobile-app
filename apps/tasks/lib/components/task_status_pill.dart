@@ -66,6 +66,7 @@ class TaskStatusPill extends StatelessWidget {
               text,
               style: TextStyle(
                 color: textColor ?? Colors.black,
+                // TODO update while doing theming update
                 fontSize: 12.5,
               ),
             ),
