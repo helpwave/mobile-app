@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:helpwave_theme/constants.dart';
 
 /// A Clipper that draws an edge from bottom to top on the left
 /// and/or right side of its child

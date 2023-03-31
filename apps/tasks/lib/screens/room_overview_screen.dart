@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tasks/components/navigation_drawer.dart';
 import 'package:tasks/components/bed_card.dart';
 import 'package:helpwave_widget/shapes.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_localization/localization.dart';
 
 // TODO replace all these DTOs with real grpc generated onces
@@ -75,7 +76,11 @@ class _RoomSection extends StatelessWidget {
                     .toList(),
               )
             : Padding(
-                padding: const EdgeInsets.only(left: paddingMedium, top: paddingSmall, bottom: paddingSmall),
+                padding: const EdgeInsets.only(
+                  left: paddingMedium,
+                  top: paddingSmall,
+                  bottom: paddingSmall,
+                ),
                 child: Text(
                   context.localization!.noBedAvailable,
                   style: const TextStyle(

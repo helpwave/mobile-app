@@ -55,7 +55,7 @@ class TaskStatusPillBox extends StatelessWidget {
       ),
     );
 
-    const double paddingLeftRight = 6;
+    const double paddingHorizontal = 6;
 
     return Row(
       children: [
@@ -72,8 +72,8 @@ class TaskStatusPillBox extends StatelessWidget {
           dotColor: const Color.fromARGB(255, 214, 114, 104),
           textColor: const Color.fromARGB(255, 89, 25, 23),
           padding: pillPadding.copyWith(
-            left: paddingLeftRight,
-            right: paddingLeftRight + 1,
+            left: paddingHorizontal,
+            right: paddingHorizontal + 1,
           ),
         ),
         TaskStatusPill(
@@ -88,8 +88,8 @@ class TaskStatusPillBox extends StatelessWidget {
           dotColor: const Color.fromARGB(255, 199, 147, 69),
           textColor: const Color.fromARGB(255, 65, 42, 29),
           padding: pillPadding.copyWith(
-            left: paddingLeftRight + 1,
-            right: paddingLeftRight + 1,
+            left: paddingHorizontal + 1,
+            right: paddingHorizontal + 1,
           ),
         ),
         TaskStatusPill(
@@ -105,8 +105,8 @@ class TaskStatusPillBox extends StatelessWidget {
           dotColor: const Color.fromARGB(255, 77, 132, 102),
           textColor: const Color.fromARGB(255, 39, 52, 41),
           padding: pillPadding.copyWith(
-            left: paddingLeftRight,
-            right: paddingLeftRight + 2.5,
+            left: paddingHorizontal,
+            right: paddingHorizontal + 2.5,
           ),
         ),
       ],
