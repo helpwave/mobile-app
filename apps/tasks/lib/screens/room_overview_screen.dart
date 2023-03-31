@@ -36,7 +36,7 @@ class _RoomSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width * 0.5;
-    double height = 85;
+    const double height = 85;
     double ratio = width / height;
 
     return ListView(
