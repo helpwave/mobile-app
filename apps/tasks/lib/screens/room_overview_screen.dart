@@ -75,7 +75,7 @@ class _RoomSection extends StatelessWidget {
                     .toList(),
               )
             : Padding(
-                padding: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                padding: const EdgeInsets.only(left: paddingMedium, top: paddingSmall, bottom: paddingSmall),
                 child: Text(
                   context.localization!.noBedAvailable,
                   style: const TextStyle(
