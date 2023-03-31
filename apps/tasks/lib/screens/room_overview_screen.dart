@@ -43,7 +43,7 @@ class _RoomSection extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       children: [
-        Container(height: 10),
+        Container(height: distanceSmall),
         Row(
           children: [
             const Spacer(flex: 1),
