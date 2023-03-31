@@ -68,7 +68,7 @@ class _RoomSection extends StatelessWidget {
                 childAspectRatio: ratio,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(paddingSmall),
                 crossAxisCount: 2,
                 children: room.patients
                     .map((PatientDTO patient) => BedCard(patient: patient))
