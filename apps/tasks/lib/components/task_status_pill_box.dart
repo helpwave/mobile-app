@@ -55,7 +55,7 @@ class TaskStatusPillBox extends StatelessWidget {
       ),
     );
 
-    const double paddingHorizontal = 6;
+    const double paddingHorizontal = paddingTiny;
 
     return Row(
       children: [

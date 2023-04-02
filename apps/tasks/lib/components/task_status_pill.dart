@@ -61,7 +61,7 @@ class TaskStatusPill extends StatelessWidget {
               color: dotColor ?? Colors.black,
               diameter: 7.5,
             ),
-            const SizedBox(width: 4),
+            const SizedBox(width: distanceTiny),
             Text(
               text,
               style: TextStyle(
