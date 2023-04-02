@@ -9,7 +9,8 @@ const TextStyle buttonTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
 );
 ButtonStyle buttonStyle = ButtonStyle(
-  minimumSize: const MaterialStatePropertyAll<Size>(Size(buttonWidth, buttonHeight)),
+  minimumSize:
+      const MaterialStatePropertyAll<Size>(Size(buttonWidth, buttonHeight)),
   shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
     RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(borderRadiusMedium),
@@ -24,6 +25,7 @@ const double distanceSmall = 10;
 const double distanceMedium = 16;
 const double distanceDefault = 20;
 const double distanceBig = 40;
+const double paddingTiny = 6;
 const double paddingSmall = 10;
 const double paddingMedium = distanceDefault;
 const double paddingBig = 40;

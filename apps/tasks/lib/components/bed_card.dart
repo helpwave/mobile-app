@@ -11,6 +11,7 @@ class PatientDTO {
   int tasksUnscheduledCount;
   int tasksInProgressCount;
   int tasksDoneCount;
+  IconData? icon;
 
   PatientDTO({
     required this.id,
@@ -18,6 +19,7 @@ class PatientDTO {
     required this.tasksUnscheduledCount,
     required this.tasksInProgressCount,
     required this.tasksDoneCount,
+    this.icon,
   });
 }
 
@@ -68,10 +70,22 @@ class BedCard extends StatelessWidget {
               ],
             ),
             Container(height: 10),
-            TaskStatusPillBox(
-              unscheduledCount: patient.tasksUnscheduledCount,
-              inProgressCount: patient.tasksInProgressCount,
-              finishedCount: patient.tasksDoneCount,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TaskStatusPillBox(
+                  unscheduledCount: patient.tasksUnscheduledCount,
+                  inProgressCount: patient.tasksInProgressCount,
+                  finishedCount: patient.tasksDoneCount,
+                ),
+                patient.icon != null
+                    ? Icon(
+                        patient.icon,
+                        size: 17.5,
+                        color: Colors.grey,
+                      )
+                    : const Spacer(),
+              ],
             ),
           ],
         ),

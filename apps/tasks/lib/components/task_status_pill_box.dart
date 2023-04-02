@@ -38,9 +38,10 @@ class TaskStatusPillBox extends StatelessWidget {
     this.borderRadius = borderRadiusMedium,
   });
 
+  // TODO define size variables in constants
   @override
   Widget build(BuildContext context) {
-    EdgeInsets pillPadding = const EdgeInsets.all(distanceTiny);
+    const EdgeInsets pillPadding = EdgeInsets.all(2);
     ShapeBorder leftShape = RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
         bottomLeft: Radius.circular(borderRadius),
@@ -53,6 +54,9 @@ class TaskStatusPillBox extends StatelessWidget {
         topRight: Radius.circular(borderRadius),
       ),
     );
+
+    const double paddingHorizontal = paddingTiny;
+
     return Row(
       children: [
         TaskStatusPill(
@@ -67,7 +71,10 @@ class TaskStatusPillBox extends StatelessWidget {
           pillBackgroundColor: const Color.fromARGB(255, 254, 224, 221),
           dotColor: const Color.fromARGB(255, 214, 114, 104),
           textColor: const Color.fromARGB(255, 89, 25, 23),
-          padding: pillPadding.copyWith(right: distanceSmall),
+          padding: pillPadding.copyWith(
+            left: paddingHorizontal,
+            right: paddingHorizontal + 1,
+          ),
         ),
         TaskStatusPill(
           text: inProgressCount.toString(),
@@ -81,8 +88,8 @@ class TaskStatusPillBox extends StatelessWidget {
           dotColor: const Color.fromARGB(255, 199, 147, 69),
           textColor: const Color.fromARGB(255, 65, 42, 29),
           padding: pillPadding.copyWith(
-            right: distanceSmall,
-            left: distanceSmall,
+            left: paddingHorizontal + 1,
+            right: paddingHorizontal + 1,
           ),
         ),
         TaskStatusPill(
@@ -98,8 +105,8 @@ class TaskStatusPillBox extends StatelessWidget {
           dotColor: const Color.fromARGB(255, 77, 132, 102),
           textColor: const Color.fromARGB(255, 39, 52, 41),
           padding: pillPadding.copyWith(
-            left: distanceSmall,
-            right: distanceSmall,
+            left: paddingHorizontal,
+            right: paddingHorizontal + 2.5,
           ),
         ),
       ],
