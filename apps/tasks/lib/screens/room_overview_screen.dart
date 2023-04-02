@@ -240,7 +240,7 @@ class RoomOverviewScreen extends StatelessWidget {
         ),
         body: ListView(
           shrinkWrap: true,
-          padding: const EdgeInsets.only(bottom: 25),
+          padding: const EdgeInsets.only(bottom: distanceDefault),
           children: ward.rooms
               .map((RoomDTO room) => _RoomSection(room: room))
               .toList(),
