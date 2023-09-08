@@ -1,4 +1,4 @@
-name: helpwave
+name: helpwave_melos
 repository: https://github.com/helpwave/mobile-app
 packages:
   - packages/**
