@@ -52,13 +52,7 @@ jobs:
       - name: rename apks
         working-directory: ./apps/
         run: |
-          mv ./helpwave/build/app/outputs/apk/release/app-release.apk ./helpwave/build/app/outputs/apk/release/helpwave.apk
           mv ./tasks/build/app/outputs/apk/release/app-release.apk ./tasks/build/app/outputs/apk/release/tasks.apk
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: apk-helpwave
-          path: ./apps/helpwave/build/app/outputs/apk/release/helpwave.apk
 
       - uses: actions/upload-artifact@v3
         with:
@@ -83,14 +77,6 @@ jobs:
 
       - run: melos run intl
 
-      - name: package helpwave ipa
-        working-directory: ./apps/helpwave/
-        run: |
-          flutter build ios --no-codesign
-          mkdir Payload
-          cp -r build/ios/Release-iphoneos/Runner.app Payload
-          zip -r helpwave.ipa Payload
-
       - name: package tasks ipa
         working-directory: ./apps/tasks/
         run: |
@@ -98,11 +84,6 @@ jobs:
           mkdir Payload
           cp -r build/ios/Release-iphoneos/Runner.app Payload
           zip -r tasks.ipa Payload
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: ipa-helpwave
-          path: ./apps/helpwave/helpwave.ipa
 
       - uses: actions/upload-artifact@v3
         with:
@@ -120,14 +101,6 @@ jobs:
 
       - uses: actions/download-artifact@v3
         with:
-          name: apk-helpwave
-
-      - uses: actions/download-artifact@v3
-        with:
-          name: ipa-helpwave
-
-      - uses: actions/download-artifact@v3
-        with:
           name: apk-tasks
 
       - uses: actions/download-artifact@v3
@@ -137,8 +110,6 @@ jobs:
       - name: Upload apk and ipa to BrowserStack
         id: upload-to-browserstack
         run: |
-          echo "apkHashHelpwave=$(curl --silent --user ${{ secrets.BROWSERSTACK_USER }}:${{ secrets.BROWSERSTACK_PASS }} -X POST https://api-cloud.browserstack.com/app-live/upload -F file=@helpwave.apk | jq --raw-output .app_url | awk -F // '{print $2}')" >> $GITHUB_OUTPUT
-          echo "ipaHashHelpwave=$(curl --silent --user ${{ secrets.BROWSERSTACK_USER }}:${{ secrets.BROWSERSTACK_PASS }} -X POST https://api-cloud.browserstack.com/app-live/upload -F file=@helpwave.ipa | jq --raw-output .app_url | awk -F // '{print $2}')" >> $GITHUB_OUTPUT
           echo "apkHashTasks=$(curl --silent --user ${{ secrets.BROWSERSTACK_USER }}:${{ secrets.BROWSERSTACK_PASS }} -X POST https://api-cloud.browserstack.com/app-live/upload -F file=@tasks.apk | jq --raw-output .app_url | awk -F // '{print $2}')" >> $GITHUB_OUTPUT
           echo "ipaHashTasks=$(curl --silent --user ${{ secrets.BROWSERSTACK_USER }}:${{ secrets.BROWSERSTACK_PASS }} -X POST https://api-cloud.browserstack.com/app-live/upload -F file=@tasks.ipa | jq --raw-output .app_url | awk -F // '{print $2}')" >> $GITHUB_OUTPUT
 
@@ -154,11 +125,6 @@ jobs:
           message: |
             ## BrowserStack
             Commit: `${{ steps.short-sha.outputs.shortSha }}`
-            #### helpwave
-            - **Android (13.0)**
-              - [Google Pixel 7 Pro](https://app-live.browserstack.com/dashboard#os=android&os_version=13.0&device=Google+Pixel+7+Pro&start=true&app_hashed_id=${{ steps.upload-to-browserstack.outputs.apkHashHelpwave }})
-            - **iOS (16.0)**
-              - [iPhone 14 Pro](https://app-live.browserstack.com/dashboard#os=iOS&os_version=16.0&device=iPhone+14+Pro&start=true&app_hashed_id=${{ steps.upload-to-browserstack.outputs.ipaHashHelpwave }})
             #### helpwave tasks
             - **Android (13.0)**
               - [Google Pixel 7 Pro](https://app-live.browserstack.com/dashboard#os=android&os_version=13.0&device=Google+Pixel+7+Pro&start=true&app_hashed_id=${{ steps.upload-to-browserstack.outputs.apkHashTasks }})
