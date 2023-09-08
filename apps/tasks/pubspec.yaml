@@ -18,7 +18,8 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.0 <4.0.0'
+  sdk: '>=3.1.0'
+  flutter: ">=3.13.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -32,9 +33,9 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   # flutter pub run flutter_native_splash:create
-  flutter_native_splash: ^2.2.11
+  flutter_native_splash: ^2.3.2
   # flutter pub run flutter_launcher_icons:main
-  flutter_launcher_icons: ^0.10.0
+  flutter_launcher_icons: ^0.13.1
   provider: ^6.0.3
   helpwave_localization:
     path: "../../packages/helpwave_localization"

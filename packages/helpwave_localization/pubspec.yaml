@@ -4,15 +4,15 @@ version: 0.0.1
 homepage: https://github.com/helpwave/mobile-app
 
 environment:
-  sdk: '>=2.18.2 <3.0.0'
-  flutter: ">=1.17.0"
+  sdk: '>=3.1.0'
+  flutter: ">=3.13.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  intl: ^0.17.0
+  intl: ^0.18.1
   shared_preferences: ^2.0.15
 
 dev_dependencies:

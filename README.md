@@ -14,7 +14,7 @@ This project is tested with [BrowserStack](https://www.browserstack.com).
 - **[helpwave_widget](/packages/helpwave_widget)** the reusable widgets shared between all apps
 
 # Getting Started
-1. install [Flutter](https://docs.flutter.dev/get-started/install) version >=3.3 and [melos](https://melos.invertase.dev/getting-started) (`dart pub global activate melos`)
+1. install [Flutter](https://docs.flutter.dev/get-started/install) version >=3.13 and [melos](https://melos.invertase.dev/getting-started) (`dart pub global activate melos`)
 2. run `melos bootstrap`
 3. run `melos run intl`
 4. navigate to `/apps/<project>`

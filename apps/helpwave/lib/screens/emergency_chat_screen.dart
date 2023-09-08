@@ -80,6 +80,8 @@ class _EmergencyChatScreenState extends State<EmergencyChatScreen> {
         centerTitle: false,
       ),
       body: FutureBuilder(
+        // TODO replace later
+        future: (() async => 0)(),
         builder: (context, snapshot) {
           return Column(
             children: [
