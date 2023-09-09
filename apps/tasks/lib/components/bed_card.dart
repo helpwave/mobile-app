@@ -2,31 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:tasks/components/task_status_pill_box.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:tasks/dataclasses/patient.dart';
 
-/// Temporary data class for [Patient]
-// TODO replace this by grpc definition
-class PatientDTO {
-  final String id;
-  final String bed;
-  int tasksUnscheduledCount;
-  int tasksInProgressCount;
-  int tasksDoneCount;
-  IconData? icon;
 
-  PatientDTO({
-    required this.id,
-    required this.bed,
-    required this.tasksUnscheduledCount,
-    required this.tasksInProgressCount,
-    required this.tasksDoneCount,
-    this.icon,
-  });
-}
 
 /// A widget for displaying a card containg bed and patient information
 class BedCard extends StatelessWidget {
   // Patient data including bed information
-  final PatientDTO patient;
+  final Patient patient;
 
   const BedCard({
     super.key,
@@ -53,7 +36,7 @@ class BedCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "${context.localization!.bed} ${patient.bed}",
+                  "${context.localization!.bed} ${patient.bed.name}",
                   style: const TextStyle(
                     // TODO set font to SpaceGrotesk
                     fontWeight: FontWeight.bold,
@@ -74,17 +57,10 @@ class BedCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TaskStatusPillBox(
-                  unscheduledCount: patient.tasksUnscheduledCount,
-                  inProgressCount: patient.tasksInProgressCount,
-                  finishedCount: patient.tasksDoneCount,
+                  unscheduledCount: patient.unscheduledCount,
+                  inProgressCount: patient.inProgressCount,
+                  finishedCount: patient.doneCount,
                 ),
-                patient.icon != null
-                    ? Icon(
-                        patient.icon,
-                        size: 17.5,
-                        color: Colors.grey,
-                      )
-                    : const Spacer(),
               ],
             ),
           ],

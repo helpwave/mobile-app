@@ -5,7 +5,6 @@ import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:tasks/components/user_card.dart';
 import 'package:tasks/screens/my_tasks_screen.dart';
-import 'package:tasks/screens/room_overview_screen.dart';
 import 'package:tasks/screens/settings_screen.dart';
 
 /// The Navigation options the User can use
@@ -72,14 +71,6 @@ class TasksNavigationDrawer extends StatelessWidget {
                   ? null
                   : () => pushReplace(context, const MyTasksScreen()),
               title: Text(context.localization!.myTasks),
-            ),
-            ListTile(
-              leading: const Icon(Icons.grid_view),
-              tileColor: tileColorForPage(NavigationOptions.roomoverview),
-              onTap: currentPage == NavigationOptions.roomoverview
-                  ? null
-                  : () => pushReplace(context, RoomOverviewScreen()),
-              title: Text(context.localization!.roomoverview),
             ),
             ListTile(
               leading: const Icon(Icons.settings),
