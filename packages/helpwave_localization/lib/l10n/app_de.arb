@@ -117,5 +117,6 @@
   "logout": "Ausloggen",
   "licenses": "Lizenzen",
   "delete": "Löschen",
-  "setDone": "Als erledigt markieren"
+  "setDone": "Als erledigt markieren",
+  "unassigned": "Nicht zugewiesen"
 }

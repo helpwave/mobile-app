@@ -117,5 +117,6 @@
   "logout": "Logout",
   "licenses": "Licenses",
   "delete": "Delete",
-  "setDone": "Set as done"
+  "setDone": "Set as done",
+  "unassigned": "Unassigned"
 }

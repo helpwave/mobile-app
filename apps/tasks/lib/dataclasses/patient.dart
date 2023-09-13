@@ -6,8 +6,8 @@ import 'package:tasks/dataclasses/task.dart';
 class Patient {
   String id;
   String name;
-  RoomMinimal room;
-  BedMinimal bed;
+  RoomMinimal? room;
+  BedMinimal? bed;
   List<Task> tasks;
 
   get unscheduledCount => tasks.where((task) => task.status == TaskStatus.TASK_STATUS_TODO).length;
@@ -17,8 +17,8 @@ class Patient {
   Patient({
     required this.id,
     required this.name,
-    required this.room,
-    required this.bed,
-    required this.tasks
+    required this.tasks,
+    this.room,
+    this.bed,
   });
 }

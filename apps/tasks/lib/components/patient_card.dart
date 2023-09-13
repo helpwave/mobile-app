@@ -4,14 +4,12 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:tasks/dataclasses/patient.dart';
 
-
-
-/// A widget for displaying a card containg bed and patient information
-class BedCard extends StatelessWidget {
+/// A widget for displaying a card containing patient information
+class PatientCard extends StatelessWidget {
   // Patient data including bed information
   final Patient patient;
 
-  const BedCard({
+  const PatientCard({
     super.key,
     required this.patient,
   });
@@ -29,14 +27,15 @@ class BedCard extends StatelessWidget {
       ),
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
+        padding: const EdgeInsets.all(paddingSmall),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${context.localization!.bed} ${patient.bed.name}",
+                  patient.name,
                   style: const TextStyle(
                     // TODO set font to SpaceGrotesk
                     fontWeight: FontWeight.bold,
@@ -44,7 +43,9 @@ class BedCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "${context.localization!.patient} ${patient.id}",
+                  patient.bed != null && patient.room != null
+                      ? "${patient.room?.name} - ${patient.bed?.name}"
+                      : context.localization!.unassigned,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
                     color: Colors.black.withOpacity(0.6),
@@ -52,16 +53,10 @@ class BedCard extends StatelessWidget {
                 ),
               ],
             ),
-            Container(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TaskStatusPillBox(
-                  unscheduledCount: patient.unscheduledCount,
-                  inProgressCount: patient.inProgressCount,
-                  finishedCount: patient.doneCount,
-                ),
-              ],
+            TaskStatusPillBox(
+              unscheduledCount: patient.unscheduledCount,
+              inProgressCount: patient.inProgressCount,
+              finishedCount: patient.doneCount,
             ),
           ],
         ),

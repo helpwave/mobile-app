@@ -3,6 +3,7 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:tasks/screens/my_tasks_screen.dart';
 
 /// The Landing Screen of the Application
 class LandingScreen extends StatelessWidget {
@@ -29,7 +30,7 @@ class LandingScreen extends StatelessWidget {
             style: Theme.of(context).textTheme.labelLarge,
           ),
           onPressed: () => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const LandingScreen()),
+            MaterialPageRoute(builder: (context) => const MyTasksScreen()),
           ),
         ),
       ),
