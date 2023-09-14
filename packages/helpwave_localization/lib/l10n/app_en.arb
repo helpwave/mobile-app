@@ -118,5 +118,7 @@
   "licenses": "Licenses",
   "delete": "Delete",
   "setDone": "Set as done",
-  "unassigned": "Unassigned"
+  "unassigned": "Unassigned",
+  "discharge": "Discharge",
+  "addTask": "Add Task"
 }

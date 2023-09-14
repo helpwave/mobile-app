@@ -118,5 +118,7 @@
   "licenses": "Lizenzen",
   "delete": "Löschen",
   "setDone": "Als erledigt markieren",
-  "unassigned": "Nicht zugewiesen"
+  "unassigned": "Nicht zugewiesen",
+  "discharge": "Entlassen",
+  "addTask": "Aufgabe hinzufügen"
 }

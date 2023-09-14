@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:tasks/components/navigation_drawer.dart';
 import 'package:tasks/components/patient_card.dart';
 import 'package:helpwave_localization/localization.dart';
@@ -31,10 +32,55 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
           currentPage: NavigationOptions.myTasks,
         ),
         appBar: AppBar(title: Text(context.localization!.myTasks),),
-        body: ListView(
-          children: [
-            PatientCard(patient: patient)
-          ],
+        body: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return Dismissible(
+              key: Key(patient.id),
+              background: Padding(
+                padding: const EdgeInsets.all(paddingTiny),
+                child: Container(
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(borderRadiusMedium),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
+                    child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          context.localization!.addTask,
+                        )
+                    )
+                ),
+              ),
+              secondaryBackground: Padding(
+                padding: const EdgeInsets.all(
+                    paddingTiny
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(borderRadiusSmall),
+                    color: negativeColor,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                        padding: const EdgeInsets.only(right: paddingMedium),
+                        child: Text(
+                          context.localization!.discharge,
+                        )
+                    ),
+                  ),
+                ),
+              ),
+              onDismissed: (DismissDirection direction) {
+                setState(() {
+                  // TODO: implement logic
+                });
+              },
+              child: PatientCard(patient: patient),
+            );
+          },
         )
     );
   }
