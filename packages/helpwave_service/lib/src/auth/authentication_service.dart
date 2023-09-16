@@ -27,15 +27,12 @@ class AuthenticationService {
   }) async {
     // TODO check whether thee is still an active token and use it instead of a new sign in
     var issuer = await Issuer.discover(Uri.parse(discoveryUrl));
+    var client = Client(issuer, clientId);
 
-    print(issuer.metadata.tokenEndpointAuthMethodsSupported);
-    var client =
-        Client(issuer, clientId); // TODO re-add client secret
-    print(client.issuer.metadata.tokenEndpointAuthMethodsSupported);
     var authenticator = Authenticator(
       client,
       scopes: scopes,
-      urlLancher: (String url) => urlLauncher(Uri.parse(url)),
+      urlLancher: (String url) => { urlLauncher(Uri.parse(url)) },
     );
 
     Credential? c;
@@ -45,12 +42,12 @@ class AuthenticationService {
     } catch (e) {
       print(e);
     } finally {
-      closeInAppWebView();
+      // TODO this does't work :(
+      await closeInAppWebView();
     }
-    //print(c);
 
     // TODO save necessary information, so that all logins are simplified until token is expired
-    //print(c.getUserInfo());
+
     // TODO return whether client successfully authenticated
     return c?.getUserInfo();
   }
