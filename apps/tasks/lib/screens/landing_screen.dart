@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/auth.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/screens/my_tasks_screen.dart';
 
 /// The Landing Screen of the Application
 class LandingScreen extends StatelessWidget {
@@ -29,9 +29,7 @@ class LandingScreen extends StatelessWidget {
             context.localization!.loginSlogan,
             style: Theme.of(context).textTheme.labelLarge,
           ),
-          onPressed: () => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const MyTasksScreen()),
-          ),
+          onPressed: () => {AuthenticationService().authenticate("https://auth.helpwave.de", "http://localhost:3000/")}//Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MyTasksScreen()),),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
