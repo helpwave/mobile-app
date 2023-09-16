@@ -58,7 +58,8 @@ const defaultOutlineInputBorder = OutlineInputBorder(
 
 /// Colors
 const positiveColor = Color.fromARGB(255, 52, 199, 89);
-const negativeColor = Color.fromARGB(255, 255, 51, 51);
+const negativeColor = Color(0xFFD67268);
+const primaryColor = Color(0xFF694BB4);
 
 const errorColor = Color.fromARGB(255, 255, 51, 51);
 
