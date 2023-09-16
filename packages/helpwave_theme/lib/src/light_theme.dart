@@ -87,6 +87,9 @@ ThemeData lightTheme = ThemeData(
     size: iconSizeSmall,
     color: Color.fromARGB(255, 0, 0, 0),
   ),
+  chipTheme: const ChipThemeData(
+    selectedColor: primaryColor,
+  ),
   colorScheme: const ColorScheme(
     // General
     brightness: Brightness.light,

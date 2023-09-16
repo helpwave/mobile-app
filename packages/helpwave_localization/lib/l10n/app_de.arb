@@ -119,6 +119,9 @@
   "delete": "Löschen",
   "setDone": "Als erledigt markieren",
   "unassigned": "Nicht zugewiesen",
+  "active": "Aktiv",
+  "discharged": "Entlassen",
   "discharge": "Entlassen",
-  "addTask": "Aufgabe hinzufügen"
+  "addTask": "Aufgabe hinzufügen",
+  "all": "Alle"
 }

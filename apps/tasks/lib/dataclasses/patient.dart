@@ -10,6 +10,8 @@ class Patient {
   BedMinimal? bed;
   List<Task> tasks;
 
+  get isUnassigned => bed == null && room == null;
+  get isActive =>bed != null && room != null;
   get unscheduledCount => tasks.where((task) => task.status == TaskStatus.TASK_STATUS_TODO).length;
   get inProgressCount => tasks.where((task) => task.status == TaskStatus.TASK_STATUS_IN_PROGRESS).length;
   get doneCount => tasks.where((task) => task.status == TaskStatus.TASK_STATUS_DONE).length;
