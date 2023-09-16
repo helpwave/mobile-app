@@ -4,7 +4,6 @@ The official repository for helpwave mobile apps for android and ios
 This project is tested with [BrowserStack](https://www.browserstack.com).
 
 # [Projects](apps/)
-- **[helpwave](/apps/helpwave)** the main application
 - **[helpwave tasks](/apps/tasks)** the planning app for healthcare professionals
 
 # [Packages](packages/)
