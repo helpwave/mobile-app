@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_theme/constants.dart';
 
 /// A Component for selecting an option with [ActionChip]s
 class SingleChipSelect<T> extends StatefulWidget {
@@ -45,33 +46,35 @@ class _SingleChipSelectState<T> extends State<SingleChipSelect<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return ListView.separated(
       scrollDirection: Axis.horizontal,
-      children: widget.options
-          .map((option) => ChoiceChip(
-                label: option == selectedOption
-                    // TODO do this more elegantly
-                    ? Text(
-                        widget.labeling(option),
-                        style: const TextStyle(color: Colors.white),
-                      )
-                    : Text(widget.labeling(option)),
-                selected: option == selectedOption,
-                onSelected: (value) {
-                  if (value) {
-                    setState(() {
-                      selectedOption = option;
-                    });
-                    widget.onChange(option);
-                  } else if (selectedOption == option &&
-                      widget.allowDeselection) {
-                    setState(() {
-                      selectedOption = null;
-                    });
-                  }
-                },
-              ))
-          .toList(),
+      itemCount: widget.options.length,
+      separatorBuilder: (_, __) => Container(
+        width: distanceSmall,
+      ),
+      itemBuilder: (context, index) => ChoiceChip(
+        label: widget.options[index] == selectedOption
+            // TODO do this more elegantly
+            ? Text(
+                widget.labeling(widget.options[index]),
+                style: const TextStyle(color: Colors.white),
+              )
+            : Text(widget.labeling(widget.options[index])),
+        selected: widget.options[index] == selectedOption,
+        onSelected: (value) {
+          if (value) {
+            setState(() {
+              selectedOption = widget.options[index];
+            });
+            widget.onChange(widget.options[index]);
+          } else if (selectedOption == widget.options[index] &&
+              widget.allowDeselection) {
+            setState(() {
+              selectedOption = null;
+            });
+          }
+        },
+      ),
     );
   }
 }
@@ -119,28 +122,30 @@ class _MultipleChipSelectState<T> extends State<MultipleChipSelect<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return ListView.separated(
       scrollDirection: Axis.horizontal,
-      children: widget.options
-          .map((option) => ChoiceChip(
-                label: Text(widget.labeling(option)),
-                selected: option == selection,
-                onSelected: (value) {
-                  List<T> newSelection = [];
-                  if (value && !selection.contains(option)) {
-                    newSelection = [...selection, option];
-                  } else {
-                    newSelection = selection
-                        .where((element) => element != option)
-                        .toList();
-                  }
-                  setState(() {
-                    selection = newSelection;
-                  });
-                  widget.onChange(newSelection);
-                },
-              ))
-          .toList(),
+      itemCount: widget.options.length,
+      separatorBuilder: (_, __) => Container(
+        width: distanceSmall,
+      ),
+      itemBuilder: (context, index) => ChoiceChip(
+        label: Text(widget.labeling(widget.options[index])),
+        selected: selection.contains(widget.options[index]),
+        onSelected: (value) {
+          List<T> newSelection = [];
+          if (value && !selection.contains(widget.options[index])) {
+            newSelection = [...selection, widget.options[index]];
+          } else {
+            newSelection = selection
+                .where((element) => element != widget.options[index])
+                .toList();
+          }
+          setState(() {
+            selection = newSelection;
+          });
+          widget.onChange(newSelection);
+        },
+      ),
     );
   }
 }
