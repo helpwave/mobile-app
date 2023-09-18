@@ -119,6 +119,9 @@
   "delete": "Delete",
   "setDone": "Set as done",
   "unassigned": "Unassigned",
+  "active": "Active",
+  "discharged": "Discharged",
   "discharge": "Discharge",
-  "addTask": "Add Task"
+  "addTask": "Add Task",
+  "all": "All"
 }
