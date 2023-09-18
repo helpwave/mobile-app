@@ -2,6 +2,12 @@ import 'package:tasks/dataclasses/bed.dart';
 import 'package:tasks/dataclasses/room.dart';
 import 'package:tasks/dataclasses/task.dart';
 
+enum PatientAssignmentStatus {
+  active,
+  unassigned,
+  discharged
+}
+
 /// data class for [Patient] with TaskCount
 class Patient {
   String id;
