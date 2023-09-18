@@ -41,9 +41,21 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(
-                left: paddingSmall, right: paddingSmall, bottom: paddingMedium),
+            padding: const EdgeInsets.only(left: paddingSmall, right: paddingSmall, bottom: paddingMedium),
             child: SearchBar(
+              hintText: context.localization!.searchPatient,
+              trailing: [
+                IconButton(
+                  onPressed: () {
+                    // TODO do something on search press
+                  },
+                  icon: Icon(
+                    Icons.search,
+                    size: iconSizeTiny,
+                    color: Theme.of(context).searchBarTheme.textStyle!.resolve({MaterialState.selected})!.color,
+                  ),
+                ),
+              ],
               onChanged: (value) => setState(() {
                 searchedText = value;
               }),
@@ -74,11 +86,9 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                         child: Container(
                             decoration: BoxDecoration(
                               color: primaryColor,
-                              borderRadius:
-                                  BorderRadius.circular(borderRadiusMedium),
+                              borderRadius: BorderRadius.circular(borderRadiusMedium),
                             ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: paddingMedium),
+                            padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
                             child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
@@ -89,15 +99,13 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                         padding: const EdgeInsets.all(paddingTiny),
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(borderRadiusSmall),
+                            borderRadius: BorderRadius.circular(borderRadiusSmall),
                             color: negativeColor,
                           ),
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: Padding(
-                                padding:
-                                    const EdgeInsets.only(right: paddingMedium),
+                                padding: const EdgeInsets.only(right: paddingMedium),
                                 child: Text(
                                   context.localization!.discharge,
                                 )),
