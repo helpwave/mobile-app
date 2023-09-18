@@ -6,17 +6,22 @@ import 'package:tasks/dataclasses/patient.dart';
 
 /// A widget for displaying a card containing patient information
 class PatientCard extends StatelessWidget {
-  // Patient data including bed information
+  /// [Patient] data including bed information
   final Patient patient;
+
+  /// The margin of the Card
+  final EdgeInsetsGeometry? margin;
 
   const PatientCard({
     super.key,
     required this.patient,
+    this.margin,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: margin,
       elevation: 0,
       shape: RoundedRectangleBorder(
         side: BorderSide(
