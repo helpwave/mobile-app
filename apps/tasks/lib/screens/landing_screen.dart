@@ -42,14 +42,14 @@ class LandingScreen extends StatelessWidget {
           Consumer<ThemeModel>(
             builder: (BuildContext context, ThemeModel themeNotifier, _) =>
                 Center(
-              child: Image.asset(
-                themeNotifier.getIsDarkNullSafe(context)
-                    ? 'assets/transparent-logo-dark.png'
-                    : 'assets/transparent-logo-light.png',
-                width: MediaQuery.of(context).size.height * 0.25,
-                height: MediaQuery.of(context).size.height * 0.25,
-              ),
-            ),
+                  child: Image.asset(
+                    themeNotifier.getIsDarkNullSafe(context)
+                        ? 'assets/transparent-logo-dark.png'
+                        : 'assets/transparent-logo-light.png',
+                    width: MediaQuery.of(context).size.height * 0.25,
+                    height: MediaQuery.of(context).size.height * 0.25,
+                  ),
+                ),
           ),
         ],
       ),
