@@ -35,8 +35,21 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: paddingSmall, right: paddingSmall, bottom: paddingSmall),
+            padding: const EdgeInsets.only(left: paddingSmall, right: paddingSmall, bottom: paddingMedium),
             child: SearchBar(
+              hintText: context.localization!.searchPatient,
+              trailing: [
+                IconButton(
+                  onPressed: () {
+                    // TODO do something on search press
+                  },
+                  icon: Icon(
+                    Icons.search,
+                    size: iconSizeTiny,
+                    color: Theme.of(context).searchBarTheme.textStyle!.resolve({MaterialState.selected})!.color,
+                  ),
+                ),
+              ],
               onChanged: (value) => setState(() {
                 searchedText = value;
               }),

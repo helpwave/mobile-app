@@ -3,6 +3,7 @@ import 'constants.dart';
 
 const focusedColor = Color.fromARGB(255, 255, 255, 255);
 const defaultColor = Color.fromARGB(255, 150, 150, 150);
+const backgroundColor = Color.fromARGB(255, 27, 27, 27);
 
 /// Theme data for Dark-Theme
 ThemeData darkTheme = ThemeData(
@@ -11,9 +12,9 @@ ThemeData darkTheme = ThemeData(
     cursorColor: Colors.blue,
     selectionHandleColor: Colors.blueAccent,
   ),
-  scaffoldBackgroundColor: const Color.fromARGB(255, 27, 27, 27),
+  scaffoldBackgroundColor: backgroundColor,
   bottomSheetTheme: const BottomSheetThemeData(
-    backgroundColor: Color.fromARGB(255, 27, 27, 27),
+    backgroundColor: backgroundColor,
   ),
   inputDecorationTheme: InputDecorationTheme(
     focusColor: focusedColor,
@@ -89,6 +90,7 @@ ThemeData darkTheme = ThemeData(
   chipTheme: const ChipThemeData(
       selectedColor: primaryColor,
   ),
+  searchBarTheme: searchBarTheme,
   colorScheme: const ColorScheme(
     // General
     brightness: Brightness.dark,

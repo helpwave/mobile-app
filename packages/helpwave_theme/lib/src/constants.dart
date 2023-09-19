@@ -78,3 +78,16 @@ const double columnPadding = paddingMedium;
 const double columnPaddingBottomPercent = 0.07;
 const double menuColumnPaddingTopPercent = 0.2;
 const double menuColumnDistanceBetweenPercent = 0.05;
+
+/// Elevation
+const double defaultElevation = 4;
+
+
+/// Common Themes
+const searchBarTheme = SearchBarThemeData(
+  constraints: BoxConstraints(maxHeight: 40, minHeight: 40),
+  backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 223, 223, 223)),
+  elevation: MaterialStatePropertyAll(0),
+  shadowColor: MaterialStatePropertyAll(Colors.transparent),
+  textStyle: MaterialStatePropertyAll(TextStyle(color: Colors.black))
+);
