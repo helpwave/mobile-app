@@ -23,6 +23,20 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
   Future<Map<PatientAssignmentStatus, List<Patient>>> future = PatientService().getPatientList();
   bool isUpdating = false;
 
+  bool searchMatch(Patient patient) {
+    String searchCleaned = searchedText.toLowerCase().trim();
+    if (patient.name.toLowerCase().contains(searchCleaned)) {
+      return true;
+    }
+    if (patient.bed != null && patient.bed!.name.toLowerCase().contains(searchCleaned)) {
+      return true;
+    }
+    if (patient.room != null && patient.room!.name.toLowerCase().contains(searchCleaned)) {
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,14 +100,14 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
 
                       Map<PatientAssignmentStatus, List<Patient>> patientsByAssignment = snapshot.data!;
                       List<Patient> patientList = [];
-                      if(selectedPatientStatus == "all" || selectedPatientStatus == "active"){
-                        patientList += patientsByAssignment[PatientAssignmentStatus.active]!;
+                      if (selectedPatientStatus == "all" || selectedPatientStatus == "active") {
+                        patientList += patientsByAssignment[PatientAssignmentStatus.active]!.where(searchMatch).toList();
                       }
-                      if(selectedPatientStatus == "all" || selectedPatientStatus == "unassigned"){
-                        patientList += patientsByAssignment[PatientAssignmentStatus.unassigned]!;
+                      if (selectedPatientStatus == "all" || selectedPatientStatus == "unassigned") {
+                        patientList += patientsByAssignment[PatientAssignmentStatus.unassigned]!.where(searchMatch).toList();
                       }
-                      if(selectedPatientStatus == "all" || selectedPatientStatus == "discharged"){
-                        patientList += patientsByAssignment[PatientAssignmentStatus.discharged]!;
+                      if (selectedPatientStatus == "all" || selectedPatientStatus == "discharged") {
+                        patientList += patientsByAssignment[PatientAssignmentStatus.discharged]!.where(searchMatch).toList();
                       }
                       return ListView(
                         children: patientList
@@ -137,13 +151,13 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                                     setState(() {
                                       isUpdating = true;
                                     });
-                                    if(direction == DismissDirection.endToStart){
+                                    if (direction == DismissDirection.endToStart) {
                                       PatientService()
                                           .dischargePatient(patientId: patient.id)
                                           .then((value) => setState(() {
-                                        future = PatientService().getPatientList();
-                                        isUpdating = false;
-                                      }));
+                                                future = PatientService().getPatientList();
+                                                isUpdating = false;
+                                              }));
                                     } else {
                                       // TODO open patient screen
                                       await Future.delayed(const Duration(seconds: 1));
