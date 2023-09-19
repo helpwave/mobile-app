@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
-import 'package:helpwave_theme/theme.dart';
-import 'package:provider/provider.dart';
 import 'package:tasks/components/navigation_drawer.dart';
 import 'package:tasks/components/patient_card.dart';
 import 'package:helpwave_localization/localization.dart';

@@ -123,5 +123,6 @@
   "discharged": "Discharged",
   "discharge": "Discharge",
   "addTask": "Add Task",
-  "all": "All"
+  "all": "All",
+  "searchPatient": "Search Patient"
 }
