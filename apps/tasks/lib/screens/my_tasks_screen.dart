@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_theme/theme.dart';
+import 'package:provider/provider.dart';
 import 'package:tasks/components/navigation_drawer.dart';
 import 'package:tasks/components/patient_card.dart';
 import 'package:helpwave_localization/localization.dart';
@@ -31,90 +33,114 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const TasksNavigationDrawer(
-        currentPage: NavigationOptions.myTasks,
-      ),
-      appBar: AppBar(
-        title: Text(context.localization!.myTasks),
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-                left: paddingSmall, right: paddingSmall, bottom: paddingMedium),
-            child: SearchBar(
-              onChanged: (value) => setState(() {
-                searchedText = value;
-              }),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
-            child: SizedBox(
-              height: 40,
-              child: PatientStatusChipSelect(
-                // TODO fix this to allow for an select all button working as intended
-                initialSelection: selectedPatientStatus,
-                onChange: (value) => setState(() {
-                  selectedPatientStatus = value ?? "all";
-                }),
+    return Consumer(builder: (BuildContext context, ThemeModel themeNotifier, _) =>
+        Scaffold(
+          bottomNavigationBar: NavigationBar(
+            indicatorColor: primaryColor,
+            backgroundColor: themeNotifier.getIsDarkNullSafe(context)
+                ? Colors.white30 : Colors.white,
+            destinations: [
+              NavigationDestination(
+                selectedIcon: const Icon(Icons.check_circle_outline, color: Colors.white,),
+                icon: const Icon(Icons.check_circle_outline),
+                label: context.localization!.myTasks,
               ),
-            ),
+              NavigationDestination(
+                selectedIcon: const Icon(Icons.add_circle_outline, color: Colors.white,),
+                icon: const Icon(Icons.add_circle_outline),
+                label: context.localization!.addTask,
+              ),
+              NavigationDestination(
+                selectedIcon: const Icon(Icons.person, color: Colors.white,),
+                icon: const Icon(Icons.person),
+                label: context.localization!.patients,
+              ),
+            ],
           ),
-          Container(
-            height: distanceDefault,
+          drawer: const TasksNavigationDrawer(
+            currentPage: NavigationOptions.myTasks,
           ),
-          Column(
-            children: patients
-                .map((patient) => Dismissible(
-                      key: Key(patient.id),
-                      background: Padding(
-                        padding: const EdgeInsets.all(paddingTiny),
-                        child: Container(
-                            decoration: BoxDecoration(
-                              color: primaryColor,
-                              borderRadius:
-                                  BorderRadius.circular(borderRadiusMedium),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: paddingMedium),
-                            child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  context.localization!.addTask,
-                                ))),
-                      ),
-                      secondaryBackground: Padding(
-                        padding: const EdgeInsets.all(paddingTiny),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(borderRadiusSmall),
-                            color: negativeColor,
-                          ),
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                                padding:
-                                    const EdgeInsets.only(right: paddingMedium),
-                                child: Text(
-                                  context.localization!.discharge,
-                                )),
-                          ),
+          appBar: AppBar(
+            title: Text(context.localization!.myTasks),
+          ),
+          body: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: paddingSmall, right: paddingSmall, bottom: paddingMedium),
+                child: SearchBar(
+                  onChanged: (value) => setState(() {
+                    searchedText = value;
+                  }),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
+                child: SizedBox(
+                  height: 40,
+                  child: PatientStatusChipSelect(
+                    // TODO fix this to allow for an select all button working as intended
+                    initialSelection: selectedPatientStatus,
+                    onChange: (value) => setState(() {
+                      selectedPatientStatus = value ?? "all";
+                    }),
+                  ),
+                ),
+              ),
+              Container(
+                height: distanceDefault,
+              ),
+              Column(
+                children: patients
+                    .map((patient) => Dismissible(
+                  key: Key(patient.id),
+                  background: Padding(
+                    padding: const EdgeInsets.all(paddingTiny),
+                    child: Container(
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius:
+                          BorderRadius.circular(borderRadiusMedium),
                         ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: paddingMedium),
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              context.localization!.addTask,
+                            ))),
+                  ),
+                  secondaryBackground: Padding(
+                    padding: const EdgeInsets.all(paddingTiny),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius:
+                        BorderRadius.circular(borderRadiusSmall),
+                        color: negativeColor,
                       ),
-                      onDismissed: (DismissDirection direction) {
-                        setState(() {
-                          // TODO: implement logic
-                        });
-                      },
-                      child: PatientCard(patient: patient),
-                    ))
-                .toList(),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                            padding:
+                            const EdgeInsets.only(right: paddingMedium),
+                            child: Text(
+                              context.localization!.discharge,
+                            )),
+                      ),
+                    ),
+                  ),
+                  onDismissed: (DismissDirection direction) {
+                    setState(() {
+                      // TODO: implement logic
+                    });
+                  },
+                  child: PatientCard(patient: patient),
+                ))
+                    .toList(),
+              ),
+            ],
           ),
-        ],
-      ),
+        )
     );
   }
 }
