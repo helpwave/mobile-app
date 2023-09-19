@@ -71,6 +71,7 @@ lib/generated_plugin_registrant.dart
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea
 
 # AWS User-specific
 .idea/**/aws.xml
