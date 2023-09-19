@@ -1,3 +1,4 @@
+import 'package:grpc/grpc.dart';
 import 'package:helpwave_proto_dart/proto/services/task_svc/v1/patient_svc.pbgrpc.dart';
 import 'package:tasks/dataclasses/bed.dart';
 import 'package:tasks/dataclasses/patient.dart';
@@ -13,7 +14,7 @@ class PatientService {
       {String? wardId}) async {
     GetPatientListRequest patientListRequest = GetPatientListRequest(wardId: wardId);
     GetPatientListResponse patientListResponse =
-        await patientService.getPatientList(patientListRequest);
+        await patientService.getPatientList(patientListRequest, options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()));
 
     List<Patient> active = patientListResponse.active
         .map(
@@ -52,5 +53,18 @@ class PatientService {
       PatientAssignmentStatus.unassigned: unassigned,
       PatientAssignmentStatus.discharged: discharged
     };
+  }
+
+  // TODO consider an enum instead of an string
+  Future<bool> dischargePatient({required String patientId}) async {
+    DischargePatientRequest request = DischargePatientRequest(id: patientId);
+    DischargePatientResponse response =
+    await patientService.dischargePatient(request, options: CallOptions(metadata: GRPCClientService()
+        .getTaskServiceMetaData()));
+
+    if(response.isInitialized()){
+      return true;
+    }
+    return false;
   }
 }
