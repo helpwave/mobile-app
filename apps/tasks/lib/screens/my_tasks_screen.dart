@@ -38,7 +38,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
           bottomNavigationBar: NavigationBar(
             indicatorColor: primaryColor,
             backgroundColor: themeNotifier.getIsDarkNullSafe(context)
-                ? Colors.white30 : Colors.white,
+                ? Colors.white10 : Colors.white,
             destinations: [
               NavigationDestination(
                 selectedIcon: const Icon(Icons.check_circle_outline, color: Colors.white,),
