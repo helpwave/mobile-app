@@ -53,13 +53,7 @@ class _SingleChipSelectState<T> extends State<SingleChipSelect<T>> {
         width: distanceSmall,
       ),
       itemBuilder: (context, index) => ChoiceChip(
-        label: widget.options[index] == selectedOption
-            // TODO do this more elegantly
-            ? Text(
-                widget.labeling(widget.options[index]),
-                style: const TextStyle(color: Colors.white),
-              )
-            : Text(widget.labeling(widget.options[index])),
+        label: Text(widget.labeling(widget.options[index])),
         selected: widget.options[index] == selectedOption,
         onSelected: (value) {
           if (value) {
@@ -67,8 +61,7 @@ class _SingleChipSelectState<T> extends State<SingleChipSelect<T>> {
               selectedOption = widget.options[index];
             });
             widget.onChange(widget.options[index]);
-          } else if (selectedOption == widget.options[index] &&
-              widget.allowDeselection) {
+          } else if (selectedOption == widget.options[index] && widget.allowDeselection) {
             setState(() {
               selectedOption = null;
             });
@@ -111,8 +104,7 @@ class _MultipleChipSelectState<T> extends State<MultipleChipSelect<T>> {
   @override
   void initState() {
     if (widget.initialSelection.isNotEmpty) {
-      assert(widget.initialSelection
-          .every((element) => widget.options.contains(element)));
+      assert(widget.initialSelection.every((element) => widget.options.contains(element)));
       setState(() {
         selection = widget.initialSelection;
       });
@@ -136,9 +128,7 @@ class _MultipleChipSelectState<T> extends State<MultipleChipSelect<T>> {
           if (value && !selection.contains(widget.options[index])) {
             newSelection = [...selection, widget.options[index]];
           } else {
-            newSelection = selection
-                .where((element) => element != widget.options[index])
-                .toList();
+            newSelection = selection.where((element) => element != widget.options[index]).toList();
           }
           setState(() {
             selection = newSelection;
