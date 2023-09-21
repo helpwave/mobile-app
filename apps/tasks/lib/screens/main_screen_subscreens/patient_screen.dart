@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_proto_dart/proto/services/task_svc/v1/patient_svc.pb.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:tasks/components/patient_card.dart';
 import 'package:tasks/components/patient_status_chip_select.dart';
-import 'package:tasks/dataclasses/bed.dart';
 import 'package:tasks/dataclasses/patient.dart';
-import 'package:tasks/dataclasses/room.dart';
 import 'package:tasks/screens/settings_screen.dart';
+import 'package:tasks/services/patient_svc.dart';
 
 class PatientScreen extends StatefulWidget {
   const PatientScreen({super.key});
@@ -16,17 +16,28 @@ class PatientScreen extends StatefulWidget {
 }
 
 class _PatientScreenState extends State<PatientScreen> {
-  List<Patient> patients = [
-    Patient(
-      id: "patient",
-      name: "Peter Name",
-      room: RoomMinimal(id: "room", name: "Room 1a"),
-      bed: BedMinimal(id: "bed", name: "Bed 3"),
-      tasks: [],
-    )
-  ];
+  GetPatientListRequest patientListRequest = GetPatientListRequest();
   String searchedText = "";
   String selectedPatientStatus = "all";
+  Future<Map<PatientAssignmentStatus, List<Patient>>> future =
+      PatientService().getPatientList();
+  bool isUpdating = false;
+
+  bool searchMatch(Patient patient) {
+    String searchCleaned = searchedText.toLowerCase().trim();
+    if (patient.name.toLowerCase().contains(searchCleaned)) {
+      return true;
+    }
+    if (patient.bed != null &&
+        patient.bed!.name.toLowerCase().contains(searchCleaned)) {
+      return true;
+    }
+    if (patient.room != null &&
+        patient.room!.name.toLowerCase().contains(searchCleaned)) {
+      return true;
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +61,8 @@ class _PatientScreenState extends State<PatientScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: paddingSmall, right: paddingSmall, bottom: paddingMedium),
+            padding: const EdgeInsets.only(
+                left: paddingSmall, right: paddingSmall, bottom: paddingMedium),
             child: SearchBar(
               hintText: context.localization!.searchPatient,
               trailing: [
@@ -61,7 +73,10 @@ class _PatientScreenState extends State<PatientScreen> {
                   icon: Icon(
                     Icons.search,
                     size: iconSizeTiny,
-                    color: Theme.of(context).searchBarTheme.textStyle!.resolve({MaterialState.selected})!.color,
+                    color: Theme.of(context)
+                        .searchBarTheme
+                        .textStyle!
+                        .resolve({MaterialState.selected})!.color,
                   ),
                 ),
               ],
@@ -86,49 +101,124 @@ class _PatientScreenState extends State<PatientScreen> {
           Container(
             height: distanceDefault,
           ),
-          Column(
-            children: patients
-                .map((patient) => Dismissible(
-              key: Key(patient.id),
-              background: Padding(
-                padding: const EdgeInsets.all(paddingTiny),
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: BorderRadius.circular(borderRadiusMedium),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
-                    child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          context.localization!.addTask,
-                        ))),
-              ),
-              secondaryBackground: Padding(
-                padding: const EdgeInsets.all(paddingTiny),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(borderRadiusSmall),
-                    color: negativeColor,
+          Flexible(
+            child: isUpdating
+                ? const Center(child: CircularProgressIndicator())
+                : FutureBuilder(
+                    future: future,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      }
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      Map<PatientAssignmentStatus, List<Patient>>
+                          patientsByAssignment = snapshot.data!;
+                      List<Patient> patientList = [];
+                      if (selectedPatientStatus == "all" ||
+                          selectedPatientStatus == "active") {
+                        patientList += patientsByAssignment[
+                                PatientAssignmentStatus.active]!
+                            .where(searchMatch)
+                            .toList();
+                      }
+                      if (selectedPatientStatus == "all" ||
+                          selectedPatientStatus == "unassigned") {
+                        patientList += patientsByAssignment[
+                                PatientAssignmentStatus.unassigned]!
+                            .where(searchMatch)
+                            .toList();
+                      }
+                      if (selectedPatientStatus == "all" ||
+                          selectedPatientStatus == "discharged") {
+                        patientList += patientsByAssignment[
+                                PatientAssignmentStatus.discharged]!
+                            .where(searchMatch)
+                            .toList();
+                      }
+                      return ListView(
+                        children: patientList
+                            .map(
+                              (patient) => Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: paddingSmall),
+                                child: Dismissible(
+                                  key: Key(patient.id),
+                                  background: Padding(
+                                    padding: const EdgeInsets.all(paddingTiny),
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                          color: primaryColor,
+                                          borderRadius: BorderRadius.circular(
+                                              borderRadiusMedium),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: paddingMedium),
+                                        child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              context.localization!.addTask,
+                                            ))),
+                                  ),
+                                  secondaryBackground: Padding(
+                                    padding: const EdgeInsets.all(paddingTiny),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                            borderRadiusSmall),
+                                        color: negativeColor,
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: paddingMedium),
+                                            child: Text(
+                                              context.localization!.discharge,
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                  onDismissed:
+                                      (DismissDirection direction) async {
+                                    setState(() {
+                                      isUpdating = true;
+                                    });
+                                    if (direction ==
+                                        DismissDirection.endToStart) {
+                                      PatientService()
+                                          .dischargePatient(
+                                              patientId: patient.id)
+                                          .then((value) => setState(() {
+                                                future = PatientService()
+                                                    .getPatientList();
+                                                isUpdating = false;
+                                              }));
+                                    } else {
+                                      // TODO open patient screen
+                                      await Future.delayed(
+                                          const Duration(seconds: 1));
+                                      setState(() {
+                                        future =
+                                            PatientService().getPatientList();
+                                        isUpdating = false;
+                                      });
+                                    }
+                                  },
+                                  child: PatientCard(
+                                    patient: patient,
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: paddingTiny),
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      );
+                    },
                   ),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                        padding: const EdgeInsets.only(right: paddingMedium),
-                        child: Text(
-                          context.localization!.discharge,
-                        )),
-                  ),
-                ),
-              ),
-              onDismissed: (DismissDirection direction) {
-                setState(() {
-                  // TODO: implement logic
-                });
-              },
-              child: PatientCard(patient: patient),
-            ))
-                .toList(),
           ),
         ],
       ),
