@@ -124,5 +124,7 @@
   "discharge": "Discharge",
   "addTask": "Add Task",
   "all": "All",
-  "searchPatient": "Search Patient"
+  "searchPatient": "Search Patient",
+  "task": "Task",
+  "create": "Create"
 }
