@@ -16,3 +16,6 @@ scripts:
 
   build-ios:
     run: melos exec --file-exists="./lib/main.dart" "flutter build ios --no-codesign"
+
+  build-aab:
+    run: melos exec --file-exists="./lib/main.dart" "flutter build appbundle"
