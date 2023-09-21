@@ -12,7 +12,7 @@ scripts:
     run: melos exec --file-exists="l10n.yaml" -- "flutter gen-l10n && melos bootstrap"
 
   build-apk:
-    run: melos exec --file-exists="./lib/main.dart" "flutter build apk"
+    run: melos exec --file-exists="./lib/main.dart" "flutter build apk --debug"
 
   build-ios:
     run: melos exec --file-exists="./lib/main.dart" "flutter build ios --no-codesign"
