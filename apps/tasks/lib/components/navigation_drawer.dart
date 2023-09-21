@@ -4,7 +4,7 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:tasks/components/user_card.dart';
-import 'package:tasks/screens/my_tasks_screen.dart';
+import 'package:tasks/screens/main_screen_subscreens/my_tasks_screen.dart';
 import 'package:tasks/screens/settings_screen.dart';
 
 /// The Navigation options the User can use

@@ -124,5 +124,7 @@
   "discharge": "Entlassen",
   "addTask": "Aufgabe hinzufügen",
   "all": "Alle",
-  "searchPatient": "Patienten suchen"
+  "searchPatient": "Patienten suchen",
+  "task": "Task",
+  "create": "Erstellen"
 }
