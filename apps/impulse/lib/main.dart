@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:impulse/components/challange_menu_card.dart';
+import 'package:impulse/components/timer_component.dart';
 
 void main() {
   runApp(const MyApp());
@@ -56,7 +56,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -75,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: const Center(
+      body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
@@ -94,11 +93,15 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ChallengeMenuCard(title: "1/3", subtitle: "Auf zum Platz", text: "Gehe als erstes zum Sportplatz im Stadtpark und scanne den QR Code direkt am Eingang des Basketballplatzes.",),
+            TimerComponent(
+              duration: const Duration(seconds: 6),
+              onFinish: () {
+                print("finish");
+              },
+            )
           ],
         ),
       ),
- // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
