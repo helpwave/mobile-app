@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:impulse/components/Progressbar.dart';
+import 'package:impulse/components/progressbar.dart';
 import 'package:impulse/components/timer_component.dart';
 
 void main() {
