@@ -40,7 +40,6 @@ dependencies:
     path: "../../packages/helpwave_theme"
   helpwave_localization:
     path: "../../packages/helpwave_localization"
-
   helpwave_widget:
     path: "../../packages/helpwave_widget"
 
