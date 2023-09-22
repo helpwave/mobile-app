@@ -73,13 +73,13 @@ class _MyHomePageState extends State<MyHomePage> {
             style: const TextStyle(color: Colors.white),
           ),
         ),
-        body: Center(
+        body: const Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const MedalCarousel(),
+              MedalCarousel(),
             ],
           ),
         ),
