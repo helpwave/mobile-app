@@ -48,10 +48,10 @@ class _TimerComponentState extends State<TimerComponent> {
   newTimer() {
     _timer = Timer.periodic(
       tickPeriod,
-          (Timer timer) {
+      (Timer timer) {
         Duration newTimeRemaining = Duration(
             milliseconds:
-            timeRemaining.inMilliseconds - tickPeriod.inMilliseconds);
+                timeRemaining.inMilliseconds - tickPeriod.inMilliseconds);
         if (newTimeRemaining.inMilliseconds <= 0) {
           finish();
         } else {
@@ -89,12 +89,14 @@ class _TimerComponentState extends State<TimerComponent> {
 
   @override
   Widget build(BuildContext context) {
-    double progress = timeRemaining.inMilliseconds / widget.duration.inMilliseconds;
+    double progress =
+        timeRemaining.inMilliseconds / widget.duration.inMilliseconds;
     String durationString =
         "${timeRemaining.inMinutes.toString().padLeft(2, "0")}:${(timeRemaining.inSeconds % 60).toString().padLeft(2, "0")}";
     const double size = 150;
     const double iconSize = 48;
     const double textSize = 32;
+    const double strokeWidth = 10;
 
     Widget iconForStatus() {
       if (isInProgress) {
@@ -116,8 +118,8 @@ class _TimerComponentState extends State<TimerComponent> {
     }
 
     return SizedBox(
-      height: size,
-      width: size,
+      height: size + strokeWidth * 2,
+      width: size + strokeWidth * 2,
       child: GestureDetector(
         onTap: () {
           if (isInProgress) {
@@ -128,16 +130,20 @@ class _TimerComponentState extends State<TimerComponent> {
         },
         child: Stack(
           children: [
-            SizedBox(
-              height: size,
-              width: size,
-              child: Circle(
-                diameter: size,
-                color: secondary,
-                child: CustomPaint(
-                  willChange: true,
-                  size: const Size(size, size),
-                  painter: TimerPainter(progress: progress),
+            Positioned(
+              left: strokeWidth,
+              top: strokeWidth,
+              child: SizedBox(
+                height: size,
+                width: size,
+                child: Circle(
+                  diameter: size,
+                  color: secondary,
+                  child: CustomPaint(
+                    willChange: true,
+                    size: const Size(size, size),
+                    painter: TimerPainter(progress: progress),
+                  ),
                 ),
               ),
             ),
