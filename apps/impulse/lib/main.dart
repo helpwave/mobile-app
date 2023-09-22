@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:im_stepper/stepper.dart';
-import 'package:impulse/components/timer_component.dart';
+import 'package:impulse/components/medal_carusel.dart';
 import 'package:impulse/theming/colors.dart';
 
 void main() {
@@ -80,25 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              TimerComponent(
-                duration: const Duration(seconds: 6),
-                onFinish: () {
-                  print("finish");
-                },
-              ),
-              NumberStepper(
-                numbers: [1, 2, 3],
-                activeStep: 1,
-                enableStepTapping: false,
-                enableNextPreviousButtons: false,
-                lineDotRadius: 2,
-                activeStepColor: Colors.white,
-                activeStepBorderPadding: 0,
-                activeStepBorderColor: Colors.transparent,
-                activeStepBorderWidth: 0,
-                lineColor: Colors.white,
-                stepColor: Colors.white.withOpacity(0.6),
-              ),
+              const MedalCarousel(),
             ],
           ),
         ),
