@@ -9,10 +9,14 @@ class Circle extends StatelessWidget {
   /// The [Color] of th circle
   final Color color;
 
+  /// The child [Widget] off the circle
+  final Widget? child;
+
   const Circle({
     super.key,
     this.diameter = distanceSmall,
     this.color = Colors.black,
+    this.child,
   });
 
   @override
@@ -24,6 +28,7 @@ class Circle extends StatelessWidget {
         shape: BoxShape.circle,
         color: color,
       ),
+      child: child,
     );
   }
 }
