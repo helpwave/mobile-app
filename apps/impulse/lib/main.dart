@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:impulse/components/medal_carusel.dart';
 import 'package:impulse/theming/colors.dart';
+import 'package:impulse/components/progressbar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -62,23 +63,17 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          // TRY THIS: Try changing the color here to a specific color (to
-          // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-          // change color while the other colors stay the same.
           backgroundColor: Colors.transparent,
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
           title: Text(
             widget.title,
             style: const TextStyle(color: Colors.white),
           ),
         ),
         body: const Center(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              ProgressBar(progress: 0.5),
               MedalCarousel(),
             ],
           ),
