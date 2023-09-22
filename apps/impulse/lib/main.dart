@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:impulse/components/TimerComponent.dart';
+import 'package:impulse/components/timer_component.dart';
 
 void main() {
   runApp(const MyApp());
