@@ -32,6 +32,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # flutter pub run rename_app:main all="My App Name"
+  rename_app: ^1.3.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -55,7 +57,7 @@ dev_dependencies:
   helpwave_widget:
     path: "../../packages/helpwave_widget"
 
-  helpwave_proto_dart: 0.23.0-ac63063.0
+  helpwave_proto_dart: 0.23.1-f4b5a4c.0
   grpc: ^3.2.4
 
 # For information on the generic Dart part of this file, see the
@@ -72,3 +74,23 @@ flutter:
   assets:
     - assets/
 
+flutter_native_splash:
+  # see https://pub.dev/packages/flutter_native_splash
+  # flutter pub run flutter_native_splash:create
+  # flutter pub run flutter_native_splash:remove
+
+  color: "#FFFFFF"
+  image: assets/splash/splash.png
+
+  android_12:
+    color: "#FFFFFF"
+    image: assets/splash/android12splash.png
+
+
+flutter_icons:
+  # flutter pub run flutter_launcher_icons
+  android: "launcher_icon"
+  ios: true
+  image_path: assets/icon/icon_launcher.png
+  adaptive_icon_background: assets/icon/icon_background.png
+  adaptive_icon_foreground: assets/icon/icon_launcher.png

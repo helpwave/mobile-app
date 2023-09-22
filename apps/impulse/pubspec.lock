@@ -208,10 +208,10 @@ packages:
     dependency: "direct dev"
     description:
       name: helpwave_proto_dart
-      sha256: "145e2be6708adf97dc684c0a356e88535a9552c57e03b312779aa310c300079a"
+      sha256: "1d05702ce7e216f52c05784d59b30b4937c98ce7f757a0443c45755d5b233c86"
       url: "https://pub.dev"
     source: hosted
-    version: "0.23.0-ac63063.0"
+    version: "0.23.1-f4b5a4c.0"
   helpwave_theme:
     dependency: "direct overridden"
     description:
@@ -410,6 +410,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.5"
+  rename_app:
+    dependency: "direct main"
+    description:
+      name: rename_app
+      sha256: "598d33d1a89c7f47e57b6f37edb9661667238e49a9a81cf4e60a8cf444a3f9fc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
   shared_preferences:
     dependency: transitive
     description:
