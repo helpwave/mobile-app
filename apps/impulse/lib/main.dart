@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:impulse/components/medal_carusel.dart';
 import 'package:impulse/components/progressbar.dart';
 import 'package:impulse/components/timer_component.dart';
 
@@ -94,13 +95,8 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const MedalCarousel(),
             const ProgressBar(progress: 0.5),
-            TimerComponent(
-              duration: const Duration(seconds: 6),
-              onFinish: () {
-                print("finish");
-              },
-            )
           ],
         ),
       ),
