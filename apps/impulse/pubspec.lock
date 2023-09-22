@@ -115,6 +115,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  helpwave_widget:
+    dependency: "direct main"
+    description:
+      path: "../../packages/helpwave_widget"
+      relative: true
+    source: path
+    version: "0.0.1"
   intl:
     dependency: transitive
     description:
