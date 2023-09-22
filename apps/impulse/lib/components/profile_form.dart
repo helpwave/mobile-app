@@ -55,7 +55,22 @@ class ProfileForm extends StatelessWidget {
             ),
             const ProfileEntry(title: "Dein Name"),
             const ProfileEntry(title: "XXX"),
-            const ProfileEntry(title: "XXX")
+            const ProfileEntry(title: "XXX"),
+            Flexible(child: Container()),
+            ElevatedButton(
+              onPressed: () {},
+              style: const ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(primary),
+                fixedSize: MaterialStatePropertyAll(
+                  Size.fromWidth(215),
+                ),
+              ),
+              child: const Text(
+                "Speichern",
+                style:
+                TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 16),
+              ),
+            )
           ],
         ),
       ),
@@ -65,7 +80,6 @@ class ProfileForm extends StatelessWidget {
 
 class ProfileEntry extends StatelessWidget {
   final String title;
-
   const ProfileEntry({super.key, required this.title});
 
   @override
@@ -82,7 +96,6 @@ class ProfileEntry extends StatelessWidget {
                 title,
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
-                  color: labelColor,
                   fontSize: 14,
                 ),
               ),
