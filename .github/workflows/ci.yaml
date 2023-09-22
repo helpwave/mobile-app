@@ -80,7 +80,7 @@ jobs:
       - name: package impulse ipa
         working-directory: ./apps/impulse/
         run: |
-          flutter run build-ios --no-codesign
+          flutter build ios --no-codesign
           mkdir Payload
           cp -r build/ios/Release-iphoneos/Runner.app Payload
           zip -r impulse.ipa Payload
