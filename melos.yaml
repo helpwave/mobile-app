@@ -16,3 +16,9 @@ scripts:
 
   build-ios:
     run: melos exec --file-exists="./lib/main.dart" "flutter build ios --no-codesign"
+
+  build-apk-impulse:
+    run: melos exec --scope=impulse--file-exists="./lib/main.dart" "flutter build apk"
+
+  build-ios-impulse:
+    run: melos exec --scope=impulse --file-exists="./lib/main.dart" "flutter build ios --no-codesign"
