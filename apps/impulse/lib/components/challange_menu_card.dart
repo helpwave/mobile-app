@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:helpwave_theme/constants.dart';
 
 class ChallengeMenuCard extends StatelessWidget {
   const ChallengeMenuCard(
@@ -16,6 +16,8 @@ class ChallengeMenuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const double width = 215;
+
     return Card(
       surfaceTintColor: Colors.white,
       child: Padding(
@@ -44,17 +46,41 @@ class ChallengeMenuCard extends StatelessWidget {
               ),
             ),
             Container(
-              color: titleColor,
-              width: 215,
-              height: 215,
-              padding: EdgeInsets.all(4),
+              width: width,
+              height: width,
+              decoration: const BoxDecoration(
+                color: titleColor,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(borderRadiusVeryBig),
+                ),
+              ),
+              padding: const EdgeInsets.all(paddingSmall),
               child: ClipRRect(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(borderRadiusVeryBig - paddingSmall),
+                ),
                 child: Container(
                   color: Colors.blue,
                 ),
               ),
             ),
-            Text("NextButton")
+            Padding(
+              padding: const EdgeInsets.all(paddingMedium),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(titleColor),
+                  fixedSize: MaterialStatePropertyAll(
+                    Size.fromWidth(width),
+                  ),
+                ),
+                child: const Text(
+                  "Nächster Schritt",
+                  style:
+                      TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 16),
+                ),
+              ),
+            )
           ],
         ),
       ),
