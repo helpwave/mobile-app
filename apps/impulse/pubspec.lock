@@ -102,23 +102,16 @@ packages:
     source: sdk
     version: "0.0.0"
   helpwave_localization:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       path: "../../packages/helpwave_localization"
       relative: true
     source: path
     version: "0.0.1"
   helpwave_theme:
-    dependency: "direct overridden"
-    description:
-      path: "../../packages/helpwave_theme"
-      relative: true
-    source: path
-    version: "0.0.1"
-  helpwave_widget:
     dependency: "direct main"
     description:
-      path: "../../packages/helpwave_widget"
+      path: "../../packages/helpwave_theme"
       relative: true
     source: path
     version: "0.0.1"
