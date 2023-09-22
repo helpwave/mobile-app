@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:impulse/components/medal_carusel.dart';
 import 'package:impulse/components/timer_component.dart';
 
 void main() {
@@ -65,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
@@ -93,6 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const MedalCarousel(),
             TimerComponent(
               duration: const Duration(seconds: 6),
               onFinish: () {
