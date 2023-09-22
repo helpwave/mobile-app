@@ -43,6 +43,9 @@ dependencies:
   helpwave_widget:
     path: "../../packages/helpwave_widget"
 
+  im_stepper: ^1.0.1+1
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
