@@ -1,20 +1,19 @@
+import 'dart:math';
+
 const int maxLvl = 10;
 
 int getScoreForLevel(int level) {
-  return ((level * (level + 1) / 2) * 1000).toInt();
+  return 1000*level;
 }
 
 int currentLevel(int score) {
-  int level = 0;
-  while (getScoreForLevel(level) <= score || level > maxLvl) {
-    level++;
-  }
+  int level = min(maxLvl, score ~/ 1000);
   return level;
 }
 
 int currentLevelXPRequirement(int score) {
   int level = currentLevel(score);
-  return getScoreForLevel(level + 1) - getScoreForLevel(level);
+  return (level) * 1000;
 }
 
 int missingToNextLevel(int score) {
@@ -22,5 +21,5 @@ int missingToNextLevel(int score) {
   if (currentLvl >= maxLvl) {
     return 0;
   }
-  return currentLevelXPRequirement(score) - score;
+  return (currentLvl +1) * 1000 - score;
 }

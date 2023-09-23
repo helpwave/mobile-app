@@ -33,17 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
     _timer = Timer.periodic(
       const Duration(seconds: 3),
       (Timer timer) {
-        ImpulseService()
-            .getScore(userID)
-            .then((value) => setState(() {
-                  score = value;
-                }))
-            .onError((error, stackTrace) {
-          print(error);
-          setState(() {
-            score = 450;
-          });
-        });
+        ImpulseService().getScore(userID).then((value) => setState(() {
+              score = value;
+            }));
       },
     );
     super.initState();
@@ -96,14 +88,12 @@ class _HomeScreenState extends State<HomeScreen> {
         body: ListView(
           children: <Widget>[
             Container(height: distanceDefault),
-            const MedalCarousel(),
+            MedalCarousel(unlockedTo: currentLevel(score)),
             Container(height: distanceDefault),
             Column(
               children: [
                 ProgressBar(
-                  progress: 1 -
-                      missingToNextLevel(score) /
-                          currentLevelXPRequirement(score),
+                  progress: max(0, min(1, 1 - missingToNextLevel(score) /currentLevelXPRequirement(score))),
                   width: MediaQuery.of(context).size.width * 0.66,
                 ),
               ],
@@ -111,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(height: distanceTiny),
             Center(
               child: Text(
-                "Noch ${missingToNextLevel(score)}XP bis Level ${min(currentLevel(score), maxLvl)}",
+                "Noch ${missingToNextLevel(score)}XP bis Level ${min(currentLevel(score) + 1, maxLvl)}",
                 style: const TextStyle(
                   color: Colors.white,
                 ),
