@@ -81,7 +81,14 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                 builder: (_) => Dialog(
                   backgroundColor: Colors.transparent,
                   elevation: 0,
-                  child: ProfileForm(initialUser: User(username: "User", birthday: DateTime(2000), sex: Gender.na, pal: 1)),
+                  child: ProfileForm(
+                    initialUser: User(
+                        username: "User",
+                        birthday: DateTime(2000),
+                        gender: Gender.na,
+                        pal: 1,
+                        id: 'userId'),
+                  ),
                 ),
               ),
               icon: const Icon(

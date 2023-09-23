@@ -31,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
       points: 300,
       threshold: 20,
       type: ChallengeType.CHALLENGE_TYPE_QUEST,
-      type: ChallengeType.timer,
       verifiers: [
         Verifier(methode: VerificationMethodType.qr, qrCode: "code"),
       ],
@@ -46,9 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
       points: 300,
       threshold: 20,
       type: ChallengeType.CHALLENGE_TYPE_QUEST,
-      type: ChallengeType.timer,
       verifiers: [
-        Verifier(methode: VerificationMethodType.timer, duration: const Duration(seconds: 20)),
+        Verifier(
+            methode: VerificationMethodType.timer,
+            duration: const Duration(seconds: 20)),
       ],
     ),
     Challenge(
@@ -56,18 +56,29 @@ class _HomeScreenState extends State<HomeScreen> {
       category: ChallengeCategory.CHALLENGE_CATEGORY_FOOD,
       title: "Korbleger",
       description:
-      "Spiele so viele Körbe wie möglich in 20 Min. auf dem Basketballplatz im Stadtpark.",
+          "Spiele so viele Körbe wie möglich in 20 Min. auf dem Basketballplatz im Stadtpark.",
       endAt: DateTime.now(),
       startAt: DateTime.now(),
       points: 300,
       threshold: 20,
-      type: ChallengeType.timer,
-      verifiers: [
-        Verifier(methode: VerificationMethodType.number, min: 0, max: 20, isFinishable: true),
-        Verifier(methode: VerificationMethodType.number, min: 0, max: 20, isFinishable: true),
-        Verifier(methode: VerificationMethodType.number, min: 0, max: 20, isFinishable: true),
-      ],
       type: ChallengeType.CHALLENGE_TYPE_QUEST,
+      verifiers: [
+        Verifier(
+            methode: VerificationMethodType.number,
+            min: 0,
+            max: 20,
+            isFinishable: true),
+        Verifier(
+            methode: VerificationMethodType.number,
+            min: 0,
+            max: 20,
+            isFinishable: true),
+        Verifier(
+            methode: VerificationMethodType.number,
+            min: 0,
+            max: 20,
+            isFinishable: true),
+      ],
     ),
   ];
 
@@ -93,7 +104,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (_) => Dialog(
                   backgroundColor: Colors.transparent,
                   elevation: 0,
-                  child: ProfileForm(initialUser: User(username: "User", birthday: DateTime(2000), sex: Gender.na, pal: 1)),
+                  child: ProfileForm(
+                      initialUser: User(
+                          username: "User",
+                          birthday: DateTime(2000),
+                          gender: Gender.na,
+                          pal: 1, id: 'userId1')),
                 ),
               ),
               icon: const Icon(
@@ -128,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(height: distanceDefault),
             const Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: paddingSmall,
+                horizontal: paddingMedium,
               ),
               child: Row(
                 children: [
@@ -160,20 +176,32 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 List<Challenge> challenges = snapshot.data!;
                 return Column(
-                  children: challenges
-                      .map((challenge) =>
-                      ActivityCard(
-                        activityName: challenge.title,
-                        activityDescription: challenge.description,
-                        xp: challenge.points,
-                        onClick: () {
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) =>
-                                ChallengeScreen(challenge: challenge),
-                          ));
-                        },
-                        margin: const EdgeInsets.all(paddingSmall),))
-                      .toList(),
+                  mainAxisAlignment: challenges.isEmpty ? MainAxisAlignment.center : MainAxisAlignment.start,
+                  children: challenges.isEmpty
+                      ? [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: paddingMedium),
+                            child: Text("Keine Challenges gefunden :(", style: TextStyle(color: Colors.white)),
+                          ),
+                        ]
+                      : challenges
+                          .map((challenge) => ActivityCard(
+                                activityName: challenge.title,
+                                activityDescription: challenge.description,
+                                xp: challenge.points,
+                                onClick: () {
+                                  Navigator.of(context)
+                                      .pushReplacement(MaterialPageRoute(
+                                    builder: (context) =>
+                                        ChallengeScreen(challenge: challenge),
+                                  ));
+                                },
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: paddingMedium,
+                                  vertical: paddingSmall,
+                                ),
+                              ))
+                          .toList(),
                 );
               },
             )
