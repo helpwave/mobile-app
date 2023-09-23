@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     "Verfügbare Challenges",
                     style: TextStyle(
                       fontSize: 22,
-                      fontFamily: "SpaceGrotesk",
+                      fontFamily: "Fredoka",
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),

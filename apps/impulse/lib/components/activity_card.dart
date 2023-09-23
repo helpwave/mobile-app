@@ -78,7 +78,7 @@ class ActivityCard extends StatelessWidget {
                           fontSize: fontSizeBig,
                           fontWeight: FontWeight.bold,
                           color: accent,
-                          fontFamily: "SpaceGrotesk",
+                          fontFamily: "Fredoka",
                         ),
                       ),
                       Text(
