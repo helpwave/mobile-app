@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -24,22 +25,34 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Timer? _timer;
   int score = 0;
 
   @override
   void initState() {
-    ImpulseService()
-        .getScore(userID)
-        .then((value) => setState(() {
-              score = value;
-            }))
-        .onError((error, stackTrace) {
-      print(error);
-      setState(() {
-        score = 450;
-      });
-    });
+    _timer = Timer.periodic(
+      const Duration(seconds: 3),
+      (Timer timer) {
+        ImpulseService()
+            .getScore(userID)
+            .then((value) => setState(() {
+                  score = value;
+                }))
+            .onError((error, stackTrace) {
+          print(error);
+          setState(() {
+            score = 450;
+          });
+        });
+      },
+    );
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
