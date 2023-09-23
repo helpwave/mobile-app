@@ -8,6 +8,9 @@ import 'package:impulse/dataclasses/challange.dart';
 import 'package:impulse/screens/challange_screen.dart';
 import 'package:impulse/theming/colors.dart';
 
+import '../components/profile_form.dart';
+import '../dataclasses/user.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -62,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Verifier(methode: VerificationMethodType.number, min: 0, max: 20, isFinishable: true),
       ],
     ),
+
   ];
 
   @override
@@ -81,9 +85,14 @@ class _HomeScreenState extends State<HomeScreen> {
           title: const XpLabel(xp: 480),
           actions: [
             IconButton(
-              onPressed: () {
-                // TODO open user modal
-              },
+              onPressed: () => showDialog(
+                context: context,
+                builder: (_) => Dialog(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  child: ProfileForm(initialUser: User(username: "User", birthday: DateTime(2000), sex: Gender.na, pal: 1)),
+                ),
+              ),
               icon: const Icon(
                 Icons.person_outline_outlined,
                 color: Colors.white,
