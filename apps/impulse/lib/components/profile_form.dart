@@ -16,15 +16,20 @@ class ProfileForm extends StatefulWidget {
 class _ProfileFormState extends State<ProfileForm> {
   String name = "";
   bool isCreating = false;
-  User user =
-      User(username: "", birthday: DateTime(2000), sex: Gender.na, pal: 1);
+  User user = User(
+    username: "",
+    birthday: DateTime(2000),
+    gender: Gender.na,
+    pal: 1,
+    id: 'user1',
+  );
 
   @override
   void initState() {
     isCreating = widget.initialUser == null;
     if (!isCreating) {
       user.username = widget.initialUser!.username;
-      user.sex = widget.initialUser!.sex;
+      user.gender = widget.initialUser!.gender;
       user.pal = widget.initialUser!.pal;
       user.birthday = widget.initialUser!.birthday;
     }
@@ -156,7 +161,7 @@ class _ProfileFormState extends State<ProfileForm> {
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton(
                         style: const TextStyle(color: primary),
-                        value: user.sex,
+                        value: user.gender,
                         items: const [
                           DropdownMenuItem(
                             value: Gender.male,
@@ -177,7 +182,7 @@ class _ProfileFormState extends State<ProfileForm> {
                         ],
                         onChanged: (value) {
                           setState(() {
-                            user.sex = value ?? Gender.na;
+                            user.gender = value ?? Gender.na;
                           });
                         },
                       ),

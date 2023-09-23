@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/components/activity_card.dart';
 import 'package:impulse/components/medal_carusel.dart';
 import 'package:impulse/components/progressbar.dart';
 import 'package:impulse/components/xp_label.dart';
 import 'package:impulse/dataclasses/challange.dart';
+import 'package:impulse/services/impulse_service.dart';
 import 'package:impulse/screens/challange_screen.dart';
 import 'package:impulse/theming/colors.dart';
-
 import '../components/profile_form.dart';
 import '../dataclasses/user.dart';
 
@@ -22,35 +23,37 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Challenge> challenges = [
     Challenge(
       id: "id1",
-      category: ChallengeCategory.fitness,
+      category: ChallengeCategory.CHALLENGE_CATEGORY_FITNESS,
       title: "Step by Step",
       description: "Gehe so viele Schritte wie möglich in 30 Minuten.",
       endAt: DateTime.now(),
       startAt: DateTime.now(),
       points: 300,
       threshold: 20,
-      type: ChallengeType.timer,
+      type: ChallengeType.CHALLENGE_TYPE_QUEST,
       verifiers: [
         Verifier(methode: VerificationMethodType.qr, qrCode: "code"),
       ],
     ),
     Challenge(
       id: "id2",
-      category: ChallengeCategory.fitness,
+      category: ChallengeCategory.CHALLENGE_CATEGORY_UNSPECIFIED,
       title: "Dauerläufer",
       description: "Gehe so viele Schritte wie möglich in 30 Minuten.",
       endAt: DateTime.now(),
       startAt: DateTime.now(),
       points: 300,
       threshold: 20,
-      type: ChallengeType.timer,
+      type: ChallengeType.CHALLENGE_TYPE_QUEST,
       verifiers: [
-        Verifier(methode: VerificationMethodType.timer, duration: const Duration(seconds: 20)),
+        Verifier(
+            methode: VerificationMethodType.timer,
+            duration: const Duration(seconds: 20)),
       ],
     ),
     Challenge(
       id: "id3",
-      category: ChallengeCategory.fitness,
+      category: ChallengeCategory.CHALLENGE_CATEGORY_FOOD,
       title: "Korbleger",
       description:
           "Spiele so viele Körbe wie möglich in 20 Min. auf dem Basketballplatz im Stadtpark.",
@@ -58,14 +61,25 @@ class _HomeScreenState extends State<HomeScreen> {
       startAt: DateTime.now(),
       points: 300,
       threshold: 20,
-      type: ChallengeType.timer,
+      type: ChallengeType.CHALLENGE_TYPE_QUEST,
       verifiers: [
-        Verifier(methode: VerificationMethodType.number, min: 0, max: 20, isFinishable: true),
-        Verifier(methode: VerificationMethodType.number, min: 0, max: 20, isFinishable: true),
-        Verifier(methode: VerificationMethodType.number, min: 0, max: 20, isFinishable: true),
+        Verifier(
+            methode: VerificationMethodType.number,
+            min: 0,
+            max: 20,
+            isFinishable: true),
+        Verifier(
+            methode: VerificationMethodType.number,
+            min: 0,
+            max: 20,
+            isFinishable: true),
+        Verifier(
+            methode: VerificationMethodType.number,
+            min: 0,
+            max: 20,
+            isFinishable: true),
       ],
     ),
-
   ];
 
   @override
@@ -90,7 +104,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (_) => Dialog(
                   backgroundColor: Colors.transparent,
                   elevation: 0,
-                  child: ProfileForm(initialUser: User(username: "User", birthday: DateTime(2000), sex: Gender.na, pal: 1)),
+                  child: ProfileForm(
+                      initialUser: User(
+                          username: "User",
+                          birthday: DateTime(2000),
+                          gender: Gender.na,
+                          pal: 1, id: 'userId1')),
                 ),
               ),
               icon: const Icon(
@@ -125,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(height: distanceDefault),
             const Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: paddingSmall,
+                horizontal: paddingMedium,
               ),
               child: Row(
                 children: [
@@ -142,22 +161,50 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Container(height: distanceSmall),
-            ...challenges
-                .map(
-                  (challenge) => ActivityCard(
-                    onClick: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) =>
-                            ChallengeScreen(challenge: challenge),
-                      ));
-                    },
-                    activityName: challenge.title,
-                    activityDescription: challenge.description,
-                    xp: challenge.points,
-                    margin: const EdgeInsets.all(paddingSmall),
-                  ),
-                )
-                .toList(),
+            FutureBuilder(
+              initialData: challenges,
+              future: ImpulseService().getActiveChallenges(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                List<Challenge> challenges = snapshot.data!;
+                return Column(
+                  mainAxisAlignment: challenges.isEmpty ? MainAxisAlignment.center : MainAxisAlignment.start,
+                  children: challenges.isEmpty
+                      ? [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: paddingMedium),
+                            child: Text("Keine Challenges gefunden :(", style: TextStyle(color: Colors.white)),
+                          ),
+                        ]
+                      : challenges
+                          .map((challenge) => ActivityCard(
+                                activityName: challenge.title,
+                                activityDescription: challenge.description,
+                                xp: challenge.points,
+                                onClick: () {
+                                  Navigator.of(context)
+                                      .pushReplacement(MaterialPageRoute(
+                                    builder: (context) =>
+                                        ChallengeScreen(challenge: challenge),
+                                  ));
+                                },
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: paddingMedium,
+                                  vertical: paddingSmall,
+                                ),
+                              ))
+                          .toList(),
+                );
+              },
+            )
           ],
         ),
       ),

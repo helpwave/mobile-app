@@ -1,6 +1,4 @@
-enum ChallengeCategory { fitness }
-
-enum ChallengeType { timer }
+import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
 
 enum VerificationMethodType { qr, timer, number, picture }
 
