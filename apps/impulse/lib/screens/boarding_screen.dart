@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:helpwave_theme/constants.dart';
 
-import '../components/medal.dart';
 import '../theming/colors.dart';
 import 'home_screen.dart';
 
