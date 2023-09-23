@@ -1,13 +1,12 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
-import 'package:impulse/screens/HomeScreen.dart';
 
 import '../components/medal.dart';
 import '../theming/colors.dart';
+import 'home_screen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
