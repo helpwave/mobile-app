@@ -109,7 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           username: "User",
                           birthday: DateTime(2000),
                           gender: Gender.na,
-                          pal: 1, id: 'userId1')),
+                          pal: 1,
+                          id: 'userId1')),
                 ),
               ),
               icon: const Icon(
@@ -175,33 +176,40 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
 
                 List<Challenge> challenges = snapshot.data!;
+
                 return Column(
-                  mainAxisAlignment: challenges.isEmpty ? MainAxisAlignment.center : MainAxisAlignment.start,
+                  mainAxisAlignment: challenges.isEmpty
+                      ? MainAxisAlignment.center
+                      : MainAxisAlignment.start,
                   children: challenges.isEmpty
                       ? [
                           const Padding(
-                            padding: EdgeInsets.symmetric(vertical: paddingMedium),
-                            child: Text("Keine Challenges gefunden :(", style: TextStyle(color: Colors.white)),
+                            padding:
+                                EdgeInsets.symmetric(vertical: paddingMedium),
+                            child: Text("Keine Challenges gefunden :(",
+                                style: TextStyle(color: Colors.white)),
                           ),
                         ]
-                      : challenges
-                          .map((challenge) => ActivityCard(
-                                activityName: challenge.title,
-                                activityDescription: challenge.description,
-                                xp: challenge.points,
-                                onClick: () {
-                                  Navigator.of(context)
-                                      .pushReplacement(MaterialPageRoute(
-                                    builder: (context) =>
-                                        ChallengeScreen(challenge: challenge),
-                                  ));
-                                },
-                                margin: const EdgeInsets.symmetric(
-                                  horizontal: paddingMedium,
-                                  vertical: paddingSmall,
-                                ),
-                              ))
-                          .toList(),
+                      : [
+                          for (int i = 0; i < challenges.length; i++)
+                            ActivityCard(
+                              accentColor: colors[i % colors.length],
+                              activityName: challenges[i].title,
+                              activityDescription: challenges[i].description,
+                              xp: challenges[i].points,
+                              onClick: () {
+                                Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
+                                  builder: (context) =>
+                                      ChallengeScreen(challenge: challenges[i]),
+                                ));
+                              },
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: paddingMedium,
+                                vertical: paddingSmall,
+                              ),
+                            )
+                        ],
                 );
               },
             )
