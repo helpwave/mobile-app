@@ -7,10 +7,10 @@ class ImpulseService {
   ImpulseServiceClient impulseService =
       GRPCClientService.getImpulseServiceClient;
 
-  Future<List<Challenge>> getChallenges() async {
-    GetChallengesRequest request = GetChallengesRequest();
+  Future<List<Challenge>> getActiveChallenges() async {
+    GetActiveChallengesRequest request = GetActiveChallengesRequest();
 
-    GetChallengesResponse response = await impulseService.getChallenges(
+    GetActiveChallengesResponse response = await impulseService.getActiveChallenges(
       request,
       options: CallOptions(
         metadata: GRPCClientService().getImpulseServiceMetaData(),
@@ -19,13 +19,11 @@ class ImpulseService {
 
     List<Challenge> challenges = response.challenges
         .map((challenge) => Challenge(
-              id: challenge.id,
+              id: challenge.challengeId,
               title: challenge.title,
               description: challenge.description,
-              startAt: DateTime.fromMillisecondsSinceEpoch(
-                  challenge.startAt.seconds as int),
-              endAt: DateTime.fromMillisecondsSinceEpoch(
-                  challenge.startAt.seconds as int),
+              startAt: DateTime.parse(challenge.startAt),
+              endAt: DateTime.parse(challenge.startAt),
               type: challenge.type,
               category: challenge.category,
               threshold: challenge.threshold as int,

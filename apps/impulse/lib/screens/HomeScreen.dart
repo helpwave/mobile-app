@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(height: distanceSmall),
             FutureBuilder(
               initialData: challenges,
-              future: ImpulseService().getChallenges(),
+              future: ImpulseService().getActiveChallenges(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
