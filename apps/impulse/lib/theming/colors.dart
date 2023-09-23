@@ -9,4 +9,11 @@ const Color tertiaryBackground = Color(0xFFEEEEEE);
 const Color labelColor = Color(0xFF777777);
 
 
+const Color red = Color(0xFFF16C82);
 const Color orange = Color(0xFFFFA366);
+const Color green = Color(0xFF5BD7BC);
+const Color purple = Color(0xFF6A5AE0);
+const Color orangeRed = Color(0xFFFF6B59);
+const Color lightBlue = Color(0xFF81ECFD);
+
+const List<Color> colors = [red, green, purple, orangeRed, lightBlue];
