@@ -50,9 +50,10 @@ dependencies:
   qr_code_scanner: ^1.0.1
   im_stepper: ^1.0.1+1
 
-  helpwave_proto_dart: ^0.26.0-287d72a.0
+  helpwave_proto_dart: ^0.29.0-01c8073.0
   grpc: ^3.2.4
 
+  fixnum: ^1.1.0
   carousel_slider: ^4.2.1
   flutter_svg: ^2.0.7
   dots_indicator: ^3.0.0

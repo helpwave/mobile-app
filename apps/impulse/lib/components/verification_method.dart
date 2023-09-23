@@ -3,7 +3,7 @@ import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/components/number_input.dart';
 import 'package:impulse/components/qr_scanner_wrapper.dart';
 import 'package:impulse/components/timer_component.dart';
-import 'package:impulse/dataclasses/challange.dart';
+import 'package:impulse/dataclasses/verifier.dart';
 import 'package:impulse/theming/colors.dart';
 
 abstract class VerificationMethod extends StatelessWidget {
