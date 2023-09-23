@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
-import 'package:impulse/screens/home_screen.dart';
+import 'package:impulse/screens/boarding_screen.dart';
 import 'package:impulse/theming/colors.dart';
 
 void main() {
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: const OnBoardingScreen(),
     );
   }
 }
