@@ -79,21 +79,24 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        body: ListView(
           children: <Widget>[
             Container(height: distanceDefault),
             const MedalCarousel(),
             Container(height: distanceDefault),
-            ProgressBar(
-              progress: 0.5,
-              width: MediaQuery.of(context).size.width * 0.66,
-            ),
+            Column(children: [
+              ProgressBar(
+                progress: 0.5,
+                width: MediaQuery.of(context).size.width * 0.66,
+              ),
+            ],),
             Container(height: distanceTiny),
-            const Text(
-              "Noch 80XP bis Level 3",
-              style: TextStyle(
-                color: Colors.white,
+            const Center(
+              child: Text(
+                "Noch 80XP bis Level 3",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
               ),
             ),
             Container(height: distanceDefault),
@@ -116,23 +119,19 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Container(height: distanceSmall),
-            Flexible(
-              child: ListView(
-                children: challenges
-                    .map(
-                      (e) => ActivityCard(
-                        onClick: () {
-                          // TODO navigate
-                        },
-                        activityName: e.title,
-                        activityDescription: e.description,
-                        xp: e.points,
-                        margin: const EdgeInsets.all(paddingSmall),
-                      ),
-                    )
-                    .toList(),
-              ),
-            ),
+            ...challenges
+                .map(
+                  (e) => ActivityCard(
+                    onClick: () {
+                      // TODO navigate
+                    },
+                    activityName: e.title,
+                    activityDescription: e.description,
+                    xp: e.points,
+                    margin: const EdgeInsets.all(paddingSmall),
+                  ),
+                )
+                .toList(),
           ],
         ),
       ),
