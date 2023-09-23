@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:impulse/components/medal_carusel.dart';
+import 'package:impulse/components/profile_form.dart';
 import 'package:impulse/theming/colors.dart';
 import 'package:impulse/components/progressbar.dart';
+
+import 'dataclasses/user.dart';
 
 void main() {
   runApp(const MyApp());
@@ -68,6 +71,22 @@ class _MyHomePageState extends State<MyHomePage> {
             widget.title,
             style: const TextStyle(color: Colors.white),
           ),
+          actions: [
+            IconButton(
+              onPressed: () => showDialog(
+                context: context,
+                builder: (_) => Dialog(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  child: ProfileForm(initialUser: User(username: "User", birthday: DateTime(2000), sex: Gender.na, pal: 1)),
+                ),
+              ),
+              icon: const Icon(
+                Icons.person_outline_outlined,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
         body: const Center(
           child: Column(

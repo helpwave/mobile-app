@@ -1,6 +1,13 @@
+enum Gender {
+  male,
+  female,
+  na,
+  divers
+}
+
 class User {
   String username;
-  String sex;
+  Gender sex;
   DateTime birthday;
   int pal;
 
