@@ -1,11 +1,11 @@
-enum Gender { male, female, na, divers }
+import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
 
 class User {
   String id;
   String username;
   Gender gender;
   DateTime birthday;
-  int pal;
+  double pal;
   String teamId;
 
   User({

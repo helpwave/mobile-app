@@ -20,68 +20,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Challenge> challenges = [
-    Challenge(
-      id: "id1",
-      category: ChallengeCategory.CHALLENGE_CATEGORY_FITNESS,
-      title: "Step by Step",
-      description: "Gehe so viele Schritte wie möglich in 30 Minuten.",
-      endAt: DateTime.now(),
-      startAt: DateTime.now(),
-      points: 300,
-      threshold: 20,
-      type: ChallengeType.CHALLENGE_TYPE_QUEST,
-      verifiers: [
-        Verifier(methode: VerificationMethodType.qr, qrCode: "code"),
-      ],
-    ),
-    Challenge(
-      id: "id2",
-      category: ChallengeCategory.CHALLENGE_CATEGORY_UNSPECIFIED,
-      title: "Dauerläufer",
-      description: "Gehe so viele Schritte wie möglich in 30 Minuten.",
-      endAt: DateTime.now(),
-      startAt: DateTime.now(),
-      points: 300,
-      threshold: 20,
-      type: ChallengeType.CHALLENGE_TYPE_QUEST,
-      verifiers: [
-        Verifier(
-            methode: VerificationMethodType.timer,
-            duration: const Duration(seconds: 20)),
-      ],
-    ),
-    Challenge(
-      id: "id3",
-      category: ChallengeCategory.CHALLENGE_CATEGORY_FOOD,
-      title: "Korbleger",
-      description:
-          "Spiele so viele Körbe wie möglich in 20 Min. auf dem Basketballplatz im Stadtpark.",
-      endAt: DateTime.now(),
-      startAt: DateTime.now(),
-      points: 300,
-      threshold: 20,
-      type: ChallengeType.CHALLENGE_TYPE_QUEST,
-      verifiers: [
-        Verifier(
-            methode: VerificationMethodType.number,
-            min: 0,
-            max: 20,
-            isFinishable: true),
-        Verifier(
-            methode: VerificationMethodType.number,
-            min: 0,
-            max: 20,
-            isFinishable: true),
-        Verifier(
-            methode: VerificationMethodType.number,
-            min: 0,
-            max: 20,
-            isFinishable: true),
-      ],
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -108,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       initialUser: User(
                           username: "User",
                           birthday: DateTime(2000),
-                          gender: Gender.na,
+                          gender: Gender.GENDER_UNSPECIFIED,
                           pal: 1, id: 'userId1')),
                 ),
               ),
@@ -162,7 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Container(height: distanceSmall),
             FutureBuilder(
-              initialData: challenges,
               future: ImpulseService().getActiveChallenges(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {

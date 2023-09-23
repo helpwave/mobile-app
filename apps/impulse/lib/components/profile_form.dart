@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/theming/colors.dart';
 import '../dataclasses/user.dart';
@@ -19,7 +20,7 @@ class _ProfileFormState extends State<ProfileForm> {
   User user = User(
     username: "",
     birthday: DateTime(2000),
-    gender: Gender.na,
+    gender: Gender.GENDER_UNSPECIFIED,
     pal: 1,
     id: 'user1',
   );
@@ -164,25 +165,25 @@ class _ProfileFormState extends State<ProfileForm> {
                         value: user.gender,
                         items: const [
                           DropdownMenuItem(
-                            value: Gender.male,
+                            value: Gender.GENDER_MALE,
                             child: Text("Männlich"),
                           ),
                           DropdownMenuItem(
-                            value: Gender.female,
+                            value: Gender.GENDER_FEMALE,
                             child: Text("Weiblich"),
                           ),
                           DropdownMenuItem(
-                            value: Gender.divers,
+                            value: Gender.GENDER_DIVERSE,
                             child: Text("Divers"),
                           ),
                           DropdownMenuItem(
-                            value: Gender.na,
+                            value: Gender.GENDER_UNSPECIFIED,
                             child: Text("Nicht angegeben"),
                           ),
                         ],
                         onChanged: (value) {
                           setState(() {
-                            user.gender = value ?? Gender.na;
+                            user.gender = value ?? Gender.GENDER_UNSPECIFIED;
                           });
                         },
                       ),

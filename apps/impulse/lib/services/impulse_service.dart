@@ -1,10 +1,11 @@
-import 'package:fixnum/src/int64.dart';
+import 'package:fixnum/fixnum.dart';
 import 'package:grpc/grpc.dart';
 import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbgrpc.dart';
 import 'package:impulse/dataclasses/challange.dart';
 import 'package:impulse/dataclasses/reward.dart';
 import 'package:impulse/dataclasses/team.dart';
 import 'package:impulse/dataclasses/user.dart';
+import 'package:impulse/dataclasses/verifier.dart';
 import 'package:impulse/services/grpc_client_svc.dart';
 
 class ImpulseService {
@@ -16,8 +17,7 @@ class ImpulseService {
     request.username = user.username;
     request.birthday = user.birthday.toIso8601String();
     request.pal = user.pal;
-    // TODO update
-    request.gender = user.gender.toString();
+    request.gender = user.gender;
 
     CreateUserResponse response = await impulseService.createUser(
       request,
@@ -35,8 +35,7 @@ class ImpulseService {
     UpdateUserRequest request = UpdateUserRequest();
     request.birthday = user.birthday.toIso8601String();
     request.pal = user.pal;
-    // TODO update
-    request.gender = user.gender.toString();
+    request.gender = user.gender;
     request.userId = user.id;
     request.teamId = user.teamId;
 
@@ -70,23 +69,22 @@ class ImpulseService {
               endAt: DateTime.parse(challenge.startAt),
               type: challenge.type,
               category: challenge.category,
-              threshold: challenge.threshold as int,
-              points: challenge.points as int,
-              verifiers: [],
+              threshold: challenge.threshold.toInt(),
+              points: challenge.points.toInt(),
             ))
         .toList();
     return challenges;
   }
 
-  Future<String> trackChallenge(String userId, String challengeId, int score) async {
+  Future<String> trackChallenge(
+      String userId, String challengeId, int score) async {
     TrackChallengeRequest request = TrackChallengeRequest();
     request.userId = userId;
     request.challengeId = challengeId;
-    request.score = score as Int64;
+    request.score = Int64(score);
     request.doneAt = DateTime.now().toIso8601String();
 
-    TrackChallengeResponse response =
-    await impulseService.trackChallenge(
+    TrackChallengeResponse response = await impulseService.trackChallenge(
       request,
       options: CallOptions(
         metadata: GRPCClientService().getImpulseServiceMetaData(),
@@ -110,7 +108,7 @@ class ImpulseService {
         .map((reward) => Reward(
               title: reward.title,
               description: reward.description,
-              points: reward.points as int,
+              points: reward.points.toInt(),
               id: reward.rewardId,
             ))
         .toList();
@@ -168,11 +166,103 @@ class ImpulseService {
         .map((team) => Team(
               name: team.name,
               description: team.description,
-              image: team.image,
               id: team.teamId,
             ))
         .toList();
 
     return rewards;
+  }
+
+  Future<TeamStats> getStatsForTeam(String userId) async {
+    StatsForTeamByUserRequest request = StatsForTeamByUserRequest();
+    request.userId = userId;
+
+    StatsForTeamByUserResponse response =
+        await impulseService.statsForTeamByUser(
+      request,
+      options: CallOptions(
+        metadata: GRPCClientService().getImpulseServiceMetaData(),
+      ),
+    );
+
+    TeamStats teamStats = TeamStats(
+      userCount: response.userCount.toInt(),
+      averageAge: response.averageAge,
+      genderCount: Map.fromEntries(
+          response.genderCount.map((e) => MapEntry(e.gender, e.count.toInt()))),
+      id: response.teamId,
+      score: response.score.toInt(),
+    );
+
+    return teamStats;
+  }
+
+  Future<List<Verifier>> getVerifiers(String challengeId) async {
+    VerificationRequest request = VerificationRequest();
+    request.challengeId = challengeId;
+
+    VerificationResponse response = await impulseService.verification(
+      request,
+      options: CallOptions(
+        metadata: GRPCClientService().getImpulseServiceMetaData(),
+      ),
+    );
+
+    List<Verifier> verifiers = response.integerVerifications.map((e) {
+          Verifier verifier = Verifier(
+              challengeId: challengeId,
+              methode: VerificationMethodType.picture);
+          if (e.type ==
+              IntegerVerificationType.INTEGER_VERIFICATION_TYPE_NUMBER) {
+            verifier.min = 0;
+            verifier.max = e.value.toInt();
+            verifier.methode = VerificationMethodType.number;
+            verifier.isFinishable = true;
+          } else if (e.type ==
+              IntegerVerificationType.INTEGER_VERIFICATION_TYPE_TIMER) {
+            verifier.duration = Duration(seconds: e.value.toInt());
+            verifier.methode = VerificationMethodType.timer;
+          }
+
+          return verifier;
+        }).toList() +
+        response.stringVerifications.map((e) {
+          Verifier verifier = Verifier(
+              challengeId: challengeId,
+              methode: VerificationMethodType.picture);
+          if (e.type == StringVerificationType.STRING_VERIFICATION_TYPE_QR) {
+            verifier.qrCode = e.value;
+            verifier.methode = VerificationMethodType.qr;
+          }
+
+          return verifier;
+        }).toList();
+    /*
+    List<Verifier> verifiers = [
+      Verifier(
+        methode: VerificationMethodType.number,
+        min: 0,
+        max: 20,
+        isFinishable: true,
+        challengeId: challengeId,
+      ),
+      Verifier(
+        methode: VerificationMethodType.number,
+        min: 0,
+        max: 20,
+        isFinishable: true,
+        challengeId: challengeId,
+      ),
+      Verifier(
+        methode: VerificationMethodType.number,
+        min: 0,
+        max: 20,
+        isFinishable: true,
+        challengeId: challengeId,
+      ),
+    ];
+    */
+
+    return verifiers;
   }
 }

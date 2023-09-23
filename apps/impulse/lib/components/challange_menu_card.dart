@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/components/verification_method.dart';
-import 'package:impulse/dataclasses/challange.dart';
+import 'package:impulse/dataclasses/verifier.dart';
 import 'package:impulse/theming/colors.dart';
 
 class ChallengeMenuCard extends StatefulWidget {

@@ -138,7 +138,7 @@ packages:
     source: hosted
     version: "6.1.4"
   fixnum:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: fixnum
       sha256: "25517a4deb0c03aa0f32fd12db525856438902d9c16536311e76cdc57b31d7d1"
@@ -224,10 +224,10 @@ packages:
     dependency: "direct main"
     description:
       name: helpwave_proto_dart
-      sha256: "18f11ebfdff309222a8b4993513748316978a0e054faa0fee348e3378aa9bc19"
+      sha256: a2038d850f20bacdc2d140a4127dab0ac0fe159f3b57cb89231f6c7ae2c56131
       url: "https://pub.dev"
     source: hosted
-    version: "0.26.0-287d72a.0"
+    version: "0.29.0-01c8073.0"
   helpwave_theme:
     dependency: "direct main"
     description:
