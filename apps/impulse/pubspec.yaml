@@ -49,7 +49,7 @@ dependencies:
 
   im_stepper: ^1.0.1+1
 
-  helpwave_proto_dart: 0.23.2-8d29ca3.0
+  helpwave_proto_dart: ^0.23.2-8d29ca3.0
   grpc: ^3.2.4
 
   carousel_slider: ^4.2.1

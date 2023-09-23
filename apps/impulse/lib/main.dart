@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:impulse/components/activity_card.dart';
 import 'package:impulse/components/medal_carusel.dart';
+import 'package:impulse/dataclasses/challange.dart';
+import 'package:impulse/services/impulse_service.dart';
 import 'package:impulse/theming/colors.dart';
 import 'package:impulse/components/progressbar.dart';
 
@@ -69,12 +72,35 @@ class _MyHomePageState extends State<MyHomePage> {
             style: const TextStyle(color: Colors.white),
           ),
         ),
-        body: const Center(
+        body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              ProgressBar(progress: 0.5),
-              MedalCarousel(),
+              const ProgressBar(progress: 0.5),
+              const MedalCarousel(),
+              FutureBuilder(
+                future: ImpulseService().getChallenges(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  }
+                  if (snapshot.hasError && !snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  List<Challenge> challenges = snapshot.data!;
+                  return Column(
+                    children: challenges
+                        .map((challenge) => ActivityCard(
+                            activityName: challenge.title,
+                            activityDescription: challenge.description,
+                            xp: challenge.points.toString()))
+                        .toList(),
+                  );
+                },
+              )
             ],
           ),
         ),
