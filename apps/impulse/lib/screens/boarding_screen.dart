@@ -2,6 +2,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:helpwave_theme/constants.dart';
 
 import '../components/medal.dart';
@@ -28,15 +29,27 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
           borderRadius: BorderRadius.all(Radius.circular(borderRadiusBig)),
           color: Colors.white
       ),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Medal(
-            name: "Level 1",
+          Padding(padding: const EdgeInsets.symmetric(vertical: paddingMedium),
+            child: SvgPicture.asset(
+              "assets/svg/fi_4259295.svg",
+            ),),
+          const Text(
+            "Next Level",
+            style: TextStyle(
+              fontSize: fontSizeBig,
+              fontWeight: FontWeight.bold,
+              color: primary,
+            ),
           ),
-          Text(
-            "Noch 80XP bis Level 1",
-          )
+          const Padding(padding: EdgeInsets.symmetric(horizontal: paddingBig, vertical: paddingSmall),
+            child: Text(
+              "Erhalte für jede Challenge Punkte und erreiche das nächste Level.",
+              style: TextStyle(color: primary),
+              textAlign: TextAlign.center,
+            ),)
         ],
       ),
     ),
@@ -47,15 +60,28 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
             borderRadius: BorderRadius.all(Radius.circular(borderRadiusBig)),
             color: Colors.white
         ),
-        child: const Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Medal(
-              name: "Level 2",
+            Padding(padding: const EdgeInsets.symmetric(vertical: paddingMedium),
+              child: SvgPicture.asset(
+                "assets/svg/fi_2698141.svg",
+              ),
             ),
-            Text(
-              "Noch 80XP bis Level 3",
+            const Text(
+              "Sportliche Challenges",
+              style: TextStyle(
+                fontSize: fontSizeBig,
+                fontWeight: FontWeight.bold,
+                color: primary,
+              ),
             ),
+            const Padding(padding: EdgeInsets.symmetric(horizontal:  paddingBig, vertical: paddingSmall),
+              child:  Text("Meistere jeden Tag neue, aufregende Challenges in deiner Stadt.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                color: primary
+            ),),)
           ],
         )
     )
