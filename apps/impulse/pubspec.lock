@@ -232,10 +232,10 @@ packages:
     dependency: "direct main"
     description:
       name: helpwave_proto_dart
-      sha256: cea9ed260d8932c972abb8e846954d89a37d1afc461d4498c8c5bce38f167061
+      sha256: "18f11ebfdff309222a8b4993513748316978a0e054faa0fee348e3378aa9bc19"
       url: "https://pub.dev"
     source: hosted
-    version: "0.23.2-8d29ca3.0"
+    version: "0.26.0-287d72a.0"
   helpwave_theme:
     dependency: "direct main"
     description:
@@ -450,6 +450,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.5"
+  qr_code_scanner:
+    dependency: "direct main"
+    description:
+      name: qr_code_scanner
+      sha256: f23b68d893505a424f0bd2e324ebea71ed88465d572d26bb8d2e78a4749591fd
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   rename_app:
     dependency: "direct dev"
     description:
