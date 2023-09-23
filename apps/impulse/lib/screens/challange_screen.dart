@@ -84,57 +84,65 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
             ),
           ],
         ),
-        body: ListView(
+        body: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                left: paddingMedium,
-                right: paddingMedium,
-                top: paddingMedium,
-              ),
-              child: ChallengeMenuCard(
-                completion: "${index + 1}/${widget.challenge.verifiers.length}",
-                title: widget.challenge.title,
-                description: widget.challenge.description,
-                verifier: widget.challenge.verifiers[index],
-                onFinish: () {
-                  if (index + 1 < widget.challenge.verifiers.length) {
-                    setState(() {
-                      index++;
-                    });
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("${widget.challenge.points} XP erhalten"),
-                        behavior: SnackBarBehavior.floating,
-                        margin: const EdgeInsets.all(paddingSmall),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(borderRadiusSmall), // Adjust the radius as needed
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: paddingMedium,
+                  right: paddingMedium,
+                  top: paddingMedium,
+                ),
+                child: ChallengeMenuCard(
+                  completion:
+                      "${index + 1}/${widget.challenge.verifiers.length}",
+                  title: widget.challenge.title,
+                  description: widget.challenge.description,
+                  verifier: widget.challenge.verifiers[index],
+                  onFinish: () {
+                    if (index + 1 < widget.challenge.verifiers.length) {
+                      setState(() {
+                        index++;
+                      });
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content:
+                              Text("${widget.challenge.points} XP erhalten"),
+                          behavior: SnackBarBehavior.floating,
+                          margin: const EdgeInsets.all(paddingSmall),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                borderRadiusSmall), // Adjust the radius as needed
+                          ),
                         ),
-                      ),
-                    );
-                    // TODO show finish animation
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomeScreen(),
-                      ),
-                    );
-                  }
-                },
+                      );
+                      // TODO show finish animation
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomeScreen(),
+                        ),
+                      );
+                    }
+                  },
+                ),
               ),
             ),
-            NumberStepper(
-              numbers: List.generate(
-                  widget.challenge.verifiers.length, (index) => index + 1),
-              activeStep: index,
-              enableNextPreviousButtons: false,
-              lineColor: Colors.white,
-              lineDotRadius: 2,
-              stepColor: disabled,
-              activeStepBorderColor: Colors.transparent,
-              activeStepColor: Colors.white,
-              enableStepTapping: false,
+            Padding(
+              padding: const EdgeInsets.only(bottom: paddingSmall),
+              child: NumberStepper(
+                numbers: List.generate(
+                    widget.challenge.verifiers.length, (index) => index + 1),
+                activeStep: index,
+                enableNextPreviousButtons: false,
+                lineColor: Colors.white,
+                lineDotRadius: 2,
+                stepColor: disabled,
+                activeStepBorderColor: Colors.transparent,
+                activeStepColor: Colors.white,
+                enableStepTapping: false,
+              ),
             ),
           ],
         ),

@@ -44,6 +44,7 @@ class _ChallengeMenuCardState extends State<ChallengeMenuCard> {
         );
       case VerificationMethodType.number:
         return NumberVerification(
+          key: GlobalKey(),
           verifier: currentVerifier,
           onFinish: widget.onFinish,
         );
@@ -66,12 +67,14 @@ class _ChallengeMenuCardState extends State<ChallengeMenuCard> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
+            const SizedBox(height: distanceMedium),
             Text(
               widget.completion,
               textAlign: TextAlign.center,
               style: const TextStyle(
                   color: primary, fontWeight: FontWeight.w700, fontSize: 30),
             ),
+            const SizedBox(height: distanceSmall),
             Text(
               widget.title,
               textAlign: TextAlign.center,
@@ -79,7 +82,7 @@ class _ChallengeMenuCardState extends State<ChallengeMenuCard> {
                   color: primary, fontWeight: FontWeight.w700, fontSize: 22),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(vertical: distanceMedium),
               child: Text(
                 widget.description,
                 textAlign: TextAlign.center,
@@ -87,7 +90,12 @@ class _ChallengeMenuCardState extends State<ChallengeMenuCard> {
                     const TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
               ),
             ),
+            Flexible(flex: 1, child: Container()),
             getVerificationMethod(),
+            Flexible(
+              flex: 4,
+              child: Container(),
+            ),
             Padding(
               padding: const EdgeInsets.all(paddingMedium),
               child: ElevatedButton(
