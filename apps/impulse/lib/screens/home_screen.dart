@@ -30,6 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    ImpulseService().getScore(userID).then((value) => setState(() {
+      score = value;
+    }));
     _timer = Timer.periodic(
       const Duration(seconds: 3),
       (Timer timer) {
