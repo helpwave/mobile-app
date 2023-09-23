@@ -14,7 +14,7 @@ class _MedalCarouselState extends State<MedalCarousel> {
   Widget build(BuildContext context) {
     return CarouselSlider(
       carouselController: CarouselController(),
-      options: CarouselOptions(height: 200.0),
+      options: CarouselOptions(height: 200.0, autoPlay: true),
       items: [1, 2, 3, 4, 5].map((i) {
         return Builder(
           builder: (BuildContext context) {
