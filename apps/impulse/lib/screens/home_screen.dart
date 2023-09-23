@@ -7,7 +7,10 @@ import 'package:impulse/components/progressbar.dart';
 import 'package:impulse/components/xp_label.dart';
 import 'package:impulse/dataclasses/challange.dart';
 import 'package:impulse/services/impulse_service.dart';
+import 'package:impulse/screens/challange_screen.dart';
 import 'package:impulse/theming/colors.dart';
+import '../components/profile_form.dart';
+import '../dataclasses/user.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,6 +31,10 @@ class _HomeScreenState extends State<HomeScreen> {
       points: 300,
       threshold: 20,
       type: ChallengeType.CHALLENGE_TYPE_QUEST,
+      type: ChallengeType.timer,
+      verifiers: [
+        Verifier(methode: VerificationMethodType.qr, qrCode: "code"),
+      ],
     ),
     Challenge(
       id: "id2",
@@ -39,6 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
       points: 300,
       threshold: 20,
       type: ChallengeType.CHALLENGE_TYPE_QUEST,
+      type: ChallengeType.timer,
+      verifiers: [
+        Verifier(methode: VerificationMethodType.timer, duration: const Duration(seconds: 20)),
+      ],
     ),
     Challenge(
       id: "id3",
@@ -50,6 +61,12 @@ class _HomeScreenState extends State<HomeScreen> {
       startAt: DateTime.now(),
       points: 300,
       threshold: 20,
+      type: ChallengeType.timer,
+      verifiers: [
+        Verifier(methode: VerificationMethodType.number, min: 0, max: 20, isFinishable: true),
+        Verifier(methode: VerificationMethodType.number, min: 0, max: 20, isFinishable: true),
+        Verifier(methode: VerificationMethodType.number, min: 0, max: 20, isFinishable: true),
+      ],
       type: ChallengeType.CHALLENGE_TYPE_QUEST,
     ),
   ];
@@ -71,9 +88,14 @@ class _HomeScreenState extends State<HomeScreen> {
           title: const XpLabel(xp: 480),
           actions: [
             IconButton(
-              onPressed: () {
-                // TODO open user modal
-              },
+              onPressed: () => showDialog(
+                context: context,
+                builder: (_) => Dialog(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  child: ProfileForm(initialUser: User(username: "User", birthday: DateTime(2000), sex: Gender.na, pal: 1)),
+                ),
+              ),
               icon: const Icon(
                 Icons.person_outline_outlined,
                 color: Colors.white,
@@ -86,15 +108,14 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(height: distanceDefault),
             const MedalCarousel(),
             Container(height: distanceDefault),
-            Column(children: [
-              ProgressBar(
-                progress: 0.5,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.66,
-              ),
-            ],),
+            Column(
+              children: [
+                ProgressBar(
+                  progress: 0.5,
+                  width: MediaQuery.of(context).size.width * 0.66,
+                ),
+              ],
+            ),
             Container(height: distanceTiny),
             const Center(
               child: Text(
@@ -146,7 +167,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         activityDescription: challenge.description,
                         xp: challenge.points,
                         onClick: () {
-                          // TODO open Challenge Screen
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) =>
+                                ChallengeScreen(challenge: challenge),
+                          ));
                         },
                         margin: const EdgeInsets.all(paddingSmall),))
                       .toList(),
