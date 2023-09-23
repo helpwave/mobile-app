@@ -5,6 +5,7 @@ import 'package:impulse/components/medal_carusel.dart';
 import 'package:impulse/components/progressbar.dart';
 import 'package:impulse/components/xp_label.dart';
 import 'package:impulse/dataclasses/challange.dart';
+import 'package:impulse/screens/challange_screen.dart';
 import 'package:impulse/theming/colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,6 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
       points: 300,
       threshold: 20,
       type: ChallengeType.timer,
+      verifiers: [
+        Verifier(methode: VerificationMethodType.qr, qrCode: "code"),
+      ],
     ),
     Challenge(
       id: "id2",
@@ -37,6 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
       points: 300,
       threshold: 20,
       type: ChallengeType.timer,
+      verifiers: [
+        Verifier(methode: VerificationMethodType.timer, duration: const Duration(seconds: 20)),
+      ],
     ),
     Challenge(
       id: "id3",
@@ -49,6 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
       points: 300,
       threshold: 20,
       type: ChallengeType.timer,
+      verifiers: [
+        Verifier(methode: VerificationMethodType.number, min: 0, max: 20, isFinishable: true),
+        Verifier(methode: VerificationMethodType.number, min: 0, max: 20, isFinishable: true),
+        Verifier(methode: VerificationMethodType.number, min: 0, max: 20, isFinishable: true),
+      ],
     ),
   ];
 
@@ -84,12 +96,14 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(height: distanceDefault),
             const MedalCarousel(),
             Container(height: distanceDefault),
-            Column(children: [
-              ProgressBar(
-                progress: 0.5,
-                width: MediaQuery.of(context).size.width * 0.66,
-              ),
-            ],),
+            Column(
+              children: [
+                ProgressBar(
+                  progress: 0.5,
+                  width: MediaQuery.of(context).size.width * 0.66,
+                ),
+              ],
+            ),
             Container(height: distanceTiny),
             const Center(
               child: Text(
@@ -121,13 +135,16 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(height: distanceSmall),
             ...challenges
                 .map(
-                  (e) => ActivityCard(
+                  (challenge) => ActivityCard(
                     onClick: () {
-                      // TODO navigate
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) =>
+                            ChallengeScreen(challenge: challenge),
+                      ));
                     },
-                    activityName: e.title,
-                    activityDescription: e.description,
-                    xp: e.points,
+                    activityName: challenge.title,
+                    activityDescription: challenge.description,
+                    xp: challenge.points,
                     margin: const EdgeInsets.all(paddingSmall),
                   ),
                 )
