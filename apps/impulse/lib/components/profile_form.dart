@@ -214,7 +214,7 @@ class _ProfileFormState extends State<ProfileForm> {
                                   .push(MaterialPageRoute<void>(
                                 builder: (BuildContext context) {
                                   return const LicensePage(
-                                    applicationName: 'My App',
+                                    applicationName: 'helpwave impulse',
                                     applicationVersion: '1.0.0',
                                     applicationIcon: Icon(Icons.home),
                                   );
