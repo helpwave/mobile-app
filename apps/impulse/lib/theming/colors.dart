@@ -7,3 +7,6 @@ const Color accent = Color(0xFFF16C82);
 const Color accentBackground = Color(0xFFAFA7EE);
 const Color tertiaryBackground = Color(0xFFEEEEEE);
 const Color labelColor = Color(0xFF777777);
+
+
+const Color orange = Color(0xFFFFA366);
