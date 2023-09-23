@@ -65,8 +65,8 @@ class ImpulseService {
               id: challenge.challengeId,
               title: challenge.title,
               description: challenge.description,
-              startAt: DateTime.parse(challenge.startAt),
-              endAt: DateTime.parse(challenge.startAt),
+              startAt: challenge.startAt != "" ? DateTime.parse(challenge.startAt): DateTime.now(),
+              endAt: challenge.endAt != "" ? DateTime.parse(challenge.endAt): DateTime.now(),
               type: challenge.type,
               category: challenge.category,
               threshold: challenge.threshold.toInt(),
@@ -130,7 +130,7 @@ class ImpulseService {
         .map((reward) => Reward(
               title: reward.title,
               description: reward.description,
-              points: reward.points as int,
+              points: reward.points.toInt(),
               id: reward.rewardId,
             ))
         .toList();
@@ -149,7 +149,7 @@ class ImpulseService {
       ),
     );
 
-    return response.score as int;
+    return response.score.toInt();
   }
 
   Future<List<Team>> getTeams() async {
@@ -237,31 +237,6 @@ class ImpulseService {
 
           return verifier;
         }).toList();
-    /*
-    List<Verifier> verifiers = [
-      Verifier(
-        methode: VerificationMethodType.number,
-        min: 0,
-        max: 20,
-        isFinishable: true,
-        challengeId: challengeId,
-      ),
-      Verifier(
-        methode: VerificationMethodType.number,
-        min: 0,
-        max: 20,
-        isFinishable: true,
-        challengeId: challengeId,
-      ),
-      Verifier(
-        methode: VerificationMethodType.number,
-        min: 0,
-        max: 20,
-        isFinishable: true,
-        challengeId: challengeId,
-      ),
-    ];
-    */
 
     return verifiers;
   }

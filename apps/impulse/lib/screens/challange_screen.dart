@@ -9,6 +9,7 @@ import 'package:impulse/dataclasses/challange.dart';
 import 'package:impulse/dataclasses/user.dart';
 import 'package:impulse/dataclasses/verifier.dart';
 import 'package:impulse/screens/home_screen.dart';
+import 'package:impulse/services/grpc_client_svc.dart';
 import 'package:impulse/services/impulse_service.dart';
 import 'package:impulse/theming/colors.dart';
 
@@ -144,7 +145,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                                   ),
                                 ),
                               );
-                              // TODO show finish animation
+                              ImpulseService().trackChallenge(userID, widget.challenge.id, widget.challenge.points);
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(

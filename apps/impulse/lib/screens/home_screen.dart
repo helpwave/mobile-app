@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
 import 'package:helpwave_theme/constants.dart';
@@ -11,6 +13,8 @@ import 'package:impulse/screens/challange_screen.dart';
 import 'package:impulse/theming/colors.dart';
 import '../components/profile_form.dart';
 import '../dataclasses/user.dart';
+import '../services/grpc_client_svc.dart';
+import '../util/level.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,6 +24,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int score = 0;
+
+  @override
+  void initState() {
+    ImpulseService()
+        .getScore(userID)
+        .then((value) => setState(() {
+              score = value;
+            }))
+        .onError((error, stackTrace) {
+      print(error);
+      setState(() {
+        score = 450;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: const XpLabel(xp: 480),
+          title: XpLabel(xp: score),
           actions: [
             IconButton(
               onPressed: () => showDialog(
@@ -47,7 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           username: "User",
                           birthday: DateTime(2000),
                           gender: Gender.GENDER_UNSPECIFIED,
-                          pal: 1, id: 'userId1')),
+                          pal: 1,
+                          id: 'userId1')),
                 ),
               ),
               icon: const Icon(
@@ -65,16 +88,18 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               children: [
                 ProgressBar(
-                  progress: 0.5,
+                  progress: 1 -
+                      missingToNextLevel(score) /
+                          currentLevelXPRequirement(score),
                   width: MediaQuery.of(context).size.width * 0.66,
                 ),
               ],
             ),
             Container(height: distanceTiny),
-            const Center(
+            Center(
               child: Text(
-                "Noch 80XP bis Level 3",
-                style: TextStyle(
+                "Noch ${missingToNextLevel(score)}XP bis Level ${min(currentLevel(score), maxLvl)}",
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               ),
