@@ -63,8 +63,6 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
