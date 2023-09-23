@@ -44,7 +44,7 @@ class ActivityCard extends StatelessWidget {
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(accent),
                     ),
-                    onPressed: () => {},
+                    onPressed: onClick,
                     icon: const Center(
                       child: Icon(
                         Icons.play_arrow_rounded,

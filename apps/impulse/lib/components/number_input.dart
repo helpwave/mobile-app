@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/theming/colors.dart';
 
 class NumberInput extends StatefulWidget{
@@ -43,7 +44,7 @@ class _NumberInputState extends State<NumberInput> {
               widget.onChanged(widget.value - 1)
             }
           },
-          child: const Icon(CupertinoIcons.minus_circled),
+          child: const Icon(CupertinoIcons.minus_circle_fill, size: iconSizeSmall,),
         ),
         SizedBox(
           width: screenWidth,
@@ -51,7 +52,9 @@ class _NumberInputState extends State<NumberInput> {
             textAlign: TextAlign.center,
             enabled: false,
             controller: controller,
+            style: const TextStyle(color: primary, fontWeight: FontWeight.bold, fontSize: 32),
             decoration: const InputDecoration(
+              contentPadding: EdgeInsets.symmetric(horizontal: paddingSmall, vertical: paddingTiny),
               disabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: primary,
@@ -71,7 +74,7 @@ class _NumberInputState extends State<NumberInput> {
               widget.onChanged(widget.value + 1)
             }
           },
-          child: const Icon(CupertinoIcons.plus_circled),
+          child: const Icon(CupertinoIcons.plus_circle_fill, size: iconSizeSmall,),
         ),
       ],
     );
