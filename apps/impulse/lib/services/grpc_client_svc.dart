@@ -4,6 +4,8 @@ import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pb
 // TODO change later to api or better make it configurable
 const apiURL = "helpwave-staging-impulse-svc.fly.dev";
 
+const userID = "f3e79c30-d889-4d15-a25a-387714c072b2";
+
 // TODO later fetch from [AuthService]
 const token =
     "eyJzdWIiOiIxODE1OTcxMy01ZDRlLTRhZDUtOTRhZC1mYmI2YmIxNDc5ODQiLCJlbWFpbCI6InRlc3RpbmUudGVzdEBoZWxwd2F2ZS"
