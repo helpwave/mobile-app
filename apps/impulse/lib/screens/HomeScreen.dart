@@ -5,10 +5,8 @@ import 'package:impulse/components/medal_carusel.dart';
 import 'package:impulse/components/progressbar.dart';
 import 'package:impulse/components/xp_label.dart';
 import 'package:impulse/dataclasses/challange.dart';
+import 'package:impulse/screens/ProfileScreen.dart';
 import 'package:impulse/theming/colors.dart';
-
-import '../components/profile_form.dart';
-import '../dataclasses/user.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -73,14 +71,12 @@ class _HomeScreenState extends State<HomeScreen> {
           title: const XpLabel(xp: 480),
           actions: [
             IconButton(
-              onPressed: () => showDialog(
-                context: context,
-                builder: (_) => Dialog(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  child: ProfileForm(initialUser: User(username: "User", birthday: DateTime(2000), sex: Gender.na, pal: 1)),
-                ),
-              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                );
+              },
               icon: const Icon(
                 Icons.person_outline_outlined,
                 color: Colors.white,
