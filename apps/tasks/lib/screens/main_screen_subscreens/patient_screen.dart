@@ -4,8 +4,8 @@ import 'package:helpwave_proto_dart/proto/services/task_svc/v1/patient_svc.pb.da
 import 'package:helpwave_theme/constants.dart';
 import 'package:tasks/components/patient_card.dart';
 import 'package:tasks/components/patient_status_chip_select.dart';
-import 'package:tasks/components/user_header.dart';
 import 'package:tasks/dataclasses/patient.dart';
+import 'package:tasks/screens/settings_screen.dart';
 import 'package:tasks/services/patient_svc.dart';
 
 class PatientScreen extends StatefulWidget {
@@ -42,9 +42,24 @@ class _PatientScreenState extends State<PatientScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(context.localization!.patients),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingsScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.settings),
+          )
+        ],
+      ),
       body: Column(
         children: [
-          const UserHeader(),
           Padding(
             padding: const EdgeInsets.only(
                 left: paddingSmall, right: paddingSmall, bottom: paddingMedium),
