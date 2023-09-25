@@ -2,10 +2,10 @@
 import 'package:tasks/dataclasses/subtask.dart';
 
 enum TaskStatus {
-  TASK_STATUS_UNSPECIFIED,
-  TASK_STATUS_TODO,
-  TASK_STATUS_IN_PROGRESS,
-  TASK_STATUS_DONE,
+  taskStatusUnspecified,
+  taskStatusTodo,
+  taskStatusInProgress,
+  taskStatusDone,
 }
 
 /// data class for [Task]
@@ -25,7 +25,7 @@ class Task {
     required this.name,
     required this.assignee,
     required this.notes,
-    this.status = TaskStatus.TASK_STATUS_TODO,
+    this.status = TaskStatus.taskStatusTodo,
     this.subtasks = const [],
     this.dueDate,
     this.creationDate,
