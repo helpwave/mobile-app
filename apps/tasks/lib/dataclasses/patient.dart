@@ -20,7 +20,7 @@ class Patient {
   get isActive =>bed != null && room != null;
   get unscheduledCount => tasks.where((task) => task.status == TaskStatus.taskStatusTodo).length;
   get inProgressCount => tasks.where((task) => task.status == TaskStatus.taskStatusInProgress).length;
-  get doneCount => tasks.where((task) => task.status == TaskStatus.taskStatusInProgress).length;
+  get doneCount => tasks.where((task) => task.status == TaskStatus.taskStatusDone).length;
 
   Patient({
     required this.id,
