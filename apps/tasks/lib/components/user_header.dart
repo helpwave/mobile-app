@@ -12,9 +12,16 @@ class UserHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeModel>(builder: (BuildContext context, ThemeModel themeNotifier, _) => Padding(padding: const EdgeInsets.only(top: paddingBig, bottom: paddingMedium),
         child: ExpansionTile(
-          textColor: themeNotifier.getIsDarkNullSafe(context)? Colors.black : Colors.white,
+          shape: const Border(),
+          iconColor: Colors.grey,
+          textColor: themeNotifier.getIsDarkNullSafe(context)? Colors.white : Colors.black,
           title: const Text("Max Mustermann"),
-          subtitle: const Text("Uniklinikum Münster (UKM)- Station 1"),
+          subtitle: const Row(
+              children: [
+                Text("Uniklinikum Münster (UKM) - ", style: TextStyle(color: Colors.grey)),
+                Text("Station 1", style: TextStyle(fontWeight: FontWeight.bold)),
+              ],
+          ),
           leading: CircleAvatar(child: Container(
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
