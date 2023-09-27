@@ -126,5 +126,16 @@
   "all": "All",
   "searchPatient": "Search Patient",
   "task": "Task",
-  "create": "Create"
+  "create": "Create",
+  "dueIn": "Due in",
+  "hour": "hour",
+  "hours": "hours",
+  "day": "day",
+  "days": "days",
+  "minute": "minute",
+  "minutes": "minutes",
+  "overdue": "Overdue",
+  "upcoming": "Upcoming",
+  "inProgress": "In Progress",
+  "done": "Done"
 }
