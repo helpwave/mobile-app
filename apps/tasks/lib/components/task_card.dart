@@ -16,20 +16,19 @@ class TaskCard extends StatelessWidget {
     if (task.dueDate == null) {
       return "$result -";
     } else {
-      Duration timeRemaining = task.remainingTime;
       if (task.isOverdue) {
         return context.localization!.overdue;
       } else if (task.inNextHour) {
-        return "$result ${timeRemaining.inMinutes} ${timeRemaining.inMinutes == 1 ? context.localization!.minute : context.localization!.minutes}";
+        return "$result ${context.localization!.nMinutes(task.remainingTime.inMinutes)}";
       } else if (task.inNextTwoDays) {
-        return "$result ${timeRemaining.inHours} ${timeRemaining.inHours == 1 ? context.localization!.hour : context.localization!.hours}";
+        return "$result ${context.localization!.nHours(task.remainingTime.inHours)}";
       } else {
-        return "$result ${timeRemaining.inDays} ${context.localization!.days}";
+        return "$result ${context.localization!.nDays(task.remainingTime.inDays)}";
       }
     }
   }
 
-  Color getBackgroundColor(){
+  Color getBackgroundColor() {
     Color overDue = const Color(0xFFFCE8E8);
     Color warning = const Color(0xFFFEEACB);
     Color normal = const Color(0xFFE2E9DB);
@@ -38,12 +37,11 @@ class TaskCard extends StatelessWidget {
       return overDue;
     } else if (task.remainingTime.inHours < 8) {
       return warning;
-    } else {
-      return normal;
     }
+    return normal;
   }
 
-  Color getTextColor(){
+  Color getTextColor() {
     Color overDue = const Color(0xFFD67268);
     Color warning = const Color(0xFFC79345);
     Color normal = const Color(0xFF7A977E);
@@ -52,9 +50,8 @@ class TaskCard extends StatelessWidget {
       return overDue;
     } else if (task.remainingTime.inHours < 8) {
       return warning;
-    } else {
-      return normal;
     }
+    return normal;
   }
 
   @override
@@ -81,7 +78,10 @@ class TaskCard extends StatelessWidget {
                 ),
                 Chip(
                   backgroundColor: getBackgroundColor(),
-                  label: Text(getDueText(context), style: TextStyle(color: getTextColor()),),
+                  label: Text(
+                    getDueText(context),
+                    style: TextStyle(color: getTextColor()),
+                  ),
                   elevation: 0,
                 ),
               ],
