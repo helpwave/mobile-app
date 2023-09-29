@@ -3,6 +3,7 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:tasks/screens/settings_screen.dart';
 
+/// A Screen where the user get the opportunity to create a [Task] or [Patient]
 class CreateScreen extends StatefulWidget {
   const CreateScreen({super.key});
 
@@ -11,9 +12,6 @@ class CreateScreen extends StatefulWidget {
 }
 
 class _CreateScreenState extends State<CreateScreen> {
-  double chipWidth = 50;
-  double chipHeight = 25;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,40 +32,54 @@ class _CreateScreenState extends State<CreateScreen> {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            color: primaryColor,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ActionChip(
-                  label: SizedBox(
-                    width: chipWidth,
-                    height: chipHeight,
-                    child: Center(child: Text(context.localization!.task)),
-                  ),
-                  onPressed: () {},
-                ),
-                const SizedBox(
-                  width: distanceSmall,
-                ),
-                ActionChip(
-                  label: SizedBox(
-                    width: chipWidth,
-                    height: chipHeight,
-                    child: Center(child: Text(context.localization!.patient)),
-                  ),
-                  onPressed: () {},
-                ),
-              ],
+      floatingActionButton: _TaskPatientFloatingActionButton(),
+      body: Center(
+        child: Text(context.localization!.create),
+      ),
+    );
+  }
+}
+
+class _TaskPatientFloatingActionButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    double chipWidth = 50;
+    double chipHeight = 25;
+    double componentHeight = chipHeight + 2 * paddingSmall;
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(componentHeight / 2),
+        color: primaryColor,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ActionChip(
+              label: SizedBox(
+                width: chipWidth,
+                height: chipHeight,
+                child: Center(child: Text(context.localization!.task)),
+              ),
+              onPressed: () {},
             ),
-          )),
-      body: Center(child: Text(context.localization!.create)),
+            const SizedBox(
+              width: distanceSmall,
+            ),
+            ActionChip(
+              label: SizedBox(
+                width: chipWidth,
+                height: chipHeight,
+                child: Center(child: Text(context.localization!.patient)),
+              ),
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
