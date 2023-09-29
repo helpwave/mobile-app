@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:tasks/components/task_bottom_sheet.dart';
+import 'package:tasks/dataclasses/task.dart';
 import 'package:tasks/screens/settings_screen.dart';
 
 class CreateScreen extends StatefulWidget {
@@ -51,7 +53,9 @@ class _CreateScreenState extends State<CreateScreen> {
                     height: chipHeight,
                     child: Center(child: Text(context.localization!.task)),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    showModalBottomSheet(context: context, builder: (context) => TaskBottomSheet(task: Task.empty),);
+                  },
                 ),
                 const SizedBox(
                   width: distanceSmall,
