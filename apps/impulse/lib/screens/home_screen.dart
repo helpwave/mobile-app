@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/components/activity_card.dart';
+import 'package:impulse/components/background_gradient.dart';
 import 'package:impulse/components/medal_carusel.dart';
 import 'package:impulse/components/progressbar.dart';
 import 'package:impulse/components/xp_label.dart';
@@ -31,8 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     ImpulseService().getScore(userID).then((value) => setState(() {
-      score = value;
-    }));
+          score = value;
+        }));
     _timer = Timer.periodic(
       const Duration(seconds: 3),
       (Timer timer) {
@@ -52,17 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFFA49AEC), primary],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          stops: [0.0, 1.0],
-        ),
-      ),
+    return BackgroundGradient(
       child: Scaffold(
-        backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: XpLabel(xp: score),
           actions: [
@@ -73,12 +64,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   backgroundColor: Colors.transparent,
                   elevation: 0,
                   child: ProfileForm(
-                      initialUser: User(
-                          username: "User",
-                          birthday: DateTime(2000),
-                          gender: Gender.GENDER_UNSPECIFIED,
-                          pal: 1,
-                          id: 'userId1')),
+                    initialUser: User(
+                        username: "User",
+                        birthday: DateTime(2000),
+                        gender: Gender.GENDER_UNSPECIFIED,
+                        pal: 1,
+                        id: 'userId1'),
+                  ),
                 ),
               ),
               icon: const Icon(
@@ -96,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               children: [
                 ProgressBar(
-                  progress: max(0, min(1, 1 - missingToNextLevel(score) /currentLevelXPRequirement(score))),
+                  progress: max(0, min(1, 1 - missingToNextLevel(score) / currentLevelXPRequirement(score))),
                   width: MediaQuery.of(context).size.width * 0.66,
                 ),
               ],
@@ -145,16 +137,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 List<Challenge> challenges = snapshot.data!;
 
                 return Column(
-                  mainAxisAlignment: challenges.isEmpty
-                      ? MainAxisAlignment.center
-                      : MainAxisAlignment.start,
+                  mainAxisAlignment: challenges.isEmpty ? MainAxisAlignment.center : MainAxisAlignment.start,
                   children: challenges.isEmpty
                       ? [
                           const Padding(
-                            padding:
-                                EdgeInsets.symmetric(vertical: paddingMedium),
-                            child: Text("Keine Challenges gefunden :(",
-                                style: TextStyle(color: Colors.white)),
+                            padding: EdgeInsets.symmetric(vertical: paddingMedium),
+                            child: Text("Keine Challenges gefunden :(", style: TextStyle(color: Colors.white)),
                           ),
                         ]
                       : [
@@ -165,10 +153,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               activityDescription: challenges[i].description,
                               xp: challenges[i].points,
                               onClick: () {
-                                Navigator.of(context)
-                                    .pushReplacement(MaterialPageRoute(
-                                  builder: (context) =>
-                                      ChallengeScreen(challenge: challenges[i]),
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                  builder: (context) => ChallengeScreen(challenge: challenges[i]),
                                 ));
                               },
                               margin: const EdgeInsets.symmetric(
