@@ -15,17 +15,17 @@ class TaskCard extends StatelessWidget {
     String result = context.localization!.dueIn;
     if (task.dueDate == null) {
       return "$result -";
-    } else {
-      if (task.isOverdue) {
-        return context.localization!.overdue;
-      } else if (task.inNextHour) {
-        return "$result ${context.localization!.nMinutes(task.remainingTime.inMinutes)}";
-      } else if (task.inNextTwoDays) {
-        return "$result ${context.localization!.nHours(task.remainingTime.inHours)}";
-      } else {
-        return "$result ${context.localization!.nDays(task.remainingTime.inDays)}";
-      }
     }
+    if (task.isOverdue) {
+      return context.localization!.overdue;
+    }
+    if (task.inNextHour) {
+      return "$result ${context.localization!.nMinutes(task.remainingTime.inMinutes)}";
+    }
+    if (task.inNextTwoDays) {
+      return "$result ${context.localization!.nHours(task.remainingTime.inHours)}";
+    }
+    return "$result ${context.localization!.nDays(task.remainingTime.inDays)}";
   }
 
   Color getBackgroundColor() {
@@ -35,7 +35,8 @@ class TaskCard extends StatelessWidget {
 
     if (task.isOverdue) {
       return overDue;
-    } else if (task.remainingTime.inHours < 8) {
+    }
+    if (task.remainingTime.inHours < 8) {
       return warning;
     }
     return normal;
@@ -48,7 +49,8 @@ class TaskCard extends StatelessWidget {
 
     if (task.isOverdue) {
       return overDue;
-    } else if (task.remainingTime.inHours < 8) {
+    }
+    if (task.remainingTime.inHours < 8) {
       return warning;
     }
     return normal;
