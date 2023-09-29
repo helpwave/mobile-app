@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
-import 'package:helpwave_widget/shapes.dart';
-import 'package:tasks/dataclasses/subtask.dart';
+import 'package:tasks/components/subtask_list.dart';
 import '../dataclasses/task.dart';
 
 class _SheetListTile extends StatelessWidget {
@@ -49,12 +49,24 @@ class TaskBottomSheet extends StatefulWidget {
 }
 
 class _TaskBottomSheetState extends State<TaskBottomSheet> {
+  Task task = Task.empty;
+
+  @override
+  void initState() {
+    task = widget.task;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    const double subtaskAddIconSize = 21;
-
-    return Padding(
-      padding: const EdgeInsets.all(paddingSmall),
+    return Container(
+      constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.8),
+      padding: const EdgeInsets.only(
+        bottom: paddingSmall,
+        top: paddingMedium,
+        left: paddingMedium,
+        right: paddingMedium,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,92 +127,46 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               },
             ),
           ),
-          const SizedBox(
-            height: distanceSmall,
-          ),
-          const Row(
+          const SizedBox(height: distanceMedium),
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // TODO change static assignee name
-              _SheetListTile(icon: Icons.person, label: "Assigned to", name: "Assignee"),
-              _SheetListTile(icon: Icons.access_time, label: "Due", name: "27. Juni"),
+              _SheetListTile(icon: Icons.person, label: context.localization!.assignedTo, name: "Assignee"),
+              _SheetListTile(icon: Icons.access_time, label: context.localization!.due, name: "27. Juni"),
             ],
           ),
           const SizedBox(height: distanceSmall),
-          const _SheetListTile(icon: Icons.lock, label: "Visibility", name: "Private"),
-          const SizedBox(height: distanceSmall),
-          const Text(
-            "Notes",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          _SheetListTile(icon: Icons.lock, label: context.localization!.visibility, name: "Private"),
+          const SizedBox(height: distanceMedium),
+          Text(
+           context.localization!.notes,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           const SizedBox(height: distanceTiny),
-          const TextField(
+          TextFormField(
+            initialValue: task.notes,
+            onChanged: (value) {
+              // TODO add grpc here
+              setState(() {
+                task.notes = value;
+              });
+            },
             maxLines: 6,
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(horizontal: paddingSmall, vertical: paddingSmall),
-              border: OutlineInputBorder(
+              contentPadding: const EdgeInsets.all(paddingMedium),
+              border: const OutlineInputBorder(
                 borderSide: BorderSide(
                   width: 1.0,
                 ),
               ),
-              hintText: 'Your Notes',
+              hintText: context.localization!.yourNotes,
             ),
           ),
-          const SizedBox(height: distanceMedium),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                "Subtasks",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-              Circle(
-                color: primaryColor,
-                diameter: subtaskAddIconSize,
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  iconSize: subtaskAddIconSize,
-                  onPressed: () {
-                    // TODO add add Feature
-                  },
-                  icon: const Icon(
-                    Icons.add_rounded,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Flexible(
-            child: ListView(
-                children: (widget.task.subtasks + [SubTask(id: "1", name: "Subtask", isDone: true)])
-                    .map(
-                      (subtask) => ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        title: Text(subtask.name),
-                        leading: Checkbox(
-                          visualDensity: VisualDensity.compact,
-                          value: subtask.isDone,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(iconSizeSmall),
-                          ),
-                          onChanged: (value) {
-                            // TODO handle change
-                          },
-                        ),
-                        trailing: GestureDetector(
-                          onTap: () {
-                            // TODO add delete
-                          },
-                          child: const Text(
-                            "Delete",
-                            style: TextStyle(color: negativeColor),
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList()),
+          const SizedBox(height: distanceBig),
+          SubtaskList(
+            taskId: task.id,
+            subtasks: task.subtasks,
           ),
         ],
       ),

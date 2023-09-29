@@ -134,5 +134,11 @@
   "overdue": "Overdue",
   "upcoming": "Upcoming",
   "inProgress": "In Progress",
-  "done": "Done"
+  "done": "Done",
+  "subtasks": "Subtasks",
+  "notes": "Notes",
+  "yourNotes": "Your Notes",
+  "visibility": "Visibility",
+  "assignedTo": "Assigned To",
+  "due": "Due"
 }

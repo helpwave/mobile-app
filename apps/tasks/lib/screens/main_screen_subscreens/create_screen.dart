@@ -54,7 +54,8 @@ class _CreateScreenState extends State<CreateScreen> {
                     child: Center(child: Text(context.localization!.task)),
                   ),
                   onPressed: () {
-                    showModalBottomSheet(context: context, builder: (context) => TaskBottomSheet(task: Task.empty),);
+                    showModalBottomSheet(context: context, builder: (context) => TaskBottomSheet(task: Task.empty),
+                        isScrollControlled: true);
                   },
                 ),
                 const SizedBox(
@@ -66,7 +67,14 @@ class _CreateScreenState extends State<CreateScreen> {
                     height: chipHeight,
                     child: Center(child: Text(context.localization!.patient)),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    showModalBottomSheet(context: context, builder: (context) => Wrap(
+                      children: [
+                        Container(color: Colors.red,height:
+                        2000),
+                      ],
+                    ), isScrollControlled: true);
+                  },
                 ),
               ],
             ),

@@ -134,5 +134,11 @@
   "overdue": "Überfällig",
   "upcoming": "Todo",
   "inProgress": "In Arbeit",
-  "done": "Fertig"
+  "done": "Fertig",
+  "subtasks": "Subtasks",
+  "notes": "Notizen",
+  "yourNotes": "Deine Notizen,",
+  "visibility": "Sichtbarkeit",
+  "assignedTo": "Zugewiesen zu",
+  "due": "Fällig"
 }
