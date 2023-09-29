@@ -13,6 +13,8 @@ import 'package:impulse/services/grpc_client_svc.dart';
 import 'package:impulse/services/impulse_service.dart';
 import 'package:impulse/theming/colors.dart';
 
+import '../components/background_gradient.dart';
+
 class ChallengeScreen extends StatefulWidget {
   final Challenge challenge;
 
@@ -27,17 +29,8 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFFA49AEC), primary],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          stops: [0.0, 1.0],
-        ),
-      ),
+    return BackgroundGradient(
       child: Scaffold(
-          backgroundColor: Colors.transparent,
           appBar: AppBar(
             leading: Padding(
               padding: const EdgeInsets.all(10),
@@ -109,8 +102,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
 
                 if (verifiers.isEmpty) {
                   return const Center(
-                    child: Text("Die Challenge hat noch keine Aufgaben",
-                        style: TextStyle(color: Colors.white)),
+                    child: Text("Die Challenge hat noch keine Aufgaben", style: TextStyle(color: Colors.white)),
                   );
                 }
                 return Column(
@@ -135,13 +127,12 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text(
-                                      "${widget.challenge.points} XP erhalten"),
+                                  content: Text("${widget.challenge.points} XP erhalten"),
                                   behavior: SnackBarBehavior.floating,
                                   margin: const EdgeInsets.all(paddingSmall),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        borderRadiusSmall), // Adjust the radius as needed
+                                    borderRadius:
+                                        BorderRadius.circular(borderRadiusSmall), // Adjust the radius as needed
                                   ),
                                 ),
                               );
@@ -160,8 +151,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: paddingSmall),
                       child: NumberStepper(
-                        numbers: List.generate(
-                            verifiers.length, (index) => index + 1),
+                        numbers: List.generate(verifiers.length, (index) => index + 1),
                         activeStep: index,
                         enableNextPreviousButtons: false,
                         lineColor: Colors.white,

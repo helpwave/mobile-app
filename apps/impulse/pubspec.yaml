@@ -46,6 +46,8 @@ dependencies:
     path: "../../packages/helpwave_localization"
   helpwave_widget:
     path: "../../packages/helpwave_widget"
+  helpwave_service:
+    path: "../../packages/helpwave_service"
 
   qr_code_scanner: ^1.0.1
   im_stepper: ^1.0.1+1

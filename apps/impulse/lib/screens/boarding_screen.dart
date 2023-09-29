@@ -2,7 +2,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:helpwave_service/introduction.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:impulse/components/background_gradient.dart';
+import 'package:provider/provider.dart';
 
 import '../theming/colors.dart';
 import 'home_screen.dart';
@@ -22,9 +25,8 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
     Container(
       width: 350,
       margin: const EdgeInsets.symmetric(horizontal: paddingSmall),
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(borderRadiusBig)),
-          color: Colors.white),
+      decoration:
+          const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(borderRadiusBig)), color: Colors.white),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -43,8 +45,7 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: paddingBig, vertical: paddingSmall),
+            padding: EdgeInsets.symmetric(horizontal: paddingBig, vertical: paddingSmall),
             child: Text(
               "Erhalte für jede Challenge Punkte und erreiche das nächste Level.",
               style: TextStyle(color: primary),
@@ -57,9 +58,8 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
     Container(
         width: 350,
         margin: const EdgeInsets.symmetric(horizontal: paddingSmall),
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(borderRadiusBig)),
-            color: Colors.white),
+        decoration:
+            const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(borderRadiusBig)), color: Colors.white),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -78,8 +78,7 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: paddingBig, vertical: paddingSmall),
+              padding: EdgeInsets.symmetric(horizontal: paddingBig, vertical: paddingSmall),
               child: Text(
                 "Meistere jeden Tag neue, aufregende Challenges in deiner Stadt.",
                 textAlign: TextAlign.center,
@@ -92,17 +91,8 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFFA49AEC), primary],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          stops: [0.0, 1.0],
-        ),
-      ),
+    return BackgroundGradient(
       child: Scaffold(
-        backgroundColor: Colors.transparent,
         body: Column(
           children: [
             Expanded(
@@ -127,8 +117,7 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
                           });
                         },
                         autoPlay: true,
-                        autoPlayAnimationDuration:
-                            const Duration(milliseconds: 500),
+                        autoPlayAnimationDuration: const Duration(milliseconds: 500),
                         height: 350.0,
                       )),
                 ],
@@ -141,8 +130,7 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
                   color: Colors.white,
                   size: const Size.square(9.0),
                   activeSize: const Size(18.0, 9.0),
-                  activeShape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0)),
+                  activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
                   activeColor: Colors.white),
             )
           ],
@@ -153,18 +141,21 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(
+              Consumer<IntroductionModel>(
+                builder: (context, value, _) => TextButton(
                   onPressed: () {
+                    value.setHasSeenIntroduction(hasSeenIntroduction: true);
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomeScreen()),
+                      MaterialPageRoute(builder: (context) => const HomeScreen()),
                     );
                   },
                   child: const Text(
                     "Überspringen",
                     style: TextStyle(color: Colors.white),
-                  )),
+                  ),
+                ),
+              ),
               TextButton(
                 onPressed: () {
                   carouselController.nextPage();
@@ -178,16 +169,17 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
                 },
                 child: Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomeScreen()),
-                        );
-                      },
-                      child: const Text("Weiter",
-                          style: TextStyle(color: Colors.white)),
+                    Consumer<IntroductionModel>(
+                      builder: (context, value, _) => GestureDetector(
+                        onTap: () {
+                          value.setHasSeenIntroduction(hasSeenIntroduction: true);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => const HomeScreen()),
+                          );
+                        },
+                        child: const Text("Weiter", style: TextStyle(color: Colors.white)),
+                      ),
                     ),
                     const Icon(
                       Icons.arrow_forward_ios_outlined,
