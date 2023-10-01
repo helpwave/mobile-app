@@ -8,7 +8,7 @@ import 'package:impulse/components/background_gradient.dart';
 import 'package:impulse/components/medal_carousel.dart';
 import 'package:impulse/components/progressbar.dart';
 import 'package:impulse/components/xp_label.dart';
-import 'package:impulse/dataclasses/challange.dart';
+import 'package:impulse/dataclasses/challenge.dart';
 import 'package:impulse/services/impulse_service.dart';
 import 'package:impulse/screens/challenge_screen.dart';
 import 'package:impulse/theming/colors.dart';

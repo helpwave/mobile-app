@@ -5,7 +5,7 @@ import 'package:helpwave_theme/constants.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:impulse/components/challange_menu_card.dart';
 import 'package:impulse/components/profile_form.dart';
-import 'package:impulse/dataclasses/challange.dart';
+import 'package:impulse/dataclasses/challenge.dart';
 import 'package:impulse/dataclasses/user.dart';
 import 'package:impulse/dataclasses/verifier.dart';
 import 'package:impulse/screens/home_screen.dart';
