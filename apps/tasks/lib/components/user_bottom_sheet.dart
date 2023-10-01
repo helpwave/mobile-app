@@ -13,7 +13,7 @@ class UserBottomSheet extends StatefulWidget {
 }
 
 class _UserBottomSheetState extends State<UserBottomSheet> {
-  final items = ["station", "station 1"];
+  final items = ["station 1"];
   String? selectedStation;
 
   @override
@@ -33,37 +33,34 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
         builder: (BuildContext ctx) => Container(
             color: const Color(0x70f2f2f2),
             height: height * 0.40,
-            child: Stack(
+            child: Column(
               children: [
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  child: Padding(
-                      padding: const EdgeInsets.all(paddingMedium),
-                      child: IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      )
-                  ),
-                ),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: Padding(padding: const EdgeInsets.all(paddingMedium),
-                      child: TextButton(
-                          style: TextButton.styleFrom(
-                            foregroundColor: Colors.black, backgroundColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(color: Colors.grey, width: 2),
-                              borderRadius: BorderRadius.circular(borderRadiusMedium),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.all(paddingMedium),
+                        child: IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        )
+                    ),
+                    Padding(padding: const EdgeInsets.all(paddingMedium),
+                        child: TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: Colors.black, backgroundColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(color: Colors.grey, width: 2),
+                                borderRadius: BorderRadius.circular(borderRadiusMedium),
+                              ),
                             ),
-                          ),
-                          onPressed: () {  },
-                          child: Text(context.localization!.logout,
-                            style: TextStyle(color: themeNotifier.getIsDarkNullSafe(context) ? Colors.white : Colors.black),))
-                  ),
+                            onPressed: () {  },
+                            child: Text(context.localization!.logout,
+                              style: TextStyle(color: themeNotifier.getIsDarkNullSafe(context) ? Colors.white : Colors.black),))
+                    ),
+                  ],
                 ),
                 Center(
                     child: Column(
@@ -93,7 +90,7 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
                         const Text("Max Mustermann", style: TextStyle(fontSize:  fontSizeBig ),),
                         const Text("Uniklikum Münster (UKM)", style: TextStyle(fontSize: fontSizeSmall , color: Colors.grey)),
                         Padding(
-                            padding: const EdgeInsets.all(paddingMedium),
+                            padding: const EdgeInsets.all(paddingBig),
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(borderRadiusMedium),
