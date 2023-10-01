@@ -8,6 +8,7 @@ class ActivityCard extends StatelessWidget {
   final int xp;
   final EdgeInsets margin;
   final void Function() onClick;
+  final Color? accentColor;
 
   const ActivityCard({
     super.key,
@@ -16,6 +17,7 @@ class ActivityCard extends StatelessWidget {
     required this.xp,
     this.margin = EdgeInsets.zero,
     required this.onClick,
+    this.accentColor,
   });
 
   @override
@@ -42,9 +44,10 @@ class ActivityCard extends StatelessWidget {
                   child: IconButton(
                     iconSize: 60,
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(accent),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          accentColor ?? accent),
                     ),
-                    onPressed: () => {},
+                    onPressed: onClick,
                     icon: const Center(
                       child: Icon(
                         Icons.play_arrow_rounded,
@@ -74,10 +77,10 @@ class ActivityCard extends StatelessWidget {
                       ),
                       Text(
                         activityName,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: fontSizeBig,
                           fontWeight: FontWeight.bold,
-                          color: accent,
+                          color: accentColor ?? accent,
                           fontFamily: "Fredoka",
                         ),
                       ),

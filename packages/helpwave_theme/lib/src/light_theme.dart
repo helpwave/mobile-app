@@ -90,6 +90,7 @@ ThemeData lightTheme = ThemeData(
   ),
   chipTheme: chipTheme,
   searchBarTheme: searchBarTheme,
+  expansionTileTheme: const ExpansionTileThemeData(textColor: Colors.black, iconColor: Colors.black),
   colorScheme: const ColorScheme(
     // General
     brightness: Brightness.light,

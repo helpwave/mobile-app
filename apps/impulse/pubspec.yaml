@@ -46,14 +46,19 @@ dependencies:
     path: "../../packages/helpwave_localization"
   helpwave_widget:
     path: "../../packages/helpwave_widget"
+  helpwave_service:
+    path: "../../packages/helpwave_service"
 
+  qr_code_scanner: ^1.0.1
   im_stepper: ^1.0.1+1
 
-  helpwave_proto_dart: 0.23.2-8d29ca3.0
+  helpwave_proto_dart: ^0.29.0-01c8073.0
   grpc: ^3.2.4
 
+  fixnum: ^1.1.0
   carousel_slider: ^4.2.1
   flutter_svg: ^2.0.7
+  dots_indicator: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -95,6 +100,8 @@ flutter:
   assets:
     - assets/
     - assets/svg/medal.svg
+    - assets/svg/fi_4259295.svg
+    - assets/svg/fi_2698141.svg
 
 flutter_native_splash:
   # see https://pub.dev/packages/flutter_native_splash

@@ -1,13 +1,19 @@
+import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
+
 class User {
+  String id;
   String username;
-  String sex;
+  Gender gender;
   DateTime birthday;
-  int pal;
+  double pal;
+  String teamId;
 
   User({
+    required this.id,
     required this.username,
-    required this.sex,
+    required this.gender,
     required this.birthday,
     required this.pal,
+    this.teamId = "",
   });
 }

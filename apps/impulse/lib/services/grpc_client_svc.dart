@@ -2,7 +2,9 @@ import 'package:grpc/grpc.dart';
 import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbgrpc.dart';
 
 // TODO change later to api or better make it configurable
-const apiURL = "staging.api.helpwave.de";
+const apiURL = "helpwave-staging-impulse-svc.fly.dev";
+
+const userID = "f3e79c30-d889-4d15-a25a-387714c072b2";
 
 // TODO later fetch from [AuthService]
 const token =
@@ -12,6 +14,7 @@ const token =
 class GRPCClientService {
   static final serviceChannel = ClientChannel(
     apiURL,
+    port: 8080,
   );
 
   // TODO later fetch from [AuthService]
@@ -21,7 +24,7 @@ class GRPCClientService {
 
   String get fallbackOrganizationId => "3b25c6f5-4705-4074-9fc6-a50c28eba406";
 
-  Map<String, String> getTaskServiceMetaData() {
+  Map<String, String> getImpulseServiceMetaData() {
     return {
       ...authMetaData,
       "dapr-app-id": "impulse-svc",
@@ -29,6 +32,6 @@ class GRPCClientService {
   }
 
   // TODO when backend exists
-  static ImpulseServiceClient get getPatientServiceClient =>
+  static ImpulseServiceClient get getImpulseServiceClient =>
       ImpulseServiceClient(serviceChannel);
 }
