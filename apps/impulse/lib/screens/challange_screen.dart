@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
-import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbgrpc.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:impulse/components/challange_menu_card.dart';
-import 'package:impulse/components/profile_form.dart';
 import 'package:impulse/dataclasses/challange.dart';
-import 'package:impulse/dataclasses/user.dart';
 import 'package:impulse/dataclasses/verifier.dart';
 import 'package:impulse/screens/home_screen.dart';
+import 'package:impulse/screens/profile_screen.dart';
 import 'package:impulse/services/grpc_client_svc.dart';
 import 'package:impulse/services/impulse_service.dart';
 import 'package:impulse/theming/colors.dart';
@@ -64,21 +61,14 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
             ),
             actions: [
               IconButton(
-                onPressed: () => showDialog(
-                  context: context,
-                  builder: (_) => Dialog(
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    child: ProfileForm(
-                      initialUser: User(
-                          username: "User",
-                          birthday: DateTime(2000),
-                          gender: Gender.GENDER_UNSPECIFIED,
-                          pal: 1,
-                          id: 'userId'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfileScreen(),
                     ),
-                  ),
-                ),
+                  );
+                },
                 icon: const Icon(
                   Icons.person_outline_outlined,
                   color: Colors.white,

@@ -3,19 +3,20 @@ import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pb
 extension GenderValueExtension on Gender {
   String get text {
     switch(this){
-      case Gender.male:
+      case Gender.GENDER_MALE:
         return "Mannlich";
-      case Gender.female:
+      case Gender.GENDER_FEMALE:
         return "Weiblich";
-      case Gender.na:
+      case Gender.GENDER_UNSPECIFIED:
         return "Nicht angegeben";
-      case Gender.divers:
+      case Gender.GENDER_DIVERSE:
         return "Divers";
     }
+    return "";
   }
 }
 
-enum PAL {
+enum PALDescriptor {
   laying,
   sitting,
   standing,
@@ -23,33 +24,33 @@ enum PAL {
   active
 }
 
-extension PalValueExtension on PAL {
+extension PalValueExtension on PALDescriptor {
 
   double get value {
     switch(this) {
-      case PAL.laying:
+      case PALDescriptor.laying:
         return 1.2;
-      case PAL.sitting:
+      case PALDescriptor.sitting:
         return 1.4;
-      case PAL.standing:
+      case PALDescriptor.standing:
         return 1.6;
-      case PAL.walking:
+      case PALDescriptor.walking:
         return 1.8;
-      case PAL.active:
+      case PALDescriptor.active:
         return 2.0;
     }
 }
   String get text {
     switch(this) {
-      case PAL.laying:
+      case PALDescriptor.laying:
         return "Sitzende oder liegende Lebensweise - Immobile, bettlägerige Menschen";
-      case PAL.sitting:
+      case PALDescriptor.sitting:
         return "Sitzende Arbeit, wenig anstrengende Freizeit - Büroangestellte";
-      case PAL.standing:
+      case PALDescriptor.standing:
         return "Sitzende, kurzzeitige gehende und stehende Arbeit - Studierende";
-      case PAL.walking:
+      case PALDescriptor.walking:
         return "Überwiegend gehende und stehende Arbeit - VerkäuferIn, KellnerIn HandwerkerIn";
-      case PAL.active:
+      case PALDescriptor.active:
         return "Körperlich anstrengender Beruf oder sehr aktive Freizeitaktivität - BauarbeiterIn, LandwirtIn, LeistungssportlerIn";
     }
   }
@@ -60,10 +61,21 @@ class User {
   String username;
   Gender gender;
   DateTime birthday;
-  PAL pal;
+  PALDescriptor palDescriptor;
+  double pal;
   int height;
   double weight;
   String teamId;
+
+  static User get empty => User(
+    id: "",
+    username: "",
+    birthday: DateTime(2000),
+    gender: Gender.GENDER_UNSPECIFIED,
+    pal: 0,
+    weight: 1,
+    height: 1,
+  );
 
   User({
     required this.id,
@@ -74,5 +86,6 @@ class User {
     required this.height,
     required this.weight,
     this.teamId = "",
+    this.palDescriptor = PALDescriptor.standing
   });
 }
