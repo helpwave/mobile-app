@@ -47,7 +47,7 @@ class Medal extends StatelessWidget {
                       color: primary,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      fontFamily: "SpaceGrotesk",
+                      fontFamily: "Fredoka",
                     ),
                   ),
                 ],
