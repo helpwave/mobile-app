@@ -5,12 +5,12 @@ import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pb
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/components/activity_card.dart';
 import 'package:impulse/components/background_gradient.dart';
-import 'package:impulse/components/medal_carusel.dart';
+import 'package:impulse/components/medal_carousel.dart';
 import 'package:impulse/components/progressbar.dart';
 import 'package:impulse/components/xp_label.dart';
 import 'package:impulse/dataclasses/challange.dart';
 import 'package:impulse/services/impulse_service.dart';
-import 'package:impulse/screens/challange_screen.dart';
+import 'package:impulse/screens/challenge_screen.dart';
 import 'package:impulse/theming/colors.dart';
 import '../components/profile_form.dart';
 import '../dataclasses/user.dart';
