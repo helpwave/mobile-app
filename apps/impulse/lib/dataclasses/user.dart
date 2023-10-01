@@ -1,9 +1,4 @@
-enum Gender {
-  male,
-  female,
-  na,
-  divers
-}
+import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
 
 extension GenderValueExtension on Gender {
   String get text {
@@ -61,19 +56,23 @@ extension PalValueExtension on PAL {
 }
 
 class User {
+  String id;
   String username;
-  Gender sex;
+  Gender gender;
   DateTime birthday;
   PAL pal;
   int height;
   double weight;
+  String teamId;
 
   User({
+    required this.id,
     required this.username,
-    required this.sex,
+    required this.gender,
     required this.birthday,
     required this.pal,
     required this.height,
     required this.weight,
+    this.teamId = "",
   });
 }

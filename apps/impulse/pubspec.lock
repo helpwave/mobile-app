@@ -113,6 +113,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  dots_indicator:
+    dependency: "direct main"
+    description:
+      name: dots_indicator
+      sha256: "58b6a365744aa62aa1b70c4ea29e5106fbe064f5edaf7e9652e9b856edbfd9bb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -138,7 +146,7 @@ packages:
     source: hosted
     version: "6.1.4"
   fixnum:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: fixnum
       sha256: "25517a4deb0c03aa0f32fd12db525856438902d9c16536311e76cdc57b31d7d1"
@@ -224,10 +232,17 @@ packages:
     dependency: "direct main"
     description:
       name: helpwave_proto_dart
-      sha256: cea9ed260d8932c972abb8e846954d89a37d1afc461d4498c8c5bce38f167061
+      sha256: a2038d850f20bacdc2d140a4127dab0ac0fe159f3b57cb89231f6c7ae2c56131
       url: "https://pub.dev"
     source: hosted
-    version: "0.23.2-8d29ca3.0"
+    version: "0.29.0-01c8073.0"
+  helpwave_service:
+    dependency: "direct main"
+    description:
+      path: "../../packages/helpwave_service"
+      relative: true
+    source: path
+    version: "0.0.1"
   helpwave_theme:
     dependency: "direct main"
     description:
@@ -442,6 +457,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.5"
+  qr_code_scanner:
+    dependency: "direct main"
+    description:
+      name: qr_code_scanner
+      sha256: f23b68d893505a424f0bd2e324ebea71ed88465d572d26bb8d2e78a4749591fd
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   rename_app:
     dependency: "direct dev"
     description:

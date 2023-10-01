@@ -1,7 +1,4 @@
-// TODO update later
-enum ChallengeCategory { fitness }
-
-enum ChallengeType { timer }
+import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
 
 class Challenge {
   String id;
@@ -10,11 +7,8 @@ class Challenge {
   DateTime startAt;
   DateTime endAt;
   ChallengeCategory category;
-
   ChallengeType type;
-
   int threshold;
-
   int points;
 
   Challenge({
