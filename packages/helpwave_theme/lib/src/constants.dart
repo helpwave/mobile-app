@@ -67,10 +67,10 @@ const Duration zeroDuration = Duration.zero;
 const Duration bottomSheetOpenDuration = Duration(milliseconds: 100);
 
 /// Font size
-const double fontSizeTiny = 12;
-const double fontSizeSmall = 14;
-const double fontSizeMedium = 16;
-const double fontSizeBig = 20;
+const double fontSizeTiny = 11;
+const double fontSizeSmall = 13;
+const double fontSizeMedium = 15;
+const double fontSizeBig = 22;
 
 /// Column-Padding
 const double columnPadding = paddingMedium;
