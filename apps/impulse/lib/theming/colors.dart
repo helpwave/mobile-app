@@ -6,7 +6,7 @@ const Color secondary = Color(0xFFE1DEF9);
 const Color accent = Color(0xFFF16C82);
 const Color accentBackground = Color(0xFFAFA7EE);
 const Color tertiaryBackground = Color(0xFFEEEEEE);
-const Color labelColor = Color(0xFF777777);
+const Color labelColor = Color(0xFFEEEEEE);
 
 
 const Color red = Color(0xFFF16C82);

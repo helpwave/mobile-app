@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/components/activity_card.dart';
 import 'package:impulse/components/background_gradient.dart';
@@ -9,11 +8,10 @@ import 'package:impulse/components/medal_carousel.dart';
 import 'package:impulse/components/progressbar.dart';
 import 'package:impulse/components/xp_label.dart';
 import 'package:impulse/dataclasses/challenge.dart';
+import 'package:impulse/screens/profile_screen.dart';
 import 'package:impulse/services/impulse_service.dart';
 import 'package:impulse/screens/challenge_screen.dart';
 import 'package:impulse/theming/colors.dart';
-import '../components/profile_form.dart';
-import '../dataclasses/user.dart';
 import '../services/grpc_client_svc.dart';
 import '../util/level.dart';
 
@@ -58,21 +56,12 @@ class _HomeScreenState extends State<HomeScreen> {
           title: XpLabel(xp: score),
           actions: [
             IconButton(
-              onPressed: () => showDialog(
-                context: context,
-                builder: (_) => Dialog(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  child: ProfileForm(
-                    initialUser: User(
-                        username: "User",
-                        birthday: DateTime(2000),
-                        gender: Gender.GENDER_UNSPECIFIED,
-                        pal: 1,
-                        id: 'userId1'),
-                  ),
-                ),
-              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                );
+              },
               icon: const Icon(
                 Icons.person_outline_outlined,
                 color: Colors.white,
