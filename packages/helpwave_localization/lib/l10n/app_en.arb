@@ -4,7 +4,8 @@
   "roomoverview": "Room Overview",
   "myTasks": "My Tasks",
   "loginSlogan": "Let's ride the wave!",
-  "station": "Wards",
+  "stations": "Wards",
+  "station": "Ward",
   "tasks": "tasks",
   "organisations":"organisations",
   "room": "Room",
@@ -134,5 +135,6 @@
   "overdue": "Overdue",
   "upcoming": "Upcoming",
   "inProgress": "In Progress",
-  "done": "Done"
+  "done": "Done",
+  "currentWard": "Current Ward"
 }
