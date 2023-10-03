@@ -158,7 +158,7 @@ class _TimerComponentState extends State<TimerComponent> {
                       durationString,
                       style: const TextStyle(
                         fontSize: textSize,
-                        fontFamily: 'SpaceGrotesk',
+                        fontFamily: 'Fredoka',
                         fontWeight: FontWeight.bold,
                         color: primary,
                       ),

@@ -17,7 +17,7 @@ class XpLabel extends StatelessWidget {
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 20,
-            fontFamily: "SpaceGrotesk",
+            fontFamily: "Fredoka",
           ),
           children: const <TextSpan>[
             TextSpan(
@@ -25,7 +25,7 @@ class XpLabel extends StatelessWidget {
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 13,
-                  fontFamily: "SpaceGrotesk"),
+                  fontFamily: "Fredoka"),
             )
           ],
         ),
