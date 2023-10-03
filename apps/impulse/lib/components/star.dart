@@ -18,7 +18,7 @@ class StarPolygonClipper extends CustomClipper<Path> {
 
     path.moveTo(midX, 0);
     for (int i = 0; i < 9; i++) {
-      double angle = i * 2 * 3.141592653589793238 / 8;
+      double angle = i * 2 * pi / 8;
       double radiusForThisPoint = i % 2 == 0 ? radius : innerRadius;
       path.lineTo(midX + radiusForThisPoint * cos(angle),
           midY + radiusForThisPoint * sin(angle));
