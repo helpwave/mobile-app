@@ -4,7 +4,9 @@ import 'package:impulse/animations/sparkle_animation.dart';
 import 'package:impulse/components/medal.dart';
 import 'package:impulse/util/level.dart';
 
+/// A [CarouselSlider] for showing all the [Medal]s a [User] has earned
 class MedalCarousel extends StatefulWidget {
+  /// The [Level] to which the [Medal]s are unlocked
   final int unlockedTo;
 
   const MedalCarousel({super.key, this.unlockedTo = 0});

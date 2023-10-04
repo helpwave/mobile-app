@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/theming/colors.dart';
 
+/// A [Clipper] that makes a polygon of a star with four peaks
 class StarPolygonClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
@@ -12,7 +13,7 @@ class StarPolygonClipper extends CustomClipper<Path> {
     final double midX = width / 2;
     final double midY = height / 2;
     final double radius = width / 2;
-    final double innerRadius = radius / 2.5;
+    final double innerRadius = radius * 0.4; // the radius to which the valleys of the star go
 
     final Path path = Path();
 
@@ -20,8 +21,7 @@ class StarPolygonClipper extends CustomClipper<Path> {
     for (int i = 0; i < 9; i++) {
       double angle = i * 2 * pi / 8;
       double radiusForThisPoint = i % 2 == 0 ? radius : innerRadius;
-      path.lineTo(midX + radiusForThisPoint * cos(angle),
-          midY + radiusForThisPoint * sin(angle));
+      path.lineTo(midX + radiusForThisPoint * cos(angle), midY + radiusForThisPoint * sin(angle));
     }
     path.close();
 
@@ -34,8 +34,12 @@ class StarPolygonClipper extends CustomClipper<Path> {
   }
 }
 
+/// A Star with four peaks
 class Star extends StatelessWidget {
+  /// The size of the [Star]
   final double size;
+
+  /// The [Color] of the [Star]
   final Color color;
 
   const Star({super.key, this.size = iconSizeSmall, this.color = primary});
