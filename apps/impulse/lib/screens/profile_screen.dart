@@ -5,7 +5,11 @@ import 'package:impulse/components/background_gradient.dart';
 import '../dataclasses/user.dart';
 import '../theming/colors.dart';
 
+/// A Screen for showing the [User]'s profile and their information
 class ProfileScreen extends StatefulWidget {
+  /// The [User] information already there
+  ///
+  /// Providing no [User] means creating one on this screen
   final User? initialUser;
 
   const ProfileScreen({super.key, this.initialUser});
@@ -17,7 +21,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   String name = "";
   bool isCreating = false;
-  User user = User.empty;
+  User user = User.empty();
 
   @override
   void initState() {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_service/introduction.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/components/background_gradient.dart';
-import 'package:impulse/screens/boarding_screen.dart';
+import 'package:impulse/screens/onboarding_screen.dart';
 import 'package:impulse/screens/home_screen.dart';
 import 'package:impulse/theming/colors.dart';
 import 'package:provider/provider.dart';

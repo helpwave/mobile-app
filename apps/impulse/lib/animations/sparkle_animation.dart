@@ -2,8 +2,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:impulse/components/star.dart';
 
+/// A box in which fading and rising [Star]s are shown
+///
+/// The height and width are parameterized
 class SparkleAnimation extends StatefulWidget {
+  /// The width of the box
   final double width;
+
+  /// The height of the box
   final double height;
 
   const SparkleAnimation({super.key, required this.width, required this.height});
@@ -31,8 +37,7 @@ class _SparkleAnimationState extends State<SparkleAnimation> with SingleTickerPr
   void initState() {
     controller = AnimationController(duration: spawnDelay, vsync: this)
       ..addListener(() {
-        Duration timePassedBetween = (controller.lastElapsedDuration ?? lastPassedTime) -
-            lastPassedTime;
+        Duration timePassedBetween = (controller.lastElapsedDuration ?? lastPassedTime) - lastPassedTime;
         fromLastSpawn = fromLastSpawn + timePassedBetween;
 
         for (_StarData star in stars) {
@@ -46,7 +51,7 @@ class _SparkleAnimationState extends State<SparkleAnimation> with SingleTickerPr
           fromLastSpawn = fromLastSpawn;
         });
 
-        if(fromLastSpawn.inMilliseconds >= spawnDelay.inMilliseconds){
+        if (fromLastSpawn.inMilliseconds >= spawnDelay.inMilliseconds) {
           setState(() {
             stars = [...stars, _StarData.newStar(widget.width, widget.height)];
             fromLastSpawn -= spawnDelay;
@@ -81,25 +86,47 @@ class _SparkleAnimationState extends State<SparkleAnimation> with SingleTickerPr
   }
 }
 
+/// A data class to hold the data needed for the [Star]s within the [SparkleAnimation]
 class _StarData {
+  /// The x position from the left
   double x;
+
+  /// The y position from the bottom
   double y;
+
+  /// The velocity with which the [Star]s should rise to not exceed the box within the duration
   double velocityPerSecond;
+
+  /// The size of the star
   double size;
+
+  /// The [Color] on which the fade effect will be applied
   Color baseColor;
+
+  /// The [Duration] for which this [Star] exists in the [Animation]
   Duration existsSince;
+
+  /// The maximum [Duration] for which the [Star] should be shown
+  ///
+  /// Used to calculate the [velocityPerSecond]
   static const Duration maxDuration = Duration(seconds: 2);
 
+  /// The [Color] gained by fading the [baseColor] linearly to its existence duration
+  ///
+  /// If [maxDuration] is 2 seconds and the [Star] exists for 0.5 seconds the resulting opacity would be 75%
   Color get color => baseColor.withOpacity(max(0, 1 - existsSince.inMilliseconds / maxDuration.inMilliseconds));
 
+  /// A simplified way to check whether the exists [Duration] exceeds the [maxDuration]
   bool get isDone => existsSince.compareTo(maxDuration) >= 0;
 
-  static _StarData newStar(double width,
-      double height, {
-        double minStarSize = 12,
-        double maxStarSize = 32,
-        double minTopDistance = 30,
-      }) {
+  /// Creates a new [Star] with [velocityPerSecond] that keeps the [Star] in bounds and gives it a random [Color]
+  factory _StarData.newStar(
+    double width,
+    double height, {
+    double minStarSize = 12,
+    double maxStarSize = 32,
+    double minTopDistance = 30,
+  }) {
     Random random = Random();
     double size = minStarSize + random.nextDouble() * (maxStarSize - minStarSize);
     double y = random.nextDouble() * (height - size - minTopDistance);

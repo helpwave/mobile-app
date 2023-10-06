@@ -6,10 +6,10 @@ import 'package:helpwave_service/introduction.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/components/background_gradient.dart';
 import 'package:provider/provider.dart';
-
 import '../theming/colors.dart';
 import 'home_screen.dart';
 
+/// The Screen shown when a [User] opens the app for the first time
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
 
