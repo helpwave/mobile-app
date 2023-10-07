@@ -10,7 +10,7 @@ import 'package:tasks/dataclasses/subtask.dart';
 import 'package:tasks/screens/settings_screen.dart';
 import 'package:helpwave_widget/loading.dart';
 
-import '../../components/TaskExpansionTile.dart';
+import '../../components/task_expansion_tile.dart';
 import '../../dataclasses/task.dart';
 
 /// The Screen for showing all [Task]'s the [User] has in the current [ ]
