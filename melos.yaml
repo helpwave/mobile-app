@@ -11,11 +11,14 @@ scripts:
   intl:
     run: melos exec --file-exists="l10n.yaml" -- "flutter gen-l10n && melos bootstrap"
 
-  build-apk:
-    run: melos exec --file-exists="./lib/main.dart" "flutter build apk"
+  build-tasks-apk:
+    run: melos exec --scope="tasks" --file-exists="./lib/main.dart" "flutter build apk"
 
-  build-ios:
-    run: melos exec --file-exists="./lib/main.dart" "flutter build ios --no-codesign"
+  build-impulse-apk:
+    run: melos exec --scope="impulse" --file-exists="./lib/main.dart" "flutter build apk"
 
-  build-apk-impulse:
-    run: melos exec --scope=impulse --file-exists="./lib/main.dart" "flutter build apk"
+  build-tasks-ios:
+    run: melos exec --scope="tasks" --file-exists="./lib/main.dart" "flutter build ios --no-codesign"
+
+  build-impulse-ios:
+    run: melos exec --scope="impulse" --file-exists="./lib/main.dart" "flutter build ios --no-codesign"
