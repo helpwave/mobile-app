@@ -27,36 +27,52 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
           builder: (BuildContext ctx) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: paddingMedium),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
                     children: [
-                      IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: paddingOffset),
-                          child: Text(
-                            widget.task.patient.name,
-                            style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              fontSize: fontSizeBig,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.close),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: paddingOffset),
+                              child: Text(
+                                widget.task.patient.name,
+                                style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontSize: fontSizeBig,
+                                ),
+                              ),
                             ),
                           ),
+                          IconButton(
+                            icon: const Icon(Icons.edit_outlined),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: width * 0.45,
+                        child: const Center(
+                          child: ExpansionTile(
+                            title: Text(
+                              overflow: TextOverflow.ellipsis,
+                              "Room 2 - Bed 1", // TODO: replace with real data
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            children: [
+                            ],
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.edit_outlined),
-                        onPressed: () {},
-                      ),
+                      )
                     ],
                   ),
                 ),
@@ -90,11 +106,14 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                   ),
                 ),
                 SizedBox(
-                  height: width * 0.6,
+                  height: width * 0.5,
                   child: ListView(
                     children: [
                       TaskExpansionTile(
-                        tasks: [widget.task],
+                        tasks: [
+                          // TODO: add upcoming tasks
+                          widget.task
+                        ],
                         color: upcomingColor,
                         title: context.localization!.upcoming,
                       )
