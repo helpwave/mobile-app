@@ -135,5 +135,7 @@
   "overdue": "Überfällig",
   "upcoming": "Todo",
   "inProgress": "In Arbeit",
-  "done": "Fertig"
+  "done": "Fertig",
+  "unassigne": "Zuweisung aufheben",
+  "notes": "Notizen"
 }

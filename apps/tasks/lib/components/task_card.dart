@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/static_progress_indicator.dart';
+import 'package:tasks/components/patient_bottom_sheet.dart';
 import 'package:tasks/dataclasses/task.dart';
 
 class TaskCard extends StatelessWidget {
@@ -62,86 +63,99 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: margin,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-        side: const BorderSide(color: Colors.grey, width: 2),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: paddingSmall, horizontal: paddingMedium),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                StaticProgressIndicator(
-                  progress: task.progress,
-                  color: primaryColor,
-                  backgroundColor: const Color.fromARGB(255, 210, 210, 210),
-                  isClockwise: true,
-                  angle: 0,
-                ),
-                Chip(
-                  backgroundColor: getBackgroundColor(),
-                  label: Text(
-                    getDueText(context),
-                    style: TextStyle(color: getTextColor()),
+    double width = MediaQuery.of(context).size.height;
+
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          builder: (BuildContext context) => SizedBox(
+            height: width * 0.8,
+            child: PatientBottomSheet(task: task),)
+        );
+      },
+      child: Card(
+        margin: margin,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+          side: const BorderSide(color: Colors.grey, width: 2),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: paddingSmall, horizontal: paddingMedium),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  StaticProgressIndicator(
+                    progress: task.progress,
+                    color: primaryColor,
+                    backgroundColor: const Color.fromARGB(255, 210, 210, 210),
+                    isClockwise: true,
+                    angle: 0,
                   ),
-                  elevation: 0,
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: distanceTiny,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        task.patient.name,
-                        style: const TextStyle(color: primaryColor),
-                      ),
-                      Text(
-                        task.name,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "SpaceGrotesk",
+                  Chip(
+                    backgroundColor: getBackgroundColor(),
+                    label: Text(
+                      getDueText(context),
+                      style: TextStyle(color: getTextColor()),
+                    ),
+                    elevation: 0,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: distanceTiny,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          task.patient.name,
+                          style: const TextStyle(color: primaryColor),
                         ),
-                      ),
-                      Text(
-                        task.notes,
-                        style: const TextStyle(
-                            fontSize: 14,
+                        Text(
+                          task.name,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                             fontFamily: "SpaceGrotesk",
-                            overflow: TextOverflow.ellipsis,
-                            color: Color.fromARGB(255, 100, 100, 100)),
-                      ),
-                    ],
+                          ),
+                        ),
+                        Text(
+                          task.notes,
+                          style: const TextStyle(
+                              fontSize: 14,
+                              fontFamily: "SpaceGrotesk",
+                              overflow: TextOverflow.ellipsis,
+                              color: Color.fromARGB(255, 100, 100, 100)),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(width: distanceTiny),
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(maxHeight: iconSizeSmall, maxWidth: iconSizeSmall),
-                  onPressed: () {
-                    // TODO change task status
-                  },
-                  icon: Icon(
-                    size: iconSizeSmall,
-                    Icons.check_circle_outline_rounded,
-                    // TODO change colors later
-                    color: task.status == TaskStatus.taskStatusDone ? Colors.grey : primaryColor,
+                  const SizedBox(width: distanceTiny),
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(maxHeight: iconSizeSmall, maxWidth: iconSizeSmall),
+                    onPressed: () {
+                      // TODO change task status
+                    },
+                    icon: Icon(
+                      size: iconSizeSmall,
+                      Icons.check_circle_outline_rounded,
+                      // TODO change colors later
+                      color: task.status == TaskStatus.taskStatusDone ? Colors.grey : primaryColor,
+                    ),
                   ),
-                ),
-              ],
-            )
-          ],
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

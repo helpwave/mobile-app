@@ -136,5 +136,7 @@
   "upcoming": "Upcoming",
   "inProgress": "In Progress",
   "done": "Done",
-  "currentWard": "Current Ward"
+  "currentWard": "Current Ward",
+  "unassigne": "Unassign",
+  "notes": "Notes"
 }

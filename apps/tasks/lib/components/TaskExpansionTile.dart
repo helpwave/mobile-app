@@ -38,8 +38,7 @@ class TaskExpansionTile extends StatelessWidget {
             vertical: paddingTiny,
           ),
         ),
-      )
-          .toList(),
+      ).toList(),
     );
   }
 }
