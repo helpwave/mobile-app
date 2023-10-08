@@ -63,19 +63,7 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.height;
-
-    return GestureDetector(
-      onTap: () {
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          builder: (BuildContext context) => SizedBox(
-            height: width * 0.8,
-            child: PatientBottomSheet(task: task),)
-        );
-      },
-      child: Card(
+    return Card(
         margin: margin,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
@@ -157,7 +145,6 @@ class TaskCard extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 }
