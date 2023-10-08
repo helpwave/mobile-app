@@ -7,9 +7,9 @@ import 'package:tasks/components/task_expansion_tile.dart';
 import 'package:tasks/dataclasses/task.dart';
 
 class PatientBottomSheet extends StatefulWidget {
-  const PatientBottomSheet({Key? key, required this.task}) : super(key: key);
+  const PatientBottomSheet({Key? key, required this.patentId}) : super(key: key);
 
-  final TaskWithPatient task;
+  final String patentId;
 
   @override
   State<PatientBottomSheet> createState() => _PatientBottomSheetState();
@@ -41,12 +41,12 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                               Navigator.of(context).pop();
                             },
                           ),
-                          Flexible(
+                          const Flexible(
                             child: Padding(
-                              padding: const EdgeInsets.only(top: paddingOffset),
+                              padding: EdgeInsets.only(top: paddingOffset),
                               child: Text(
-                                widget.task.patient.name,
-                                style: const TextStyle(
+                                "Patient 1", // TODO: replace with real data
+                                style: TextStyle(
                                   overflow: TextOverflow.ellipsis,
                                   fontSize: fontSizeBig,
                                 ),
@@ -77,7 +77,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                   ),
                 ),
                 TextFormField(
-                  initialValue: widget.task.notes,
+                  initialValue: "", // TODO: replace with real data
                   decoration: InputDecoration(
                     hintText: context.localization!.notes,
                   ),
@@ -112,7 +112,6 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                       TaskExpansionTile(
                         tasks: [
                           // TODO: add upcoming tasks
-                          widget.task
                         ],
                         color: upcomingColor,
                         title: context.localization!.upcoming,
