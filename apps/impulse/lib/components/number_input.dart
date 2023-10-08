@@ -1,17 +1,29 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/theming/colors.dart';
 
-class NumberInput extends StatefulWidget{
-  const NumberInput({super.key, required this.value, required this.onChanged, this.minValue = 0, this.maxValue = 100});
-
-  final void Function(int) onChanged;
-  final int minValue;
-  final int maxValue;
+/// A [Widget] for a number input
+class NumberInput extends StatefulWidget {
+  /// The initial value
   final int value;
 
+  /// The minimum value
+  final int minValue;
+
+  /// The maximum value
+  final int maxValue;
+
+  /// The callback once a value has changed
+  final void Function(int) onChanged;
+
+  const NumberInput({
+    super.key,
+    required this.value,
+    this.minValue = 0,
+    this.maxValue = 100,
+    required this.onChanged,
+  });
 
   @override
   State<NumberInput> createState() => _NumberInputState();
@@ -37,14 +49,18 @@ class _NumberInputState extends State<NumberInput> {
         CupertinoButton(
           onPressed: () => {
             counter -= 1,
-            if (counter > widget.minValue) {
-              setState(() {
-                controller?.text = counter.toString();
-              }),
-              widget.onChanged(widget.value - 1)
-            }
+            if (counter > widget.minValue)
+              {
+                setState(() {
+                  controller?.text = counter.toString();
+                }),
+                widget.onChanged(widget.value - 1)
+              }
           },
-          child: const Icon(CupertinoIcons.minus_circle_fill, size: iconSizeSmall,),
+          child: const Icon(
+            CupertinoIcons.minus_circle_fill,
+            size: iconSizeSmall,
+          ),
         ),
         SizedBox(
           width: screenWidth,
@@ -66,15 +82,19 @@ class _NumberInputState extends State<NumberInput> {
         ),
         CupertinoButton(
           onPressed: () => {
-            if (counter < widget.maxValue) {
-              counter += 1,
-              setState(() {
-                controller?.text = counter.toString();
-              }),
-              widget.onChanged(widget.value + 1)
-            }
+            if (counter < widget.maxValue)
+              {
+                counter += 1,
+                setState(() {
+                  controller?.text = counter.toString();
+                }),
+                widget.onChanged(widget.value + 1)
+              }
           },
-          child: const Icon(CupertinoIcons.plus_circle_fill, size: iconSizeSmall,),
+          child: const Icon(
+            CupertinoIcons.plus_circle_fill,
+            size: iconSizeSmall,
+          ),
         ),
       ],
     );

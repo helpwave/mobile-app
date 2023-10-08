@@ -8,6 +8,7 @@ import 'package:impulse/components/medal_carousel.dart';
 import 'package:impulse/components/progressbar.dart';
 import 'package:impulse/components/xp_label.dart';
 import 'package:impulse/dataclasses/challenge.dart';
+import 'package:impulse/dataclasses/user.dart';
 import 'package:impulse/screens/profile_screen.dart';
 import 'package:impulse/services/impulse_service.dart';
 import 'package:impulse/screens/challenge_screen.dart';
@@ -15,6 +16,9 @@ import 'package:impulse/theming/colors.dart';
 import '../services/grpc_client_svc.dart';
 import '../util/level.dart';
 
+/// The home screen of the app
+///
+/// Shows the current [User] level and possible [Challenge]s
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -138,8 +142,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           for (int i = 0; i < challenges.length; i++)
                             ActivityCard(
                               accentColor: colors[i % colors.length],
-                              activityName: challenges[i].title,
-                              activityDescription: challenges[i].description,
+                              name: challenges[i].title,
+                              description: challenges[i].description,
                               xp: challenges[i].points,
                               onClick: () {
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(

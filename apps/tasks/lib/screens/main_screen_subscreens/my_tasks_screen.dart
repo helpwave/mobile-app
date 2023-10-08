@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
+import 'package:helpwave_widget/shapes.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:tasks/components/task_card.dart';
+import 'package:tasks/components/user_header.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/subtask.dart';
-import 'package:tasks/screens/settings_screen.dart';
 import 'package:helpwave_widget/loading.dart';
-import '../../components/task_expansion_tile.dart';
+
 import '../../dataclasses/task.dart';
 
 /// The Screen for showing all [Task]'s the [User] has in the current [ ]
@@ -97,6 +99,10 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Color upcomingColor = const Color(0xFF5D5FEF);
+    Color inProgressColor = const Color(0xFFC79345);
+    Color doneColor = const Color(0xFF7A977E);
+
     return Consumer(
       builder: (BuildContext context, ThemeModel themeNotifier, _) => Scaffold(
         appBar: AppBar(
@@ -133,17 +139,17 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                   spacing: distanceSmall,
                   // TODO change the color off the expansion tiles
                   children: [
-                    TaskExpansionTile(
+                    _MyTasksScreenExpansionTile(
                       tasks: todo,
                       color: upcomingColor,
                       title: context.localization!.upcoming,
                     ),
-                    TaskExpansionTile(
+                    _MyTasksScreenExpansionTile(
                       tasks: inProgress,
                       color: inProgressColor,
                       title: context.localization!.inProgress,
                     ),
-                    TaskExpansionTile(
+                    _MyTasksScreenExpansionTile(
                       tasks: done,
                       color: doneColor,
                       title: context.localization!.done,
@@ -159,3 +165,41 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
   }
 }
 
+class _MyTasksScreenExpansionTile extends StatelessWidget {
+  final List<TaskWithPatient> tasks;
+  final Color color;
+  final double circleSize = 8;
+  final String title;
+
+  const _MyTasksScreenExpansionTile({required this.tasks, required this.color, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionTile(
+      textColor: color,
+      collapsedTextColor: color,
+      initiallyExpanded: true,
+      leading: SizedBox(
+        width: circleSize,
+        child: Center(
+          child: Circle(
+            color: color,
+            diameter: circleSize,
+          ),
+        ),
+      ),
+      title: Text("${title} (${tasks.length})"),
+      children: tasks
+          .map(
+            (task) => TaskCard(
+              task: task,
+              margin: const EdgeInsets.symmetric(
+                horizontal: paddingSmall,
+                vertical: paddingTiny,
+              ),
+            ),
+          )
+          .toList(),
+    );
+  }
+}

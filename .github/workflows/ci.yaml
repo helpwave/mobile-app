@@ -30,7 +30,7 @@ jobs:
 
       - run: melos run analyze
 
-  build-android:
+  build-tasks-apk:
     runs-on: ubuntu-20.04
     needs: lint
     steps:
@@ -47,7 +47,36 @@ jobs:
 
       - run: melos run intl
 
-      - run: melos run build-apk-impulse
+      - run: melos run build-tasks-apk
+
+      - name: rename apks
+        working-directory: ./apps/
+        run: |
+          mv ./tasks/build/app/outputs/apk/release/app-release.apk ./tasks/build/app/outputs/apk/release/tasks.apk
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: apk-tasks
+          path: ./apps/tasks/build/app/outputs/apk/release/tasks.apk
+
+  build-impulse-apk:
+    runs-on: ubuntu-20.04
+    needs: lint
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - uses: bluefireteam/melos-action@v1
+        with:
+          melos-version: '3.0.0'
+
+      - run: melos run intl
+
+      - run: melos run build-impulse-apk
 
       - name: rename apks
         working-directory: ./apps/
@@ -59,7 +88,38 @@ jobs:
           name: apk-impulse
           path: ./apps/impulse/build/app/outputs/apk/release/impulse.apk
 
-  build-ios:
+  build-tasks-ipa:
+    runs-on: macos-12
+    needs: lint
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+          architecture: x64
+
+      - uses: bluefireteam/melos-action@v1
+        with:
+          melos-version: '3.0.0'
+
+      - run: melos run intl
+
+      - name: package tasks ipa
+        working-directory: ./apps/tasks/
+        run: |
+          flutter build ios --no-codesign
+          mkdir Payload
+          cp -r build/ios/Release-iphoneos/Runner.app Payload
+          zip -r tasks.ipa Payload
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ipa-tasks
+          path: ./apps/tasks/tasks.ipa
+
+  build-impulse-ipa:
     runs-on: macos-12
     needs: lint
     steps:
@@ -94,10 +154,20 @@ jobs:
     runs-on: ubuntu-20.04
     if: github.event_name == 'pull_request'
     needs:
-      - build-android
-      - build-ios
+      - build-tasks-apk
+      - build-impulse-apk
+      - build-tasks-ipa
+      - build-impulse-ipa
     steps:
       - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: apk-tasks
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: ipa-tasks
 
       - uses: actions/download-artifact@v3
         with:
@@ -110,6 +180,8 @@ jobs:
       - name: Upload apk and ipa to BrowserStack
         id: upload-to-browserstack
         run: |
+          echo "apkHashTasks=$(curl --silent --user ${{ secrets.BROWSERSTACK_USER }}:${{ secrets.BROWSERSTACK_PASS }} -X POST https://api-cloud.browserstack.com/app-live/upload -F file=@tasks.apk | jq --raw-output .app_url | awk -F // '{print $2}')" >> $GITHUB_OUTPUT
+          echo "ipaHashTasks=$(curl --silent --user ${{ secrets.BROWSERSTACK_USER }}:${{ secrets.BROWSERSTACK_PASS }} -X POST https://api-cloud.browserstack.com/app-live/upload -F file=@tasks.ipa | jq --raw-output .app_url | awk -F // '{print $2}')" >> $GITHUB_OUTPUT
           echo "apkHashImpulse=$(curl --silent --user ${{ secrets.BROWSERSTACK_USER }}:${{ secrets.BROWSERSTACK_PASS }} -X POST https://api-cloud.browserstack.com/app-live/upload -F file=@impulse.apk | jq --raw-output .app_url | awk -F // '{print $2}')" >> $GITHUB_OUTPUT
           echo "ipaHashImpulse=$(curl --silent --user ${{ secrets.BROWSERSTACK_USER }}:${{ secrets.BROWSERSTACK_PASS }} -X POST https://api-cloud.browserstack.com/app-live/upload -F file=@impulse.ipa | jq --raw-output .app_url | awk -F // '{print $2}')" >> $GITHUB_OUTPUT
 
@@ -125,6 +197,11 @@ jobs:
           message: |
             ## BrowserStack
             Commit: `${{ steps.short-sha.outputs.shortSha }}`
+            #### helpwave tasks
+            - **Android (13.0)**
+              - [Google Pixel 7 Pro](https://app-live.browserstack.com/dashboard#os=android&os_version=13.0&device=Google+Pixel+7+Pro&start=true&app_hashed_id=${{ steps.upload-to-browserstack.outputs.apkHashTasks }})
+            - **iOS (16.0)**
+              - [iPhone 14 Pro](https://app-live.browserstack.com/dashboard#os=iOS&os_version=16.0&device=iPhone+14+Pro&start=true&app_hashed_id=${{ steps.upload-to-browserstack.outputs.ipaHashTasks }})
             #### helpwave impulse
             - **Android (13.0)**
               - [Google Pixel 7 Pro](https://app-live.browserstack.com/dashboard#os=android&os_version=13.0&device=Google+Pixel+7+Pro&start=true&app_hashed_id=${{ steps.upload-to-browserstack.outputs.apkHashImpulse }})

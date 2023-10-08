@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:im_stepper/stepper.dart';
-import 'package:impulse/components/challange_menu_card.dart';
+import 'package:impulse/components/challenge_menu_card.dart';
 import 'package:impulse/dataclasses/challenge.dart';
 import 'package:impulse/dataclasses/verifier.dart';
 import 'package:impulse/screens/home_screen.dart';
@@ -12,7 +12,9 @@ import 'package:impulse/theming/colors.dart';
 
 import '../components/background_gradient.dart';
 
+/// A Screen on which the [User] solves [Challenge]s
 class ChallengeScreen extends StatefulWidget {
+  /// The [Challenge] the [User] should solve
   final Challenge challenge;
 
   const ChallengeScreen({super.key, required this.challenge});
@@ -105,7 +107,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                           top: paddingMedium,
                         ),
                         child: ChallengeMenuCard(
-                          completion: "${index + 1}/${verifiers.length}",
+                          progressText: "${index + 1}/${verifiers.length}",
                           title: widget.challenge.title,
                           description: widget.challenge.description,
                           verifier: verifiers[index],

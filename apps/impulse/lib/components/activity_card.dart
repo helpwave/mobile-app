@@ -2,18 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/theming/colors.dart';
 
+/// A [Card] that shows an activity with all relevant information
 class ActivityCard extends StatelessWidget {
-  final String activityName;
-  final String activityDescription;
+  /// The [name] of the activity
+  final String name;
+  /// The [description] of the activity
+  final String description;
+  /// The amount of [xp] the activity rewards on completion
   final int xp;
+  /// The [margin] of the [ActivityCard] defaults to [EdgeInsets.zero]
   final EdgeInsets margin;
+  /// The callback when the [ActivityCard] is clicked
   final void Function() onClick;
+  /// The [Color] with which to accentuate the start button and [Text] of the [ActivityCard]
   final Color? accentColor;
 
   const ActivityCard({
     super.key,
-    required this.activityName,
-    required this.activityDescription,
+    required this.name,
+    required this.description,
     required this.xp,
     this.margin = EdgeInsets.zero,
     required this.onClick,
@@ -76,7 +83,7 @@ class ActivityCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        activityName,
+                        name,
                         style: TextStyle(
                           fontSize: fontSizeBig,
                           fontWeight: FontWeight.bold,
@@ -85,7 +92,7 @@ class ActivityCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        activityDescription,
+                        description,
                         style: TextStyle(color: Colors.black.withOpacity(0.6)),
                       ),
                     ],

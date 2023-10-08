@@ -1,13 +1,18 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:helpwave_widget/shapes.dart';
 import 'package:impulse/theming/colors.dart';
 
+/// A [Widget] for displaying a pause-able and startable [Timer]
 class TimerComponent extends StatefulWidget {
+  /// Whether the [Timer] should start directly after creation of this [Widget] or needs User activation
   final bool isStartingImmediately;
+
+  /// The [Duration] of the [Timer]
   final Duration duration;
+
+  /// A Callback one the [Timer] finishes
   final void Function() onFinish;
 
   const TimerComponent({
@@ -49,9 +54,7 @@ class _TimerComponentState extends State<TimerComponent> {
     _timer = Timer.periodic(
       tickPeriod,
       (Timer timer) {
-        Duration newTimeRemaining = Duration(
-            milliseconds:
-                timeRemaining.inMilliseconds - tickPeriod.inMilliseconds);
+        Duration newTimeRemaining = Duration(milliseconds: timeRemaining.inMilliseconds - tickPeriod.inMilliseconds);
         if (newTimeRemaining.inMilliseconds <= 0) {
           finish();
         } else {
@@ -89,8 +92,7 @@ class _TimerComponentState extends State<TimerComponent> {
 
   @override
   Widget build(BuildContext context) {
-    double progress =
-        timeRemaining.inMilliseconds / widget.duration.inMilliseconds;
+    double progress = timeRemaining.inMilliseconds / widget.duration.inMilliseconds;
     String durationString =
         "${timeRemaining.inMinutes.toString().padLeft(2, "0")}:${(timeRemaining.inSeconds % 60).toString().padLeft(2, "0")}";
     const double size = 150;
