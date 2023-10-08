@@ -16,6 +16,9 @@ class PatientBottomSheet extends StatefulWidget {
 }
 
 class _PatientBottomSheetState extends State<PatientBottomSheet> {
+  String? selectedRoom;
+  final rooms = ["Room 2 - Bed 5"];
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -59,17 +62,22 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        width: width * 0.45,
-                        child: const Center(
-                          child: ExpansionTile(
-                            title: Text(
-                              overflow: TextOverflow.ellipsis,
-                              "Room 2 - Bed 1", // TODO: replace with real data
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            children: [
-                            ],
+                      Center(
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: selectedRoom,
+                            items: rooms.map((item) => DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(color: Colors.grey),
+                              ),
+                            )).toList(),
+                            onChanged: (String? value) {
+                              setState(() {
+                                selectedRoom = value;
+                              });
+                            },
                           ),
                         ),
                       )
