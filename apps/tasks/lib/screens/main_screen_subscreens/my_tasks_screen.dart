@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
-import 'package:helpwave_widget/shapes.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
-import 'package:tasks/components/task_card.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/subtask.dart';
 import 'package:tasks/screens/settings_screen.dart';
