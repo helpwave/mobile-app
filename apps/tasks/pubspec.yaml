@@ -43,6 +43,10 @@ dependencies:
     path: "../../packages/helpwave_theme"
   helpwave_widget:
     path: "../../packages/helpwave_widget"
+  helpwave_service:
+    path: "../../packages/helpwave_service"
+  helpwave_proto_dart: 0.22.2-4f08703.0
+  grpc: ^3.2.4
 
 dev_dependencies:
   flutter_test:
@@ -69,15 +73,16 @@ flutter_native_splash:
   # flutter pub run flutter_native_splash:create
   # flutter pub run flutter_native_splash:remove
 
-  color: "#1B1B1B"
+  color: "#FFFFFF"
   image: assets/splash/splash.png
 
   android_12:
-    color: "#1B1B1B"
+    color: "#FFFFFF"
     image: assets/splash/android12splash.png
 
 
 flutter_icons:
+  # flutter pub run flutter_launcher_icons
   android: "launcher_icon"
   ios: true
   image_path: assets/icon/icon_launcher.png

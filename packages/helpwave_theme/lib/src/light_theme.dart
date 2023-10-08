@@ -88,10 +88,9 @@ ThemeData lightTheme = ThemeData(
     size: iconSizeSmall,
     color: Color.fromARGB(255, 0, 0, 0),
   ),
-  chipTheme: const ChipThemeData(
-    selectedColor: primaryColor,
-  ),
+  chipTheme: chipTheme,
   searchBarTheme: searchBarTheme,
+  expansionTileTheme: const ExpansionTileThemeData(textColor: Colors.black, iconColor: Colors.black),
   colorScheme: const ColorScheme(
     // General
     brightness: Brightness.light,

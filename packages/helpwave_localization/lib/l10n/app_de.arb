@@ -4,7 +4,8 @@
   "roomoverview": "Raumübersicht",
   "myTasks": "Meine Aufgaben",
   "loginSlogan": "Let's ride the wave!",
-  "station": "Stationen",
+  "stations": "Stationen",
+  "station": "Station",
   "tasks": "Aufgaben",
   "organisations":"Organisationen",
   "patient": "Patient",
@@ -124,5 +125,15 @@
   "discharge": "Entlassen",
   "addTask": "Aufgabe hinzufügen",
   "all": "Alle",
-  "searchPatient": "Patienten suchen"
+  "searchPatient": "Patienten suchen",
+  "task": "Task",
+  "create": "Erstellen",
+  "dueIn": "Fällig in",
+  "nHours": "{count, plural, =0{0 Stunden} =1{1 Stunde} other{{count} Stunden}}",
+  "nDays": "{count, plural, =0{0 Tage} =1{1 Tag} other{{count} Tage}}",
+  "nMinutes": "{count, plural, =0{0 Minuten} =1{1 Minute} other{{count} Minuten}}",
+  "overdue": "Überfällig",
+  "upcoming": "Todo",
+  "inProgress": "In Arbeit",
+  "done": "Fertig"
 }
