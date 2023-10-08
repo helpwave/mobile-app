@@ -5,12 +5,12 @@ import 'package:helpwave_widget/shapes.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:tasks/components/task_card.dart';
-import 'package:tasks/components/user_header.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/subtask.dart';
 import 'package:helpwave_widget/loading.dart';
 
 import '../../dataclasses/task.dart';
+import '../settings_screen.dart';
 
 /// The Screen for showing all [Task]'s the [User] has in the current [ ]
 class MyTasksScreen extends StatefulWidget {
