@@ -85,7 +85,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                   keyboardType: TextInputType.multiline,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: paddingMedium, horizontal: paddingOffset ),
+                  padding: const EdgeInsets.only(top: paddingMedium, left: paddingOffset, right: paddingOffset, bottom: paddingSmall),
                   child:  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
