@@ -30,6 +30,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
           builder: (BuildContext ctx) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: paddingMedium),
@@ -84,11 +85,13 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                     ],
                   ),
                 ),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: paddingOffset, bottom: paddingOffset),
+                  child: Text(context.localization!.notes, style: const TextStyle(fontSize: fontSizeBig)) ,
+                ),
                 TextFormField(
                   initialValue: "", // TODO: replace with real data
-                  decoration: InputDecoration(
-                    hintText: context.localization!.notes,
-                  ),
                   maxLines: 6,
                   keyboardType: TextInputType.multiline,
                 ),
@@ -99,15 +102,15 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                     children: [
                       Text(context.localization!.tasks, style: const TextStyle(fontSize: fontSizeBig, fontWeight: FontWeight.bold),),
                       Container(
-                        height: 40,
-                        width: 40,
+                        height: iconSizeSmall,
+                        width: iconSizeSmall,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: primaryColor
                         ),
                         child: IconButton(
                           onPressed: () {},
-                          icon: const Icon(size: 25 , Icons.add, color: Colors.white,),
+                          icon: const Icon(size: iconSizeVeryTiny , Icons.add, color: Colors.white,),
                         ),
                       )
                     ],
@@ -118,7 +121,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                   child: ListView(
                     children: [
                       TaskExpansionTile(
-                        tasks: [
+                        tasks: const [
                           // TODO: add upcoming tasks
                         ],
                         color: upcomingColor,
