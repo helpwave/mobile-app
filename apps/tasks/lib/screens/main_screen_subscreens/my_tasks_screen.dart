@@ -9,7 +9,6 @@ import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/subtask.dart';
 import 'package:tasks/screens/settings_screen.dart';
 import 'package:helpwave_widget/loading.dart';
-
 import '../../components/task_expansion_tile.dart';
 import '../../dataclasses/task.dart';
 
