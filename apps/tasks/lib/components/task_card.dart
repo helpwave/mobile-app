@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/static_progress_indicator.dart';
-import 'package:tasks/components/patient_bottom_sheet.dart';
 import 'package:tasks/dataclasses/task.dart';
 
 class TaskCard extends StatelessWidget {
@@ -134,7 +133,7 @@ class TaskCard extends StatelessWidget {
                       // TODO change task status
                     },
                     icon: Icon(
-                      size: iconSizeSmall,
+                      size: iconSizeTiny,
                       Icons.check_circle_outline_rounded,
                       // TODO change colors later
                       color: task.status == TaskStatus.taskStatusDone ? Colors.grey : primaryColor,
@@ -145,6 +144,7 @@ class TaskCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
     );
   }
 }

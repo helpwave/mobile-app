@@ -4,7 +4,6 @@ import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/task_expansion_tile.dart';
-import 'package:tasks/dataclasses/task.dart';
 
 class PatientBottomSheet extends StatefulWidget {
   const PatientBottomSheet({Key? key, required this.patentId}) : super(key: key);
