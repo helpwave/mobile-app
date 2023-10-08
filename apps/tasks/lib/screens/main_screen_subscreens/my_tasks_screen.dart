@@ -5,9 +5,9 @@ import 'package:helpwave_widget/shapes.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:tasks/components/task_card.dart';
+import 'package:tasks/components/user_header.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/subtask.dart';
-import 'package:tasks/screens/settings_screen.dart';
 import 'package:helpwave_widget/loading.dart';
 
 import '../../dataclasses/task.dart';
@@ -105,22 +105,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
 
     return Consumer(
       builder: (BuildContext context, ThemeModel themeNotifier, _) => Scaffold(
-        appBar: AppBar(
-          title: Text(context.localization!.myTasks),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SettingsScreen(),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.settings),
-            )
-          ],
-        ),
+        appBar: const UserHeader(),
         body: LoadingFutureBuilder(
           future: getTasks(),
           thenWidgetBuilder: (context, data) {
