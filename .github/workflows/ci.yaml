@@ -109,7 +109,7 @@ jobs:
       - name: package tasks ipa
         working-directory: ./apps/tasks/
         run: |
-          flutter build ios --no-codesign --debug
+          flutter build ios --no-codesign #--debug
           mkdir Payload
           cp -r build/ios/Release-iphoneos/Runner.app Payload
           zip -r tasks.ipa Payload
@@ -140,7 +140,7 @@ jobs:
       - name: package impulse ipa
         working-directory: ./apps/impulse/
         run: |
-          flutter build ios --no-codesign --debug
+          flutter build ios --no-codesign #--debug
           mkdir Payload
           cp -r build/ios/Release-iphoneos/Runner.app Payload
           zip -r impulse.ipa Payload
