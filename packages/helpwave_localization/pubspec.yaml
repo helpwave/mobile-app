@@ -1,5 +1,5 @@
 name: helpwave_localization
-description: A new Flutter package project.
+description: A package for easily translating and reusing translations.
 version: 0.0.1
 homepage: https://github.com/helpwave/mobile-app
 

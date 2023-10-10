@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_localization/localization_model.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/screens/landing_screen.dart';
@@ -37,11 +38,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 );
               }),
             ),
-            ListTile(
-              leading: const Icon(Icons.language),
-              title: Text(context.localization!.language),
-              trailing: const Icon(Icons.arrow_forward),
-              onTap: () => {},
+            Consumer<LanguageModel>(
+              builder: (context, languageModel, child) {
+                return ListTile(
+                  leading: const Icon(Icons.language),
+                  title: Text(context.localization!.language),
+                  trailing: DropdownButton(
+                    value: languageModel.local,
+                    items: getSupportedLocalsWithName()
+                        .map((local) => DropdownMenuItem(
+                              value: local.local,
+                              child: Text(
+                                local.name,
+                              ),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      if (value != null) {
+                        languageModel.setLanguage(value);
+                      }
+                    },
+                  ),
+                );
+              },
             ),
             ListTile(
               leading: const Icon(Icons.info_outline),

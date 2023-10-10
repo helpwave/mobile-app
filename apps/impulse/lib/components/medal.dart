@@ -3,8 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/theming/colors.dart';
 
+/// A Medal polygon with a [Icon] and [Text] upon it
 class Medal extends StatelessWidget {
+  /// The [name] of the medal or [Text] to display on the [Medal]
   final String name;
+  /// The [icon] to display on the [Medal]
+  ///
+  /// It should give more context to the [Medal]
   final IconData icon;
 
   const Medal({
@@ -47,7 +52,7 @@ class Medal extends StatelessWidget {
                       color: primary,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      fontFamily: "SpaceGrotesk",
+                      fontFamily: "Fredoka",
                     ),
                   ),
                 ],

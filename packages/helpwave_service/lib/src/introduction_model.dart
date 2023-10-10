@@ -7,10 +7,13 @@ import 'package:helpwave_service/src/introduction_preference.dart';
 class IntroductionModel extends ChangeNotifier {
   /// Flag whether the user has seen the Introduction page or not
   bool _hasSeenIntroduction = false;
+  bool _isInitialized = false;
 
   final IntroductionPreferences _preferences = IntroductionPreferences();
 
   bool get hasSeenIntroduction => _hasSeenIntroduction;
+
+  bool get isInitialized => _isInitialized;
 
   IntroductionModel() {
     getPreferences();
@@ -23,7 +26,8 @@ class IntroductionModel extends ChangeNotifier {
   }
 
   getPreferences() async {
-    _hasSeenIntroduction = await _preferences.getLanguage();
+    _hasSeenIntroduction = await _preferences.getIntroductionValue();
+    _isInitialized = true;
     notifyListeners();
   }
 }

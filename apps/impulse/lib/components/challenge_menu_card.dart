@@ -4,16 +4,30 @@ import 'package:impulse/components/verification_method.dart';
 import 'package:impulse/dataclasses/verifier.dart';
 import 'package:impulse/theming/colors.dart';
 
+/// A [Card] showing the [Challenge] and a [Verifier] for it
 class ChallengeMenuCard extends StatefulWidget {
-  final String completion;
+  /// A [Text] showing the progress of the current [Challenge]
+  ///
+  /// e.g. 2/3
+  final String progressText;
+
+  /// The [title] of the [Challenge]
   final String title;
+
+  /// The [description] of the [Challenge]
   final String description;
+
+  /// The [verifier] of the [Challenge]
+  ///
+  /// Used to determine the [VerificationMethod] by the [VerificationMethodType]
   final Verifier verifier;
+
+  /// The callback once this [Challenge]'s completion is verified by the [verifier]
   final void Function() onFinish;
 
   const ChallengeMenuCard({
     super.key,
-    required this.completion,
+    required this.progressText,
     required this.title,
     required this.description,
     required this.verifier,
@@ -25,6 +39,7 @@ class ChallengeMenuCard extends StatefulWidget {
 }
 
 class _ChallengeMenuCardState extends State<ChallengeMenuCard> {
+  /// Maps the [verifier] to the corresponding [Widget]
   VerificationMethod getVerificationMethod() {
     Verifier currentVerifier = widget.verifier;
     switch (widget.verifier.methode) {
@@ -69,25 +84,22 @@ class _ChallengeMenuCardState extends State<ChallengeMenuCard> {
           children: <Widget>[
             const SizedBox(height: distanceMedium),
             Text(
-              widget.completion,
+              widget.progressText,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: primary, fontWeight: FontWeight.w700, fontSize: 30),
+              style: const TextStyle(color: primary, fontWeight: FontWeight.w700, fontSize: 30),
             ),
             const SizedBox(height: distanceSmall),
             Text(
               widget.title,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: primary, fontWeight: FontWeight.w700, fontSize: 22),
+              style: const TextStyle(color: primary, fontWeight: FontWeight.w700, fontSize: 22),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: distanceMedium),
               child: Text(
                 widget.description,
                 textAlign: TextAlign.center,
-                style:
-                    const TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
+                style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
               ),
             ),
             Flexible(flex: 1, child: Container()),
@@ -99,11 +111,9 @@ class _ChallengeMenuCardState extends State<ChallengeMenuCard> {
             Padding(
               padding: const EdgeInsets.all(paddingMedium),
               child: ElevatedButton(
-                onPressed:
-                    widget.verifier.isFinishable ? widget.onFinish : null,
+                onPressed: widget.verifier.isFinishable ? widget.onFinish : null,
                 style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.resolveWith<Color>((states) {
+                  backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
                     if (states.contains(MaterialState.disabled)) {
                       return disabled;
                     }

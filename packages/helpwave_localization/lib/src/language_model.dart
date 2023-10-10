@@ -2,22 +2,22 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/src/config/language.dart';
 import 'package:helpwave_localization/src/language_preferences.dart';
+import 'package:helpwave_localization/src/language_with_translation.dart';
 
 /// Model for Language Localization
 ///
 /// Notifies about changes to the Name and language short code the user prefers
 class LanguageModel extends ChangeNotifier {
-  /// Language short code e.g de, en
-  String _language = languages[defaultLanguageIndex]["Language"]!;
-
-  /// Spoken Name of the Language
-  String _name = languages[defaultLanguageIndex]["Name"]!;
+  /// The currently selected [LocalWithName]
+  LocalWithName _localWithName = getSupportedLocalsWithName()[defaultLanguageIndex];
 
   final LanguagePreferences _preferences = LanguagePreferences();
 
-  String get language => _language;
+  String get language => _localWithName.language;
 
-  String get name => _name;
+  String get name => _localWithName.name;
+
+  String get local => _localWithName.local;
 
   LanguageModel() {
     getPreferences();
@@ -28,10 +28,7 @@ class LanguageModel extends ChangeNotifier {
   }
 
   setLanguage(String local) {
-    Map<String, String> languageMap =
-        languages.firstWhere((element) => element["Local"]! == local);
-    _language = languageMap["Language"]!;
-    _name = languageMap["Name"]!;
+    _localWithName = languages.firstWhere((element) => element.local == local);
     _preferences.setLanguage(local);
     notifyListeners();
   }
@@ -39,15 +36,11 @@ class LanguageModel extends ChangeNotifier {
   getPreferences() async {
     String defaultLocale = Platform.localeName;
     String language = defaultLocale.split("_").first;
-    Map<String, String> languageEntry = languages.firstWhere(
-        (element) => element["Language"] == language,
-        orElse: () => languages[defaultLanguageIndex]);
-    String local = await _preferences.getLanguage() ?? languageEntry["Local"];
+    LocalWithName languageEntry =
+        languages.firstWhere((element) => element.language == language, orElse: () => languages[defaultLanguageIndex]);
+    String local = await _preferences.getLanguage() ?? languageEntry.local;
 
-    Map<String, String> languageMap =
-        languages.firstWhere((element) => element["Local"]! == local);
-    _language = languageMap["Language"]!;
-    _name = languageMap["Name"]!;
+    _localWithName = languages.firstWhere((element) => element.local == local);
     notifyListeners();
   }
 }

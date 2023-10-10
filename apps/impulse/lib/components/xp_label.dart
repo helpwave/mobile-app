@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:impulse/theming/colors.dart';
 
+/// A [Widget] showing experience points
 class XpLabel extends StatelessWidget {
+  /// The amount of experience points
   final int xp;
 
   const XpLabel({super.key, required this.xp});
@@ -17,15 +19,12 @@ class XpLabel extends StatelessWidget {
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 20,
-            fontFamily: "SpaceGrotesk",
+            fontFamily: "Fredoka",
           ),
           children: const <TextSpan>[
             TextSpan(
               text: 'XP',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
-                  fontFamily: "SpaceGrotesk"),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, fontFamily: "Fredoka"),
             )
           ],
         ),

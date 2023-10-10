@@ -3,20 +3,27 @@ import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/components/number_input.dart';
 import 'package:impulse/components/qr_scanner_wrapper.dart';
 import 'package:impulse/components/timer_component.dart';
+import 'package:impulse/dataclasses/challenge.dart';
 import 'package:impulse/dataclasses/verifier.dart';
 import 'package:impulse/theming/colors.dart';
 
+/// A [Widget] for verifying [Challenge]s
 abstract class VerificationMethod extends StatelessWidget {
+  /// The [Verifier] for the verification
   final Verifier verifier;
+  /// The callback one the verification is successful
   final void Function() onFinish;
 
-  const VerificationMethod(
-      {super.key, required this.verifier, required this.onFinish});
+  const VerificationMethod({
+    super.key,
+    required this.verifier,
+    required this.onFinish,
+  });
 }
 
+/// A [Widget] for verifying QR-Codes
 class QRVerification extends VerificationMethod {
-  const QRVerification(
-      {super.key, required super.verifier, required super.onFinish});
+  const QRVerification({super.key, required super.verifier, required super.onFinish});
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +67,9 @@ class QRVerification extends VerificationMethod {
   }
 }
 
+/// A [Widget] for Verification with a [Timer]
 class TimerVerification extends VerificationMethod {
-  const TimerVerification(
-      {super.key, required super.verifier, required super.onFinish});
+  const TimerVerification({super.key, required super.verifier, required super.onFinish});
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +85,7 @@ class TimerVerification extends VerificationMethod {
   }
 }
 
+/// A [Widget] for Verification with a [NumberInput]
 class NumberVerification extends VerificationMethod {
   final int startValue = 0;
 
@@ -105,9 +113,9 @@ class NumberVerification extends VerificationMethod {
   }
 }
 
+/// A [Widget] for Photo-Verification
 class CameraVerification extends VerificationMethod {
-  const CameraVerification(
-      {super.key, required super.verifier, required super.onFinish});
+  const CameraVerification({super.key, required super.verifier, required super.onFinish});
 
   @override
   Widget build(BuildContext context) {

@@ -46,6 +46,8 @@ dependencies:
     path: "../../packages/helpwave_localization"
   helpwave_widget:
     path: "../../packages/helpwave_widget"
+  helpwave_service:
+    path: "../../packages/helpwave_service"
 
   qr_code_scanner: ^1.0.1
   im_stepper: ^1.0.1+1
@@ -84,6 +86,12 @@ flutter:
     - family: SpaceGrotesk
       fonts:
         - asset: assets/fonts/SpaceGrotesk/SpaceGrotesk-VariableFont_wght.ttf
+
+    - family: Fredoka
+      fonts:
+        - asset: assets/fonts/Fredoka/static/Fredoka-Regular.ttf
+        - asset: assets/fonts/Fredoka/static/Fredoka-Bold.ttf
+          weight: 700
 
   # To add assets to your application, add an assets section, like this:
   # assets:

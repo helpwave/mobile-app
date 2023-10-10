@@ -1,7 +1,7 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:grpc/grpc.dart';
 import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbgrpc.dart';
-import 'package:impulse/dataclasses/challange.dart';
+import 'package:impulse/dataclasses/challenge.dart';
 import 'package:impulse/dataclasses/reward.dart';
 import 'package:impulse/dataclasses/team.dart';
 import 'package:impulse/dataclasses/user.dart';

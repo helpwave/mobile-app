@@ -15,19 +15,42 @@ Internationalization package.
 
 ## Features
 
-
+Extends the BuildContext to easily access the translations
 
 ## Getting started
 
+1. Update `lib/l10n/*.arb` files with your translations
+2. run `flutter gen-l10n`
 
 
 ## Usage
 
-1. Update `lib/l10n/*.arb` files with your translations
-2. run `flutter gen-l10n`
-3. `import 'package:helpwave_localization/localization.dart';`
-4. use `context.localization?.<textId>` or `AppLocalization.of(context)?.<textId>`
+1. `import 'package:helpwave_localization/localization.dart';`
+2. use `context.localization?.<textId>` or `AppLocalization.of(context)?.<textId>`
+
+#### Thememodel
+```dart
+ChangeNotifierProvider(
+  create: (_) => LanguageModel(),
+  child: Consumer<LanguageModel>(
+  builder: (BuildContext context, LanguageModel languageNotifier, _) {
+    return MaterialApp(
+      title: "title"
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: getSupportedLocals(),
+      locale: Locale(languageNotifier.language),
+      home: Scaffold
+    )
+  }
+);
+```
 
 ## Additional information
 
-
+If you want to add translations you will have to edit the translations in the [l10n folder](./lib/l10n) 
+and for adding a language you will additionally have to add it to the [config](./lib/src/config/language.dart).

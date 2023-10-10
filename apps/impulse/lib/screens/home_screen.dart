@@ -1,22 +1,24 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/components/activity_card.dart';
-import 'package:impulse/components/medal_carusel.dart';
+import 'package:impulse/components/background_gradient.dart';
+import 'package:impulse/components/medal_carousel.dart';
 import 'package:impulse/components/progressbar.dart';
 import 'package:impulse/components/xp_label.dart';
-import 'package:impulse/dataclasses/challange.dart';
+import 'package:impulse/dataclasses/challenge.dart';
+import 'package:impulse/dataclasses/user.dart';
+import 'package:impulse/screens/profile_screen.dart';
 import 'package:impulse/services/impulse_service.dart';
-import 'package:impulse/screens/challange_screen.dart';
+import 'package:impulse/screens/challenge_screen.dart';
 import 'package:impulse/theming/colors.dart';
-import '../components/profile_form.dart';
-import '../dataclasses/user.dart';
 import '../services/grpc_client_svc.dart';
 import '../util/level.dart';
 
+/// The home screen of the app
+///
+/// Shows the current [User] level and possible [Challenge]s
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -31,8 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     ImpulseService().getScore(userID).then((value) => setState(() {
-      score = value;
-    }));
+          score = value;
+        }));
     _timer = Timer.periodic(
       const Duration(seconds: 3),
       (Timer timer) {
@@ -52,35 +54,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFFA49AEC), primary],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          stops: [0.0, 1.0],
-        ),
-      ),
+    return BackgroundGradient(
       child: Scaffold(
-        backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: XpLabel(xp: score),
           actions: [
             IconButton(
-              onPressed: () => showDialog(
-                context: context,
-                builder: (_) => Dialog(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  child: ProfileForm(
-                      initialUser: User(
-                          username: "User",
-                          birthday: DateTime(2000),
-                          gender: Gender.GENDER_UNSPECIFIED,
-                          pal: 1,
-                          id: 'userId1')),
-                ),
-              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                );
+              },
               icon: const Icon(
                 Icons.person_outline_outlined,
                 color: Colors.white,
@@ -96,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               children: [
                 ProgressBar(
-                  progress: max(0, min(1, 1 - missingToNextLevel(score) /currentLevelXPRequirement(score))),
+                  progress: max(0, min(1, 1 - missingToNextLevel(score) / currentLevelXPRequirement(score))),
                   width: MediaQuery.of(context).size.width * 0.66,
                 ),
               ],
@@ -120,8 +105,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     "Verfügbare Challenges",
                     style: TextStyle(
-                      fontSize: 22,
-                      fontFamily: "SpaceGrotesk",
+                      fontSize: fontSizeBig,
+                      fontFamily: "Fredoka",
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -145,30 +130,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 List<Challenge> challenges = snapshot.data!;
 
                 return Column(
-                  mainAxisAlignment: challenges.isEmpty
-                      ? MainAxisAlignment.center
-                      : MainAxisAlignment.start,
+                  mainAxisAlignment: challenges.isEmpty ? MainAxisAlignment.center : MainAxisAlignment.start,
                   children: challenges.isEmpty
                       ? [
                           const Padding(
-                            padding:
-                                EdgeInsets.symmetric(vertical: paddingMedium),
-                            child: Text("Keine Challenges gefunden :(",
-                                style: TextStyle(color: Colors.white)),
+                            padding: EdgeInsets.symmetric(vertical: paddingMedium),
+                            child: Text("Keine Challenges gefunden :(", style: TextStyle(color: Colors.white)),
                           ),
                         ]
                       : [
                           for (int i = 0; i < challenges.length; i++)
                             ActivityCard(
                               accentColor: colors[i % colors.length],
-                              activityName: challenges[i].title,
-                              activityDescription: challenges[i].description,
+                              name: challenges[i].title,
+                              description: challenges[i].description,
                               xp: challenges[i].points,
                               onClick: () {
-                                Navigator.of(context)
-                                    .pushReplacement(MaterialPageRoute(
-                                  builder: (context) =>
-                                      ChallengeScreen(challenge: challenges[i]),
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                  builder: (context) => ChallengeScreen(challenge: challenges[i]),
                                 ));
                               },
                               margin: const EdgeInsets.symmetric(

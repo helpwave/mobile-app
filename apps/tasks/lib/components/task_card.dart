@@ -16,15 +16,19 @@ class TaskCard extends StatelessWidget {
     if (task.dueDate == null) {
       return "$result -";
     }
+
     if (task.isOverdue) {
       return context.localization!.overdue;
     }
+
     if (task.inNextHour) {
       return "$result ${context.localization!.nMinutes(task.remainingTime.inMinutes)}";
     }
+
     if (task.inNextTwoDays) {
       return "$result ${context.localization!.nHours(task.remainingTime.inHours)}";
     }
+
     return "$result ${context.localization!.nDays(task.remainingTime.inDays)}";
   }
 
