@@ -114,13 +114,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                     ),
                   ),
                 ),
-                IconButton(
-                  constraints: const BoxConstraints(maxWidth: iconSizeTiny, maxHeight: iconSizeTiny),
-                  padding: EdgeInsets.zero,
-                  iconSize: iconSizeTiny,
-                  onPressed: () => {},
-                  icon: const Icon(Icons.edit),
-                ),
+                const SizedBox(width: iconSizeTiny),
               ],
             ),
             Center(
