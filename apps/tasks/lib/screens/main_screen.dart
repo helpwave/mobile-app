@@ -7,6 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:tasks/screens/main_screen_subscreens/my_tasks_screen.dart';
 import 'package:tasks/screens/main_screen_subscreens/patient_screen.dart';
 
+import '../components/task_bottom_sheet.dart';
+import '../dataclasses/task.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -109,7 +112,13 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
                 height: chipHeight,
                 child: Center(child: Text(context.localization!.task)),
               ),
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) => TaskBottomSheet(task: Task.empty),
+                  isScrollControlled: true,
+                );
+              },
             ),
             const SizedBox(
               width: distanceSmall,
