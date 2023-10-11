@@ -4,11 +4,14 @@ import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/task_expansion_tile.dart';
+import 'package:tasks/dataclasses/patient.dart';
 
+/// A [BottomSheet] for showing [Patient] information and [Task]s for that [Patient]
 class PatientBottomSheet extends StatefulWidget {
-  const PatientBottomSheet({Key? key, required this.patentId}) : super(key: key);
-
+  /// The identifier of the [Patient]
   final String patentId;
+
+  const PatientBottomSheet({Key? key, required this.patentId}) : super(key: key);
 
   @override
   State<PatientBottomSheet> createState() => _PatientBottomSheetState();
@@ -67,13 +70,15 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
                               value: selectedRoom,
-                              items: rooms.map((item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: const TextStyle(color: Colors.grey),
-                                ),
-                              )).toList(),
+                              items: rooms
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(color: Colors.grey),
+                                        ),
+                                      ))
+                                  .toList(),
                               onChanged: (String? value) {
                                 setState(() {
                                   selectedRoom = value;
@@ -85,10 +90,9 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                       ],
                     ),
                   ),
-
                   Padding(
                     padding: const EdgeInsets.only(left: paddingOffset, bottom: paddingOffset),
-                    child: Text(context.localization!.notes, style: const TextStyle(fontSize: fontSizeBig)) ,
+                    child: Text(context.localization!.notes, style: const TextStyle(fontSize: fontSizeBig)),
                   ),
                   TextFormField(
                     initialValue: "", // TODO: replace with real data
@@ -96,21 +100,26 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                     keyboardType: TextInputType.multiline,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: paddingMedium, left: paddingOffset, right: paddingOffset, bottom: paddingSmall),
-                    child:  Row(
+                    padding: const EdgeInsets.only(
+                        top: paddingMedium, left: paddingOffset, right: paddingOffset, bottom: paddingSmall),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(context.localization!.tasks, style: const TextStyle(fontSize: fontSizeBig, fontWeight: FontWeight.bold),),
+                        Text(
+                          context.localization!.tasks,
+                          style: const TextStyle(fontSize: fontSizeBig, fontWeight: FontWeight.bold),
+                        ),
                         Container(
                           height: iconSizeSmall,
                           width: iconSizeSmall,
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: primaryColor
-                          ),
+                          decoration: const BoxDecoration(shape: BoxShape.circle, color: primaryColor),
                           child: IconButton(
                             onPressed: () {},
-                            icon: const Icon(size: iconSizeVeryTiny , Icons.add, color: Colors.white,),
+                            icon: const Icon(
+                              size: iconSizeVeryTiny,
+                              Icons.add,
+                              color: Colors.white,
+                            ),
                           ),
                         )
                       ],
