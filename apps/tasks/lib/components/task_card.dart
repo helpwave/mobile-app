@@ -63,87 +63,87 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: margin,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-        side: const BorderSide(color: Colors.grey, width: 2),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: paddingSmall, horizontal: paddingMedium),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                StaticProgressIndicator(
-                  progress: task.progress,
-                  color: primaryColor,
-                  backgroundColor: const Color.fromARGB(255, 210, 210, 210),
-                  isClockwise: true,
-                  angle: 0,
-                ),
-                Chip(
-                  backgroundColor: getBackgroundColor(),
-                  label: Text(
-                    getDueText(context),
-                    style: TextStyle(color: getTextColor()),
-                  ),
-                  elevation: 0,
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: distanceTiny,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        task.patient.name,
-                        style: const TextStyle(color: primaryColor),
-                      ),
-                      Text(
-                        task.name,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "SpaceGrotesk",
-                        ),
-                      ),
-                      Text(
-                        task.notes,
-                        style: const TextStyle(
-                            fontSize: 14,
-                            fontFamily: "SpaceGrotesk",
-                            overflow: TextOverflow.ellipsis,
-                            color: Color.fromARGB(255, 100, 100, 100)),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: distanceTiny),
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(maxHeight: iconSizeSmall, maxWidth: iconSizeSmall),
-                  onPressed: () {
-                    // TODO change task status
-                  },
-                  icon: Icon(
-                    size: iconSizeSmall,
-                    Icons.check_circle_outline_rounded,
-                    // TODO change colors later
-                    color: task.status == TaskStatus.taskStatusDone ? Colors.grey : primaryColor,
-                  ),
-                ),
-              ],
-            )
-          ],
+        margin: margin,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+          side: const BorderSide(color: Colors.grey, width: 2),
         ),
-      ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: paddingSmall, horizontal: paddingMedium),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  StaticProgressIndicator(
+                    progress: task.progress,
+                    color: primaryColor,
+                    backgroundColor: const Color.fromARGB(255, 210, 210, 210),
+                    isClockwise: true,
+                    angle: 0,
+                  ),
+                  Chip(
+                    backgroundColor: getBackgroundColor(),
+                    label: Text(
+                      getDueText(context),
+                      style: TextStyle(color: getTextColor()),
+                    ),
+                    elevation: 0,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: distanceTiny,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          task.patient.name,
+                          style: const TextStyle(color: primaryColor),
+                        ),
+                        Text(
+                          task.name,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "SpaceGrotesk",
+                          ),
+                        ),
+                        Text(
+                          task.notes,
+                          style: const TextStyle(
+                              fontSize: 14,
+                              fontFamily: "SpaceGrotesk",
+                              overflow: TextOverflow.ellipsis,
+                              color: Color.fromARGB(255, 100, 100, 100)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: distanceTiny),
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(maxHeight: iconSizeSmall, maxWidth: iconSizeSmall),
+                    onPressed: () {
+                      // TODO change task status
+                    },
+                    icon: Icon(
+                      size: iconSizeTiny,
+                      Icons.check_circle_outline_rounded,
+                      // TODO change colors later
+                      color: task.status == TaskStatus.taskStatusDone ? Colors.grey : primaryColor,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
     );
   }
 }
