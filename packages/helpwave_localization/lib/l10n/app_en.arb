@@ -6,7 +6,7 @@
   "loginSlogan": "Let's ride the wave!",
   "stations": "Wards",
   "station": "Ward",
-  "tasks": "tasks",
+  "tasks": "Tasks",
   "organisations":"organisations",
   "room": "Room",
   "rooms":"Rooms",
@@ -142,5 +142,6 @@
   "yourNotes": "Your Notes",
   "visibility": "Visibility",
   "assignedTo": "Assigned To",
-  "due": "Due"
+  "due": "Due",
+  "unassigne": "Unassign"
 }

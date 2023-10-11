@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:tasks/components/task_bottom_sheet.dart';
 import 'package:tasks/components/task_card.dart';
-import 'package:tasks/components/user_header.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/subtask.dart';
 import 'package:helpwave_widget/loading.dart';
 
 import '../../dataclasses/task.dart';
+import '../settings_screen.dart';
 
 /// The Screen for showing all [Task]'s the [User] has in the current [ ]
 class MyTasksScreen extends StatefulWidget {
@@ -106,7 +106,22 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
 
     return Consumer(
       builder: (BuildContext context, ThemeModel themeNotifier, _) => Scaffold(
-        appBar: const UserHeader(),
+        appBar: AppBar(
+          title: Text(context.localization!.myTasks),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SettingsScreen(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.settings),
+            )
+          ],
+        ),
         body: LoadingFutureBuilder(
           future: getTasks(),
           thenWidgetBuilder: (context, data) {
