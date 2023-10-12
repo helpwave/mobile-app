@@ -29,6 +29,9 @@ const double paddingSmall = 10;
 const double paddingMedium = distanceDefault;
 const double paddingBig = 40;
 
+const double paddingOffset = 10;
+
+
 const double dropDownVerticalPadding = 12;
 
 /// margin
@@ -59,6 +62,10 @@ const defaultOutlineInputBorder = OutlineInputBorder(
 const positiveColor = Color.fromARGB(255, 52, 199, 89);
 const negativeColor = Color(0xFFD67268);
 const primaryColor = Color(0xFF694BB4);
+
+const Color upcomingColor = Color(0xFF5D5FEF);
+const Color inProgressColor = Color(0xFFC79345);
+const Color doneColor = Color(0xFF7A977E);
 
 const errorColor = Color.fromARGB(255, 255, 51, 51);
 
