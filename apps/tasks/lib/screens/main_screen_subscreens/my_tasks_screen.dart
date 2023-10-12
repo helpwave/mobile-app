@@ -4,6 +4,7 @@ import 'package:helpwave_theme/theme.dart';
 import 'package:helpwave_widget/shapes.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:tasks/components/task_bottom_sheet.dart';
 import 'package:tasks/components/task_card.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/subtask.dart';
@@ -188,14 +189,23 @@ class _MyTasksScreenExpansionTile extends StatelessWidget {
           ),
         ),
       ),
-      title: Text("${title} (${tasks.length})"),
+      title: Text("$title (${tasks.length})"),
       children: tasks
           .map(
-            (task) => TaskCard(
-              task: task,
-              margin: const EdgeInsets.symmetric(
-                horizontal: paddingSmall,
-                vertical: paddingTiny,
+            (task) => GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) => TaskBottomSheet(task: task, patient: task.patient),
+                  isScrollControlled: true,
+                );
+              },
+              child: TaskCard(
+                task: task,
+                margin: const EdgeInsets.symmetric(
+                  horizontal: paddingSmall,
+                  vertical: paddingTiny,
+                ),
               ),
             ),
           )

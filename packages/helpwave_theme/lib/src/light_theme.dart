@@ -15,6 +15,7 @@ ThemeData lightTheme = ThemeData(
   ),
   bottomSheetTheme: const BottomSheetThemeData(
     backgroundColor: backgroundColor,
+    modalBackgroundColor: backgroundColor,
   ),
   inputDecorationTheme: InputDecorationTheme(
     focusColor: focusedColor,

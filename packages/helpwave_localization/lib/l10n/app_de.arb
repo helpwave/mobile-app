@@ -136,6 +136,10 @@
   "upcoming": "Todo",
   "inProgress": "In Arbeit",
   "done": "Fertig",
-  "unassigne": "Zuweisung aufheben",
-  "notes": "Notizen"
+  "subtasks": "Subtasks",
+  "notes": "Notizen",
+  "yourNotes": "Deine Notizen,",
+  "visibility": "Sichtbarkeit",
+  "assignedTo": "Zugewiesen zu",
+  "unassigne": "Zuweisung aufheben"
 }

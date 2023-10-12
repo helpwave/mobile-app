@@ -137,6 +137,11 @@
   "inProgress": "In Progress",
   "done": "Done",
   "currentWard": "Current Ward",
-  "unassigne": "Unassign",
-  "notes": "Notes"
+  "subtasks": "Subtasks",
+  "notes": "Notes",
+  "yourNotes": "Your Notes",
+  "visibility": "Visibility",
+  "assignedTo": "Assigned To",
+  "due": "Due",
+  "unassigne": "Unassign"
 }
