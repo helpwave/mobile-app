@@ -8,6 +8,8 @@ const apiURL = "staging.api.helpwave.de";
 const token = "eyJzdWIiOiIxODE1OTcxMy01ZDRlLTRhZDUtOTRhZC1mYmI2YmIxNDc5ODQiLCJlbWFpbCI6InRlc3RpbmUudGVzdEBoZWxwd2F2ZS"
     "5kZSIsIm5hbWUiOiJUZXN0aW5lIFRlc3QiLCJuaWNrbmFtZSI6InRlc3RpbmUudGVzdCIsIm9yZ2FuaXphdGlvbnMiOlsiM2IyNWM2ZjUtNDcwNS00MDc0LTlmYzYtYTUwYzI4ZWJhNDA2Il19";
 
+
+/// The Underlying GrpcService it provides other clients and the correct metadata for the requests
 class GRPCClientService {
   static final taskServiceChannel = ClientChannel(
     apiURL,

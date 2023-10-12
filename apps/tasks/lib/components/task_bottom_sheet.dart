@@ -5,12 +5,20 @@ import 'package:tasks/components/subtask_list.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import '../dataclasses/task.dart';
 
+/// A private [Widget] similar to a [ListTile] that has an icon and then to text
+///
+/// The [label] will be displayed over the [value]
 class _SheetListTile extends StatelessWidget {
+  /// The [label] of the [_SheetListTile]
   final String label;
-  final String name;
+
+  /// The [value] of the Tile
+  final String value;
+
+  /// The icon to show to the left of the texts
   final IconData icon;
 
-  const _SheetListTile({required this.label, required this.name, required this.icon});
+  const _SheetListTile({required this.label, required this.value, required this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +38,7 @@ class _SheetListTile extends StatelessWidget {
               style: const TextStyle(fontSize: 12),
             ),
             Text(
-              name,
+              value,
               style: const TextStyle(color: primaryColor, fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ],
@@ -40,8 +48,18 @@ class _SheetListTile extends StatelessWidget {
   }
 }
 
+/// A [BottomSheet] showing all information about a [Task]
+///
+/// Not providing a [patient] means creating a new task
+/// for which the [patient] must be chosen
 class TaskBottomSheet extends StatefulWidget {
+  /// The [Task] used to display the information
   final Task task;
+
+  /// The [patient] to which the task is assigned to
+  ///
+  /// Not providing a [patient] means creating a new task
+  /// for which the [patient] must be chosen
   final PatientMinimal? patient;
 
   const TaskBottomSheet({super.key, required this.task, this.patient});
@@ -54,6 +72,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
   Task task = Task.empty;
   PatientMinimal? patient;
   bool hasInitialPatient = false;
+  // TODO delete this and load from backend
   List<PatientMinimal> patients = [
     PatientMinimal(id: "patient1", name: "Victoria Schäfer"),
     PatientMinimal(id: "patient2", name: "Peter Patient"),
@@ -142,12 +161,12 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // TODO change static assignee name
-                _SheetListTile(icon: Icons.person, label: context.localization!.assignedTo, name: "Assignee"),
-                _SheetListTile(icon: Icons.access_time, label: context.localization!.due, name: "27. Juni"),
+                _SheetListTile(icon: Icons.person, label: context.localization!.assignedTo, value: "Assignee"),
+                _SheetListTile(icon: Icons.access_time, label: context.localization!.due, value: "27. Juni"),
               ],
             ),
             const SizedBox(height: distanceSmall),
-            _SheetListTile(icon: Icons.lock, label: context.localization!.visibility, name: "Private"),
+            _SheetListTile(icon: Icons.lock, label: context.localization!.visibility, value: "Private"),
             const SizedBox(height: distanceMedium),
             Text(
               context.localization!.notes,

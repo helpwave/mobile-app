@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:tasks/components/user_bottom_sheet.dart';
+import 'package:tasks/dataclasses/organization.dart';
+import 'package:tasks/dataclasses/ward.dart';
 import 'package:tasks/screens/settings_screen.dart';
 
+/// A [AppBar] for diplaying the current [User], [Organization] and [Ward]
 class UserHeader extends StatelessWidget implements PreferredSizeWidget {
+  // TODO fetch users by with grpc
   const UserHeader({Key? key}) : super(key: key);
 
   @override
@@ -75,7 +79,7 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
         actions: [
           IconButton(
             padding: EdgeInsets.zero,
-            splashRadius: iconSizeSmall/2,
+            splashRadius: iconSizeSmall / 2,
             constraints: const BoxConstraints(maxWidth: iconSizeSmall, maxHeight: iconSizeSmall),
             iconSize: iconSizeSmall,
             onPressed: () {
@@ -96,6 +100,6 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize {
     Size size = AppBar().preferredSize;
-    return Size(size.width, size.height + 2*paddingSmall);
+    return Size(size.width, size.height + 2 * paddingSmall);
   }
 }
