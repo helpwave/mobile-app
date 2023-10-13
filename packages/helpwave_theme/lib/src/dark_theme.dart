@@ -15,6 +15,7 @@ ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor: backgroundColor,
   bottomSheetTheme: const BottomSheetThemeData(
     backgroundColor: backgroundColor,
+    modalBackgroundColor: backgroundColor,
   ),
   inputDecorationTheme: InputDecorationTheme(
     focusColor: focusedColor,

@@ -7,6 +7,12 @@ import 'package:provider/provider.dart';
 import 'package:tasks/screens/main_screen_subscreens/my_tasks_screen.dart';
 import 'package:tasks/screens/main_screen_subscreens/patient_screen.dart';
 
+import '../components/task_bottom_sheet.dart';
+import '../dataclasses/task.dart';
+
+/// The main screen of the app
+///
+/// It holds the bottom [NavigationBar] state
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -85,6 +91,9 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
+/// A [FloatingActionButton] shown when the user wants to create a new [Task] of [Patient]
+///
+/// Shows the two options and onClick opens the corresponding modal
 class _TaskPatientFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -109,7 +118,13 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
                 height: chipHeight,
                 child: Center(child: Text(context.localization!.task)),
               ),
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) => TaskBottomSheet(task: Task.empty),
+                  isScrollControlled: true,
+                );
+              },
             ),
             const SizedBox(
               width: distanceSmall,

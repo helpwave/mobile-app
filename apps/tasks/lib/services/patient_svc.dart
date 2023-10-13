@@ -3,18 +3,23 @@ import 'package:helpwave_proto_dart/proto/services/task_svc/v1/patient_svc.pbgrp
 import 'package:tasks/dataclasses/bed.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/room.dart';
+import 'package:tasks/dataclasses/ward.dart';
 import 'package:tasks/services/grpc_client_svc.dart';
 
+/// The GRPC Service for [Patient]s
+///
+/// Provides queries and requests that load or alter [Patient] objects on the server
+/// The server is defined in the underlying [GRPCClientService]
 class PatientService {
-  PatientServiceClient patientService =
-      GRPCClientService.getPatientServiceClient;
+  /// The GRPC ServiceClient which handles GRPC
+  PatientServiceClient patientService = GRPCClientService.getPatientServiceClient;
 
   // TODO consider an enum instead of an string
-  Future<Map<PatientAssignmentStatus, List<Patient>>> getPatientList(
-      {String? wardId}) async {
+  /// Loads the [Patient]s by [Ward] and sorts them by their assignment status
+  Future<Map<PatientAssignmentStatus, List<Patient>>> getPatientList({String? wardId}) async {
     GetPatientListRequest patientListRequest = GetPatientListRequest(wardId: wardId);
-    GetPatientListResponse patientListResponse =
-        await patientService.getPatientList(patientListRequest, options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()));
+    GetPatientListResponse patientListResponse = await patientService.getPatientList(patientListRequest,
+        options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()));
 
     List<Patient> active = patientListResponse.active
         .map(
@@ -56,13 +61,13 @@ class PatientService {
   }
 
   // TODO consider an enum instead of an string
+  /// Discharges a [Patient]
   Future<bool> dischargePatient({required String patientId}) async {
     DischargePatientRequest request = DischargePatientRequest(id: patientId);
-    DischargePatientResponse response =
-    await patientService.dischargePatient(request, options: CallOptions(metadata: GRPCClientService()
-        .getTaskServiceMetaData()));
+    DischargePatientResponse response = await patientService.dischargePatient(request,
+        options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()));
 
-    if(response.isInitialized()){
+    if (response.isInitialized()) {
       return true;
     }
     return false;

@@ -13,13 +13,15 @@ enum TaskStatus {
 class Task {
   String id;
   String name;
-  String assignee;
+  String? assignee;
   String notes;
   TaskStatus status;
   List<SubTask> subtasks;
   DateTime? dueDate;
   DateTime? creationDate;
   bool isPublicVisible;
+
+  static get empty => Task(id: "", name: "name", notes: "");
 
   double get progress =>  subtasks.isNotEmpty ? subtasks.where((element) => element.isDone).length / subtasks.length
       : 1;
@@ -38,8 +40,8 @@ class Task {
   Task({
     required this.id,
     required this.name,
-    required this.assignee,
     required this.notes,
+    this.assignee,
     this.status = TaskStatus.taskStatusTodo,
     this.subtasks = const [],
     this.dueDate,
@@ -54,8 +56,8 @@ class TaskWithPatient extends Task {
   TaskWithPatient({
     required super.id,
     required super.name,
-    required super.assignee,
     required super.notes,
+    super.assignee,
     super.status,
     super.subtasks,
     super.dueDate,
