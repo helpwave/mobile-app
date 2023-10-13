@@ -72,6 +72,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
   Task task = Task.empty;
   PatientMinimal? patient;
   bool hasInitialPatient = false;
+
   // TODO delete this and load from backend
   List<PatientMinimal> patients = [
     PatientMinimal(id: "patient1", name: "Victoria Schäfer"),
@@ -91,12 +92,11 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        // TODO do saving or something when the dialog is closed
-        return true;
+    return BottomSheet(
+      onClosing: () {
+        // TODO handle this
       },
-      child: Container(
+      builder: (context) => Container(
         constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.8),
         padding: const EdgeInsets.only(
           bottom: paddingSmall,

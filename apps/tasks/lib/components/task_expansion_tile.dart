@@ -26,40 +26,46 @@ class TaskExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
-      textColor: color,
-      collapsedTextColor: color,
-      initiallyExpanded: true,
-      leading: SizedBox(
-        width: circleSize,
-        child: Center(
-          child: Circle(
-            color: color,
-            diameter: circleSize,
+    return Theme(
+      data: Theme.of(context).copyWith(
+        dividerColor: Colors.transparent,
+        listTileTheme: Theme.of(context).listTileTheme.copyWith(minLeadingWidth: 0, horizontalTitleGap: paddingSmall),
+      ),
+      child: ExpansionTile(
+        textColor: color,
+        collapsedTextColor: color,
+        initiallyExpanded: true,
+        leading: SizedBox(
+          width: circleSize,
+          child: Center(
+            child: Circle(
+              color: color,
+              diameter: circleSize,
+            ),
           ),
         ),
-      ),
-      title: Text("$title (${tasks.length})"),
-      children: tasks
-          .map(
-            (task) => GestureDetector(
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) => TaskBottomSheet(task: task, patient: task.patient),
-                  isScrollControlled: true,
-                );
-              },
-              child: TaskCard(
-                task: task,
-                margin: const EdgeInsets.symmetric(
-                  horizontal: paddingSmall,
-                  vertical: paddingTiny,
+        title: Text("$title (${tasks.length})"),
+        children: tasks
+            .map(
+              (task) => GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) => TaskBottomSheet(task: task, patient: task.patient),
+                    isScrollControlled: true,
+                  );
+                },
+                child: TaskCard(
+                  task: task,
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: paddingSmall,
+                    vertical: paddingTiny,
+                  ),
                 ),
               ),
-            ),
-          )
-          .toList(),
+            )
+            .toList(),
+      ),
     );
   }
 }
