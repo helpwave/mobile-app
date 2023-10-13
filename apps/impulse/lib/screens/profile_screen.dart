@@ -39,6 +39,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+
     const InputDecoration textFieldDecoration = InputDecoration(
       filled: true,
       fillColor: disabled,
@@ -235,7 +237,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                Flexible(child: Container()),
+                SizedBox(height: height * 0.1),
                 Padding(
                   padding: const EdgeInsets.all(paddingMedium),
                   child: Container(
