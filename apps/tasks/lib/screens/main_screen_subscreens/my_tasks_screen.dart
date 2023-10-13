@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
-import 'package:helpwave_widget/shapes.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
-import 'package:tasks/components/task_bottom_sheet.dart';
-import 'package:tasks/components/task_card.dart';
+import 'package:tasks/components/task_expansion_tile.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/subtask.dart';
 import 'package:helpwave_widget/loading.dart';
@@ -13,7 +11,7 @@ import 'package:helpwave_widget/loading.dart';
 import '../../dataclasses/task.dart';
 import '../settings_screen.dart';
 
-/// The Screen for showing all [Task]'s the [User] has in the current [ ]
+/// The Screen for showing all [Task]'s the [User] has assigned to them
 class MyTasksScreen extends StatefulWidget {
   const MyTasksScreen({super.key});
 
@@ -22,6 +20,7 @@ class MyTasksScreen extends StatefulWidget {
 }
 
 class _MyTasksScreenState extends State<MyTasksScreen> {
+  // TODO remove these hard coded patients with a grpc request
   PatientMinimal patient = PatientMinimal(
     id: 'patient 1',
     name: "Victoria Schäfer",
@@ -140,17 +139,17 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                   spacing: distanceSmall,
                   // TODO change the color off the expansion tiles
                   children: [
-                    _MyTasksScreenExpansionTile(
+                    TaskExpansionTile(
                       tasks: todo,
                       color: upcomingColor,
                       title: context.localization!.upcoming,
                     ),
-                    _MyTasksScreenExpansionTile(
+                    TaskExpansionTile(
                       tasks: inProgress,
                       color: inProgressColor,
                       title: context.localization!.inProgress,
                     ),
-                    _MyTasksScreenExpansionTile(
+                    TaskExpansionTile(
                       tasks: done,
                       color: doneColor,
                       title: context.localization!.done,
@@ -162,54 +161,6 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
           },
         ),
       ),
-    );
-  }
-}
-
-class _MyTasksScreenExpansionTile extends StatelessWidget {
-  final List<TaskWithPatient> tasks;
-  final Color color;
-  final double circleSize = 8;
-  final String title;
-
-  const _MyTasksScreenExpansionTile({required this.tasks, required this.color, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return ExpansionTile(
-      textColor: color,
-      collapsedTextColor: color,
-      initiallyExpanded: true,
-      leading: SizedBox(
-        width: circleSize,
-        child: Center(
-          child: Circle(
-            color: color,
-            diameter: circleSize,
-          ),
-        ),
-      ),
-      title: Text("$title (${tasks.length})"),
-      children: tasks
-          .map(
-            (task) => GestureDetector(
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) => TaskBottomSheet(task: task, patient: task.patient),
-                  isScrollControlled: true,
-                );
-              },
-              child: TaskCard(
-                task: task,
-                margin: const EdgeInsets.symmetric(
-                  horizontal: paddingSmall,
-                  vertical: paddingTiny,
-                ),
-              ),
-            ),
-          )
-          .toList(),
     );
   }
 }

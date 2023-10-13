@@ -4,9 +4,16 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/shapes.dart';
 import 'package:tasks/dataclasses/subtask.dart';
+import 'package:tasks/dataclasses/task.dart';
 
+/// A [Widget] for displaying an updating a [List] of [SubTask]s
 class SubtaskList extends StatefulWidget {
+  // TODO change this here to make an exclusive choice between taskId and subtasks
+  // Subtasks should only be used for Task creation and taskId when the task already exists
+  /// The identifier of the [Task] to which all of these [SubTask]s belong
   final String taskId;
+
+  /// The [List] of initial subtasks
   final List<SubTask> subtasks;
 
   const SubtaskList({super.key, required this.taskId, required this.subtasks});

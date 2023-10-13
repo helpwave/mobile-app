@@ -8,6 +8,9 @@ import 'package:tasks/components/user_header.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/services/patient_svc.dart';
 
+/// A screen for showing a all [Patient]s by certain user-selectable filter properties
+///
+/// Filters: discharge, active, unassigned, matches search
 class PatientScreen extends StatefulWidget {
   const PatientScreen({super.key});
 

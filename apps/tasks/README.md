@@ -1,6 +1,6 @@
 # tasks
 
-A new Flutter project.
+The helpwave tasks app for easily tracking tasks in a hospital. This is the mobile companion of the web application.
 
 ## Getting Started
 
