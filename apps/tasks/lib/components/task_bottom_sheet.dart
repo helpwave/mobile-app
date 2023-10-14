@@ -2,23 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:tasks/components/subtask_list.dart';
+import 'package:tasks/components/visiblility_select.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import '../dataclasses/task.dart';
 
 /// A private [Widget] similar to a [ListTile] that has an icon and then to text
 ///
-/// The [label] will be displayed over the [value]
+/// The [label] will be displayed over the [valueText]
 class _SheetListTile extends StatelessWidget {
   /// The [label] of the [_SheetListTile]
   final String label;
 
-  /// The [value] of the Tile
-  final String value;
+  /// The [valueText] of the Tile
+  ///
+  /// [valueText] and [valueWidget] are exclusive
+  final String? valueText;
+
+  /// The [valueWidget] of the Tile
+  ///
+  /// [valueText] and [valueWidget] are exclusive
+  final Widget? valueWidget;
 
   /// The icon to show to the left of the texts
   final IconData icon;
 
-  const _SheetListTile({required this.label, required this.value, required this.icon});
+  const _SheetListTile({
+    required this.label,
+    this.valueText,
+    this.valueWidget,
+    required this.icon,
+  }) : assert(
+          (valueWidget == null && valueText != null) || (valueWidget != null && valueText == null),
+          "Exactly one of parameter1 or parameter2 should be provided.",
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +53,12 @@ class _SheetListTile extends StatelessWidget {
               label,
               style: const TextStyle(fontSize: 12),
             ),
-            Text(
-              value,
-              style: const TextStyle(color: primaryColor, fontSize: 16, fontWeight: FontWeight.bold),
-            ),
+            valueText != null
+                ? Text(
+                    valueText!,
+                    style: editableValueTextStyle,
+                  )
+                : valueWidget!,
           ],
         )
       ],
@@ -72,6 +90,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
   Task task = Task.empty;
   PatientMinimal? patient;
   bool hasInitialPatient = false;
+
   // TODO delete this and load from backend
   List<PatientMinimal> patients = [
     PatientMinimal(id: "patient1", name: "Victoria Schäfer"),
@@ -161,12 +180,21 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // TODO change static assignee name
-                _SheetListTile(icon: Icons.person, label: context.localization!.assignedTo, value: "Assignee"),
-                _SheetListTile(icon: Icons.access_time, label: context.localization!.due, value: "27. Juni"),
+                _SheetListTile(icon: Icons.person, label: context.localization!.assignedTo, valueText: "Assignee"),
+                _SheetListTile(icon: Icons.access_time, label: context.localization!.due, valueText: "27. Juni"),
               ],
             ),
             const SizedBox(height: distanceSmall),
-            _SheetListTile(icon: Icons.lock, label: context.localization!.visibility, value: "Private"),
+            _SheetListTile(
+              icon: Icons.lock,
+              label: context.localization!.visibility,
+              valueWidget: VisibilitySelect(
+                isPublicVisible: task.isPublicVisible,
+                onChanged: (value) => setState(() {task.isPublicVisible = value;}),
+                isCreating: task.id == "",
+                textStyle: editableValueTextStyle,
+              ),
+            ),
             const SizedBox(height: distanceMedium),
             Text(
               context.localization!.notes,

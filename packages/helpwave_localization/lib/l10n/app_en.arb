@@ -143,5 +143,7 @@
   "visibility": "Visibility",
   "assignedTo": "Assigned To",
   "due": "Due",
-  "unassigne": "Unassign"
+  "unassigne": "Unassign",
+  "public": "Public",
+  "private": "Private"
 }
