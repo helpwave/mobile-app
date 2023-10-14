@@ -82,224 +82,226 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
           ),
         ),
-        body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(paddingMedium),
-                  child: Wrap(
-                    runSpacing: distanceSmall,
-                    children: [
-                      const Text(
-                        "Dein Name",
-                        style: TextStyle(
-                          color: labelColor,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      TextField(
-                        onChanged: (value) {
-                          user.username = value;
-                        },
-                        decoration: textFieldDecoration,
-                        style: const TextStyle(
-                          decoration: null,
-                          color: primary,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const Text(
-                        "Geschlecht",
-                        style: TextStyle(
-                          color: labelColor,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      InputDecorator(
-                        decoration: dropdownDecoration,
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            padding: EdgeInsets.zero,
-                            isDense: true,
-                            style: const TextStyle(color: primary),
-                            value: user.gender,
-                            items: [
-                              DropdownMenuItem(
-                                value: Gender.GENDER_MALE,
-                                child: Text(Gender.GENDER_MALE.text),
-                              ),
-                              DropdownMenuItem(
-                                value: Gender.GENDER_FEMALE,
-                                child: Text(Gender.GENDER_FEMALE.text),
-                              ),
-                              DropdownMenuItem(
-                                value: Gender.GENDER_DIVERSE,
-                                child: Text(Gender.GENDER_DIVERSE.text),
-                              ),
-                              DropdownMenuItem(
-                                value: Gender.GENDER_UNSPECIFIED,
-                                child: Text(Gender.GENDER_UNSPECIFIED.text),
-                              ),
-                            ],
-                            onChanged: (value) {
-                              setState(() {
-                                user.gender = value ?? Gender.GENDER_UNSPECIFIED;
-                              });
-                            },
+        body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewportConstraints) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: viewportConstraints.maxHeight,
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(paddingMedium),
+                    child: Wrap(
+                      runSpacing: distanceSmall,
+                      children: [
+                        const Text(
+                          "Dein Name",
+                          style: TextStyle(
+                            color: labelColor,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
-                      ),
-                      const Text(
-                        "Größe in cm",
-                        style: TextStyle(
-                          color: labelColor,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      TextField(
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          user.height = int.parse(value);
-                        },
-                        decoration: textFieldDecoration,
-                        style: const TextStyle(
-                          decoration: null,
-                          color: primary,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const Text(
-                        "Gewicht in kg",
-                        style: TextStyle(
-                          color: labelColor,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      TextField(
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          user.weight = double.parse(value);
-                        },
-                        decoration: textFieldDecoration,
-                        style: const TextStyle(
-                          decoration: null,
-                          color: primary,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const Text(
-                        "PAL-Wert",
-                        style: TextStyle(
-                          color: labelColor,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      InputDecorator(
-                        decoration: dropdownDecoration,
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            isExpanded: true,
-                            style: const TextStyle(color: primary),
-                            value: user.palDescriptor,
-                            items: [
-                              DropdownMenuItem(
-                                value: PALDescriptor.laying,
-                                child: Text(PALDescriptor.laying.text),
-                              ),
-                              DropdownMenuItem(
-                                value: PALDescriptor.sitting,
-                                child: Text(PALDescriptor.sitting.text),
-                              ),
-                              DropdownMenuItem(
-                                value: PALDescriptor.walking,
-                                child: Text(PALDescriptor.walking.text),
-                              ),
-                              DropdownMenuItem(
-                                value: PALDescriptor.standing,
-                                child: Text(PALDescriptor.standing.text),
-                              ),
-                              DropdownMenuItem(
-                                value: PALDescriptor.active,
-                                child: Text(PALDescriptor.active.text),
-                              ),
-                            ],
-                            onChanged: (value) {
-                              setState(() {
-                                user.palDescriptor = value ?? PALDescriptor.sitting;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: height * 0.1),
-                Padding(
-                  padding: const EdgeInsets.all(paddingMedium),
-                  child: Container(
-                    decoration: lizenzDecoration,
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.only(left: paddingMedium, right: paddingSmall),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(borderRadiusMedium),
-                        ),
-                      ),
-                      title: const Text(
-                        "Lizenzen",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      trailing: const Icon(
-                        Icons.chevron_right,
-                        size: iconSizeSmall,
-                      ),
-                      onTap: () => {
-                        Navigator.of(context).push(MaterialPageRoute<void>(
-                          builder: (BuildContext context) {
-                            return const BackgroundGradient(
-                              child: LicensePage(
-                                applicationName: 'helpwave impulse',
-                                applicationVersion: '0.0.1',
-                                applicationIcon: Icon(Icons.home),
-                              ),
-                            );
+                        TextField(
+                          onChanged: (value) {
+                            user.username = value;
                           },
-                        ))
-                      },
+                          decoration: textFieldDecoration,
+                          style: const TextStyle(
+                            decoration: null,
+                            color: primary,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const Text(
+                          "Geschlecht",
+                          style: TextStyle(
+                            color: labelColor,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        InputDecorator(
+                          decoration: dropdownDecoration,
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              padding: EdgeInsets.zero,
+                              isDense: true,
+                              style: const TextStyle(color: primary),
+                              value: user.gender,
+                              items: [
+                                DropdownMenuItem(
+                                  value: Gender.GENDER_MALE,
+                                  child: Text(Gender.GENDER_MALE.text),
+                                ),
+                                DropdownMenuItem(
+                                  value: Gender.GENDER_FEMALE,
+                                  child: Text(Gender.GENDER_FEMALE.text),
+                                ),
+                                DropdownMenuItem(
+                                  value: Gender.GENDER_DIVERSE,
+                                  child: Text(Gender.GENDER_DIVERSE.text),
+                                ),
+                                DropdownMenuItem(
+                                  value: Gender.GENDER_UNSPECIFIED,
+                                  child: Text(Gender.GENDER_UNSPECIFIED.text),
+                                ),
+                              ],
+                              onChanged: (value) {
+                                setState(() {
+                                  user.gender = value ?? Gender.GENDER_UNSPECIFIED;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        const Text(
+                          "Größe in cm",
+                          style: TextStyle(
+                            color: labelColor,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        TextField(
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            user.height = int.parse(value);
+                          },
+                          decoration: textFieldDecoration,
+                          style: const TextStyle(
+                            decoration: null,
+                            color: primary,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const Text(
+                          "Gewicht in kg",
+                          style: TextStyle(
+                            color: labelColor,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        TextField(
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            user.weight = double.parse(value);
+                          },
+                          decoration: textFieldDecoration,
+                          style: const TextStyle(
+                            decoration: null,
+                            color: primary,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const Text(
+                          "PAL-Wert",
+                          style: TextStyle(
+                            color: labelColor,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        InputDecorator(
+                          decoration: dropdownDecoration,
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              isExpanded: true,
+                              style: const TextStyle(color: primary),
+                              value: user.palDescriptor,
+                              items: [
+                                DropdownMenuItem(
+                                  value: PALDescriptor.laying,
+                                  child: Text(PALDescriptor.laying.text),
+                                ),
+                                DropdownMenuItem(
+                                  value: PALDescriptor.sitting,
+                                  child: Text(PALDescriptor.sitting.text),
+                                ),
+                                DropdownMenuItem(
+                                  value: PALDescriptor.walking,
+                                  child: Text(PALDescriptor.walking.text),
+                                ),
+                                DropdownMenuItem(
+                                  value: PALDescriptor.standing,
+                                  child: Text(PALDescriptor.standing.text),
+                                ),
+                                DropdownMenuItem(
+                                  value: PALDescriptor.active,
+                                  child: Text(PALDescriptor.active.text),
+                                ),
+                              ],
+                              onChanged: (value) {
+                                setState(() {
+                                  user.palDescriptor = value ?? PALDescriptor.sitting;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                const SizedBox(height: distanceMedium),
-                Padding(
-                  padding: const EdgeInsets.all(paddingMedium),
-                  child: Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      style: const ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(primary),
-                        fixedSize: MaterialStatePropertyAll(
-                          Size.fromWidth(215),
+                  Padding(
+                    padding: const EdgeInsets.all(paddingMedium),
+                    child: Container(
+                      decoration: lizenzDecoration,
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.only(left: paddingMedium, right: paddingSmall),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(borderRadiusMedium),
+                          ),
                         ),
-                        side: MaterialStatePropertyAll(BorderSide(color: Colors.white, width: 2)),
+                        title: const Text(
+                          "Lizenzen",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        trailing: const Icon(
+                          Icons.chevron_right,
+                          size: iconSizeSmall,
+                        ),
+                        onTap: () => {
+                          Navigator.of(context).push(MaterialPageRoute<void>(
+                            builder: (BuildContext context) {
+                              return const BackgroundGradient(
+                                child: LicensePage(
+                                  applicationName: 'helpwave impulse',
+                                  applicationVersion: '0.0.1',
+                                  applicationIcon: Icon(Icons.home),
+                                ),
+                              );
+                            },
+                          ))
+                        },
                       ),
-                      child: const Text(
-                        "Speichern",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: distanceMedium),
+                  Padding(
+                    padding: const EdgeInsets.all(paddingMedium),
+                    child: Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: const ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(primary),
+                          fixedSize: MaterialStatePropertyAll(
+                            Size.fromWidth(215),
+                          ),
+                          side: MaterialStatePropertyAll(BorderSide(color: Colors.white, width: 2)),
+                        ),
+                        child: const Text(
+                          "Speichern",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
