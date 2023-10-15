@@ -5,6 +5,7 @@ import 'package:helpwave_service/src/user_preference.dart';
 ///
 /// Notifies about changes of the user on registration or update
 class UserModel extends ChangeNotifier {
+  /// Describes whether the [UserModel] has been initalized yet
   bool _isInitialized = false;
   String _user = "";
 
