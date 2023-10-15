@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Service for reading and writing the current user
+/// Service for reading and writing the current [User]
 class UserPreferences {
   /// Key of the Shared Preference
   final String sharedPreferencesIntroductionKey = "user";
