@@ -86,7 +86,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
               actions: [
                 IconButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => ProfileScreen(
