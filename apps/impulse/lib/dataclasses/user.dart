@@ -85,13 +85,27 @@ class User {
   factory User.empty() {
     return User(
       id: "",
-      username: "",
+      username: "Max Mustermann",
       birthday: DateTime(2000),
       gender: Gender.GENDER_UNSPECIFIED,
       pal: 0,
-      weight: 1,
-      height: 1,
+      weight: 80,
+      height: 180,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      'username': username,
+      'birthday': birthday.toIso8601String(),
+      'gender': gender.value,
+      'pal': pal,
+      'weight': weight,
+      'height': height,
+      'teamId': teamId,
+      'palDescriptor': palDescriptor.value,
+    };
   }
 
   User({

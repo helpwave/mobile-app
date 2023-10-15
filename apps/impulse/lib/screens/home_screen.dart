@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pb.dart';
+import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/components/activity_card.dart';
 import 'package:impulse/components/background_gradient.dart';
@@ -13,6 +16,7 @@ import 'package:impulse/screens/profile_screen.dart';
 import 'package:impulse/services/impulse_service.dart';
 import 'package:impulse/screens/challenge_screen.dart';
 import 'package:impulse/theming/colors.dart';
+import 'package:provider/provider.dart';
 import '../services/grpc_client_svc.dart';
 import '../util/level.dart';
 
@@ -54,8 +58,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BackgroundGradient(
-      child: Scaffold(
+    return Consumer(builder: (_, UserModel userNotifier, __) {
+      User? user;
+
+      if (userNotifier.user.isNotEmpty){
+        final userData = jsonDecode(userNotifier.user);
+        user = User(
+          id: userData['id'],
+          height: userData['height'],
+          weight: userData['weight'],
+          pal: userData['pal'],
+          username: userData['username'],
+          gender: Gender.values[userData['gender']],
+          birthday: DateTime.parse(userData['birthday']),
+        );
+      }
+
+      return BackgroundGradient(child: Scaffold(
         appBar: AppBar(
           title: XpLabel(xp: score),
           actions: [
@@ -63,7 +82,9 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                  MaterialPageRoute(builder: (context) => ProfileScreen(
+                    initialUser: user,
+                  )),
                 );
               },
               icon: const Icon(
@@ -133,35 +154,35 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: challenges.isEmpty ? MainAxisAlignment.center : MainAxisAlignment.start,
                   children: challenges.isEmpty
                       ? [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: paddingMedium),
-                            child: Text("Keine Challenges gefunden :(", style: TextStyle(color: Colors.white)),
-                          ),
-                        ]
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: paddingMedium),
+                      child: Text("Keine Challenges gefunden :(", style: TextStyle(color: Colors.white)),
+                    ),
+                  ]
                       : [
-                          for (int i = 0; i < challenges.length; i++)
-                            ActivityCard(
-                              accentColor: colors[i % colors.length],
-                              name: challenges[i].title,
-                              description: challenges[i].description,
-                              xp: challenges[i].points,
-                              onClick: () {
-                                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                                  builder: (context) => ChallengeScreen(challenge: challenges[i]),
-                                ));
-                              },
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: paddingMedium,
-                                vertical: paddingSmall,
-                              ),
-                            )
-                        ],
+                    for (int i = 0; i < challenges.length; i++)
+                      ActivityCard(
+                        accentColor: colors[i % colors.length],
+                        name: challenges[i].title,
+                        description: challenges[i].description,
+                        xp: challenges[i].points,
+                        onClick: () {
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => ChallengeScreen(challenge: challenges[i]),
+                          ));
+                        },
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: paddingMedium,
+                          vertical: paddingSmall,
+                        ),
+                      )
+                  ],
                 );
               },
             )
           ],
         ),
-      ),
-    );
+      ),);
+    });
   }
 }

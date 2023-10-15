@@ -3,8 +3,10 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:helpwave_service/introduction.dart';
+import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/components/background_gradient.dart';
+import 'package:impulse/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 import '../theming/colors.dart';
 import 'home_screen.dart';
@@ -91,7 +93,7 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BackgroundGradient(
+    return Consumer2<IntroductionModel, UserModel>(builder: (_, IntroductionModel introductionNotifier, UserModel userNotifier, __) =>  BackgroundGradient(
       child: Scaffold(
         body: Column(
           children: [
@@ -102,24 +104,25 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
                     height: 100,
                   ),
                   CarouselSlider(
-                      carouselController: carouselController,
-                      items: carouseItems.map((item) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return item;
-                          },
-                        );
-                      }).toList(),
-                      options: CarouselOptions(
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            currentIndexPage = index;
-                          });
+                    carouselController: carouselController,
+                    items: carouseItems.map((item) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return item;
                         },
-                        autoPlay: true,
-                        autoPlayAnimationDuration: const Duration(milliseconds: 500),
-                        height: 350.0,
-                      )),
+                      );
+                    }).toList(),
+                    options: CarouselOptions(
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          currentIndexPage = index;
+                        });
+                      },
+                      autoPlay: true,
+                      autoPlayAnimationDuration: const Duration(milliseconds: 500),
+                      height: 350.0,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -127,11 +130,12 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
               dotsCount: carouseItems.length,
               position: currentIndexPage,
               decorator: DotsDecorator(
-                  color: Colors.white,
-                  size: const Size.square(9.0),
-                  activeSize: const Size(18.0, 9.0),
-                  activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-                  activeColor: Colors.white),
+                color: Colors.white,
+                size: const Size.square(9.0),
+                activeSize: const Size(18.0, 9.0),
+                activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                activeColor: Colors.white,
+              ),
             )
           ],
         ),
@@ -141,10 +145,9 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Consumer<IntroductionModel>(
-                builder: (context, value, _) => TextButton(
+              TextButton(
                   onPressed: () {
-                    value.setHasSeenIntroduction(hasSeenIntroduction: true);
+                    introductionNotifier.setHasSeenIntroduction(hasSeenIntroduction: true);
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -154,7 +157,6 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
                     "Überspringen",
                     style: TextStyle(color: Colors.white),
                   ),
-                ),
               ),
               TextButton(
                 onPressed: () {
@@ -169,17 +171,18 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
                 },
                 child: Row(
                   children: [
-                    Consumer<IntroductionModel>(
-                      builder: (context, value, _) => GestureDetector(
+                    GestureDetector(
                         onTap: () {
-                          value.setHasSeenIntroduction(hasSeenIntroduction: true);
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => const HomeScreen()),
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) {
+                              if (userNotifier.user.isEmpty) {
+                                return const ProfileScreen();
+                              }
+                              return const HomeScreen();
+                            }),
                           );
                         },
                         child: const Text("Weiter", style: TextStyle(color: Colors.white)),
-                      ),
                     ),
                     const Icon(
                       Icons.arrow_forward_ios_outlined,
@@ -192,6 +195,8 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
           ),
         ),
       ),
-    );
+    ));
+
+
   }
 }
