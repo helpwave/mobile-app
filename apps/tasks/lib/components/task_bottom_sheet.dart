@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:tasks/components/subtask_list.dart';
-import 'package:tasks/components/visiblility_select.dart';
+import 'package:tasks/components/visibility_select.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import '../dataclasses/task.dart';
 
