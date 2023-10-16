@@ -45,7 +45,7 @@ dependencies:
     path: "../../packages/helpwave_widget"
   helpwave_service:
     path: "../../packages/helpwave_service"
-  helpwave_proto_dart: 0.22.2-4f08703.0
+  helpwave_proto_dart: 0.29.2-72f5de8.0
   grpc: ^3.2.4
 
 dev_dependencies:

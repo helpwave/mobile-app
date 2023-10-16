@@ -102,3 +102,6 @@ const chipTheme = ChipThemeData(
   pressElevation: 4,
   secondaryLabelStyle: TextStyle(color: Colors.white), // The TextStyle for selection
 );
+
+/// TextStyles
+const TextStyle editableValueTextStyle = TextStyle(color: primaryColor, fontSize: 16, fontWeight: FontWeight.bold);
