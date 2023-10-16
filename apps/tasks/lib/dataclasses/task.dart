@@ -3,10 +3,10 @@ import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/subtask.dart';
 
 enum TaskStatus {
-  taskStatusUnspecified,
-  taskStatusTodo,
-  taskStatusInProgress,
-  taskStatusDone,
+  unspecified,
+  todo,
+  inProgress,
+  done,
 }
 
 /// data class for [Task]
@@ -42,7 +42,7 @@ class Task {
     required this.name,
     required this.notes,
     this.assignee,
-    this.status = TaskStatus.taskStatusTodo,
+    this.status = TaskStatus.todo,
     this.subtasks = const [],
     this.dueDate,
     this.creationDate,

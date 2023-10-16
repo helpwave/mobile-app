@@ -145,7 +145,7 @@ class TaskCard extends StatelessWidget {
                     size: iconSizeTiny,
                     Icons.check_circle_outline_rounded,
                     // TODO change colors later
-                    color: task.status == TaskStatus.taskStatusDone ? Colors.grey : primaryColor,
+                    color: task.status == TaskStatus.done ? Colors.grey : primaryColor,
                   ),
                 ),
               ],

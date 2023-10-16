@@ -29,13 +29,19 @@ class LoadingFutureBuilder<T> extends StatelessWidget {
     return FutureBuilder(
       future: future,
       builder: (context, snapshot) {
+        LoadingState state = LoadingState.loaded;
         if (snapshot.hasError) {
-          return Center(child: errorWidget);
+          state = LoadingState.error;
         }
         if (!snapshot.hasData) {
-          return Center(child:loadingWidget);
+          state = LoadingState.loading;
         }
-        return thenWidgetBuilder(context, snapshot.data as T);
+        return LoadingAndErrorWidget(
+          state: state,
+          errorWidget: Center(child: errorWidget),
+          loadingWidget: Center(child: loadingWidget),
+          child: thenWidgetBuilder(context, snapshot.data as T),
+        );
       },
     );
   }
