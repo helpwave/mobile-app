@@ -10,15 +10,29 @@ class PatientsController extends ChangeNotifier {
   LoadingState state = LoadingState.initializing;
 
   /// The [Patient]s mapped by the [PatientsByAssignmentStatus]
-  PatientsByAssignmentStatus patientsByAssignmentStatus = PatientsByAssignmentStatus();
+  PatientsByAssignmentStatus _patientsByAssignmentStatus = PatientsByAssignmentStatus();
+
+  PatientsByAssignmentStatus get patientsByAssignmentStatus => _patientsByAssignmentStatus;
+
+  set patientsByAssignmentStatus(PatientsByAssignmentStatus value) {
+    _patientsByAssignmentStatus = value;
+    notifyListeners();
+  }
 
   /// The current search text
-  String searchedText = "";
+  String _searchedText = "";
+
+  String get searchedText => _searchedText;
+
+  set searchedText(String value) {
+    _searchedText = value;
+    notifyListeners();
+  }
 
   /// The selected PatientStatus
-  String selectedPatientStatus = "all";
+  PatientAssignmentStatus? selectedPatientStatus;
 
-  PatientsController(){
+  PatientsController() {
     load();
   }
 
@@ -26,33 +40,40 @@ class PatientsController extends ChangeNotifier {
 
   /// A [List] of all loaded [Patients]
   List<Patient> get all => [
-        ...patientsByAssignmentStatus.active,
-        ...patientsByAssignmentStatus.unassigned,
-        ...patientsByAssignmentStatus.discharged,
+        ..._patientsByAssignmentStatus.active,
+        ..._patientsByAssignmentStatus.unassigned,
+        ..._patientsByAssignmentStatus.discharged,
       ];
 
   /// Filtered by Search
-  List<Patient> get filtered => multiSearchWithMapping(
-        searchedText,
-        all,
-        (patient) {
-          List<String> searchTags = [patient.name];
-          if (patient.bed != null) {
-            searchTags.add(patient.bed!.name);
-          }
-          if (patient.room != null) {
-            searchTags.add(patient.room!.name);
-          }
-          return searchTags;
-        },
-      );
+  List<Patient> get filtered {
+    List<Patient> usedPatients = all;
+    if (selectedPatientStatus != null) {
+      usedPatients = _patientsByAssignmentStatus.byAssignmentStatus(selectedPatientStatus!);
+    }
+    List<Patient> results = multiSearchWithMapping(
+      _searchedText,
+      usedPatients,
+      (patient) {
+        List<String> searchTags = [patient.name];
+        if (patient.bed != null) {
+          searchTags.add(patient.bed!.name);
+        }
+        if (patient.room != null) {
+          searchTags.add(patient.room!.name);
+        }
+        return searchTags;
+      },
+    );
+    return results;
+  }
 
   /// Loads the [patients]
   Future<void> load() async {
     state = LoadingState.loading;
     notifyListeners();
 
-    patientsByAssignmentStatus = await PatientService().getPatientList();
+    _patientsByAssignmentStatus = await PatientService().getPatientList();
     state = LoadingState.loaded;
     notifyListeners();
   }
@@ -62,7 +83,7 @@ class PatientsController extends ChangeNotifier {
     state = LoadingState.loading;
     notifyListeners();
     await PatientService().dischargePatient(patientId: patientId);
-    state = LoadingState.loaded;
-    notifyListeners();
+    // Here we can maybe use optimistic updates
+    load();
   }
 }

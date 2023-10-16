@@ -5,9 +5,11 @@ import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/patient_card.dart';
 import 'package:tasks/components/patient_status_chip_select.dart';
+import 'package:tasks/components/task_bottom_sheet.dart';
 import 'package:tasks/components/user_header.dart';
 import 'package:tasks/controllers/patients_controller.dart';
 import 'package:tasks/dataclasses/patient.dart';
+import 'package:tasks/dataclasses/task.dart';
 
 /// A screen for showing a all [Patient]s by certain user-selectable filter properties
 ///
@@ -20,23 +22,6 @@ class PatientScreen extends StatefulWidget {
 }
 
 class _PatientScreenState extends State<PatientScreen> {
-  String searchedText = "";
-  String selectedPatientStatus = "all";
-
-  bool searchMatch(Patient patient) {
-    String searchCleaned = searchedText.toLowerCase().trim();
-    if (patient.name.toLowerCase().contains(searchCleaned)) {
-      return true;
-    }
-    if (patient.bed != null && patient.bed!.name.toLowerCase().contains(searchCleaned)) {
-      return true;
-    }
-    if (patient.room != null && patient.room!.name.toLowerCase().contains(searchCleaned)) {
-      return true;
-    }
-    return false;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -47,35 +32,39 @@ class _PatientScreenState extends State<PatientScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: paddingSmall, right: paddingSmall, bottom: paddingMedium),
-              child: SearchBar(
-                hintText: context.localization!.searchPatient,
-                trailing: [
-                  IconButton(
-                    onPressed: () {
-                      // TODO do something on search press
-                    },
-                    icon: Icon(
-                      Icons.search,
-                      size: iconSizeTiny,
-                      color: Theme.of(context).searchBarTheme.textStyle!.resolve({MaterialState.selected})!.color,
+              child: Consumer<PatientsController>(builder: (_, patientController, __) {
+                return SearchBar(
+                  hintText: context.localization!.searchPatient,
+                  trailing: [
+                    IconButton(
+                      onPressed: () {
+                        // TODO do something on search press
+                      },
+                      icon: Icon(
+                        Icons.search,
+                        size: iconSizeTiny,
+                        color: Theme.of(context).searchBarTheme.textStyle!.resolve({MaterialState.selected})!.color,
+                      ),
                     ),
-                  ),
-                ],
-                onChanged: (value) => setState(() {
-                  searchedText = value;
-                }),
-              ),
+                  ],
+                  onChanged: (value) => setState(() {
+                    patientController.searchedText = value;
+                  }),
+                );
+              }),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
               child: SizedBox(
                 height: 40,
-                child: PatientStatusChipSelect(
-                  // TODO fix this to allow for an select all button working as intended
-                  initialSelection: selectedPatientStatus,
-                  onChange: (value) => setState(() {
-                    selectedPatientStatus = value ?? "all";
-                  }),
+                child: Consumer<PatientsController>(
+                  builder: (_, patientController, __) => PatientStatusChipSelect(
+                    // TODO fix this to allow for an select all button working as intended
+                    initialSelection: patientController.selectedPatientStatus,
+                    onChange: (value) => setState(() {
+                      patientController.selectedPatientStatus = value;
+                    }),
+                  ),
                 ),
               ),
             ),
@@ -83,7 +72,7 @@ class _PatientScreenState extends State<PatientScreen> {
               height: distanceDefault,
             ),
             Consumer<PatientsController>(
-              builder: (context, patientController, child) {
+              builder: (context, patientController, __) {
                 return LoadingAndErrorWidget(
                   state: patientController.state,
                   child: Flexible(
@@ -129,7 +118,13 @@ class _PatientScreenState extends State<PatientScreen> {
                                   if (direction == DismissDirection.endToStart) {
                                     patientController.discharge(patient.id);
                                   } else {
-                                    patientController.load(); // TODO Replace
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) => TaskBottomSheet(
+                                        task: Task.empty,
+                                        patient: patient,
+                                      ),
+                                    );
                                   }
                                 },
                                 child: PatientCard(
