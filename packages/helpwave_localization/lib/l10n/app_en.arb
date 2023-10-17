@@ -145,5 +145,6 @@
   "due": "Due",
   "unassigne": "Unassign",
   "public": "Public",
-  "private": "Private"
+  "private": "Private",
+  "assignee": "Assignee"
 }

@@ -143,5 +143,6 @@
   "assignedTo": "Zugewiesen zu",
   "unassigne": "Zuweisung aufheben",
   "public": "Öffentlich",
-  "private": "Privat"
+  "private": "Privat",
+  "assignee": "Zugewiesene Person"
 }
