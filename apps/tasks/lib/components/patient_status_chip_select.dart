@@ -3,7 +3,7 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_widget/content_selection.dart';
 import 'package:tasks/dataclasses/patient.dart';
 
-enum PatientStatusChipSelectOptions { active, unassigned, discharged, all }
+enum PatientStatusChipSelectOptions { all, active, unassigned, discharged }
 
 /// A Wrapper for showing a [SingleChipSelect] for the [Patient]'s status
 class PatientStatusChipSelect extends StatelessWidget {
@@ -11,15 +11,18 @@ class PatientStatusChipSelect extends StatelessWidget {
   final PatientAssignmentStatus? initialSelection;
 
   /// The Options for the ChipSelect
-  final List<PatientStatusChipSelectOptions> options = const [
-    PatientStatusChipSelectOptions.all,
-    PatientStatusChipSelectOptions.active,
-    PatientStatusChipSelectOptions.unassigned,
-    PatientStatusChipSelectOptions.discharged,
-  ];
+  final List<PatientStatusChipSelectOptions> options = PatientStatusChipSelectOptions.values;
 
   /// The [SingleChipSelect.onChange] function
   final void Function(PatientAssignmentStatus? value) onChange;
+
+  /// A mapping for statuses from [PatientStatusChipSelectOptions] to [PatientAssignmentStatus]
+  final Map<PatientStatusChipSelectOptions, PatientAssignmentStatus?> _statusMapping = const {
+    PatientStatusChipSelectOptions.all: null,
+    PatientStatusChipSelectOptions.active: PatientAssignmentStatus.active,
+    PatientStatusChipSelectOptions.unassigned: PatientAssignmentStatus.unassigned,
+    PatientStatusChipSelectOptions.discharged: PatientAssignmentStatus.discharged,
+  };
 
   const PatientStatusChipSelect({
     super.key,
@@ -28,30 +31,14 @@ class PatientStatusChipSelect extends StatelessWidget {
   });
 
   PatientAssignmentStatus? _toPatientAssignmentStatus(PatientStatusChipSelectOptions status) {
-    switch (status) {
-      case PatientStatusChipSelectOptions.all:
-        return null;
-      case PatientStatusChipSelectOptions.active:
-        return PatientAssignmentStatus.active;
-      case PatientStatusChipSelectOptions.unassigned:
-        return PatientAssignmentStatus.unassigned;
-      case PatientStatusChipSelectOptions.discharged:
-        return PatientAssignmentStatus.discharged;
-    }
+    return _statusMapping[status];
   }
 
   PatientStatusChipSelectOptions _fromPatientAssignmentStatus(PatientAssignmentStatus? status) {
     if (status == null) {
       return PatientStatusChipSelectOptions.all;
     }
-    switch (status) {
-      case PatientAssignmentStatus.active:
-        return PatientStatusChipSelectOptions.active;
-      case PatientAssignmentStatus.unassigned:
-        return PatientStatusChipSelectOptions.unassigned;
-      case PatientAssignmentStatus.discharged:
-        return PatientStatusChipSelectOptions.discharged;
-    }
+    return _statusMapping.entries.firstWhere((element) => element.value == status).key;
   }
 
   @override
