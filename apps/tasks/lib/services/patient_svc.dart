@@ -16,7 +16,7 @@ class PatientService {
 
   // TODO consider an enum instead of an string
   /// Loads the [Patient]s by [Ward] and sorts them by their assignment status
-  Future<Map<PatientAssignmentStatus, List<Patient>>> getPatientList({String? wardId}) async {
+  Future<PatientsByAssignmentStatus> getPatientList({String? wardId}) async {
     GetPatientListRequest patientListRequest = GetPatientListRequest(wardId: wardId);
     GetPatientListResponse patientListResponse = await patientService.getPatientList(patientListRequest,
         options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()));
@@ -53,11 +53,11 @@ class PatientService {
         )
         .toList();
 
-    return {
-      PatientAssignmentStatus.active: active,
-      PatientAssignmentStatus.unassigned: unassigned,
-      PatientAssignmentStatus.discharged: discharged
-    };
+    return PatientsByAssignmentStatus(
+      active: active,
+      unassigned: unassigned,
+      discharged: discharged,
+    );
   }
 
   // TODO consider an enum instead of an string

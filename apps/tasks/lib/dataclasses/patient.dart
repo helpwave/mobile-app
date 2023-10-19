@@ -15,7 +15,7 @@ class PatientMinimal {
 }
 
 /// data class for [Patient] with TaskCount
-class Patient extends PatientMinimal{
+class Patient extends PatientMinimal {
   RoomMinimal? room;
   BedMinimal? bed;
   List<Task> tasks;
@@ -24,11 +24,11 @@ class Patient extends PatientMinimal{
 
   get isActive => bed != null && room != null;
 
-  get unscheduledCount => tasks.where((task) => task.status == TaskStatus.taskStatusTodo).length;
+  get unscheduledCount => tasks.where((task) => task.status == TaskStatus.todo).length;
 
-  get inProgressCount => tasks.where((task) => task.status == TaskStatus.taskStatusInProgress).length;
+  get inProgressCount => tasks.where((task) => task.status == TaskStatus.inProgress).length;
 
-  get doneCount => tasks.where((task) => task.status == TaskStatus.taskStatusDone).length;
+  get doneCount => tasks.where((task) => task.status == TaskStatus.done).length;
 
   Patient({
     required super.id,
@@ -37,4 +37,28 @@ class Patient extends PatientMinimal{
     this.room,
     this.bed,
   });
+}
+
+/// A data class which maps all [PatientAssignmentStatus]es to a [List] of [Patient]s
+class PatientsByAssignmentStatus {
+  List<Patient> active;
+  List<Patient> unassigned;
+  List<Patient> discharged;
+
+  PatientsByAssignmentStatus({
+    this.active = const [],
+    this.unassigned = const [],
+    this.discharged = const [],
+  });
+
+  byAssignmentStatus(PatientAssignmentStatus status) {
+    switch (status) {
+      case PatientAssignmentStatus.active:
+        return active;
+      case PatientAssignmentStatus.unassigned:
+        return unassigned;
+      case PatientAssignmentStatus.discharged:
+        return discharged;
+    }
+  }
 }
