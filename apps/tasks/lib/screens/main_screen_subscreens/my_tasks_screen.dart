@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
-import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:tasks/components/task_expansion_tile.dart';
-import 'package:tasks/dataclasses/patient.dart';
-import 'package:tasks/dataclasses/subtask.dart';
 import 'package:helpwave_widget/loading.dart';
-
+import '../../controllers/my_tasks_controller.dart';
 import '../../dataclasses/task.dart';
 import '../settings_screen.dart';
 
@@ -20,91 +17,11 @@ class MyTasksScreen extends StatefulWidget {
 }
 
 class _MyTasksScreenState extends State<MyTasksScreen> {
-  // TODO remove these hard coded patients with a grpc request
-  PatientMinimal patient = PatientMinimal(
-    id: 'patient 1',
-    name: "Victoria Schäfer",
-  );
-
-  Future<List<TaskWithPatient>> getTasks() async {
-    return [
-      TaskWithPatient(
-        id: "task1",
-        name: "Task name - 1",
-        assignee: "",
-        notes: "Some text describing the task",
-        dueDate: DateTime.now().add(const Duration(days: 20)),
-        status: TaskStatus.taskStatusInProgress,
-        subtasks: [
-          SubTask(id: "subtask 1", name: "Subtask 1"),
-          SubTask(id: "subtask 2", name: "Subtask 2"),
-        ],
-        patient: patient,
-      ),
-      TaskWithPatient(
-        id: "task2",
-        name: "Task name - 2",
-        assignee: "",
-        notes: "Some text describing the task with an very very very long text",
-        dueDate: DateTime.now().add(const Duration(hours: 10)),
-        status: TaskStatus.taskStatusDone,
-        subtasks: [
-          SubTask(id: "subtask 1", name: "Subtask 1", isDone: true),
-          SubTask(id: "subtask 2", name: "Subtask 2"),
-        ],
-        patient: patient,
-      ),
-      TaskWithPatient(
-        id: "task3",
-        name: "Task name - 3",
-        assignee: "",
-        notes: "Some text describing the task",
-        dueDate: DateTime.now().add(const Duration(hours: 1)),
-        status: TaskStatus.taskStatusTodo,
-        subtasks: [
-          SubTask(id: "subtask 1", name: "Subtask 1"),
-          SubTask(id: "subtask 2", name: "Subtask 2", isDone: true),
-        ],
-        patient: patient,
-      ),
-      TaskWithPatient(
-        id: "task4",
-        name: "Task name - 4",
-        assignee: "",
-        notes: "Some text describing the task",
-        dueDate: DateTime.now().subtract(const Duration(days: 20)),
-        status: TaskStatus.taskStatusInProgress,
-        subtasks: [
-          SubTask(id: "subtask 1", name: "Subtask 1"),
-          SubTask(id: "subtask 2", name: "Subtask 2", isDone: true),
-          SubTask(id: "subtask 3", name: "Subtask 3", isDone: true),
-        ],
-        patient: patient,
-      ),
-      TaskWithPatient(
-        id: "task5",
-        name: "Task name - 5",
-        assignee: "",
-        notes: "Some text describing the task",
-        status: TaskStatus.taskStatusInProgress,
-        subtasks: [
-          SubTask(id: "subtask 1", name: "Subtask 1"),
-          SubTask(id: "subtask 2", name: "Subtask 2", isDone: true),
-          SubTask(id: "subtask 3", name: "Subtask 3", isDone: true),
-        ],
-        patient: patient,
-      )
-    ];
-  }
-
   @override
   Widget build(BuildContext context) {
-    Color upcomingColor = const Color(0xFF5D5FEF);
-    Color inProgressColor = const Color(0xFFC79345);
-    Color doneColor = const Color(0xFF7A977E);
-
-    return Consumer(
-      builder: (BuildContext context, ThemeModel themeNotifier, _) => Scaffold(
+    return ChangeNotifierProvider(
+      create: (_) => MyTasksController(),
+      child: Scaffold(
         appBar: AppBar(
           title: Text(context.localization!.myTasks),
           actions: [
@@ -121,43 +38,39 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
             )
           ],
         ),
-        body: LoadingFutureBuilder(
-          future: getTasks(),
-          thenWidgetBuilder: (context, data) {
-            List<TaskWithPatient> done = data.where((element) => element.status == TaskStatus.taskStatusDone).toList();
-            List<TaskWithPatient> todo = data.where((element) => element.status == TaskStatus.taskStatusTodo).toList();
-            List<TaskWithPatient> inProgress =
-                data.where((element) => element.status == TaskStatus.taskStatusInProgress).toList();
-
-            return ListView(children: [
-              Theme(
-                data: Theme.of(context).copyWith(
-                  dividerColor: Colors.transparent,
-                  listTileTheme: const ListTileThemeData(minLeadingWidth: 0, horizontalTitleGap: distanceSmall),
+        body: Consumer<MyTasksController>(
+          builder: (BuildContext context, MyTasksController tasksController, Widget? child) {
+            return LoadingAndErrorWidget(
+              state: tasksController.state,
+              child: ListView(children: [
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    dividerColor: Colors.transparent,
+                    listTileTheme: const ListTileThemeData(minLeadingWidth: 0, horizontalTitleGap: distanceSmall),
+                  ),
+                  child: Wrap(
+                    spacing: distanceSmall,
+                    children: [
+                      TaskExpansionTile(
+                        tasks: tasksController.todo,
+                        color: upcomingColor,
+                        title: context.localization!.upcoming,
+                      ),
+                      TaskExpansionTile(
+                        tasks: tasksController.inProgress,
+                        color: inProgressColor,
+                        title: context.localization!.inProgress,
+                      ),
+                      TaskExpansionTile(
+                        tasks: tasksController.done,
+                        color: doneColor,
+                        title: context.localization!.done,
+                      ),
+                    ],
+                  ),
                 ),
-                child: Wrap(
-                  spacing: distanceSmall,
-                  // TODO change the color off the expansion tiles
-                  children: [
-                    TaskExpansionTile(
-                      tasks: todo,
-                      color: upcomingColor,
-                      title: context.localization!.upcoming,
-                    ),
-                    TaskExpansionTile(
-                      tasks: inProgress,
-                      color: inProgressColor,
-                      title: context.localization!.inProgress,
-                    ),
-                    TaskExpansionTile(
-                      tasks: done,
-                      color: doneColor,
-                      title: context.localization!.done,
-                    ),
-                  ],
-                ),
-              ),
-            ]);
+              ]),
+            );
           },
         ),
       ),
