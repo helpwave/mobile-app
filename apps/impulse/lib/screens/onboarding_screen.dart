@@ -93,110 +93,106 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<IntroductionModel, UserModel>(builder: (_, IntroductionModel introductionNotifier, UserModel userNotifier, __) =>  BackgroundGradient(
-      child: Scaffold(
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                children: [
-                  Container(
-                    height: 100,
-                  ),
-                  CarouselSlider(
-                    carouselController: carouselController,
-                    items: carouseItems.map((item) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return item;
-                        },
-                      );
-                    }).toList(),
-                    options: CarouselOptions(
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          currentIndexPage = index;
-                        });
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              children: [
+                Container(
+                  height: 100,
+                ),
+                CarouselSlider(
+                  carouselController: carouselController,
+                  items: carouseItems.map((item) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return item;
                       },
-                      autoPlay: true,
-                      autoPlayAnimationDuration: const Duration(milliseconds: 500),
-                      height: 350.0,
-                    ),
+                    );
+                  }).toList(),
+                  options: CarouselOptions(
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        currentIndexPage = index;
+                      });
+                    },
+                    autoPlay: true,
+                    autoPlayAnimationDuration: const Duration(milliseconds: 500),
+                    height: 350.0,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            DotsIndicator(
-              dotsCount: carouseItems.length,
-              position: currentIndexPage,
-              decorator: DotsDecorator(
-                color: Colors.white,
-                size: const Size.square(9.0),
-                activeSize: const Size(18.0, 9.0),
-                activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-                activeColor: Colors.white,
+          ),
+          DotsIndicator(
+            dotsCount: carouseItems.length,
+            position: currentIndexPage,
+            decorator: DotsDecorator(
+              color: Colors.white,
+              size: const Size.square(9.0),
+              activeSize: const Size(18.0, 9.0),
+              activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+              activeColor: Colors.white,
+            ),
+          )
+        ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Consumer<IntroductionModel>(builder: (_, IntroductionModel introductionNotifier, __) => TextButton(
+              onPressed: () {
+                introductionNotifier.setHasSeenIntroduction(hasSeenIntroduction: true);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text(
+                "Überspringen",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),),
+            TextButton(
+              onPressed: () {
+                carouselController.nextPage();
+                setState(() {
+                  if (currentIndexPage < carouseItems.length - 1) {
+                    currentIndexPage += 1;
+                  } else {
+                    currentIndexPage = 0;
+                  }
+                });
+              },
+              child: Row(
+                children: [
+                  Consumer<UserModel>(builder: (_, UserModel userNotifier, __) =>   GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) {
+                          if (userNotifier.user.isEmpty) {
+                            return const ProfileScreen();
+                          }
+                          return const HomeScreen();
+                        }),
+                      );
+                    },
+                    child: const Text("Weiter", style: TextStyle(color: Colors.white)),
+                  ),),
+                  const Icon(
+                    Icons.arrow_forward_ios_outlined,
+                    color: Colors.white,
+                  )
+                ],
               ),
             )
           ],
         ),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextButton(
-                  onPressed: () {
-                    introductionNotifier.setHasSeenIntroduction(hasSeenIntroduction: true);
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomeScreen()),
-                    );
-                  },
-                  child: const Text(
-                    "Überspringen",
-                    style: TextStyle(color: Colors.white),
-                  ),
-              ),
-              TextButton(
-                onPressed: () {
-                  carouselController.nextPage();
-                  setState(() {
-                    if (currentIndexPage < carouseItems.length - 1) {
-                      currentIndexPage += 1;
-                    } else {
-                      currentIndexPage = 0;
-                    }
-                  });
-                },
-                child: Row(
-                  children: [
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) {
-                              if (userNotifier.user.isEmpty) {
-                                return const ProfileScreen();
-                              }
-                              return const HomeScreen();
-                            }),
-                          );
-                        },
-                        child: const Text("Weiter", style: TextStyle(color: Colors.white)),
-                    ),
-                    const Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      color: Colors.white,
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
       ),
-    ));
-
-
+    );
   }
 }

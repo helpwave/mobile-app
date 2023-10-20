@@ -9,17 +9,17 @@ import 'package:impulse/theming/colors.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider<IntroductionModel>(
+  runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<IntroductionModel>(
         create: (BuildContext context) => IntroductionModel(),
       ),
-      ChangeNotifierProvider<UserModel>(
+          ChangeNotifierProvider<UserModel>(
         create: (BuildContext context) => UserModel(),
       ),
-    ],
-    child: const MyApp(),)
+        ],
+        child: const MyApp(),)
   );
 }
 
