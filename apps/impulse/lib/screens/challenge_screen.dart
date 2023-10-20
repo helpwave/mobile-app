@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pb.dart';
 import 'package:helpwave_service/user.dart';
@@ -86,7 +85,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
               actions: [
                 IconButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => ProfileScreen(

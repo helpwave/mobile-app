@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:helpwave_service/user.dart';
 import 'package:flutter/material.dart';
 import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
