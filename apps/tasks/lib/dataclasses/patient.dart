@@ -18,22 +18,35 @@ class PatientMinimal {
 class Patient extends PatientMinimal {
   RoomMinimal? room;
   BedMinimal? bed;
+  String notes;
   List<Task> tasks;
 
   get isUnassigned => bed == null && room == null;
 
   get isActive => bed != null && room != null;
 
-  get unscheduledCount => tasks.where((task) => task.status == TaskStatus.todo).length;
+  List<Task> get unscheduledTasks => tasks.where((task) => task.status == TaskStatus.todo).toList();
 
-  get inProgressCount => tasks.where((task) => task.status == TaskStatus.inProgress).length;
+  List<Task> get inProgressTasks =>
+      tasks.where((task) => task.status == TaskStatus.inProgress).toList();
 
-  get doneCount => tasks.where((task) => task.status == TaskStatus.done).length;
+  List<Task> get doneTasks => tasks.where((task) => task.status == TaskStatus.done).toList();
+
+  get unscheduledCount => unscheduledTasks.length;
+
+  get inProgressCount => inProgressTasks.length;
+
+  get doneCount => doneTasks.length;
+
+  factory Patient.empty({String id = ""}) {
+    return Patient(id: id, name: "", tasks: [], notes: "");
+  }
 
   Patient({
     required super.id,
     required super.name,
     required this.tasks,
+    required this.notes,
     this.room,
     this.bed,
   });
