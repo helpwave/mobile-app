@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:tasks/components/assignee_select.dart';
 import 'package:tasks/components/subtask_list.dart';
 import 'package:tasks/components/visibility_select.dart';
 import 'package:tasks/dataclasses/patient.dart';
+import 'package:tasks/dataclasses/user.dart';
 import '../dataclasses/task.dart';
 
 /// A private [Widget] similar to a [ListTile] that has an icon and then to text
@@ -26,11 +28,15 @@ class _SheetListTile extends StatelessWidget {
   /// The icon to show to the left of the texts
   final IconData icon;
 
+  /// The callback when the tile is clicked
+  final Function()? onTap;
+
   const _SheetListTile({
     required this.label,
     this.valueText,
     this.valueWidget,
     required this.icon,
+    this.onTap,
   }) : assert(
           (valueWidget == null && valueText != null) || (valueWidget != null && valueText == null),
           "Exactly one of parameter1 or parameter2 should be provided.",
@@ -45,21 +51,24 @@ class _SheetListTile extends StatelessWidget {
           size: iconSizeTiny,
         ),
         const SizedBox(width: paddingTiny),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: const TextStyle(fontSize: 12),
-            ),
-            valueText != null
-                ? Text(
-                    valueText!,
-                    style: editableValueTextStyle,
-                  )
-                : valueWidget!,
-          ],
+        GestureDetector(
+          onTap: onTap,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(fontSize: 12),
+              ),
+              valueText != null
+                  ? Text(
+                      valueText!,
+                      style: editableValueTextStyle,
+                    )
+                  : valueWidget!,
+            ],
+          ),
         )
       ],
     );
@@ -99,6 +108,9 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
     PatientMinimal(id: "patient4", name: "John Doe"),
     PatientMinimal(id: "patient5", name: "Patient Name"),
   ];
+
+  // TODO delete this and load from backend
+  User user = User(id: "user1", name: "User 1", profile: Uri.parse("uri"));
 
   @override
   void initState() {
@@ -180,7 +192,22 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // TODO change static assignee name
-                _SheetListTile(icon: Icons.person, label: context.localization!.assignedTo, valueText: "Assignee"),
+                _SheetListTile(
+                  icon: Icons.person,
+                  label: context.localization!.assignedTo,
+                  valueText: user.name,
+                  onTap: () => showModalBottomSheet(
+                    context: context,
+                    builder: (context) => AssigneeSelect(
+                      selected: user.id,
+                      onChanged: (assignee) {
+                        setState(() {
+                          user = assignee;
+                        });
+                      },
+                    ),
+                  ),
+                ),
                 _SheetListTile(icon: Icons.access_time, label: context.localization!.due, valueText: "27. Juni"),
               ],
             ),
@@ -190,7 +217,9 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               label: context.localization!.visibility,
               valueWidget: VisibilitySelect(
                 isPublicVisible: task.isPublicVisible,
-                onChanged: (value) => setState(() {task.isPublicVisible = value;}),
+                onChanged: (value) => setState(() {
+                  task.isPublicVisible = value;
+                }),
                 isCreating: task.id == "",
                 textStyle: editableValueTextStyle,
               ),
