@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pb.dart';
 import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/components/activity_card.dart';
@@ -59,20 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, UserModel userNotifier, __) {
-      User? user;
-
-      if (userNotifier.user.isNotEmpty){
-        final userData = jsonDecode(userNotifier.user);
-        user = User(
-          id: userData['id'],
-          height: userData['height'],
-          weight: userData['weight'],
-          pal: userData['pal'],
-          username: userData['username'],
-          gender: Gender.values[userData['gender']],
-          birthday: DateTime.parse(userData['birthday']),
-        );
-      }
+      User? user = userNotifier.user;
 
       return BackgroundGradient(child: Scaffold(
         appBar: AppBar(
@@ -83,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ProfileScreen(
-                    initialUser: user,
+                    initialUser: user.id.isNotEmpty ? user : null,
                   )),
                 );
               },

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:helpwave_service/user.dart';
 import 'package:flutter/material.dart';
 import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
@@ -293,7 +292,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onPressed: () async{
                         if (isCreating) {
                           await ImpulseService().createUser(user).then((value) {
-                            userNotifier.setUser(user: jsonEncode(user.toJson()));
+                            userNotifier.setUser(user: user);
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -302,7 +301,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         }
                         else {
                           await ImpulseService().updateUser(user).then((value) {
-                            userNotifier.setUser(user: jsonEncode(user.toJson()));
+                            userNotifier.setUser(user: user);
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => const HomeScreen()),

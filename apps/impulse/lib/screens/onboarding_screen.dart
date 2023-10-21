@@ -5,9 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:helpwave_service/introduction.dart';
 import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
-import 'package:impulse/components/background_gradient.dart';
 import 'package:impulse/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
+import '../dataclasses/user.dart';
 import '../theming/colors.dart';
 import 'home_screen.dart';
 
@@ -174,7 +174,7 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) {
-                          if (userNotifier.user.isEmpty) {
+                          if (userNotifier.user.id.isEmpty) {
                             return const ProfileScreen();
                           }
                           return const HomeScreen();
