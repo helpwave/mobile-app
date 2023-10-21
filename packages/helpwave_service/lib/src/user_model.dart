@@ -17,6 +17,7 @@ class UserModel extends ChangeNotifier {
   /// The current [User]
   User _user = User.empty();
 
+  /// The handler for storing and retriving data from the SharedPreferences
   final UserPreferences _preferences = UserPreferences();
 
   User get user {
