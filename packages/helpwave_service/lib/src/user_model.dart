@@ -12,6 +12,7 @@ import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pb
 class UserModel extends ChangeNotifier {
   /// Describes whether the [UserModel] has been initalized yet
 
+  /// Whether the user has been initialized in the backend
   bool _isInitialized = false;
   User _user = User.empty();
 
