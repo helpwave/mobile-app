@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ProfileScreen(
-                    initialUser: user.id.isNotEmpty ? user : null,
+                    initialUser: user,
                   )),
                 );
               },
