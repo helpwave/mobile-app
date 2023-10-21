@@ -174,7 +174,7 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) {
-                          if (!userNotifier.hasUser ) {
+                          if (!userNotifier.isInitialized) {
                             return const ProfileScreen();
                           }
                           return const HomeScreen();
