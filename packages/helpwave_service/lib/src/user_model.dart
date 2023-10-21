@@ -14,6 +14,7 @@ class UserModel extends ChangeNotifier {
 
   /// Whether the user has been initialized in the backend
   bool _isInitialized = false;
+  /// The current [User]
   User _user = User.empty();
 
   final UserPreferences _preferences = UserPreferences();
