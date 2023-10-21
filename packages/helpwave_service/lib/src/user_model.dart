@@ -10,14 +10,14 @@ import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pb
 ///
 /// Notifies about changes of the user on registration or update
 class UserModel extends ChangeNotifier {
-  /// Describes whether the [UserModel] has been initalized yet
+  /// Describes whether the [UserModel] has been initialized yet
 
   /// Whether the user has been initialized in the backend
   bool _isInitialized = false;
   /// The current [User]
   User _user = User.empty();
 
-  /// The handler for storing and retriving data from the SharedPreferences
+  /// The handler for storing and retrieving data from the SharedPreferences
   final UserPreferences _preferences = UserPreferences();
 
   User get user {
