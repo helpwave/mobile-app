@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:helpwave_service/introduction.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:impulse/components/background_gradient.dart';
 import 'package:impulse/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 import '../dataclasses/user.dart';
@@ -93,7 +94,7 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BackgroundGradient(child: Scaffold(
       body: Column(
         children: [
           Expanded(
@@ -193,6 +194,6 @@ class _OnboardingScreenSate extends State<OnBoardingScreen> {
           ],
         ),
       ),
-    );
+    ));
   }
 }
