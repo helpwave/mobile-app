@@ -4,6 +4,7 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:tasks/components/patient_bottom_sheet.dart';
 import 'package:tasks/screens/main_screen_subscreens/my_tasks_screen.dart';
 import 'package:tasks/screens/main_screen_subscreens/patient_screen.dart';
 
@@ -135,7 +136,13 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
                 height: chipHeight,
                 child: Center(child: Text(context.localization!.patient)),
               ),
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) => const PatientBottomSheet(patentId: ""),
+                  isScrollControlled: true,
+                );
+              },
             ),
           ],
         ),

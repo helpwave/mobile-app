@@ -5,7 +5,7 @@ import 'package:tasks/services/patient_svc.dart';
 import 'package:tasks/util/search_helpers.dart';
 
 /// The Controller for managing [Patient]s in a Ward
-class PatientsController extends ChangeNotifier {
+class WardPatientsController extends ChangeNotifier {
   /// The [LoadingState] of the Controller
   LoadingState state = LoadingState.initializing;
 
@@ -32,7 +32,7 @@ class PatientsController extends ChangeNotifier {
   /// The selected PatientStatus
   PatientAssignmentStatus? selectedPatientStatus;
 
-  PatientsController() {
+  WardPatientsController() {
     load();
   }
 
