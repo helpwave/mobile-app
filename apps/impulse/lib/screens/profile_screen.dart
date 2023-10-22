@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/components/background_gradient.dart';
+import 'package:impulse/screens/home_screen.dart';
+import 'package:impulse/services/impulse_service.dart';
+import 'package:provider/provider.dart';
 import '../dataclasses/user.dart';
+import '../notifiers/user_model.dart';
 import '../theming/colors.dart';
 
 /// A Screen for showing the [User]'s profile and their information
@@ -23,10 +27,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isCreating = false;
   User user = User.empty();
 
+  bool createUser = false;
+
   @override
   void initState() {
     isCreating = widget.initialUser == null;
     if (!isCreating) {
+      user.id = widget.initialUser!.id;
       user.username = widget.initialUser!.username;
       user.gender = widget.initialUser!.gender;
       user.pal = widget.initialUser!.pal;
@@ -39,6 +46,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController usernameController = TextEditingController(text: user.username);
+    TextEditingController heightController = TextEditingController(text: user.height.toString());
+    TextEditingController weightController = TextEditingController(text: user.weight.toString());
+
+
     const InputDecoration textFieldDecoration = InputDecoration(
       filled: true,
       fillColor: disabled,
@@ -51,7 +63,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         borderSide: BorderSide(color: primary),
       ),
     );
-
     const InputDecoration dropdownDecoration = InputDecoration(
       border: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
       disabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
@@ -63,27 +74,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
       fillColor: disabled,
       filled: true,
     );
-
-    const BoxDecoration lizenzDecoration = BoxDecoration(
+    const BoxDecoration licenseDecoration = BoxDecoration(
       borderRadius: BorderRadius.all(
         Radius.circular(borderRadiusMedium),
       ),
       color: tertiaryBackground,
     );
 
-    return BackgroundGradient(
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          title: const Text(
-            "Profil",
-            style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
-          ),
+    return Consumer(builder: (_, UserModel userNotifier, __) => BackgroundGradient(child: Scaffold(
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        title: const Text(
+          "Profil",
+          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
         ),
-        body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
+      ),
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints viewportConstraints) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: viewportConstraints.maxHeight,
+            ),
             child: Column(
               children: [
                 Padding(
@@ -99,6 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       TextField(
+                        controller: usernameController,
                         onChanged: (value) {
                           user.username = value;
                         },
@@ -158,6 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       TextField(
+                        controller: heightController,
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
                           user.height = int.parse(value);
@@ -177,6 +190,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       TextField(
+                        controller: weightController,
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
                           user.weight = double.parse(value);
@@ -235,11 +249,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                Flexible(child: Container()),
                 Padding(
                   padding: const EdgeInsets.all(paddingMedium),
                   child: Container(
-                    decoration: lizenzDecoration,
+                    decoration: licenseDecoration,
                     child: ListTile(
                       contentPadding: const EdgeInsets.only(left: paddingMedium, right: paddingSmall),
                       shape: const RoundedRectangleBorder(
@@ -276,8 +289,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: const EdgeInsets.all(paddingMedium),
                   child: Center(
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
+                      onPressed: () async{
+                        if (isCreating) {
+                          await ImpulseService().createUser(user).then((value) {
+                            userNotifier.setUser(user: user);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => const HomeScreen()),
+                            );
+                          });
+                        }
+                        else {
+                          await ImpulseService().updateUser(user).then((value) {
+                            userNotifier.setUser(user: user);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const HomeScreen()),
+                            );
+                          });
+                        }
                       },
                       style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(primary),
@@ -286,9 +316,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         side: MaterialStatePropertyAll(BorderSide(color: Colors.white, width: 2)),
                       ),
-                      child: const Text(
-                        "Speichern",
-                        style: TextStyle(
+                      child: Text(
+                        isCreating ?  "Registrieren" : "Aktualisieren" ,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
                           fontSize: 16,
@@ -297,11 +327,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-              ],
+                ],
             ),
           ),
         ),
       ),
-    );
+    )));
   }
 }

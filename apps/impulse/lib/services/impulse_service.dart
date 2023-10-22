@@ -14,10 +14,13 @@ class ImpulseService {
 
   Future<User> createUser(User user) async {
     CreateUserRequest request = CreateUserRequest();
+
     request.username = user.username;
     request.birthday = user.birthday.toIso8601String();
     request.pal = user.pal;
     request.gender = user.gender;
+    request.length = user.height;
+    request.weight = user.weight;
 
     CreateUserResponse response = await impulseService.createUser(
       request,
@@ -33,11 +36,14 @@ class ImpulseService {
 
   Future<User> updateUser(User user) async {
     UpdateUserRequest request = UpdateUserRequest();
+
     request.birthday = user.birthday.toIso8601String();
     request.pal = user.pal;
     request.gender = user.gender;
     request.userId = user.id;
     request.teamId = user.teamId;
+    request.length = user.height; // TODO: rename to height
+    request.weight = user.weight;
 
     await impulseService.updateUser(
       request,

@@ -7,8 +7,22 @@ import 'package:impulse/screens/home_screen.dart';
 import 'package:impulse/theming/colors.dart';
 import 'package:provider/provider.dart';
 
+import 'notifiers/user_model.dart';
+
+
 void main() {
-  runApp(const MyApp());
+  runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<IntroductionModel>(
+        create: (BuildContext context) => IntroductionModel(),
+      ),
+          ChangeNotifierProvider<UserModel>(
+        create: (BuildContext context) => UserModel(),
+      ),
+        ],
+        child: const MyApp(),)
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -46,22 +60,19 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: ChangeNotifierProvider(
-        create: (BuildContext context) => IntroductionModel(),
-        child: Consumer<IntroductionModel>(
-          builder: (BuildContext context, IntroductionModel value, Widget? child) {
-            if (!value.isInitialized) {
-              return const BackgroundGradient(
-                child: Scaffold(),
-              );
-            }
-            if (value.hasSeenIntroduction) {
-              return const HomeScreen();
-            }
-            return const OnBoardingScreen();
-          },
-        ),
-      ),
+      home: Consumer2<IntroductionModel, UserModel>(
+        builder: (BuildContext context, IntroductionModel value, UserModel registrationNotifier, Widget? child) {
+          if (!value.isInitialized) {
+            return const BackgroundGradient(
+              child: Scaffold(),
+            );
+          }
+          if (value.hasSeenIntroduction) {
+            return const HomeScreen();
+          }
+          return const OnBoardingScreen();
+        }
+      )
     );
   }
 }

@@ -13,6 +13,8 @@ import 'package:impulse/screens/profile_screen.dart';
 import 'package:impulse/services/impulse_service.dart';
 import 'package:impulse/screens/challenge_screen.dart';
 import 'package:impulse/theming/colors.dart';
+import 'package:provider/provider.dart';
+import '../notifiers/user_model.dart';
 import '../services/grpc_client_svc.dart';
 import '../util/level.dart';
 
@@ -54,8 +56,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BackgroundGradient(
-      child: Scaffold(
+    return Consumer(builder: (_, UserModel userNotifier, __) {
+      User? user = userNotifier.user;
+
+      return BackgroundGradient(child: Scaffold(
         appBar: AppBar(
           title: XpLabel(xp: score),
           actions: [
@@ -63,7 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                  MaterialPageRoute(builder: (context) => ProfileScreen(
+                    initialUser: user.id.isNotEmpty?  user : null,
+                  )),
                 );
               },
               icon: const Icon(
@@ -133,35 +139,35 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: challenges.isEmpty ? MainAxisAlignment.center : MainAxisAlignment.start,
                   children: challenges.isEmpty
                       ? [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: paddingMedium),
-                            child: Text("Keine Challenges gefunden :(", style: TextStyle(color: Colors.white)),
-                          ),
-                        ]
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: paddingMedium),
+                      child: Text("Keine Challenges gefunden :(", style: TextStyle(color: Colors.white)),
+                    ),
+                  ]
                       : [
-                          for (int i = 0; i < challenges.length; i++)
-                            ActivityCard(
-                              accentColor: colors[i % colors.length],
-                              name: challenges[i].title,
-                              description: challenges[i].description,
-                              xp: challenges[i].points,
-                              onClick: () {
-                                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                                  builder: (context) => ChallengeScreen(challenge: challenges[i]),
-                                ));
-                              },
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: paddingMedium,
-                                vertical: paddingSmall,
-                              ),
-                            )
-                        ],
+                    for (int i = 0; i < challenges.length; i++)
+                      ActivityCard(
+                        accentColor: colors[i % colors.length],
+                        name: challenges[i].title,
+                        description: challenges[i].description,
+                        xp: challenges[i].points,
+                        onClick: () {
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => ChallengeScreen(challenge: challenges[i]),
+                          ));
+                        },
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: paddingMedium,
+                          vertical: paddingSmall,
+                        ),
+                      )
+                  ],
                 );
               },
             )
           ],
         ),
-      ),
-    );
+      ),);
+    });
   }
 }
