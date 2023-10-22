@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_widget/bottom_sheets.dart';
+import 'package:helpwave_widget/loading.dart';
+import 'package:helpwave_widget/text_input.dart';
+import 'package:provider/provider.dart';
 import 'package:tasks/components/assignee_select.dart';
 import 'package:tasks/components/subtask_list.dart';
 import 'package:tasks/components/visibility_select.dart';
+import 'package:tasks/controllers/patients_controller.dart';
+import 'package:tasks/controllers/task_controller.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/user.dart';
 import '../dataclasses/task.dart';
@@ -38,7 +44,8 @@ class _SheetListTile extends StatelessWidget {
     required this.icon,
     this.onTap,
   }) : assert(
-          (valueWidget == null && valueText != null) || (valueWidget != null && valueText == null),
+          (valueWidget == null && valueText != null) ||
+              (valueWidget != null && valueText == null),
           "Exactly one of parameter1 or parameter2 should be provided.",
         );
 
@@ -122,139 +129,150 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        // TODO do saving or something when the dialog is closed
-        return true;
-      },
-      child: Container(
-        constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.8),
-        padding: const EdgeInsets.only(
-          bottom: paddingSmall,
-          top: paddingMedium,
-          left: paddingMedium,
-          right: paddingMedium,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => TaskController(widget.task),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                IconButton(
-                  constraints: const BoxConstraints(maxWidth: iconSizeTiny, maxHeight: iconSizeTiny),
-                  padding: EdgeInsets.zero,
-                  iconSize: iconSizeTiny,
-                  onPressed: () => Navigator.maybePop(context),
-                  icon: const Icon(Icons.close_rounded),
+        ChangeNotifierProvider(
+          create: (context) => PatientsController(),
+        ),
+      ],
+      child: BottomSheetBase(
+        onClosing: () async {
+          // TODO do saving or something when the dialog is closed
+        },
+        title: Consumer<TaskController>(
+          builder: (context, taskController, child) => ClickableTextEdit(
+            initialValue: taskController.task.name,
+            onChanged: (value) {
+              taskController.updateTask((task) {
+                task.name = value;
+              });
+            },
+            textAlign: TextAlign.center,
+            textStyle: const TextStyle(
+              color: primaryColor,
+              fontWeight: FontWeight.bold,
+              fontSize: iconSizeTiny,
+              fontFamily: "SpaceGrotesk",
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
+        builder: (context) => Container(
+          constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Consumer2<TaskController, PatientsController>(
+                  builder:
+                      // TODO somehow get the patient for the task
+                      (context, taskController, patientsController, child) =>
+                          LoadingAndErrorWidget(
+                    state: taskController.state,
+                    child: LoadingAndErrorWidget(
+                      state: patientsController.state,
+                      child: hasInitialPatient
+                          ? Text(patient!.name)
+                          : DropdownButton(
+                              underline: const SizedBox(),
+                              // removes the default underline
+                              padding: EdgeInsets.zero,
+                              isDense: true,
+                              // TODO use the full list of possible assignees
+                              items: patients
+                                  .map((patient) => DropdownMenuItem(
+                                      value: patient,
+                                      child: Text(patient.name)))
+                                  .toList(),
+                              value: patient,
+                              onChanged: (value) {
+                                setState(() {
+                                  patient = value;
+                                });
+                              },
+                            ),
+                    ),
+                  ),
                 ),
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
-                    child: Text(
-                      widget.task.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: iconSizeTiny,
-                        fontFamily: "SpaceGrotesk",
-                        overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: distanceMedium),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // TODO change static assignee name
+                  _SheetListTile(
+                    icon: Icons.person,
+                    label: context.localization!.assignedTo,
+                    valueText: user.name,
+                    onTap: () => showModalBottomSheet(
+                      context: context,
+                      builder: (context) => AssigneeSelect(
+                        selected: user.id,
+                        onChanged: (assignee) {
+                          setState(() {
+                            user = assignee;
+                          });
+                        },
                       ),
                     ),
                   ),
+                  _SheetListTile(
+                      icon: Icons.access_time,
+                      label: context.localization!.due,
+                      valueText: "27. Juni"),
+                ],
+              ),
+              const SizedBox(height: distanceSmall),
+              _SheetListTile(
+                icon: Icons.lock,
+                label: context.localization!.visibility,
+                valueWidget: VisibilitySelect(
+                  isPublicVisible: task.isPublicVisible,
+                  onChanged: (value) => setState(() {
+                    task.isPublicVisible = value;
+                  }),
+                  isCreating: task.id == "",
+                  textStyle: editableValueTextStyle,
                 ),
-                const SizedBox(width: iconSizeTiny),
-              ],
-            ),
-            Center(
-              child: hasInitialPatient
-                  ? Text(patient!.name)
-                  : DropdownButton(
-                      underline: const SizedBox(),
-                      // removes the default underline
-                      padding: EdgeInsets.zero,
-                      isDense: true,
-                      // TODO use the full list of possible assignees
-                      items: patients
-                          .map((patient) => DropdownMenuItem(value: patient, child: Text(patient.name)))
-                          .toList(),
-                      value: patient,
-                      onChanged: (value) {
-                        setState(() {
-                          patient = value;
-                        });
-                      },
-                    ),
-            ),
-            const SizedBox(height: distanceMedium),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // TODO change static assignee name
-                _SheetListTile(
-                  icon: Icons.person,
-                  label: context.localization!.assignedTo,
-                  valueText: user.name,
-                  onTap: () => showModalBottomSheet(
-                    context: context,
-                    builder: (context) => AssigneeSelect(
-                      selected: user.id,
-                      onChanged: (assignee) {
-                        setState(() {
-                          user = assignee;
-                        });
-                      },
+              ),
+              const SizedBox(height: distanceMedium),
+              Text(
+                context.localization!.notes,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              const SizedBox(height: distanceTiny),
+              TextFormField(
+                initialValue: task.notes,
+                onChanged: (value) {
+                  // TODO add grpc here
+                  setState(() {
+                    task.notes = value;
+                  });
+                },
+                maxLines: 6,
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.all(paddingMedium),
+                  border: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1.0,
                     ),
                   ),
+                  hintText: context.localization!.yourNotes,
                 ),
-                _SheetListTile(icon: Icons.access_time, label: context.localization!.due, valueText: "27. Juni"),
-              ],
-            ),
-            const SizedBox(height: distanceSmall),
-            _SheetListTile(
-              icon: Icons.lock,
-              label: context.localization!.visibility,
-              valueWidget: VisibilitySelect(
-                isPublicVisible: task.isPublicVisible,
-                onChanged: (value) => setState(() {
-                  task.isPublicVisible = value;
-                }),
-                isCreating: task.id == "",
-                textStyle: editableValueTextStyle,
               ),
-            ),
-            const SizedBox(height: distanceMedium),
-            Text(
-              context.localization!.notes,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-            const SizedBox(height: distanceTiny),
-            TextFormField(
-              initialValue: task.notes,
-              onChanged: (value) {
-                // TODO add grpc here
-                setState(() {
-                  task.notes = value;
-                });
-              },
-              maxLines: 6,
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.all(paddingMedium),
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1.0,
-                  ),
-                ),
-                hintText: context.localization!.yourNotes,
+              const SizedBox(height: distanceBig),
+              SubtaskList(
+                taskId: task.id,
+                subtasks: task.subtasks,
               ),
-            ),
-            const SizedBox(height: distanceBig),
-            SubtaskList(
-              taskId: task.id,
-              subtasks: task.subtasks,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
