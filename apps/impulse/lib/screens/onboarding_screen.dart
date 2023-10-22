@@ -3,11 +3,11 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:helpwave_service/introduction.dart';
-import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 import '../dataclasses/user.dart';
+import '../notifiers/user_model.dart';
 import '../theming/colors.dart';
 import 'home_screen.dart';
 

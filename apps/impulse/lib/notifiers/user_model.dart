@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:helpwave_service/src/user_preference.dart';
-import 'package:impulse/dataclasses/user.dart';
 import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
+import 'package:impulse/notifiers/user_preference.dart';
+
+import '../dataclasses/user.dart';
 
 
 /// Model for saving user

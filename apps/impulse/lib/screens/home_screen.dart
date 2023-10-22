@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:impulse/components/activity_card.dart';
 import 'package:impulse/components/background_gradient.dart';
@@ -15,6 +14,7 @@ import 'package:impulse/services/impulse_service.dart';
 import 'package:impulse/screens/challenge_screen.dart';
 import 'package:impulse/theming/colors.dart';
 import 'package:provider/provider.dart';
+import '../notifiers/user_model.dart';
 import '../services/grpc_client_svc.dart';
 import '../util/level.dart';
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:impulse/components/challenge_menu_card.dart';
@@ -14,6 +13,7 @@ import 'package:impulse/theming/colors.dart';
 import 'package:provider/provider.dart';
 
 import '../components/background_gradient.dart';
+import '../notifiers/user_model.dart';
 
 /// A Screen on which the [User] solves [Challenge]s
 class ChallengeScreen extends StatefulWidget {

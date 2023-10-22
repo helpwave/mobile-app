@@ -1,4 +1,3 @@
-import 'package:helpwave_service/user.dart';
 import 'package:flutter/material.dart';
 import 'package:helpwave_proto_dart/proto/services/impulse_svc/v1/impulse_svc.pbenum.dart';
 import 'package:helpwave_theme/constants.dart';
@@ -7,6 +6,7 @@ import 'package:impulse/screens/home_screen.dart';
 import 'package:impulse/services/impulse_service.dart';
 import 'package:provider/provider.dart';
 import '../dataclasses/user.dart';
+import '../notifiers/user_model.dart';
 import '../theming/colors.dart';
 
 /// A Screen for showing the [User]'s profile and their information
@@ -74,7 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       fillColor: disabled,
       filled: true,
     );
-    const BoxDecoration lizenzDecoration = BoxDecoration(
+    const BoxDecoration licenseDecoration = BoxDecoration(
       borderRadius: BorderRadius.all(
         Radius.circular(borderRadiusMedium),
       ),
@@ -252,7 +252,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Padding(
                   padding: const EdgeInsets.all(paddingMedium),
                   child: Container(
-                    decoration: lizenzDecoration,
+                    decoration: licenseDecoration,
                     child: ListTile(
                       contentPadding: const EdgeInsets.only(left: paddingMedium, right: paddingSmall),
                       shape: const RoundedRectangleBorder(
