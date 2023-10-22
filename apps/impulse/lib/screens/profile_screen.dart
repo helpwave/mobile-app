@@ -293,7 +293,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         if (isCreating) {
                           await ImpulseService().createUser(user).then((value) {
                             userNotifier.setUser(user: user);
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(builder: (context) => const HomeScreen()),
                             );
