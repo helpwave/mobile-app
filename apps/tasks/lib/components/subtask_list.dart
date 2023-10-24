@@ -16,7 +16,17 @@ class SubtaskList extends StatefulWidget {
   /// The [List] of initial subtasks
   final List<SubTask> subtasks;
 
-  const SubtaskList({super.key, required this.taskId, required this.subtasks});
+  /// The callback when the [subtasks] are changed
+  ///
+  /// Should **only** be used when [taskId == ""]
+  final void Function(List<SubTask> subtasks) onChange;
+
+  const SubtaskList({
+    super.key,
+    required this.taskId,
+    required this.subtasks,
+    required this.onChange,
+  });
 
   @override
   State<StatefulWidget> createState() => _SubtaskListState();
@@ -55,12 +65,12 @@ class _SubtaskListState extends State<SubtaskList> {
                 iconSize: subtaskAddIconSize,
                 onPressed: () {
                   // TODO insert grpc request here
-                  setState(() {
-                    subtasks = [
-                      ...subtasks,
-                      SubTask(id: Random().nextDouble().toString(), name: "Subtask ${subtasks.length + 1}"),
-                    ];
-                  });
+                  subtasks = [
+                    ...subtasks,
+                    SubTask(id: Random().nextDouble().toString(), name: "Subtask ${subtasks.length + 1}"),
+                  ];
+                  setState(() {});
+                  widget.onChange(subtasks);
                 },
                 icon: const Icon(
                   Icons.add_rounded,

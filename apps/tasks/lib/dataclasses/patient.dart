@@ -8,6 +8,10 @@ class PatientMinimal {
   String id;
   String name;
 
+  factory PatientMinimal.empty() => PatientMinimal(id: "", name: "");
+
+  bool get isCreating => id == "";
+
   PatientMinimal({
     required this.id,
     required this.name,
