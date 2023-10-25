@@ -146,5 +146,6 @@
   "unassigne": "Unassign",
   "public": "Public",
   "private": "Private",
-  "assignee": "Assignee"
+  "assignee": "Assignee",
+  "assignBed": "Assign bed"
 }

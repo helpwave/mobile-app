@@ -144,5 +144,6 @@
   "unassigne": "Zuweisung aufheben",
   "public": "Öffentlich",
   "private": "Privat",
-  "assignee": "Zugewiesene Person"
+  "assignee": "Zugewiesene Person",
+  "assignBed": "Bett zuweisen"
 }

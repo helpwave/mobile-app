@@ -38,7 +38,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
               onClosing: () {
                 // TODO handle this
               },
-              builder: (BuildContext ctx) => Padding(
+              builder: (BuildContext context) => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,6 +82,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                               child: DropdownButton<RoomWithBedFlat>(
                                 padding: EdgeInsets.zero,
                                 isDense: true,
+                                hint: Text(context.localization!.assignBed),
                                 value:
                                     patient.bed != null && patient.room != null
                                         ? RoomWithBedFlat(
