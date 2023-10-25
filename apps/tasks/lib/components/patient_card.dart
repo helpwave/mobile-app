@@ -4,12 +4,12 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:tasks/dataclasses/patient.dart';
 
-/// A widget for displaying a card containing patient information
+/// A [Widget] for displaying a card containing [Patient] information
 class PatientCard extends StatelessWidget {
-  /// [Patient] data including bed information
+  /// [Patient] data including [Bed] information
   final Patient patient;
 
-  /// The margin of the Card
+  /// The margin of the [Card]
   final EdgeInsetsGeometry? margin;
 
   /// A on click callback
