@@ -136,6 +136,7 @@ class _PatientScreenState extends State<PatientScreen> {
                                   } else {
                                     showModalBottomSheet(
                                       context: context,
+                                      isScrollControlled: true,
                                       builder: (context) => TaskBottomSheet(
                                         task: Task.empty,
                                         patient: patient,
