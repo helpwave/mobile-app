@@ -30,7 +30,7 @@ jobs:
 
       - run: melos run analyze
 
-  build-tasks-apk:
+  build-tasks-apk-debug:
     runs-on: ubuntu-20.04
     needs: lint
     steps:
@@ -52,14 +52,14 @@ jobs:
       - name: rename apks
         working-directory: ./apps/
         run: |
-          mv ./tasks/build/app/outputs/apk/release/app-release.apk ./tasks/build/app/outputs/apk/release/tasks.apk
+          mv ./tasks/build/app/outputs/flutter-apk/app-debug.apk ./tasks/build/app/outputs/flutter-apk/tasks.apk
 
       - uses: actions/upload-artifact@v3
         with:
           name: apk-tasks
-          path: ./apps/tasks/build/app/outputs/apk/release/tasks.apk
+          path: ./apps/tasks/build/app/outputs/flutter-apk/tasks.apk
 
-  build-impulse-apk:
+  build-impulse-apk-debug:
     runs-on: ubuntu-20.04
     needs: lint
     steps:
@@ -81,14 +81,14 @@ jobs:
       - name: rename apks
         working-directory: ./apps/
         run: |
-          mv ./impulse/build/app/outputs/apk/release/app-release.apk ./impulse/build/app/outputs/apk/release/impulse.apk
+          mv ./impulse/build/app/outputs/flutter-apk/app-debug.apk ./impulse/build/app/outputs/flutter-apk/impulse.apk
 
       - uses: actions/upload-artifact@v3
         with:
           name: apk-impulse
-          path: ./apps/impulse/build/app/outputs/apk/release/impulse.apk
+          path: ./apps/impulse/build/app/outputs/flutter-apk/impulse.apk
 
-  build-tasks-ipa:
+  build-tasks-ipa-debug:
     runs-on: macos-12
     needs: lint
     steps:
@@ -109,7 +109,7 @@ jobs:
       - name: package tasks ipa
         working-directory: ./apps/tasks/
         run: |
-          flutter build ios --no-codesign
+          flutter build ios --no-codesign #--debug
           mkdir Payload
           cp -r build/ios/Release-iphoneos/Runner.app Payload
           zip -r tasks.ipa Payload
@@ -119,7 +119,7 @@ jobs:
           name: ipa-tasks
           path: ./apps/tasks/tasks.ipa
 
-  build-impulse-ipa:
+  build-impulse-ipa-debug:
     runs-on: macos-12
     needs: lint
     steps:
@@ -140,7 +140,7 @@ jobs:
       - name: package impulse ipa
         working-directory: ./apps/impulse/
         run: |
-          flutter build ios --no-codesign
+          flutter build ios --no-codesign #--debug
           mkdir Payload
           cp -r build/ios/Release-iphoneos/Runner.app Payload
           zip -r impulse.ipa Payload
@@ -154,10 +154,10 @@ jobs:
     runs-on: ubuntu-20.04
     if: github.event_name == 'pull_request'
     needs:
-      - build-tasks-apk
-      - build-impulse-apk
-      - build-tasks-ipa
-      - build-impulse-ipa
+      - build-tasks-apk-debug
+      - build-impulse-apk-debug
+      - build-tasks-ipa-debug
+      - build-impulse-ipa-debug
     steps:
       - uses: actions/checkout@v3
 
