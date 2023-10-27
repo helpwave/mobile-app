@@ -116,7 +116,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => TaskController(TaskWithPatient.fromTask(task: widget.task, patient: widget.patient)),
+      create: (context) => TaskController(TaskWithPatient.fromTaskAndPatient(task: widget.task, patient: widget.patient)),
       child: BottomSheetBase(
         onClosing: () async {
           // TODO do saving or something when the dialog is closed

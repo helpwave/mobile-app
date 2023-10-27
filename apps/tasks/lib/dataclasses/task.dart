@@ -64,7 +64,7 @@ class TaskWithPatient extends Task {
     return TaskWithPatient(id: taskId, name: "task name", notes: "", patient: patient ?? PatientMinimal.empty());
   }
 
-  factory TaskWithPatient.fromTask({
+  factory TaskWithPatient.fromTaskAndPatient({
     required Task task,
     PatientMinimal? patient,
   }) {

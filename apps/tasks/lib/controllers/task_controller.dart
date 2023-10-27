@@ -63,7 +63,7 @@ class TaskController extends ChangeNotifier {
     await TaskService()
         .getTask(id: task.id)
         // TODO update one get Task returns the patient
-        .then((value) => {task = TaskWithPatient.fromTask(task: task)})
+        .then((value) => {task = TaskWithPatient.fromTaskAndPatient(task: task)})
         .catchError((error, stackTrace) {
       errorMessage = error.toString();
       state = LoadingState.error;
