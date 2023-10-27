@@ -19,21 +19,8 @@ class LandingScreen extends StatelessWidget {
           horizontal: MediaQuery.of(context).size.height * 0.05,
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            OutlinedButton(
-              style: ButtonStyle(
-                shape: MaterialStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(borderRadiusSmall),
-                  ),
-                ),
-              ),
-              child: Text(
-                context.localization!.loginSlogan,
-                style: Theme.of(context).textTheme.labelLarge,
-              ),
-              onPressed: () => {AuthenticationService().authenticate("https://auth.helpwave.de", "http://localhost:3000/")}//Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MainScreen()),),
-            ),
             OutlinedButton(
                 style: ButtonStyle(
                   shape: MaterialStatePropertyAll(
@@ -46,9 +33,43 @@ class LandingScreen extends StatelessWidget {
                   context.localization!.loginSlogan,
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
-                onPressed: () {Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const
-                MainScreen()),);}
+                onPressed: () => {
+                      AuthenticationService()
+                          .authenticate(
+                              context: context,
+                              callback: () =>
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen())))
+                          .then((value) {
+                        if (value != null) {
+                          // TODO do something with the auth token
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(context.localization!.loginFailed)),
+                          );
+                        }
+                      })
+                    }),
+            // TODO remove
+            const SizedBox(
+              height: distanceDefault,
             ),
+            OutlinedButton(
+                style: ButtonStyle(
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(borderRadiusSmall),
+                    ),
+                  ),
+                ),
+                child: Text(
+                  "Login without auth",
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const MainScreen()),
+                  );
+                }),
           ],
         ),
       ),
@@ -58,16 +79,15 @@ class LandingScreen extends StatelessWidget {
         children: [
           SizedBox(height: MediaQuery.of(context).size.height * 0.33),
           Consumer<ThemeModel>(
-            builder: (BuildContext context, ThemeModel themeNotifier, _) =>
-                Center(
-                  child: Image.asset(
-                    themeNotifier.getIsDarkNullSafe(context)
-                        ? 'assets/transparent-logo-dark.png'
-                        : 'assets/transparent-logo-light.png',
-                    width: MediaQuery.of(context).size.height * 0.25,
-                    height: MediaQuery.of(context).size.height * 0.25,
-                  ),
-                ),
+            builder: (BuildContext context, ThemeModel themeNotifier, _) => Center(
+              child: Image.asset(
+                themeNotifier.getIsDarkNullSafe(context)
+                    ? 'assets/transparent-logo-dark.png'
+                    : 'assets/transparent-logo-light.png',
+                width: MediaQuery.of(context).size.height * 0.25,
+                height: MediaQuery.of(context).size.height * 0.25,
+              ),
+            ),
           ),
         ],
       ),
