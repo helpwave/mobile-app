@@ -9,8 +9,7 @@ const TextStyle buttonTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
 );
 ButtonStyle buttonStyle = ButtonStyle(
-  minimumSize:
-      const MaterialStatePropertyAll<Size>(Size(buttonWidth, buttonHeight)),
+  minimumSize: const MaterialStatePropertyAll<Size>(Size(buttonWidth, buttonHeight)),
   shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
     RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(borderRadiusMedium),
@@ -29,6 +28,9 @@ const double paddingTiny = 6;
 const double paddingSmall = 10;
 const double paddingMedium = distanceDefault;
 const double paddingBig = 40;
+
+const double paddingOffset = 10;
+
 
 const double dropDownVerticalPadding = 12;
 
@@ -61,6 +63,10 @@ const positiveColor = Color.fromARGB(255, 52, 199, 89);
 const negativeColor = Color(0xFFD67268);
 const primaryColor = Color(0xFF694BB4);
 
+const Color upcomingColor = Color(0xFF5D5FEF);
+const Color inProgressColor = Color(0xFFC79345);
+const Color doneColor = Color(0xFF7A977E);
+
 const errorColor = Color.fromARGB(255, 255, 51, 51);
 
 /// Animation
@@ -68,13 +74,34 @@ const Duration zeroDuration = Duration.zero;
 const Duration bottomSheetOpenDuration = Duration(milliseconds: 100);
 
 /// Font size
-const double fontSizeTiny = 12;
-const double fontSizeSmall = 14;
-const double fontSizeMedium = 16;
-const double fontSizeBig = 20;
+const double fontSizeTiny = 11;
+const double fontSizeSmall = 13;
+const double fontSizeMedium = 15;
+const double fontSizeBig = 22;
 
 /// Column-Padding
 const double columnPadding = paddingMedium;
 const double columnPaddingBottomPercent = 0.07;
 const double menuColumnPaddingTopPercent = 0.2;
 const double menuColumnDistanceBetweenPercent = 0.05;
+
+/// Elevation
+const double defaultElevation = 4;
+
+/// Common Themes
+const searchBarTheme = SearchBarThemeData(
+    constraints: BoxConstraints(maxHeight: 40, minHeight: 40),
+    backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 223, 223, 223)),
+    elevation: MaterialStatePropertyAll(0),
+    shadowColor: MaterialStatePropertyAll(Colors.transparent),
+    textStyle: MaterialStatePropertyAll(TextStyle(color: Colors.black)));
+
+const chipTheme = ChipThemeData(
+  selectedColor: primaryColor,
+  elevation: 2,
+  pressElevation: 4,
+  secondaryLabelStyle: TextStyle(color: Colors.white), // The TextStyle for selection
+);
+
+/// TextStyles
+const TextStyle editableValueTextStyle = TextStyle(color: primaryColor, fontSize: 16, fontWeight: FontWeight.bold);

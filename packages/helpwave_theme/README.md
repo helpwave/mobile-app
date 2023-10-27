@@ -1,21 +1,8 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-<!-- TODO Description -->
-
 ## Features
 
 This package provides a dark and light theme and additional constants regarding the style of an app.
+
+It also provides a service to easily change and save the Thememode
 
 ## Getting started
 
@@ -23,9 +10,22 @@ Install this package
 
 ## Usage
 
-<!-- TODO Usage -->
+```dart
+ChangeNotifierProvider(
+  create: (BuildContext context) => ThemeModel(),
+  child: Consumer<ThemeModel>(
+    builder: (BuildContext context, ThemeModel value, Widget? child) {
+      return MaterialApp(
+        title: 'helpwave tasks',
+        themeMode: themeNotifier.themeMode,
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        home: const Scaffold(),
+      );
+    },
+  ),
+);
+```
 
 ## Additional information
 
-See usage add [helpwave app](https://github.com/helpwave/mobile-app)
-<!-- TODO Additional information -->

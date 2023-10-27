@@ -2,23 +2,76 @@ import 'package:tasks/dataclasses/bed.dart';
 import 'package:tasks/dataclasses/room.dart';
 import 'package:tasks/dataclasses/task.dart';
 
-/// data class for [Patient] with TaskCount
-class Patient {
+enum PatientAssignmentStatus { active, unassigned, discharged }
+
+class PatientMinimal {
   String id;
   String name;
-  RoomMinimal? room;
-  BedMinimal? bed;
-  List<Task> tasks;
 
-  get unscheduledCount => tasks.where((task) => task.status == TaskStatus.TASK_STATUS_TODO).length;
-  get inProgressCount => tasks.where((task) => task.status == TaskStatus.TASK_STATUS_IN_PROGRESS).length;
-  get doneCount => tasks.where((task) => task.status == TaskStatus.TASK_STATUS_DONE).length;
-
-  Patient({
+  PatientMinimal({
     required this.id,
     required this.name,
+  });
+}
+
+/// data class for [Patient] with TaskCount
+class Patient extends PatientMinimal {
+  RoomMinimal? room;
+  BedMinimal? bed;
+  String notes;
+  List<Task> tasks;
+
+  get isUnassigned => bed == null && room == null;
+
+  get isActive => bed != null && room != null;
+
+  List<Task> get unscheduledTasks => tasks.where((task) => task.status == TaskStatus.todo).toList();
+
+  List<Task> get inProgressTasks =>
+      tasks.where((task) => task.status == TaskStatus.inProgress).toList();
+
+  List<Task> get doneTasks => tasks.where((task) => task.status == TaskStatus.done).toList();
+
+  get unscheduledCount => unscheduledTasks.length;
+
+  get inProgressCount => inProgressTasks.length;
+
+  get doneCount => doneTasks.length;
+
+  factory Patient.empty({String id = ""}) {
+    return Patient(id: id, name: "", tasks: [], notes: "");
+  }
+
+  Patient({
+    required super.id,
+    required super.name,
     required this.tasks,
+    required this.notes,
     this.room,
     this.bed,
   });
+}
+
+/// A data class which maps all [PatientAssignmentStatus]es to a [List] of [Patient]s
+class PatientsByAssignmentStatus {
+  List<Patient> active;
+  List<Patient> unassigned;
+  List<Patient> discharged;
+
+  PatientsByAssignmentStatus({
+    this.active = const [],
+    this.unassigned = const [],
+    this.discharged = const [],
+  });
+
+  byAssignmentStatus(PatientAssignmentStatus status) {
+    switch (status) {
+      case PatientAssignmentStatus.active:
+        return active;
+      case PatientAssignmentStatus.unassigned:
+        return unassigned;
+      case PatientAssignmentStatus.discharged:
+        return discharged;
+    }
+  }
 }

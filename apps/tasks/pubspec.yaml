@@ -15,7 +15,7 @@ publish_to: 'none'
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: '>=3.1.0'
@@ -45,6 +45,8 @@ dependencies:
     path: "../../packages/helpwave_widget"
   helpwave_service:
     path: "../../packages/helpwave_service"
+  helpwave_proto_dart: 0.29.2-72f5de8.0
+  grpc: ^3.2.4
 
 dev_dependencies:
   flutter_test:
@@ -71,15 +73,16 @@ flutter_native_splash:
   # flutter pub run flutter_native_splash:create
   # flutter pub run flutter_native_splash:remove
 
-  color: "#1B1B1B"
+  color: "#FFFFFF"
   image: assets/splash/splash.png
 
   android_12:
-    color: "#1B1B1B"
+    color: "#FFFFFF"
     image: assets/splash/android12splash.png
 
 
 flutter_icons:
+  # flutter pub run flutter_launcher_icons
   android: "launcher_icon"
   ios: true
   image_path: assets/icon/icon_launcher.png

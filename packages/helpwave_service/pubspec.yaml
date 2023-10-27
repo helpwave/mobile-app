@@ -1,5 +1,5 @@
 name: helpwave_service
-description: Helpwave package for services
+description: A package for the helpwave services
 version: 0.0.1
 homepage: https://github.com/helpwave/mobile-app
 

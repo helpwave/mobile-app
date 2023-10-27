@@ -3,15 +3,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Service for reading and writing the Introduction Preference
 class IntroductionPreferences {
   /// Key of the Shared Preference
-  final String sharedPreferencesLanguageKey = "introduction";
+  final String sharedPreferencesIntroductionKey = "introduction";
 
   setIntroduction({bool value = true}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setBool(sharedPreferencesLanguageKey, value);
+    sharedPreferences.setBool(sharedPreferencesIntroductionKey, value);
   }
 
-  Future<bool> getLanguage() async {
+  Future<bool> getIntroductionValue() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getBool(sharedPreferencesLanguageKey) ?? false;
+    return sharedPreferences.getBool(sharedPreferencesIntroductionKey) ?? false;
   }
 }

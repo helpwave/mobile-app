@@ -4,6 +4,7 @@ import 'package:helpwave_service/auth.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:tasks/screens/main_screen.dart';
 
 /// The Landing Screen of the Application
 class LandingScreen extends StatelessWidget {
@@ -17,19 +18,38 @@ class LandingScreen extends StatelessWidget {
           vertical: MediaQuery.of(context).size.height * 0.04,
           horizontal: MediaQuery.of(context).size.height * 0.05,
         ),
-        child: OutlinedButton(
-          style: ButtonStyle(
-            shape: MaterialStatePropertyAll(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(borderRadiusSmall),
+        child: Column(
+          children: [
+            OutlinedButton(
+              style: ButtonStyle(
+                shape: MaterialStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(borderRadiusSmall),
+                  ),
+                ),
               ),
+              child: Text(
+                context.localization!.loginSlogan,
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
+              onPressed: () => {AuthenticationService().authenticate("https://auth.helpwave.de", "http://localhost:3000/")}//Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MainScreen()),),
             ),
-          ),
-          child: Text(
-            context.localization!.loginSlogan,
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
-          onPressed: () => {AuthenticationService().authenticate("https://auth.helpwave.de", "http://localhost:3000/")}//Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MyTasksScreen()),),
+            OutlinedButton(
+                style: ButtonStyle(
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(borderRadiusSmall),
+                    ),
+                  ),
+                ),
+                child: Text(
+                  context.localization!.loginSlogan,
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                onPressed: () {Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const
+                MainScreen()),);}
+            ),
+          ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -40,14 +60,14 @@ class LandingScreen extends StatelessWidget {
           Consumer<ThemeModel>(
             builder: (BuildContext context, ThemeModel themeNotifier, _) =>
                 Center(
-              child: Image.asset(
-                themeNotifier.getIsDarkNullSafe(context)
-                    ? 'assets/transparent-logo-dark.png'
-                    : 'assets/transparent-logo-light.png',
-                width: MediaQuery.of(context).size.height * 0.25,
-                height: MediaQuery.of(context).size.height * 0.25,
-              ),
-            ),
+                  child: Image.asset(
+                    themeNotifier.getIsDarkNullSafe(context)
+                        ? 'assets/transparent-logo-dark.png'
+                        : 'assets/transparent-logo-light.png',
+                    width: MediaQuery.of(context).size.height * 0.25,
+                    height: MediaQuery.of(context).size.height * 0.25,
+                  ),
+                ),
           ),
         ],
       ),
