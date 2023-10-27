@@ -18,7 +18,7 @@ class UserController extends ChangeNotifier {
   bool _isCreating = false;
 
   UserController(this._user) {
-    _isCreating = _user.id == "";
+    _isCreating = _user.isCreating;
     if (!_isCreating) {
       load();
     }
@@ -40,7 +40,7 @@ class UserController extends ChangeNotifier {
   }
 
   // Used to trigger the notify call without having to copy or save the Task locally
-  updateTask(void Function(User user) transformer) {
+  updateUser(void Function(User user) transformer) {
     transformer(user);
     state = LoadingState.loaded;
   }

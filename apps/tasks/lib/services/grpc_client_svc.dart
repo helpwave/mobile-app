@@ -1,6 +1,7 @@
 import 'package:grpc/grpc.dart';
 import 'package:helpwave_proto_dart/proto/services/task_svc/v1/patient_svc.pbgrpc.dart';
 import 'package:helpwave_proto_dart/proto/services/task_svc/v1/task_svc.pbgrpc.dart';
+import 'package:helpwave_proto_dart/proto/services/user_svc/v1/organization_svc.pbgrpc.dart';
 import 'package:helpwave_proto_dart/proto/services/user_svc/v1/user_svc.pbgrpc.dart';
 
 // TODO change later to api or better make it configurable
@@ -48,4 +49,6 @@ class GRPCClientService {
   static TaskServiceClient get getTaskServiceClient => TaskServiceClient(taskServiceChannel);
 
   static UserServiceClient get getUserServiceClient => UserServiceClient(userServiceChannel);
+
+  static OrganizationServiceClient get getOrganizationServiceClient => OrganizationServiceClient(userServiceChannel);
 }

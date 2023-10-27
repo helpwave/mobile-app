@@ -167,14 +167,14 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // TODO change static assignee name
-                  _SheetListTile(
-                    icon: Icons.person,
-                    label: context.localization!.assignedTo,
-                    onTap: () => showModalBottomSheet(
-                      context: context,
-                      // TODO this doesn't work anymore
-                      builder: (context) => Consumer<TaskController>(builder: (_, taskController, __) {
-                        return LoadingAndErrorWidget(
+                  Consumer<TaskController>(builder: (context, taskController, __) {
+                    return _SheetListTile(
+                      icon: Icons.person,
+                      label: context.localization!.assignedTo,
+                      onTap: () => showModalBottomSheet(
+                        context: context,
+                        // TODO this doesn't work anymore
+                        builder: (BuildContext context) => LoadingAndErrorWidget(
                           state: taskController.state,
                           child: AssigneeSelect(
                             selected: taskController.task.assignee,
@@ -182,17 +182,15 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                               taskController.changeAssignee(assigneeId: assignee.id);
                             },
                           ),
-                        );
-                      }),
-                    ),
-                    valueWidget: Consumer<TaskController>(
-                      builder: (_, taskController, __) => LoadingAndErrorWidget(
+                        ),
+                      ),
+                      valueWidget: LoadingAndErrorWidget(
                         state: taskController.state,
                         child: taskController.task.assignee != null
                             ? ChangeNotifierProvider(
                                 create: (context) => UserController(User.empty(id: taskController.task.assignee!)),
                                 child: Consumer<UserController>(
-                                  builder: (_, userController, __) => LoadingAndErrorWidget(
+                                  builder: (context, userController, __) => LoadingAndErrorWidget(
                                     state: userController.state,
                                     child: Text(
                                       userController.user.name,
@@ -206,10 +204,10 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                                 style: editableValueTextStyle,
                               ),
                       ),
-                    ),
-                  ),
+                    );
+                  }),
                   Consumer<TaskController>(
-                    builder: (_, taskController, __) => LoadingAndErrorWidget(
+                    builder: (context, taskController, __) => LoadingAndErrorWidget(
                       state: taskController.state,
                       child: _SheetListTile(
                         icon: Icons.access_time,
