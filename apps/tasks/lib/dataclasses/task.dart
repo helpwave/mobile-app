@@ -23,12 +23,15 @@ class Task {
 
   static get empty => Task(id: "", name: "name", notes: "");
 
-  double get progress => subtasks.isNotEmpty ? subtasks.where((element) => element.isDone).length / subtasks.length : 1;
+  double get progress => subtasks.isNotEmpty
+      ? subtasks.where((element) => element.isDone).length / subtasks.length
+      : 1;
 
   /// the remaining time until a task is due
   ///
   /// **NOTE**: returns [Duration.zero] if [dueDate] is null
-  Duration get remainingTime => dueDate != null ? dueDate!.difference(DateTime.now()) : Duration.zero;
+  Duration get remainingTime =>
+      dueDate != null ? dueDate!.difference(DateTime.now()) : Duration.zero;
 
   bool get isOverdue => remainingTime.isNegative;
 

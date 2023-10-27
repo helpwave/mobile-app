@@ -85,6 +85,17 @@ class _SheetListTile extends StatelessWidget {
 ///
 /// Not providing a [patient] means creating a new task
 /// for which the [patient] must be chosen
+///
+/// When used as a [BottomSheet] make sure to set the isScrollControlled property
+/// to true as seen in the example below to avoid an overflow
+///
+/// ```dart
+///   showModalBottomSheet(
+///     context: context,
+///     isScrollControlled: true,
+///     builder: (context) => TaskBottomSheet(),
+///   );
+/// ```
 class TaskBottomSheet extends StatefulWidget {
   /// The [Task] used to display the information
   final Task task;
