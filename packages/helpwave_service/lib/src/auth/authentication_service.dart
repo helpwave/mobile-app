@@ -1,31 +1,57 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:helpwave_service/src/auth/identity.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:openid_client/openid_client_io.dart';
 
-class AuthenticationError extends Error {
+/// A [Error] with a message
+class ErrorWithNameAndMessage extends Error {
+  /// The name of the error to discern its type
+  final String name;
+
+  /// The error message
   final String message;
 
-  AuthenticationError(this.message);
+  ErrorWithNameAndMessage(this.name, this.message);
 
   @override
   String toString() {
-    return 'AuthenticationError: $message';
+    return '$name: $message';
   }
 }
 
+/// A [Error] when the Authentication workflow fails
+class AuthenticationError extends ErrorWithNameAndMessage {
+  AuthenticationError(String message) : super("AuthenticationError", message);
+}
+
+/// A Error when the [Identity] can't be extracted from the Authentication workflow
+class AuthenticationIdentityError extends ErrorWithNameAndMessage {
+  AuthenticationIdentityError(String message)
+      : super("AuthenticationIdentityError", message);
+}
+
+/// The Service for authenticating a user against our user management system
+///
+/// A successful authentication provides a [Identity]
 class AuthenticationService {
+  // Singleton
   static final _authenticationService = AuthenticationService._internal();
 
+  // private constructor for Singleton
   AuthenticationService._internal();
 
   factory AuthenticationService() => _authenticationService;
 
-  Future<void> urlLauncher(Uri url) async {
+  /// Launches the provided URL
+  Future<void> _urlLauncher(Uri url) async {
     await launchUrl(url, mode: LaunchMode.inAppWebView);
   }
 
+  /// The method for letting the user authenticate themself against our user management system
+  ///
+  /// Returns the [Identity] of the user or throws either a [AuthenticationError] or [AuthenticationIdentityError]
   Future<Identity> authenticate({
     required BuildContext context,
     String discoveryUrl = "https://auth.helpwave.de",
@@ -47,7 +73,7 @@ class AuthenticationService {
     var authenticator = Authenticator(
       client,
       scopes: scopes,
-      urlLancher: (url) => urlLauncher(Uri.parse(url)),
+      urlLancher: (url) => _urlLauncher(Uri.parse(url)),
     );
 
     Credential? credential;
@@ -55,27 +81,36 @@ class AuthenticationService {
     try {
       credential = await authenticator.authorize();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       throw AuthenticationError("Failed to receive Credentials");
     } finally {
       await closeInAppWebView();
     }
 
     UserInfo userInfo = await credential.getUserInfo();
-
-    return Identity(
-      credential: credential,
-      id: userInfo.subject,
-      email: userInfo.email ?? "",
-      name: userInfo.name ?? "",
-      nickName: userInfo.nickname ?? "",
-      organizations: /* TODO userInfo.getTyped("organizations") ?? */ [],
-    );
+    try {
+      return Identity(
+        credential: credential,
+        id: userInfo.subject,
+        email: userInfo.email!,
+        name: userInfo.name!,
+        nickName: userInfo.nickname!,
+        organizations: /* TODO userInfo.getTyped("organizations") ?? */ [],
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw AuthenticationIdentityError(
+          "Could not get the full user information");
+    }
   }
 
-  // TODO method for checking the validity of the current token
+// TODO method for checking the validity of the current token
 
-  // TODO method for revoking the current token
+// TODO method for revoking the current token
 
-  // TODO methods for making requests with token or ways to access the saved tokens
+// TODO methods for making requests with token or ways to access the saved tokens
 }
