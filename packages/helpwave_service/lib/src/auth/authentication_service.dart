@@ -89,6 +89,7 @@ class AuthenticationService {
       await closeInAppWebView();
     }
 
+    // try to obtain and parse the user information
     UserInfo userInfo = await credential.getUserInfo();
     try {
       return Identity(
