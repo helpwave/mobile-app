@@ -38,10 +38,15 @@ class LandingScreen extends StatelessWidget {
                           .authenticate(
                               context: context,
                               callback: () =>
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen())))
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()))
+                      )
                           .then((value) {
+                            print("hi");
+                            print(value);
                         if (value != null) {
                           // TODO do something with the auth token
+                          print(value);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(context.localization!.loginFailed)),
