@@ -1,7 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:helpwave_service/src/auth/identity.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:openid_client/openid_client_io.dart';
+
+class AuthenticationError extends Error {
+  final String message;
+
+  AuthenticationError(this.message);
+
+  @override
+  String toString() {
+    return 'AuthenticationError: $message';
+  }
+}
 
 class AuthenticationService {
   static final _authenticationService = AuthenticationService._internal();
@@ -14,13 +26,19 @@ class AuthenticationService {
     await launchUrl(url, mode: LaunchMode.inAppWebView);
   }
 
-  Future<UserInfo?> authenticate({
+  Future<Identity> authenticate({
     required BuildContext context,
-    required void Function() callback,
     String discoveryUrl = "https://auth.helpwave.de",
     String redirectUrl = "http://localhost:3000/",
     String clientId = "425f8b8d-c786-4ff7-b2bf-e52f505fb588",
-    List<String> scopes = const ["openid", "offline_access", "email", "nickname", "name", "organizations"],
+    List<String> scopes = const [
+      "openid",
+      "offline_access",
+      "email",
+      "nickname",
+      "name",
+      "organizations"
+    ],
   }) async {
     // TODO check whether thee is still an active token and use it instead of a new sign in
     var issuer = await Issuer.discover(Uri.parse(discoveryUrl));
@@ -32,27 +50,32 @@ class AuthenticationService {
       urlLancher: (url) => urlLauncher(Uri.parse(url)),
     );
 
-    Credential? c;
+    Credential? credential;
     // starts the authentication
     try {
-      c = await authenticator.authorize();
+      credential = await authenticator.authorize();
     } catch (e) {
       print(e);
+      throw AuthenticationError("Failed to receive Credentials");
     } finally {
-      bool temp = await supportsCloseForLaunchMode(LaunchMode.inAppWebView);
-      print(temp);
       await closeInAppWebView();
     }
 
-    print("after");
-    // TODO save necessary information, so that all logins are simplified until token is expired
+    UserInfo userInfo = await credential.getUserInfo();
 
-    // TODO return whether client successfully authenticated
-    return c?.getUserInfo();
+    return Identity(
+      credential: credential,
+      id: userInfo.subject,
+      email: userInfo.email ?? "",
+      name: userInfo.name ?? "",
+      nickName: userInfo.nickname ?? "",
+      organizations: /* TODO userInfo.getTyped("organizations") ?? */ [],
+    );
   }
-// TODO method for checking the validity of the current token
 
-// TODO method for revoking the current token
+  // TODO method for checking the validity of the current token
 
-// TODO methods for making requests with token or ways to access the saved tokens
+  // TODO method for revoking the current token
+
+  // TODO methods for making requests with token or ways to access the saved tokens
 }

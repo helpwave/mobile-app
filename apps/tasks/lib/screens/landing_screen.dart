@@ -35,24 +35,21 @@ class LandingScreen extends StatelessWidget {
                 ),
                 onPressed: () => {
                       AuthenticationService()
-                          .authenticate(
-                              context: context,
-                              callback: () =>
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()))
-                      )
-                          .then((value) {
-                            print("hi");
-                            print(value);
-                        if (value != null) {
-                          // TODO do something with the auth token
-                          print(value);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(context.localization!.loginFailed)),
-                          );
-                        }
-                      })
+                          .authenticate(context: context)
+                          .then((identity) async {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(identity.name,
+                        )));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MainScreen()));
+                      }).onError((error, stackTrace) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(context.localization!.loginFailed)),
+                        );
+                      }),
                     }),
             // TODO remove
             const SizedBox(
@@ -84,7 +81,8 @@ class LandingScreen extends StatelessWidget {
         children: [
           SizedBox(height: MediaQuery.of(context).size.height * 0.33),
           Consumer<ThemeModel>(
-            builder: (BuildContext context, ThemeModel themeNotifier, _) => Center(
+            builder: (BuildContext context, ThemeModel themeNotifier, _) =>
+                Center(
               child: Image.asset(
                 themeNotifier.getIsDarkNullSafe(context)
                     ? 'assets/transparent-logo-dark.png'
