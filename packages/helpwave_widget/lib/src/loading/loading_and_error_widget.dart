@@ -1,7 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:helpwave_widget/loading.dart';
 
-enum LoadingState { initializing, loaded, loading, error }
+enum LoadingState {
+  /// The date is initializing
+  initializing,
+
+  /// The date is loaded
+  loaded,
+
+  /// The date is currently loading
+  loading,
+
+  /// The loading produced an error
+  error,
+
+  /// There is no loading state, meaning ignore the LoadingState
+  unspecified,
+}
 
 /// A [Widget] to show different [Widget]s depending on the [LoadingState]
 class LoadingAndErrorWidget extends StatelessWidget {
@@ -20,6 +35,9 @@ class LoadingAndErrorWidget extends StatelessWidget {
   /// The [Widget] when the component isn't initialized
   final Widget initialWidget;
 
+  /// The [Widget] for an [LoadingState.unspecified]
+  final Widget? unspecifiedWidget;
+
   const LoadingAndErrorWidget({
     super.key,
     required this.state,
@@ -27,6 +45,7 @@ class LoadingAndErrorWidget extends StatelessWidget {
     this.loadingWidget = const LoadingSpinner(),
     this.errorWidget = const LoadErrorWidget(),
     this.initialWidget = const SizedBox(),
+    this.unspecifiedWidget,
   });
 
   @override
@@ -39,6 +58,9 @@ class LoadingAndErrorWidget extends StatelessWidget {
     }
     if (state == LoadingState.initializing) {
       return Center(child: initialWidget);
+    }
+    if (state == LoadingState.unspecified) {
+      return unspecifiedWidget ?? child;
     }
     return child;
   }

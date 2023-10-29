@@ -19,7 +19,12 @@ class _VisibilityBottomSheet extends StatelessWidget {
     );
     return BottomSheetBase(
       onClosing: () {},
-      paddingBottom: paddingBig,
+      padding: const EdgeInsets.only(
+        left: paddingMedium,
+        right: paddingMedium,
+        top: paddingMedium,
+        bottom: paddingBig,
+      ),
       titleText: context.localization!.visibility,
       builder: (context) {
         return Column(
@@ -86,7 +91,9 @@ class VisibilitySelect extends StatelessWidget {
           }
       },
       child: Text(
-        isPublicVisible ? context.localization!.public : context.localization!.private,
+        isPublicVisible
+            ? context.localization!.public
+            : context.localization!.private,
         style: textStyle,
       ),
     );

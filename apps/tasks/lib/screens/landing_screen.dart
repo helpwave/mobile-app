@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/auth.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
@@ -17,21 +18,61 @@ class LandingScreen extends StatelessWidget {
           vertical: MediaQuery.of(context).size.height * 0.04,
           horizontal: MediaQuery.of(context).size.height * 0.05,
         ),
-        child: OutlinedButton(
-          style: ButtonStyle(
-            shape: MaterialStatePropertyAll(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(borderRadiusSmall),
-              ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            OutlinedButton(
+                style: ButtonStyle(
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(borderRadiusSmall),
+                    ),
+                  ),
+                ),
+                child: Text(
+                  context.localization!.loginSlogan,
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                onPressed: () => {
+                      AuthenticationService()
+                          .authenticate(context: context)
+                          .then((identity) async {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(identity.name,
+                        )));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MainScreen()));
+                      }).onError((error, stackTrace) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(context.localization!.loginFailed)),
+                        );
+                      }),
+                    }),
+            // TODO remove
+            const SizedBox(
+              height: distanceDefault,
             ),
-          ),
-          child: Text(
-            context.localization!.loginSlogan,
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
-          onPressed: () => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const MainScreen()),
-          ),
+            OutlinedButton(
+                style: ButtonStyle(
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(borderRadiusSmall),
+                    ),
+                  ),
+                ),
+                child: Text(
+                  "Login without auth",
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const MainScreen()),
+                  );
+                }),
+          ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -42,14 +83,14 @@ class LandingScreen extends StatelessWidget {
           Consumer<ThemeModel>(
             builder: (BuildContext context, ThemeModel themeNotifier, _) =>
                 Center(
-                  child: Image.asset(
-                    themeNotifier.getIsDarkNullSafe(context)
-                        ? 'assets/transparent-logo-dark.png'
-                        : 'assets/transparent-logo-light.png',
-                    width: MediaQuery.of(context).size.height * 0.25,
-                    height: MediaQuery.of(context).size.height * 0.25,
-                  ),
-                ),
+              child: Image.asset(
+                themeNotifier.getIsDarkNullSafe(context)
+                    ? 'assets/transparent-logo-dark.png'
+                    : 'assets/transparent-logo-light.png',
+                width: MediaQuery.of(context).size.height * 0.25,
+                height: MediaQuery.of(context).size.height * 0.25,
+              ),
+            ),
           ),
         ],
       ),
