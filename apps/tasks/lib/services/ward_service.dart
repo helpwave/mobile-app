@@ -11,13 +11,12 @@ class WardService {
   /// The GRPC ServiceClient which handles GRPC
   WardServiceClient wardService = GRPCClientService.getWardServiceClient;
 
-  // TODO ward requests
+  /// Loads a [Ward] by its identifier
   Future<Ward> getWard({required String id}) async {
     GetWardRequest request = GetWardRequest(id: id);
     GetWardResponse response = await wardService.getWard(
       request,
-      options:
-          CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
     );
 
     return Ward(
@@ -26,4 +25,26 @@ class WardService {
       organizationId: response.organizationId,
     );
   }
+
+  /// Loads the wards in the current organization
+  Future<List<WardOverview>> getWardOverviews({String? organizationId}) async {
+    GetWardOverviewsRequest request = GetWardOverviewsRequest();
+    GetWardOverviewsResponse response = await wardService.getWardOverviews(
+      request,
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData(organizationId: organizationId)),
+    );
+
+    return response.wards
+        .map((ward) => WardOverview(
+              id: ward.id,
+              name: ward.name,
+              bedCount: ward.bedCount,
+              tasksInTodo: ward.tasksTodo,
+              tasksInInProgress: ward.tasksInProgress,
+              tasksInDone: ward.tasksDone,
+            ))
+        .toList();
+  }
+
+  // TODO ward requests
 }

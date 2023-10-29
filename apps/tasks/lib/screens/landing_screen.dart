@@ -5,6 +5,7 @@ import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/screens/main_screen.dart';
+import 'package:tasks/services/auth_service.dart';
 
 /// The Landing Screen of the Application
 class LandingScreen extends StatelessWidget {
@@ -34,20 +35,21 @@ class LandingScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
                 onPressed: () => {
-                      AuthenticationService()
-                          .authenticate(context: context)
-                          .then((identity) async {
+                      AuthenticationService().authenticate(context: context).then((identity) async {
+                        // TODO use identity
+                        AuthService().userId = identity.id;
+                        AuthService().identity = identity;
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(identity.name,
+                            content: Text(
+                          identity.name,
                         )));
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const MainScreen()));
+                          context,
+                          MaterialPageRoute(builder: (context) => const MainScreen()),
+                        );
                       }).onError((error, stackTrace) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text(context.localization!.loginFailed)),
+                          SnackBar(content: Text(context.localization!.loginFailed)),
                         );
                       }),
                     }),
@@ -81,8 +83,7 @@ class LandingScreen extends StatelessWidget {
         children: [
           SizedBox(height: MediaQuery.of(context).size.height * 0.33),
           Consumer<ThemeModel>(
-            builder: (BuildContext context, ThemeModel themeNotifier, _) =>
-                Center(
+            builder: (BuildContext context, ThemeModel themeNotifier, _) => Center(
               child: Image.asset(
                 themeNotifier.getIsDarkNullSafe(context)
                     ? 'assets/transparent-logo-dark.png'
