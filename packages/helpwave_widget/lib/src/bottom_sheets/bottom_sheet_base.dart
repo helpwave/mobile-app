@@ -19,8 +19,8 @@ class BottomSheetBase extends StatelessWidget {
   /// Overwritten by [title]
   final String titleText;
 
-  /// The bottom [Padding] of the builder [Widget]
-  final double paddingBottom;
+  /// The [Padding] of the builder [Widget]
+  final EdgeInsetsGeometry padding;
 
   const BottomSheetBase({
     super.key,
@@ -28,7 +28,12 @@ class BottomSheetBase extends StatelessWidget {
     required this.builder,
     this.title,
     this.titleText = "",
-    this.paddingBottom = 0,
+    this.padding = const EdgeInsets.only(
+      right: paddingMedium,
+      left: paddingMedium,
+      top: paddingMedium,
+      bottom: 0,
+    ),
   });
 
   @override
@@ -37,12 +42,7 @@ class BottomSheetBase extends StatelessWidget {
       onClosing: onClosing,
       builder: (context) {
         return Padding(
-          padding: EdgeInsets.only(
-            right: paddingMedium,
-            left: paddingMedium,
-            top: paddingMedium,
-            bottom: paddingBottom,
-          ),
+          padding: padding,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

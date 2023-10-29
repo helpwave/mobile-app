@@ -39,6 +39,8 @@ class Task {
 
   bool get inNextHour => remainingTime.inHours < 1;
 
+  bool get isCreating => id == "";
+
   Task({
     required this.id,
     required this.name,
@@ -55,21 +57,29 @@ class Task {
 class TaskWithPatient extends Task {
   PatientMinimal patient;
 
+  factory TaskWithPatient.empty({
+    String taskId = "",
+    PatientMinimal? patient,
+  }) {
+    return TaskWithPatient(id: taskId, name: "task name", notes: "", patient: patient ?? PatientMinimal.empty());
+  }
+
   factory TaskWithPatient.fromTaskAndPatient({
     required Task task,
-    required PatientMinimal patientMinimal,
+    PatientMinimal? patient,
   }) {
     return TaskWithPatient(
       id: task.id,
       name: task.name,
       notes: task.notes,
-      assignee: task.assignee,
-      status: task.status,
+      isPublicVisible: task.isPublicVisible,
+      // maybe do deep copy here
       subtasks: task.subtasks,
+      status: task.status,
       dueDate: task.dueDate,
       creationDate: task.creationDate,
-      isPublicVisible: task.isPublicVisible,
-      patient: patientMinimal,
+      assignee: task.assignee,
+      patient: patient ?? PatientMinimal.empty(),
     );
   }
 
