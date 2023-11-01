@@ -3,6 +3,7 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_widget/content_selection.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/dataclasses/organization.dart';
+import 'package:tasks/screens/settings_screen.dart';
 import 'package:tasks/services/current_ward_svc.dart';
 import 'package:tasks/services/organization_svc.dart';
 import 'package:tasks/services/ward_service.dart';
@@ -25,6 +26,19 @@ class _WardSelectScreen extends State<WardSelectScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(context.localization!.selectWard),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingsScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.settings),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -33,31 +47,29 @@ class _WardSelectScreen extends State<WardSelectScreen> {
             title: Text(organizationId ?? context.localization!.none),
             subtitle: Text(context.localization!.organization),
             trailing: const Icon(Icons.arrow_forward),
-            onTap: () =>
-                Navigator.push<Organization?>(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ListSearch<Organization>(
-                          title: context.localization!.organization,
-                          asyncItems: (_) async {
-                            List<Organization> organizations = await OrganizationService().getOrganizationsForUser();
-                            return organizations;
-                          },
-                          elementToString: (Organization t) => t.name,
-                        ),
-                  ),
-                ).then((value) {
-                  if (value != null) {
-                    setState(() {
-                      // check if ward is changed
-                      if (value.id != organizationId) {
-                        wardId = null;
-                      }
-                      organizationId = value.id;
-                    });
+            onTap: () => Navigator.push<Organization?>(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ListSearch<Organization>(
+                  title: context.localization!.organization,
+                  asyncItems: (_) async {
+                    List<Organization> organizations = await OrganizationService().getOrganizationsForUser();
+                    return organizations;
+                  },
+                  elementToString: (Organization t) => t.name,
+                ),
+              ),
+            ).then((value) {
+              if (value != null) {
+                setState(() {
+                  // check if ward is changed
+                  if (value.id != organizationId) {
+                    wardId = null;
                   }
-                }),
+                  organizationId = value.id;
+                });
+              }
+            }),
           ),
           ListTile(
             // TODO change to organization name
@@ -66,42 +78,37 @@ class _WardSelectScreen extends State<WardSelectScreen> {
             trailing: const Icon(Icons.arrow_forward),
             onTap: organizationId == null
                 ? null
-                : () =>
-                Navigator.push<WardOverview?>(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ListSearch<WardOverview>(
+                : () => Navigator.push<WardOverview?>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ListSearch<WardOverview>(
                           title: context.localization!.ward,
                           asyncItems: (_) async {
                             List<WardOverview> organizations =
-                            await WardService().getWardOverviews(organizationId: organizationId);
+                                await WardService().getWardOverviews(organizationId: organizationId);
                             return organizations;
                           },
                           elementToString: (WardOverview ward) => ward.name,
                         ),
-                  ),
-                ).then((value) {
-                  if (value != null) {
-                    setState(() {
-                      wardId = value.id;
-                    });
-                  }
-                }),
+                      ),
+                    ).then((value) {
+                      if (value != null) {
+                        setState(() {
+                          wardId = value.id;
+                        });
+                      }
+                    }),
           ),
           Consumer<CurrentWardService>(
-            builder: (context, currentWardService, __) =>
-                TextButton(
-                  onPressed: () {
-                    print("called");
-                    if (wardId == null || organizationId == null) {
-                      print("not selected");
-                      return;
-                    }
-                    currentWardService.currentWard = CurrentWardInformation(wardId!, organizationId!);
-                  },
-                  child: Text(context.localization!.switch_),
-                ),
+            builder: (context, currentWardService, __) => TextButton(
+              onPressed: () {
+                if (wardId == null || organizationId == null) {
+                  return;
+                }
+                currentWardService.currentWard = CurrentWardInformation(wardId!, organizationId!);
+              },
+              child: Text(context.localization!.switch_),
+            ),
           ),
         ],
       ),

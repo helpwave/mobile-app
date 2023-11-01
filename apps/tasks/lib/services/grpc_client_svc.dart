@@ -10,7 +10,7 @@ import 'package:tasks/services/current_ward_svc.dart';
 import 'auth_service.dart';
 
 // TODO change later to api or better make it configurable
-const apiURL = "staging.api.helpwave.de";
+const apiURL = "api.helpwave.de";
 
 // TODO later fetch from [AuthService]
 const token = "eyJzdWIiOiIxODE1OTcxMy01ZDRlLTRhZDUtOTRhZC1mYmI2YmIxNDc5ODQiLCJlbWFpbCI6InRlc3RpbmUudGVzdEBoZWxwd2F2ZS"
@@ -25,13 +25,14 @@ class GRPCClientService {
     apiURL,
   );
 
-  // TODO this identity gets rejected
   Map<String, String> get authMetaData => {
         "Authorization": "Bearer ${AuthService().identity?.credential.idToken.toCompactSerialization() ?? token}",
       };
 
   String get fallbackOrganizationId =>
-      CurrentWardService().currentWard?.organizationId ?? "3b25c6f5-4705-4074-9fc6-a50c28eba406";
+      CurrentWardService().currentWard?.organizationId ??
+      AuthService().identity?.organizations[0] ??
+      "3b25c6f5-4705-4074-9fc6-a50c28eba406";
 
   Map<String, String> getTaskServiceMetaData({String? organizationId}) {
     return {

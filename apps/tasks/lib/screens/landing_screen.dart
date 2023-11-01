@@ -11,6 +11,8 @@ import 'package:tasks/services/auth_service.dart';
 class LandingScreen extends StatelessWidget {
   const LandingScreen({super.key});
 
+  /// TODO somehow check whether tokens can be used to login and push forward in that case
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,13 +41,17 @@ class LandingScreen extends StatelessWidget {
                         // TODO use identity
                         AuthService().userId = identity.id;
                         AuthService().identity = identity;
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                          identity.name,
-                        )));
-                        Navigator.push(
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(
+                            identity.name,
+                          )),
+                        );
+                        Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => const MainScreen()),
+                          MaterialPageRoute(
+                            builder: (context) => const MainScreen(),
+                          ),
                         );
                       }).onError((error, stackTrace) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -70,7 +76,8 @@ class LandingScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(
+                  Navigator.pushReplacement(
+                    context,
                     MaterialPageRoute(builder: (context) => const MainScreen()),
                   );
                 }),

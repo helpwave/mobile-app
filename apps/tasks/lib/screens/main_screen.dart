@@ -8,7 +8,9 @@ import 'package:tasks/components/patient_bottom_sheet.dart';
 import 'package:tasks/screens/main_screen_subscreens/my_tasks_screen.dart';
 import 'package:tasks/screens/main_screen_subscreens/patient_screen.dart';
 import 'package:tasks/screens/ward_select_screen.dart';
+import 'package:tasks/services/auth_service.dart';
 import 'package:tasks/services/current_ward_svc.dart';
+import 'package:tasks/services/grpc_client_svc.dart';
 import '../components/task_bottom_sheet.dart';
 import '../dataclasses/task.dart';
 
@@ -37,6 +39,10 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Consumer2<ThemeModel, CurrentWardService>(
         builder: (BuildContext context, ThemeModel themeNotifier, CurrentWardService currentWardService, _) {
+          print(currentWardService.isInitialized);
+          print(currentWardService.currentWard);
+          print(AuthService().userId);
+          print(GRPCClientService().getUserServiceMetaData());
       if(!currentWardService.isInitialized){
         return const WardSelectScreen();
       }

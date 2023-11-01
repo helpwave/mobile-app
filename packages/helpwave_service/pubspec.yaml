@@ -13,6 +13,7 @@ dependencies:
   shared_preferences: ^2.0.15
   openid_client: ^0.4.7
   url_launcher: ^6.2.1
+  flutter_secure_storage: 9.0.0
 
 dev_dependencies:
   flutter_test:

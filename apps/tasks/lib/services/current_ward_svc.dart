@@ -74,9 +74,17 @@ class CurrentWardService extends ChangeNotifier {
   CurrentWardInformation? get currentWard => _currentWard;
 
   /// Load the preferences with the [ThemePreferences]
-  load() async {
+  Future<void> load() async {
     _currentWard = await _preferences.getInformation();
-    _isInitialized = true;
+    if(_currentWard != null){
+      _isInitialized = true;
+    }
     notifyListeners();
+  }
+
+  /// Clears the [CurrentWardInformation]
+  void clear(){
+    _isInitialized = false;
+    currentWard = null;
   }
 }

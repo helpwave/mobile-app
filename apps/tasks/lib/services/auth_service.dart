@@ -10,4 +10,10 @@ class AuthService {
   AuthService._ensureInitialized();
 
   factory AuthService() => _authService;
+
+  /// Logs a User out and removes all stored information
+  logout() {
+    identity = null;
+    userId = "";
+  }
 }
