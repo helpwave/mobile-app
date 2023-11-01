@@ -1,19 +1,44 @@
-// TODO extend this or move it to the auth-service in helpwave_services
 import 'package:helpwave_service/auth.dart';
+import 'package:tasks/config/config.dart';
 
 /// The class for storing an managing the user
 class AuthService {
-  static final AuthService _authService = AuthService._ensureInitialized();
-  String userId = "";
-  Identity? identity; // TODO shouldn't be optional or use a isInitialized
+  Identity? _identity;
+  bool _hasTriedTokens = false;
 
-  AuthService._ensureInitialized();
+  static final AuthService _authService = AuthService._ensureInitialized();
+
+  AuthService._ensureInitialized() {
+    _hasTriedTokens = DEV_MODE;
+  }
 
   factory AuthService() => _authService;
 
+  Identity? get identity => _identity;
+
+  bool get isInitialized => _identity != null;
+
+  bool get hasTriedTokens => _hasTriedTokens;
+
+  Future<void> tokenLogin() async {
+    if (!DEV_MODE) {
+      _identity = await AuthenticationService().tokenLogin();
+    } else {
+      _identity = Identity.defaultIdentity();
+    }
+    _hasTriedTokens = true;
+  }
+
+  Future<void> webLogin() async {
+    if (!DEV_MODE) {
+      _identity = await AuthenticationService().webLogin();
+    }
+  }
+
   /// Logs a User out and removes all stored information
   logout() {
-    identity = null;
-    userId = "";
+    _identity = DEV_MODE ? Identity.defaultIdentity() : null;
+    _hasTriedTokens = true;
+    AuthenticationService().revoke();
   }
 }

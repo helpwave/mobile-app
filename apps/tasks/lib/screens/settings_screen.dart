@@ -4,7 +4,7 @@ import 'package:helpwave_localization/localization_model.dart';
 import 'package:helpwave_service/auth.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/screens/landing_screen.dart';
+import 'package:tasks/screens/login_screen.dart';
 import 'package:tasks/services/auth_service.dart';
 import 'package:tasks/services/current_ward_svc.dart';
 
@@ -80,7 +80,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   AuthService().logout();
                   currentWardService.clear();
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => const LandingScreen()),
+                    MaterialPageRoute(builder: (_) => const LoginScreen()),
                   );
                 },
               );

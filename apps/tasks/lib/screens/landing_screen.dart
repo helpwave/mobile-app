@@ -1,90 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
-import 'package:helpwave_service/auth.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
+import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/screens/main_screen.dart';
-import 'package:tasks/services/auth_service.dart';
+import 'package:tasks/controllers/authentication_controller.dart';
 
 /// The Landing Screen of the Application
 class LandingScreen extends StatelessWidget {
   const LandingScreen({super.key});
 
-  /// TODO somehow check whether tokens can be used to login and push forward in that case
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height * 0.04,
-          horizontal: MediaQuery.of(context).size.height * 0.05,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            OutlinedButton(
-                style: ButtonStyle(
-                  shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(borderRadiusSmall),
-                    ),
-                  ),
+        padding: const EdgeInsets.only(bottom: distanceBig),
+        child: Consumer<AuthenticationController>(builder: (context, authenticationController, __) {
+          if (!authenticationController.hasTriedTokens) {
+            return const LoadingSpinner(
+              size: iconSizeMedium,
+            );
+          }
+
+          return OutlinedButton(
+            style: ButtonStyle(
+              shape: MaterialStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(borderRadiusSmall),
                 ),
-                child: Text(
-                  context.localization!.loginSlogan,
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
-                onPressed: () => {
-                      AuthenticationService().authenticate(context: context).then((identity) async {
-                        // TODO use identity
-                        AuthService().userId = identity.id;
-                        AuthService().identity = identity;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text(
-                            identity.name,
-                          )),
-                        );
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MainScreen(),
-                          ),
-                        );
-                      }).onError((error, stackTrace) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(context.localization!.loginFailed)),
-                        );
-                      }),
-                    }),
-            // TODO remove
-            const SizedBox(
-              height: distanceDefault,
+              ),
             ),
-            OutlinedButton(
-                style: ButtonStyle(
-                  shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(borderRadiusSmall),
-                    ),
-                  ),
-                ),
-                child: Text(
-                  "Login without auth",
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MainScreen()),
-                  );
-                }),
-          ],
-        ),
+            child: Text(
+              context.localization!.loginSlogan,
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+            onPressed: () {
+              authenticationController.webLogin();
+            },
+          );
+        }),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

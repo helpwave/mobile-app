@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasks/config/config.dart';
 
 /// A readonly class for getting the CurrentWard information
 class CurrentWardInformation {
@@ -56,18 +57,22 @@ class CurrentWardService extends ChangeNotifier {
   bool get isInitialized => _isInitialized;
 
   CurrentWardService() {
-    load();
+    if(!DEV_MODE){
+      load();
+    }
   }
 
   set currentWard(CurrentWardInformation? currentWard) {
-    if (currentWard == null) {
-      _preferences.clear();
-      _isInitialized = false;
-    } else {
-      _preferences.setInformation(currentWard: currentWard);
-      _isInitialized = true;
+    if(!DEV_MODE) {
+      if (currentWard == null) {
+        _preferences.clear();
+
+      } else {
+        _preferences.setInformation(currentWard: currentWard);
+      }
     }
     _currentWard = currentWard;
+    _isInitialized = _currentWard != null;
     notifyListeners();
   }
 

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:helpwave_service/src/auth/identity.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -39,7 +38,11 @@ class AuthenticationService {
   final idTokenStorageKey = "auth-id-token";
   final accessStorageKey = "auth-access-token";
   final refreshStorageKey = "auth-refresh-token";
+  final expiresStorageKey = "auth-expires-at";
   final storage = const FlutterSecureStorage();
+  String discoveryUrl = "https://auth.helpwave.de";
+  String clientId = "425f8b8d-c786-4ff7-b2bf-e52f505fb588";
+  List<String> scopes = const ["openid", "offline_access", "email", "nickname", "name", "organizations"];
 
   // Singleton
   static final _authenticationService = AuthenticationService._internal();
@@ -54,51 +57,102 @@ class AuthenticationService {
     await launchUrl(url, mode: LaunchMode.inAppWebView);
   }
 
+  Future<Client> getClient() async {
+    var issuer = await Issuer.discover(Uri.parse(discoveryUrl));
+    Client client = Client(issuer, clientId);
+    return client;
+  }
+
   /// The method for letting the user authenticate themself against our user management system
   ///
   /// Returns the [Identity] of the user or throws either a [AuthenticationError] or [AuthenticationIdentityError]
-  Future<Identity> authenticate({
-    required BuildContext context,
-    String discoveryUrl = "https://auth.helpwave.de",
-    String redirectUrl = "http://localhost:3000/",
-    String clientId = "425f8b8d-c786-4ff7-b2bf-e52f505fb588",
-    List<String> scopes = const ["openid", "offline_access", "email", "nickname", "name", "organizations"],
-  }) async {
-    // TODO check whether thee is still an active token and use it instead of a new sign in
-    var issuer = await Issuer.discover(Uri.parse(discoveryUrl));
-
-    Client client = Client(issuer, clientId);
-    Identity? identityFromTokens = await tryWithStoredTokens(client);
+  Future<Identity> tryTokenThenLogin() async {
+    Identity? identityFromTokens = await tokenLogin();
     // TODO properly verify expiry of token
 
     if (identityFromTokens != null) {
       return identityFromTokens;
-    }else {
-      return await login(client, scopes);
+    } else {
+      return await webLogin();
     }
   }
 
+  /// Login with the tokens
+  Future<Identity?> tokenLogin() async {
+    Client client = await getClient();
+    Credential? credential = await _fromTokens(client);
+    if (credential == null) {
+      return null;
+    }
+    UserInfo userInfo = await credential.getUserInfo();
+    return _toIdentity(credential, userInfo);
+  }
+
+  /// Login with the in app view to create new tokens
+  Future<Identity> webLogin() async {
+    Client client = await getClient();
+    Authenticator authenticator = Authenticator(
+      client,
+      scopes: scopes,
+      urlLancher: (url) => _urlLauncher(Uri.parse(url)),
+    );
+    Credential? credential;
+    // starts the authentication
+    try {
+      credential = await authenticator.authorize();
+      await closeInAppWebView();
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw AuthenticationError("Failed to receive Credentials");
+    }
+
+    TokenResponse tokenResponse = await credential.getTokenResponse();
+    await storage.write(key: idTokenStorageKey, value: credential.idToken.toCompactSerialization());
+    await storage.write(key: accessStorageKey, value: tokenResponse.accessToken);
+    await storage.write(key: refreshStorageKey, value: credential.refreshToken);
+    await storage.write(key: expiresStorageKey, value: (tokenResponse.expiresAt ?? DateTime.now()).toIso8601String());
+
+    // try to obtain and parse the user information
+    UserInfo userInfo = await credential.getUserInfo();
+    return _toIdentity(credential, userInfo);
+  }
+
+  /// Check whether all necessary tokens are available
+  ///
+  /// A precondition for [tokenLogin]
   Future<bool> hasSavedToken() async {
     String? idToken = await storage.read(key: idTokenStorageKey);
     String? accessToken = await storage.read(key: accessStorageKey);
     String? refreshToken = await storage.read(key: refreshStorageKey);
-    return idToken != null && accessToken != null && refreshToken != null;
+    String? expiresAt = await storage.read(key: expiresStorageKey);
+    return idToken != null && accessToken != null && refreshToken != null && expiresAt != null;
   }
 
-  Future<Credential?> fromTokens(Client client) async {
+  /// Creates a [Credential] form the token data
+  Future<Credential?> _fromTokens(Client client) async {
     String? idToken = await storage.read(key: idTokenStorageKey);
     String? accessToken = await storage.read(key: accessStorageKey);
     String? refreshToken = await storage.read(key: refreshStorageKey);
-    if (idToken != null && accessToken != null && refreshToken != null) {
-      return client.createCredential(idToken: idToken, refreshToken: refreshToken, accessToken: accessToken);
+    String? expiresAt = await storage.read(key: expiresStorageKey);
+    if (idToken != null && accessToken != null && refreshToken != null && expiresAt != null) {
+      return client.createCredential(
+        idToken: idToken,
+        refreshToken: refreshToken,
+        accessToken: accessToken,
+        expiresAt: DateTime.parse(expiresAt),
+      );
     }
     return null;
   }
 
-  Identity toIdentity(Credential credential, UserInfo userInfo){
+  /// Maps [Credential] information and [UserInfo] to a [Identity]
+  Identity _toIdentity(Credential credential, UserInfo userInfo) {
     try {
       return Identity(
         credential: credential,
+        idToken: credential.idToken.toCompactSerialization(),
         id: userInfo.subject,
         email: userInfo.email!,
         name: userInfo.name!,
@@ -113,45 +167,7 @@ class AuthenticationService {
     }
   }
 
-  Future<Identity?> tryWithStoredTokens(Client client) async {
-    Credential? credential = await fromTokens(client);
-    if (credential == null) {
-      return null;
-    }
-    UserInfo userInfo = await credential.getUserInfo();
-    return toIdentity(credential, userInfo);
-  }
-
-  Future<Identity> login(Client client, List<String> scopes) async {
-    Authenticator authenticator = Authenticator(
-      client,
-      scopes: scopes,
-      urlLancher: (url) => _urlLauncher(Uri.parse(url)),
-    );
-    Credential? credential;
-    // starts the authentication
-    try {
-      credential = await authenticator.authorize();
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-      throw AuthenticationError("Failed to receive Credentials");
-    } finally {
-      await closeInAppWebView();
-    }
-
-    await storage.write(key: idTokenStorageKey, value: credential.idToken.toCompactSerialization());
-    await storage.write(key: accessStorageKey, value: (await credential.getTokenResponse()).accessToken);
-    await storage.write(key: refreshStorageKey, value: credential.refreshToken);
-
-    // try to obtain and parse the user information
-    UserInfo userInfo = await credential.getUserInfo();
-    return toIdentity(credential, userInfo);
-  }
-
-  // TODO method for checking the validity of the current token
-
+  /// Revokes the current token
   revoke() {
     // TODO method for revoking the current token on the serverside
     storage.delete(key: idTokenStorageKey);
@@ -159,5 +175,5 @@ class AuthenticationService {
     storage.delete(key: refreshStorageKey);
   }
 
-// TODO methods for making requests with token or ways to access the saved tokens
+// TODO method for checking the validity of the current token
 }
