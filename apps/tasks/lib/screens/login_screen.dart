@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/screens/landing_screen.dart';
 import 'package:tasks/screens/main_screen.dart';
-import '../controllers/authentication_controller.dart';
+import '../controllers/user_session_controller.dart';
 
 /// A Screen for forcing the User to login or be logged in
 ///
@@ -13,8 +13,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthenticationController>(builder: (context, authenticationController, __) {
-      if (authenticationController.isInitialized) {
+    return Consumer<UserSessionController>(builder: (context, userSessionController, __) {
+      if (userSessionController.isLoggedIn) {
         return const MainScreen();
       }
       return const LandingScreen();

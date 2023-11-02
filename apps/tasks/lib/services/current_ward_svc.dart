@@ -4,7 +4,10 @@ import 'package:tasks/config/config.dart';
 
 /// A readonly class for getting the CurrentWard information
 class CurrentWardInformation {
+  /// The identifier of the ward
   final String _wardId;
+
+  /// The identifier of the organization
   final String _organizationId;
 
   String get wardId => _wardId;
@@ -23,18 +26,21 @@ class _CurrentWardPreferences {
   /// Key of the Shared Preference for the current organization
   final String sharedPreferencesCurrentOrganizationKey = "current_ward_organization";
 
+  /// Clears the shared preferences
   clear() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.remove(sharedPreferencesCurrentWardKey);
     sharedPreferences.remove(sharedPreferencesCurrentOrganizationKey);
   }
 
+  /// Puts the new current ward to the shared preferences
   setInformation({required CurrentWardInformation currentWard}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString(sharedPreferencesCurrentWardKey, currentWard.wardId);
     sharedPreferences.setString(sharedPreferencesCurrentOrganizationKey, currentWard.organizationId);
   }
 
+  /// Reads the current ward from the shared preferences
   Future<CurrentWardInformation?> getInformation() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? wardId = sharedPreferences.getString(sharedPreferencesCurrentWardKey);
@@ -50,23 +56,28 @@ class _CurrentWardPreferences {
 ///
 /// Notifies about changes in light or dark theme preference
 class CurrentWardService extends ChangeNotifier {
+  /// Whether this Controller has been initialized
   bool _isInitialized = false;
+
+  /// A storage for the current ward
   final _CurrentWardPreferences _preferences = _CurrentWardPreferences();
+
+  /// The current ward information
   CurrentWardInformation? _currentWard;
 
+  /// Whether this Controller has been initialized
   bool get isInitialized => _isInitialized;
 
   CurrentWardService() {
-    if(!DEV_MODE){
+    if (!DEV_MODE) {
       load();
     }
   }
 
   set currentWard(CurrentWardInformation? currentWard) {
-    if(!DEV_MODE) {
+    if (!DEV_MODE) {
       if (currentWard == null) {
         _preferences.clear();
-
       } else {
         _preferences.setInformation(currentWard: currentWard);
       }
@@ -81,14 +92,14 @@ class CurrentWardService extends ChangeNotifier {
   /// Load the preferences with the [ThemePreferences]
   Future<void> load() async {
     _currentWard = await _preferences.getInformation();
-    if(_currentWard != null){
+    if (_currentWard != null) {
       _isInitialized = true;
     }
     notifyListeners();
   }
 
   /// Clears the [CurrentWardInformation]
-  void clear(){
+  void clear() {
     _isInitialized = false;
     currentWard = null;
   }

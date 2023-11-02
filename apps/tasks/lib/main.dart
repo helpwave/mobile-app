@@ -6,8 +6,7 @@ import 'package:helpwave_localization/localization_model.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:tasks/screens/login_screen.dart';
 import 'package:tasks/services/current_ward_svc.dart';
-
-import 'controllers/authentication_controller.dart';
+import 'controllers/user_session_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +29,7 @@ class MyApp extends StatelessWidget {
           create: (_) => CurrentWardService(),
         ),
         ChangeNotifierProvider(
-          create: (_) => AuthenticationController(),
+          create: (_) => UserSessionController(),
         )
       ],
       child: Consumer2<ThemeModel, LanguageModel>(

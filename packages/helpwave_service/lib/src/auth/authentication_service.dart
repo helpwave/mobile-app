@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:helpwave_service/src/auth/identity.dart';
+import 'package:jose/jose.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:openid_client/openid_client_io.dart';
 
@@ -35,13 +36,30 @@ class AuthenticationIdentityError extends ErrorWithNameAndMessage {
 ///
 /// A successful authentication provides a [Identity]
 class AuthenticationService {
+  /// Storage key for the id token
   final idTokenStorageKey = "auth-id-token";
+
+  /// Storage key for the access token
   final accessStorageKey = "auth-access-token";
+
+  /// Storage key for the refresh token
   final refreshStorageKey = "auth-refresh-token";
+
+  /// Storage key for the expiry date of the tokens
   final expiresStorageKey = "auth-expires-at";
+
+  /// The storage in which to save the tokens
   final storage = const FlutterSecureStorage();
+
+  /// The url used to discover the service
+  ///
+  /// May be changed by reassignment
   String discoveryUrl = "https://auth.helpwave.de";
+
+  /// The client identifier used for establishing a authentication connection
   String clientId = "425f8b8d-c786-4ff7-b2bf-e52f505fb588";
+
+  /// The scopes the return id token should contain
   List<String> scopes = const ["openid", "offline_access", "email", "nickname", "name", "organizations"];
 
   // Singleton
@@ -57,6 +75,7 @@ class AuthenticationService {
     await launchUrl(url, mode: LaunchMode.inAppWebView);
   }
 
+  /// The [Client] used for communication with the auth provider
   Future<Client> getClient() async {
     var issuer = await Issuer.discover(Uri.parse(discoveryUrl));
     Client client = Client(issuer, clientId);
@@ -73,12 +92,17 @@ class AuthenticationService {
     if (identityFromTokens != null) {
       return identityFromTokens;
     } else {
-      return await webLogin();
+      return await login();
     }
   }
 
   /// Login with the tokens
   Future<Identity?> tokenLogin() async {
+    print("before");
+    if (!await validate()) {
+      return null;
+    }
+    print("after");
     Client client = await getClient();
     Credential? credential = await _fromTokens(client);
     if (credential == null) {
@@ -89,7 +113,7 @@ class AuthenticationService {
   }
 
   /// Login with the in app view to create new tokens
-  Future<Identity> webLogin() async {
+  Future<Identity> login() async {
     Client client = await getClient();
     Authenticator authenticator = Authenticator(
       client,
@@ -123,19 +147,31 @@ class AuthenticationService {
   ///
   /// A precondition for [tokenLogin]
   Future<bool> hasSavedToken() async {
-    String? idToken = await storage.read(key: idTokenStorageKey);
-    String? accessToken = await storage.read(key: accessStorageKey);
-    String? refreshToken = await storage.read(key: refreshStorageKey);
-    String? expiresAt = await storage.read(key: expiresStorageKey);
+    List<String?> values = await Future.wait([
+      storage.read(key: idTokenStorageKey),
+      storage.read(key: accessStorageKey),
+      storage.read(key: refreshStorageKey),
+      storage.read(key: expiresStorageKey)
+    ]);
+    String? idToken = values[0];
+    String? accessToken = values[1];
+    String? refreshToken = values[2];
+    String? expiresAt = values[3];
     return idToken != null && accessToken != null && refreshToken != null && expiresAt != null;
   }
 
   /// Creates a [Credential] form the token data
   Future<Credential?> _fromTokens(Client client) async {
-    String? idToken = await storage.read(key: idTokenStorageKey);
-    String? accessToken = await storage.read(key: accessStorageKey);
-    String? refreshToken = await storage.read(key: refreshStorageKey);
-    String? expiresAt = await storage.read(key: expiresStorageKey);
+    List<String?> values = await Future.wait([
+      storage.read(key: idTokenStorageKey),
+      storage.read(key: accessStorageKey),
+      storage.read(key: refreshStorageKey),
+      storage.read(key: expiresStorageKey)
+    ]);
+    String? idToken = values[0];
+    String? accessToken = values[1];
+    String? refreshToken = values[2];
+    String? expiresAt = values[3];
     if (idToken != null && accessToken != null && refreshToken != null && expiresAt != null) {
       return client.createCredential(
         idToken: idToken,
@@ -168,12 +204,56 @@ class AuthenticationService {
   }
 
   /// Revokes the current token
-  revoke() {
-    // TODO method for revoking the current token on the serverside
+  revoke() async {
+    Identity? identity = await tokenLogin();
+    if (identity == null) {
+      return;
+    }
+    // TODO revoke the credential server sided
+    // await identity.credential?.revoke();
     storage.delete(key: idTokenStorageKey);
     storage.delete(key: accessStorageKey);
     storage.delete(key: refreshStorageKey);
+    storage.delete(key: expiresStorageKey);
   }
 
-// TODO method for checking the validity of the current token
+  /// Validate the saved token
+  Future<bool> validate() async {
+    Client client = await getClient();
+    Credential? credential = await _fromTokens(client);
+    if (credential == null) {
+      return false;
+    }
+
+    TokenResponse tokenResponse;
+    try {
+      tokenResponse = await credential.getTokenResponse();
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return false;
+    }
+    if (tokenResponse.expiresAt == null) {
+      return false;
+    }
+
+    // check expiry
+    if (tokenResponse.expiresAt!.compareTo(DateTime.now()) < 0) {
+      return false;
+    }
+
+    var keyStore = JsonWebKeyStore();
+    var jwksUri = client.issuer.metadata.jwksUri;
+    if (jwksUri != null) {
+      keyStore.addKeySetUrl(jwksUri);
+    }
+    if (!await credential.idToken.verify(
+      keyStore,
+      allowedArguments: client.issuer.metadata.idTokenSigningAlgValuesSupported,
+    )) {
+      return false;
+    }
+    return true;
+  }
 }

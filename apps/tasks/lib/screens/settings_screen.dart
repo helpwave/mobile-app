@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_localization/localization_model.dart';
-import 'package:helpwave_service/auth.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/screens/login_screen.dart';
-import 'package:tasks/services/auth_service.dart';
+import 'package:tasks/services/user_session_service.dart';
 import 'package:tasks/services/current_ward_svc.dart';
 
 /// Screen for settings and other app options
@@ -76,8 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 leading: const Icon(Icons.logout),
                 title: Text(context.localization!.logout),
                 onTap: () {
-                  AuthenticationService().revoke();
-                  AuthService().logout();
+                  UserSessionService().logout();
                   currentWardService.clear();
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (_) => const LoginScreen()),

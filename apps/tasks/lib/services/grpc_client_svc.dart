@@ -7,7 +7,7 @@ import 'package:helpwave_proto_dart/proto/services/user_svc/v1/user_svc.pbgrpc.d
 import 'package:helpwave_proto_dart/proto/services/task_svc/v1/ward_svc.pbgrpc.dart';
 import 'package:tasks/config/config.dart';
 import 'package:tasks/services/current_ward_svc.dart';
-import 'auth_service.dart';
+import 'user_session_service.dart';
 
 /// The Underlying GrpcService it provides other clients and the correct metadata for the requests
 class GRPCClientService {
@@ -18,12 +18,12 @@ class GRPCClientService {
     USED_API_URL,
   );
 
-  final AuthService authService = AuthService();
+  final UserSessionService authService = UserSessionService();
 
   Map<String, String> get authMetaData {
-    if (authService.isInitialized) {
+    if (authService.isLoggedIn) {
       return {
-        "Authorization": "Bearer ${AuthService().identity?.idToken}",
+        "Authorization": "Bearer ${UserSessionService().identity?.idToken}",
       };
     }
     // Maybe throw a error instead

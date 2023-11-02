@@ -4,7 +4,7 @@ import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/controllers/authentication_controller.dart';
+import 'package:tasks/controllers/user_session_controller.dart';
 
 /// The Landing Screen of the Application
 class LandingScreen extends StatelessWidget {
@@ -16,8 +16,8 @@ class LandingScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: distanceBig),
-        child: Consumer<AuthenticationController>(builder: (context, authenticationController, __) {
-          if (!authenticationController.hasTriedTokens) {
+        child: Consumer<UserSessionController>(builder: (context, userSessionController, __) {
+          if (!userSessionController.hasTriedTokens) {
             return const LoadingSpinner(
               size: iconSizeMedium,
             );
@@ -36,7 +36,7 @@ class LandingScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.labelLarge,
             ),
             onPressed: () {
-              authenticationController.webLogin();
+              userSessionController.login();
             },
           );
         }),
