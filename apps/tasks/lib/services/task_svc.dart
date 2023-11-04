@@ -3,6 +3,7 @@ import 'package:helpwave_proto_dart/proto/services/task_svc/v1/task_svc.pbgrpc.d
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/subtask.dart';
 import 'package:tasks/services/grpc_client_svc.dart';
+import 'package:tasks/util/task_status_mapping.dart';
 import '../dataclasses/task.dart';
 
 /// The GRPC Service for [Task]s
