@@ -7,7 +7,7 @@ import 'package:tasks/dataclasses/user.dart';
 /// A [BottomSheet] for selecting a assignee
 class AssigneeSelect extends StatelessWidget {
   /// The selected assignee
-  final String selected;
+  final String? selected;
 
   /// The callback when the assignee should be changed
   final Function(User assignee) onChanged;
@@ -18,11 +18,11 @@ class AssigneeSelect extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO replace by controller with GRPC request
     List<User> users = [
-      User(id: "user1", name: "User 1", profile: Uri.parse("uri")),
-      User(id: "user2", name: "User 2", profile: Uri.parse("uri")),
-      User(id: "user3", name: "User 3", profile: Uri.parse("uri")),
-      User(id: "user4", name: "User 4", profile: Uri.parse("uri")),
-      User(id: "user5", name: "User 5", profile: Uri.parse("uri")),
+      User(id: "user1", name: "User 1", profile: Uri.parse("uri"), nickName: ""),
+      User(id: "user2", name: "User 2", profile: Uri.parse("uri"), nickName: ""),
+      User(id: "user3", name: "User 3", profile: Uri.parse("uri"), nickName: ""),
+      User(id: "user4", name: "User 4", profile: Uri.parse("uri"), nickName: ""),
+      User(id: "user5", name: "User 5", profile: Uri.parse("uri"), nickName: ""),
     ];
 
     return BottomSheetBase(

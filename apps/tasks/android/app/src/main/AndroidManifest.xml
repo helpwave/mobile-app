@@ -3,7 +3,9 @@
    <application
         android:label="helpwave tasks"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/launcher_icon"
+        android:usesCleartextTraffic="true"
+     >
         <activity
             android:name=".MainActivity"
             android:exported="true"
