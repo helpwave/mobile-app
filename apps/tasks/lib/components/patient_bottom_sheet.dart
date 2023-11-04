@@ -142,7 +142,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                                   .map((task) =>
                                       TaskWithPatient.fromTaskAndPatient(
                                         task: task,
-                                        patientMinimal: patient,
+                                        patient: patient,
                                       ))
                                   .toList(),
                               title: context.localization!.upcoming,
@@ -155,7 +155,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                                   .map((task) =>
                                       TaskWithPatient.fromTaskAndPatient(
                                         task: task,
-                                        patientMinimal: patient,
+                                        patient: patient,
                                       ))
                                   .toList(),
                               title: context.localization!.inProgress,
@@ -167,7 +167,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                                 .map((task) =>
                                     TaskWithPatient.fromTaskAndPatient(
                                       task: task,
-                                      patientMinimal: patient,
+                                      patient: patient,
                                     ))
                                 .toList(),
                             title: context.localization!.done,

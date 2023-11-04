@@ -145,5 +145,6 @@
   "public": "Öffentlich",
   "private": "Privat",
   "assignee": "Zugewiesene Person",
-  "assignBed": "Bett zuweisen"
+  "assignBed": "Bett zuweisen",
+  "loginFailed": "Login fehlgeschlagen"
 }
