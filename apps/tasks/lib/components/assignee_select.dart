@@ -2,51 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
+import 'package:helpwave_widget/loading.dart';
+import 'package:provider/provider.dart';
+import 'package:tasks/controllers/assignee_select_controller.dart';
 import 'package:tasks/dataclasses/user.dart';
 
 /// A [BottomSheet] for selecting a assignee
 class AssigneeSelect extends StatelessWidget {
-  /// The selected assignee
-  final String? selected;
-
   /// The callback when the assignee should be changed
   final Function(User assignee) onChanged;
 
-  const AssigneeSelect({super.key, required this.selected, required this.onChanged});
+  const AssigneeSelect({super.key, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
-    // TODO replace by controller with GRPC request
-    List<User> users = [
-      User(id: "user1", name: "User 1", profile: Uri.parse("uri"), nickName: ""),
-      User(id: "user2", name: "User 2", profile: Uri.parse("uri"), nickName: ""),
-      User(id: "user3", name: "User 3", profile: Uri.parse("uri"), nickName: ""),
-      User(id: "user4", name: "User 4", profile: Uri.parse("uri"), nickName: ""),
-      User(id: "user5", name: "User 5", profile: Uri.parse("uri"), nickName: ""),
-    ];
-
     return BottomSheetBase(
       titleText: context.localization!.assignee,
       onClosing: () => {},
       builder: (context) => Flexible(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: paddingMedium),
-          child: ListView.builder(
-            itemCount: users.length,
-            itemBuilder: (context, index) {
-              User user = users[index];
-              return ListTile(
-                onTap: () {
-                  // TODO make update request here
-                  onChanged(user);
-                  Navigator.pop(context);
+          child: Consumer<AssigneeSelectController>(builder: (context, assigneeSelectController, __) {
+            return LoadingAndErrorWidget(
+              state: assigneeSelectController.state,
+              child: ListView.builder(
+                itemCount: assigneeSelectController.users.length,
+                itemBuilder: (context, index) {
+                  User user = assigneeSelectController.users[index];
+                  return ListTile(
+                    onTap: () {
+                      assigneeSelectController.changeAssignee(user.id).then((value) {
+                        Navigator.pop(context);
+                        onChanged(user);
+                      });
+                    },
+                    leading: CircleAvatar(
+                        foregroundColor: Colors.blue, backgroundImage: NetworkImage(user.profile.toString())),
+                    title: Text(user.nickName),
+                  );
                 },
-                // TODO change to network image later when uris are valid
-                leading: const CircleAvatar(foregroundColor: Colors.blue),
-                title: Text(user.name),
-              );
-            },
-          ),
+              ),
+            );
+          }),
         ),
       ),
     );

@@ -99,7 +99,7 @@ class _WardSelectScreen extends State<WardSelectScreen> {
                       }
                     }),
           ),
-          Consumer<CurrentWardService>(
+          Consumer<CurrentWardController>(
             builder: (context, currentWardService, __) => TextButton(
               onPressed: () {
                 if (wardId == null || organizationId == null) {

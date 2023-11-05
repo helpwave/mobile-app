@@ -70,4 +70,18 @@ class TaskService {
           .toList(),
     );
   }
+
+  /// Assign a [Task] to a [User]
+  Future<void> assignToUser({required String taskId, required String userId}) async {
+    AssignTaskToUserRequest request = AssignTaskToUserRequest(id: taskId, userId: userId);
+    AssignTaskToUserResponse response = await taskService.assignTaskToUser(
+      request,
+      options:
+      CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+    );
+
+    if(!response.isInitialized()){
+      // Handle error
+    }
+  }
 }

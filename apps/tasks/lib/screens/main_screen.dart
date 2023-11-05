@@ -35,8 +35,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<ThemeModel, CurrentWardService>(
-        builder: (BuildContext context, ThemeModel themeNotifier, CurrentWardService currentWardService, _) {
+    return Consumer2<ThemeModel, CurrentWardController>(
+        builder: (BuildContext context, ThemeModel themeNotifier, CurrentWardController currentWardService, _) {
       if (!currentWardService.isInitialized) {
         return const WardSelectScreen();
       }
