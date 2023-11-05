@@ -7,7 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:tasks/components/patient_bottom_sheet.dart';
 import 'package:tasks/screens/main_screen_subscreens/my_tasks_screen.dart';
 import 'package:tasks/screens/main_screen_subscreens/patient_screen.dart';
-
+import 'package:tasks/screens/ward_select_screen.dart';
+import 'package:tasks/services/current_ward_svc.dart';
 import '../components/task_bottom_sheet.dart';
 import '../dataclasses/task.dart';
 
@@ -34,8 +35,12 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-      builder: (BuildContext context, ThemeModel themeNotifier, _) => Scaffold(
+    return Consumer2<ThemeModel, CurrentWardService>(
+        builder: (BuildContext context, ThemeModel themeNotifier, CurrentWardService currentWardService, _) {
+      if (!currentWardService.isInitialized) {
+        return const WardSelectScreen();
+      }
+      return Scaffold(
         body: [const MyTasksScreen(), const SizedBox(), const PatientScreen()][index],
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: isShowingActionButton ? _TaskPatientFloatingActionButton() : null,
@@ -87,8 +92,8 @@ class _MainScreenState extends State<MainScreen> {
             });
           },
         ),
-      ),
-    );
+      );
+    });
   }
 }
 

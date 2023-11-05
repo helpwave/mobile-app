@@ -3,7 +3,9 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_localization/localization_model.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/screens/landing_screen.dart';
+import 'package:tasks/screens/login_screen.dart';
+import 'package:tasks/services/user_session_service.dart';
+import 'package:tasks/services/current_ward_svc.dart';
 
 /// Screen for settings and other app options
 class SettingsScreen extends StatefulWidget {
@@ -68,16 +70,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
               trailing: const Icon(Icons.arrow_forward),
               onTap: () => {showLicensePage(context: context)},
             ),
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: Text(context.localization!.logout),
-              onTap: () {
-                // TODO logout user in [AuthService]
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const LandingScreen()),
-                );
-              },
-            )
+            Consumer<CurrentWardService>(builder: (context, currentWardService, _) {
+              return ListTile(
+                leading: const Icon(Icons.logout),
+                title: Text(context.localization!.logout),
+                onTap: () {
+                  UserSessionService().logout();
+                  currentWardService.clear();
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (_) => const LoginScreen()),
+                  );
+                },
+              );
+            })
           ]).toList())
         ],
       ),
