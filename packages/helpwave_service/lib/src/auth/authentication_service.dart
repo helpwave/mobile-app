@@ -102,7 +102,6 @@ class AuthenticationService {
     if (!await validate()) {
       return null;
     }
-    print("after");
     Client client = await getClient();
     Credential? credential = await _fromTokens(client);
     if (credential == null) {
