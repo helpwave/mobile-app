@@ -98,7 +98,6 @@ class AuthenticationService {
 
   /// Login with the tokens
   Future<Identity?> tokenLogin() async {
-    print("before");
     if (!await validate()) {
       return null;
     }
