@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           create: (_) => LanguageModel(),
         ),
         ChangeNotifierProvider(
-          create: (_) => CurrentWardService(),
+          create: (_) => CurrentWardController(),
         ),
         ChangeNotifierProvider(
           create: (_) => UserSessionController(),
