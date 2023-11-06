@@ -146,5 +146,10 @@
   "private": "Privat",
   "assignee": "Zugewiesene Person",
   "assignBed": "Bett zuweisen",
-  "loginFailed": "Login fehlgeschlagen"
+  "loginFailed": "Login fehlgeschlagen",
+  "selectWard": "Station auswählen",
+  "ward": "Station",
+  "organization": "Organisation",
+  "none": "None",
+  "switch_": "Wechseln"
 }

@@ -21,22 +21,22 @@ class PatientService {
   // TODO consider an enum instead of an string
   /// Loads the [Patient]s by [Ward] and sorts them by their assignment status
   Future<PatientsByAssignmentStatus> getPatientList({String? wardId}) async {
-    GetPatientListRequest patientListRequest =
+    GetPatientListRequest request =
         GetPatientListRequest(wardId: wardId);
-    GetPatientListResponse patientListResponse =
+    GetPatientListResponse response =
         await patientService.getPatientList(
-      patientListRequest,
+      request,
       options: CallOptions(
         metadata: GRPCClientService().getTaskServiceMetaData(),
       ),
     );
 
-    List<Patient> active = patientListResponse.active
+    List<Patient> active = response.active
         .map(
           (patient) => Patient(
             id: patient.id,
             name: patient.humanReadableIdentifier,
-            tasks: [],
+            tasks: [], // TODO get when backend provides it
             notes: "",
             bed: BedMinimal(id: patient.bed.id, name: patient.bed.name),
             room: RoomMinimal(id: patient.room.id, name: patient.room.name),
@@ -44,23 +44,23 @@ class PatientService {
         )
         .toList();
 
-    List<Patient> unassigned = patientListResponse.unassignedPatients
+    List<Patient> unassigned = response.unassignedPatients
         .map(
           (patient) => Patient(
             id: patient.id,
             name: patient.humanReadableIdentifier,
-            tasks: [],
+            tasks: [], // TODO get when backend provides it
             notes: "",
           ),
         )
         .toList();
 
-    List<Patient> discharged = patientListResponse.dischargedPatients
+    List<Patient> discharged = response.dischargedPatients
         .map(
           (patient) => Patient(
             id: patient.id,
             name: patient.humanReadableIdentifier,
-            tasks: [],
+            tasks: [], // TODO get when backend provides it
             notes: "",
           ),
         )

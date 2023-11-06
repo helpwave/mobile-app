@@ -4,7 +4,9 @@ import 'package:helpwave_localization/l10n/app_localizations.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_localization/localization_model.dart';
 import 'package:helpwave_theme/theme.dart';
-import 'package:tasks/screens/landing_screen.dart';
+import 'package:tasks/screens/login_screen.dart';
+import 'package:tasks/services/current_ward_svc.dart';
+import 'controllers/user_session_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,9 +25,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => LanguageModel(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => CurrentWardController(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => UserSessionController(),
+        )
       ],
-      child: Consumer2<ThemeModel, LanguageModel>(builder:
-          (_, ThemeModel themeNotifier, LanguageModel languageNotifier, __) {
+      child: Consumer2<ThemeModel, LanguageModel>(
+          builder: (_, ThemeModel themeNotifier, LanguageModel languageNotifier, __) {
         return MaterialApp(
           title: 'helpwave tasks',
           themeMode: themeNotifier.themeMode,
@@ -41,7 +49,7 @@ class MyApp extends StatelessWidget {
           supportedLocales: getSupportedLocals(),
           locale: Locale(languageNotifier.language),
           home: const SafeArea(
-            child: LandingScreen(),
+            child: LoginScreen(),
           ),
         );
       }),
