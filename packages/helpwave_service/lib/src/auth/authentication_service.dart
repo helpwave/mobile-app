@@ -106,7 +106,13 @@ class AuthenticationService {
     if (credential == null) {
       return null;
     }
-    UserInfo userInfo = await credential.getUserInfo();
+    UserInfo userInfo;
+    try{
+      userInfo = await credential.getUserInfo();
+    } catch (e) {
+      return null;
+    }
+
     return _toIdentity(credential, userInfo);
   }
 
