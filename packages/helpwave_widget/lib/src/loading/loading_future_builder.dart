@@ -40,7 +40,8 @@ class LoadingFutureBuilder<T> extends StatelessWidget {
           state: state,
           errorWidget: Center(child: errorWidget),
           loadingWidget: Center(child: loadingWidget),
-          child: thenWidgetBuilder(context, snapshot.data as T),
+          // Prevent brief moments with a casting error
+          child: snapshot.data != null ? thenWidgetBuilder(context, snapshot.data as T) : const SizedBox(),
         );
       },
     );

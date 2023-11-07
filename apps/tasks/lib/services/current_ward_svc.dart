@@ -98,16 +98,11 @@ class CurrentWardService extends Listenable {
 
   /// Load the preferences with the [ThemePreferences]
   Future<void> load() async {
-    _currentWard = await _preferences.getInformation();
-    if (_currentWard != null) {
-      _isInitialized = true;
-    }
-    notifyListeners();
+    currentWard = await _preferences.getInformation();
   }
 
   /// Clears the [CurrentWardInformation]
-  void clear() {
-    _isInitialized = false;
+  Future<void> clear() async {
     currentWard = null;
   }
 
