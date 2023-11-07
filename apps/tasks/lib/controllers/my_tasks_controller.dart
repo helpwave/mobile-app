@@ -37,8 +37,7 @@ class MyTasksController extends ChangeNotifier {
     }
 
     var patients = await PatientService().getPatientList();
-    List<Patient>allPatients = patients.active +
-        patients.discharged + patients.unassigned;
+    List<Patient>allPatients = patients.all;
 
     for(Patient patient in allPatients) {
       List<Task> tasks = await TaskService().getTasksByPatient(patientId: patient.id);

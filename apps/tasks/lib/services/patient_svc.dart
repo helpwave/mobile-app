@@ -67,6 +67,7 @@ class PatientService {
         .toList();
 
     return PatientsByAssignmentStatus(
+      all: active + unassigned + discharged,
       active: active,
       unassigned: unassigned,
       discharged: discharged,
