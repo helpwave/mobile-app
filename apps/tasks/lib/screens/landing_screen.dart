@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
-import 'package:helpwave_service/auth.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
+import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/screens/main_screen.dart';
+import 'package:tasks/controllers/user_session_controller.dart';
 
 /// The Landing Screen of the Application
 class LandingScreen extends StatelessWidget {
@@ -13,76 +13,40 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height * 0.04,
-          horizontal: MediaQuery.of(context).size.height * 0.05,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            OutlinedButton(
-                style: ButtonStyle(
-                  shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(borderRadiusSmall),
-                    ),
-                  ),
+        padding: const EdgeInsets.only(bottom: distanceBig),
+        child: Consumer<UserSessionController>(builder: (context, userSessionController, __) {
+          if (!userSessionController.hasTriedTokens) {
+            return const LoadingSpinner(
+              size: iconSizeMedium,
+            );
+          }
+
+          return OutlinedButton(
+            style: ButtonStyle(
+              shape: MaterialStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(borderRadiusSmall),
                 ),
-                child: Text(
-                  context.localization!.loginSlogan,
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
-                onPressed: () => {
-                      AuthenticationService()
-                          .authenticate(context: context)
-                          .then((identity) async {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(identity.name,
-                        )));
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const MainScreen()));
-                      }).onError((error, stackTrace) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text(context.localization!.loginFailed)),
-                        );
-                      }),
-                    }),
-            // TODO remove
-            const SizedBox(
-              height: distanceDefault,
+              ),
             ),
-            OutlinedButton(
-                style: ButtonStyle(
-                  shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(borderRadiusSmall),
-                    ),
-                  ),
-                ),
-                child: Text(
-                  "Login without auth",
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const MainScreen()),
-                  );
-                }),
-          ],
-        ),
+            child: Text(
+              context.localization!.loginSlogan,
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+            onPressed: () {
+              userSessionController.login();
+            },
+          );
+        }),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: MediaQuery.of(context).size.height * 0.33),
           Consumer<ThemeModel>(
-            builder: (BuildContext context, ThemeModel themeNotifier, _) =>
-                Center(
+            builder: (BuildContext context, ThemeModel themeNotifier, _) => Center(
               child: Image.asset(
                 themeNotifier.getIsDarkNullSafe(context)
                     ? 'assets/transparent-logo-dark.png'

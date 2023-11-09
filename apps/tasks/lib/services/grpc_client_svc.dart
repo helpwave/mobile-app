@@ -1,34 +1,40 @@
 import 'package:grpc/grpc.dart';
 import 'package:helpwave_proto_dart/proto/services/task_svc/v1/patient_svc.pbgrpc.dart';
+import 'package:helpwave_proto_dart/proto/services/task_svc/v1/room_svc.pbgrpc.dart';
 import 'package:helpwave_proto_dart/proto/services/task_svc/v1/task_svc.pbgrpc.dart';
 import 'package:helpwave_proto_dart/proto/services/user_svc/v1/organization_svc.pbgrpc.dart';
 import 'package:helpwave_proto_dart/proto/services/user_svc/v1/user_svc.pbgrpc.dart';
-
-// TODO change later to api or better make it configurable
-const apiURL = "staging.api.helpwave.de";
-
-// TODO later fetch from [AuthService]
-const token = "eyJzdWIiOiIxODE1OTcxMy01ZDRlLTRhZDUtOTRhZC1mYmI2YmIxNDc5ODQiLCJlbWFpbCI6InRlc3RpbmUudGVzdEBoZWxwd2F2ZS"
-    "5kZSIsIm5hbWUiOiJUZXN0aW5lIFRlc3QiLCJuaWNrbmFtZSI6InRlc3RpbmUudGVzdCIsIm9yZ2FuaXphdGlvbnMiOlsiM2IyNWM2ZjUtNDcwNS00MDc0LTlmYzYtYTUwYzI4ZWJhNDA2Il19";
-
+import 'package:helpwave_proto_dart/proto/services/task_svc/v1/ward_svc.pbgrpc.dart';
+import 'package:tasks/config/config.dart';
+import 'package:tasks/services/current_ward_svc.dart';
+import 'user_session_service.dart';
 
 /// The Underlying GrpcService it provides other clients and the correct metadata for the requests
 class GRPCClientService {
   static final taskServiceChannel = ClientChannel(
-    apiURL,
+    USED_API_URL,
   );
   static final userServiceChannel = ClientChannel(
-    apiURL,
+    USED_API_URL,
   );
 
-  // TODO later fetch from [AuthService]
-  Map<String,String> get authMetaData  => {
-    "Authorization": "Bearer $token",
-  };
+  final UserSessionService authService = UserSessionService();
 
-  String get fallbackOrganizationId => "3b25c6f5-4705-4074-9fc6-a50c28eba406";
+  Map<String, String> get authMetaData {
+    if (authService.isLoggedIn) {
+      return {
+        "Authorization": "Bearer ${UserSessionService().identity?.idToken}",
+      };
+    }
+    // Maybe throw a error instead
+    return {};
+  }
 
-  Map<String,String> getTaskServiceMetaData({String? organizationId}) {
+  String get fallbackOrganizationId =>
+      // Maybe throw a error instead for the last case
+      CurrentWardService().currentWard?.organizationId ?? authService.identity?.firstOrganization ?? "";
+
+  Map<String, String> getTaskServiceMetaData({String? organizationId}) {
     return {
       ...authMetaData,
       "dapr-app-id": "task-svc",
@@ -36,7 +42,7 @@ class GRPCClientService {
     };
   }
 
-  Map<String,String> getUserServiceMetaData({String? organizationId}) {
+  Map<String, String> getUserServiceMetaData({String? organizationId}) {
     return {
       ...authMetaData,
       "dapr-app-id": "user-svc",
@@ -45,6 +51,10 @@ class GRPCClientService {
   }
 
   static PatientServiceClient get getPatientServiceClient => PatientServiceClient(taskServiceChannel);
+
+  static WardServiceClient get getWardServiceClient => WardServiceClient(taskServiceChannel);
+
+  static RoomServiceClient get getRoomServiceClient => RoomServiceClient(taskServiceChannel);
 
   static TaskServiceClient get getTaskServiceClient => TaskServiceClient(taskServiceChannel);
 
