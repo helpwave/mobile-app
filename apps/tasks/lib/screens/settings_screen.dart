@@ -70,7 +70,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               trailing: const Icon(Icons.arrow_forward),
               onTap: () => {showLicensePage(context: context)},
             ),
-            Consumer<CurrentWardService>(builder: (context, currentWardService, _) {
+            Consumer<CurrentWardController>(builder: (context, currentWardService, _) {
               return ListTile(
                 leading: const Icon(Icons.logout),
                 title: Text(context.localization!.logout),

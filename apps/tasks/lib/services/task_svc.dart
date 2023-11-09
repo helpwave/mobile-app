@@ -17,30 +17,30 @@ class TaskService {
   /// Loads the [Task]s by a [Patient] identifier
   Future<List<Task>> getTasksByPatient({String? patientId}) async {
     GetTasksByPatientRequest request =
-    GetTasksByPatientRequest(patientId: patientId);
+      GetTasksByPatientRequest(patientId: patientId);
     GetTasksByPatientResponse response = await taskService.getTasksByPatient(
       request,
       options:
-      CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+        CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
     );
 
     return response.tasks
         .map((task) => Task(
-      id: task.id,
-      name: task.name,
-      notes: task.description,
-      isPublicVisible: task.public,
-      status: taskStatusMapping[task.status]!,
-      assignee: task.assignedUserId,
-      dueDate: task.dueAt.toDateTime(),
-      subtasks: task.subtasks
-          .map((subtask) => SubTask(
-        id: subtask.id,
-        name: subtask.name,
-        isDone: subtask.done,
-      ))
-          .toList(),
-    ))
+              id: task.id,
+              name: task.name,
+              notes: task.description,
+              isPublicVisible: task.public,
+              status: taskStatusMapping[task.status]!,
+              assignee: task.assignedUserId,
+              dueDate: task.dueAt.toDateTime(),
+              subtasks: task.subtasks
+                  .map((subtask) => SubTask(
+                        id: subtask.id,
+                        name: subtask.name,
+                        isDone: subtask.done,
+                      ))
+                  .toList(),
+            ))
         .toList();
   }
 
@@ -50,7 +50,7 @@ class TaskService {
     GetTaskResponse response = await taskService.getTask(
       request,
       options:
-      CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+          CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
     );
 
     return Task(
@@ -63,12 +63,26 @@ class TaskService {
       dueDate: response.dueAt.toDateTime(),
       subtasks: response.subtasks
           .map((subtask) => SubTask(
-        id: subtask.id,
-        name: subtask.name,
-        isDone: subtask.done,
-      ))
+                id: subtask.id,
+                name: subtask.name,
+                isDone: subtask.done,
+              ))
           .toList(),
     );
+  }
+
+  /// Assign a [Task] to a [User]
+  Future<void> assignToUser({required String taskId, required String userId}) async {
+    AssignTaskToUserRequest request = AssignTaskToUserRequest(id: taskId, userId: userId);
+    AssignTaskToUserResponse response = await taskService.assignTaskToUser(
+      request,
+      options:
+      CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+    );
+
+    if(!response.isInitialized()){
+      // Handle error
+    }
   }
 
   /// Add a [SubTask] to a [Task]

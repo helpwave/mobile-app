@@ -15,6 +15,11 @@ class CurrentWardInformation {
   String get organizationId => _organizationId;
 
   CurrentWardInformation(this._wardId, this._organizationId);
+
+  @override
+  String toString() {
+    return "CurrentWardInformation: {wardID: $_wardId, organizationId: $_organizationId}";
+  }
 }
 
 // TODO consider other storage alternatives
@@ -52,10 +57,10 @@ class _CurrentWardPreferences {
   }
 }
 
-/// Model for the Color Theme
+/// Service for the [CurrentWardInformation]
 ///
 /// Notifies about changes in light or dark theme preference
-class CurrentWardService extends ChangeNotifier {
+class CurrentWardService extends Listenable {
   /// Whether this Controller has been initialized
   bool _isInitialized = false;
 
@@ -68,11 +73,18 @@ class CurrentWardService extends ChangeNotifier {
   /// Whether this Controller has been initialized
   bool get isInitialized => _isInitialized;
 
-  CurrentWardService() {
+  /// Listeners
+  final List<VoidCallback> _listeners = [];
+
+  CurrentWardService._initialize(){
     if (!DEV_MODE) {
       load();
     }
   }
+
+  static final CurrentWardService _currentWardService = CurrentWardService._initialize();
+
+  factory CurrentWardService() => _currentWardService;
 
   set currentWard(CurrentWardInformation? currentWard) {
     if (!DEV_MODE) {
@@ -102,5 +114,60 @@ class CurrentWardService extends ChangeNotifier {
   void clear() {
     _isInitialized = false;
     currentWard = null;
+  }
+
+  @override
+  void addListener(VoidCallback listener) {
+    _listeners.add(listener);
+  }
+
+  @override
+  void removeListener(VoidCallback listener) {
+    _listeners.remove(listener);
+  }
+
+  void notifyListeners() {
+    for (var listener in _listeners) {
+      listener();
+    }
+  }
+}
+
+/// Controller for the [CurrentWardInformation]
+///
+/// Notifies about changes to the [CurrentWardInformation]
+class CurrentWardController extends ChangeNotifier {
+  CurrentWardService service = CurrentWardService();
+
+  /// Whether this Controller has been initialized
+  bool get isInitialized => service.isInitialized;
+
+  CurrentWardController() {
+    service.addListener(notifyListeners);
+    if (!service.isInitialized) {
+      load();
+    }
+  }
+
+  set currentWard(CurrentWardInformation? currentWard) {
+    service.currentWard = currentWard;
+  }
+
+  CurrentWardInformation? get currentWard => service.currentWard;
+
+  /// Load the preferences with the [ThemePreferences]
+  Future<void> load() async {
+    service.load();
+  }
+
+  @override
+  void dispose() {
+    service.removeListener(notifyListeners);
+    super.dispose();
+  }
+
+  /// Clears the [CurrentWardInformation]
+  void clear() {
+    service.clear();
   }
 }
