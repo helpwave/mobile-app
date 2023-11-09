@@ -4,6 +4,8 @@ class SubTask {
   String name;
   bool isDone;
 
+  bool get isCreating => id == "";
+
   SubTask({
     required this.id,
     required this.name,

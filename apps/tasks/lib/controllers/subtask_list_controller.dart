@@ -77,8 +77,7 @@ class SubtasksController extends ChangeNotifier {
 
   /// Delete the [SubTask] by the id
   Future<void> delete(String id) async {
-    assert(!isCreating,
-        "delete should not be used when creating a completely new SubTask list");
+    assert(!isCreating, "delete should not be used when creating a completely new SubTask list");
     int index = _subtasks.indexWhere((element) => element.id == id);
     if (index != -1) {
       deleteByIndex(index);
@@ -100,5 +99,22 @@ class SubtasksController extends ChangeNotifier {
       state = LoadingState.error;
       return null;
     });
+  }
+
+  Future<void> changeStatus({required SubTask subTask, required bool value}) async {
+    if (subTask.isCreating) {
+      subTask.isDone = value;
+    } else {
+      state = LoadingState.loading;
+      TaskService().changeSubtaskStatus(id: subTask.id, isDone: value).then((value) {
+        subTask.isDone = value;
+        state = LoadingState.loaded;
+      }).catchError((error, stackTrace) {
+        errorMessage = error.toString();
+        state = LoadingState.error;
+        return null;
+      });
+    }
+    notifyListeners();
   }
 }
