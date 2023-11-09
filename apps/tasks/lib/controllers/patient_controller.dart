@@ -48,11 +48,22 @@ class PatientController extends ChangeNotifier {
   get isCreating => _isCreating;
 
   /// A function to load the [Patient]
-  load() async {
+  Future<void> load() async {
     state = LoadingState.loading;
     await PatientService()
         .getPatientDetails(patientId: patient.id)
         .then((value) {patient = value;})
+        .catchError((error, stackTrace) {
+      errorMessage = error.toString();
+      state = LoadingState.error;
+    });
+  }
+
+  Future<void> changeBed({required String bedId}) async {
+    state = LoadingState.loading;
+    await PatientService()
+        .assignBed(patientId: patient.id, bedId: bedId)
+        .then((value) {})
         .catchError((error, stackTrace) {
       errorMessage = error.toString();
       state = LoadingState.error;

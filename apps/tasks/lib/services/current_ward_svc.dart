@@ -72,9 +72,7 @@ class CurrentWardService extends Listenable {
   final List<VoidCallback> _listeners = [];
 
   CurrentWardService._initialize() {
-    if (!DEV_MODE) {
-      load();
-    }
+    load();
   }
 
   static final CurrentWardService _currentWardService = CurrentWardService._initialize();
@@ -98,7 +96,11 @@ class CurrentWardService extends Listenable {
 
   /// Load the preferences with the [ThemePreferences]
   Future<void> load() async {
-    currentWard = await _preferences.getInformation();
+    if (!DEV_MODE) {
+      currentWard = await _preferences.getInformation();
+    } else {
+      currentWard = null;
+    }
   }
 
   /// Clears the [CurrentWardInformation]

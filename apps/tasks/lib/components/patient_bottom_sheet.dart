@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:tasks/components/task_bottom_sheet.dart';
 import 'package:tasks/components/task_expansion_tile.dart';
 import 'package:tasks/controllers/patient_controller.dart';
+import 'package:tasks/controllers/ward_patients_controller.dart';
 import 'package:tasks/dataclasses/bed.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/room.dart';
@@ -27,10 +28,9 @@ class PatientBottomSheet extends StatefulWidget {
 }
 
 class _PatientBottomSheetState extends State<PatientBottomSheet> {
-
   Future<List<RoomWithBedFlat>> loadRoomsWithBeds(String patientId) async {
-    List<RoomWithBedWithMinimalPatient> rooms = await RoomService()
-        .getRoomOverviews(wardId: CurrentWardService().currentWard!.wardId);
+    List<RoomWithBedWithMinimalPatient> rooms =
+        await RoomService().getRoomOverviews(wardId: CurrentWardService().currentWard!.wardId);
 
     List<RoomWithBedFlat> flattenedRooms = [];
     for (RoomWithBedWithMinimalPatient room in rooms) {
@@ -93,37 +93,46 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                             ],
                           ),
                           Center(
-                            child: LoadingFutureBuilder(
-                                future: loadRoomsWithBeds(patientController.patient.id),
-                                // TODO use a better loading widget
-                                loadingWidget: const SizedBox(),
-                                thenWidgetBuilder: (context, beds) {
-                                  return DropdownButtonHideUnderline(
-                                    child: DropdownButton<RoomWithBedFlat>(
-                                      padding: EdgeInsets.zero,
-                                      isDense: true,
-                                      hint: Text(context.localization!.assignBed),
-                                      value: patient.bed != null && patient.room != null
-                                          ? RoomWithBedFlat(room: patient.room!, bed: patient.bed!)
-                                          : null,
-                                      items: beds
-                                          .map((roomWithBed) => DropdownMenuItem(
-                                                value: roomWithBed,
-                                                child: Text(
-                                                  "${roomWithBed.room.name} - ${roomWithBed.bed.name}",
-                                                  style: const TextStyle(color: Colors.grey),
-                                                ),
-                                              ))
-                                          .toList(),
-                                      onChanged: (RoomWithBedFlat? value) {
-                                        patientController.updatePatient((patient) {
-                                          patient.room = value?.room;
-                                          patient.bed = value?.bed;
-                                        });
-                                      },
-                                    ),
-                                  );
-                                }),
+                            child: Consumer<WardPatientsController>(builder: (context, wardPatientsController, __) {
+                              return LoadingFutureBuilder(
+                                  future: loadRoomsWithBeds(patientController.patient.id),
+                                  // TODO use a better loading widget
+                                  loadingWidget: const SizedBox(),
+                                  thenWidgetBuilder: (context, beds) {
+                                    return DropdownButtonHideUnderline(
+                                      child: DropdownButton<RoomWithBedFlat>(
+                                        padding: EdgeInsets.zero,
+                                        isDense: true,
+                                        hint: Text(context.localization!.assignBed),
+                                        value: patient.bed != null && patient.room != null
+                                            ? RoomWithBedFlat(room: patient.room!, bed: patient.bed!)
+                                            : null,
+                                        items: beds
+                                            .map((roomWithBed) => DropdownMenuItem(
+                                                  value: roomWithBed,
+                                                  child: Text(
+                                                    "${roomWithBed.room.name} - ${roomWithBed.bed.name}",
+                                                    style: const TextStyle(color: Colors.grey),
+                                                  ),
+                                                ))
+                                            .toList(),
+                                        onChanged: (RoomWithBedFlat? value) {
+                                          // TODO later unassign here
+                                          if (value == null) {
+                                            return;
+                                          }
+                                          patientController.changeBed(bedId: value.bed.id).then((_) {
+                                            patientController.updatePatient((patient) {
+                                              patient.room = value.room;
+                                              patient.bed = value.bed;
+                                            });
+                                            wardPatientsController.load();
+                                          });
+                                        },
+                                      ),
+                                    );
+                                  });
+                            }),
                           )
                         ],
                       ),
