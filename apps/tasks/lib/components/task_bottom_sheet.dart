@@ -12,6 +12,7 @@ import 'package:tasks/controllers/task_controller.dart';
 import 'package:tasks/controllers/user_controller.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/user.dart';
+import '../controllers/assignee_select_controller.dart';
 import '../dataclasses/task.dart';
 
 /// A private [Widget] similar to a [ListTile] that has an icon and then to text
@@ -116,7 +117,8 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => TaskController(TaskWithPatient.fromTaskAndPatient(task: widget.task, patient: widget.patient)),
+      create: (context) =>
+          TaskController(TaskWithPatient.fromTaskAndPatient(task: widget.task, patient: widget.patient)),
       child: BottomSheetBase(
         onClosing: () async {
           // TODO do saving or something when the dialog is closed
@@ -177,24 +179,29 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // TODO change static assignee name
                   Consumer<TaskController>(builder: (context, taskController, __) {
                     return _SheetListTile(
                       icon: Icons.person,
                       label: context.localization!.assignedTo,
                       onTap: () => showModalBottomSheet(
                         context: context,
-                        // TODO this doesn't work anymore
                         builder: (BuildContext context) => LoadingAndErrorWidget(
                           state: taskController.state,
-                          child: AssigneeSelect(
-                            selected: taskController.task.assignee,
-                            onChanged: (assignee) {
-                              taskController.changeAssignee(assigneeId: assignee.id);
-                            },
+                          child: ChangeNotifierProvider(
+                            create: (BuildContext context) => AssigneeSelectController(
+                              selected: taskController.task.assignee,
+                              taskId: taskController.task.id,
+                            ),
+                            child: AssigneeSelect(
+                              onChanged: (assignee) {
+                                taskController.changeAssignee(assigneeId: assignee.id);
+                              },
+                            ),
                           ),
                         ),
                       ),
+                      // TODO maybe do some optimisations here
+                      // TODO update the error and loading widgets
                       valueWidget: LoadingAndErrorWidget(
                         state: taskController.state,
                         child: taskController.task.assignee != null

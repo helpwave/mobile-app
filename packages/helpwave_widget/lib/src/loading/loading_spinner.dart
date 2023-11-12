@@ -20,29 +20,28 @@ class LoadingSpinner extends StatelessWidget {
     super.key,
     this.text,
     this.size = iconSizeBig,
-    this.width = 4,
-    this.color,
+    this.width = 6,
+    this.color = primaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: size,
-            width: size,
-            child: CircularProgressIndicator(
-              strokeWidth: width,
-              semanticsLabel: text ?? context.localization!.loading,
-              color: color,
-            ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: size,
+          width: size,
+          child: CircularProgressIndicator(
+            strokeWidth: width,
+            semanticsLabel: text ?? context.localization!.loading,
+            color: color,
           ),
-          const SizedBox(height: distanceBig),
-          Text(text ?? context.localization!.loading),
-        ],
-      ),
+        ),
+        const SizedBox(height: distanceBig),
+        Text(text ?? context.localization!.loading),
+      ],
     );
   }
 }
