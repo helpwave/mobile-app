@@ -6,7 +6,6 @@ import 'package:tasks/dataclasses/room.dart';
 import 'package:tasks/dataclasses/subtask.dart';
 import 'package:tasks/dataclasses/ward.dart';
 import 'package:tasks/services/grpc_client_svc.dart';
-
 import '../dataclasses/task.dart';
 
 /// The GRPC Service for [Patient]s
@@ -15,29 +14,50 @@ import '../dataclasses/task.dart';
 /// The server is defined in the underlying [GRPCClientService]
 class PatientService {
   /// The GRPC ServiceClient which handles GRPC
-  PatientServiceClient patientService =
-      GRPCClientService.getPatientServiceClient;
+  PatientServiceClient patientService = GRPCClientService.getPatientServiceClient;
 
   // TODO consider an enum instead of an string
   /// Loads the [Patient]s by [Ward] and sorts them by their assignment status
   Future<PatientsByAssignmentStatus> getPatientList({String? wardId}) async {
-    GetPatientListRequest request =
-        GetPatientListRequest(wardId: wardId);
-    GetPatientListResponse response =
-        await patientService.getPatientList(
+    GetPatientListRequest request = GetPatientListRequest(wardId: wardId);
+    GetPatientListResponse response = await patientService.getPatientList(
       request,
       options: CallOptions(
         metadata: GRPCClientService().getTaskServiceMetaData(),
       ),
     );
 
+    Map<GetPatientListResponse_TaskStatus, TaskStatus> taskStatusMapping = {
+      GetPatientListResponse_TaskStatus.TASK_STATUS_TODO: TaskStatus.todo,
+      GetPatientListResponse_TaskStatus.TASK_STATUS_IN_PROGRESS: TaskStatus.inProgress,
+      GetPatientListResponse_TaskStatus.TASK_STATUS_DONE: TaskStatus.done,
+      GetPatientListResponse_TaskStatus.TASK_STATUS_UNSPECIFIED: TaskStatus.unspecified,
+    };
+
     List<Patient> active = response.active
         .map(
           (patient) => Patient(
             id: patient.id,
             name: patient.humanReadableIdentifier,
-            tasks: [], // TODO get when backend provides it
-            notes: "",
+            tasks: patient.tasks
+                .map((task) => Task(
+                      id: task.id,
+                      name: task.name,
+                      notes: task.description,
+                      status: taskStatusMapping[task.status]!,
+                      isPublicVisible: task.public,
+                      assignee: task.assignedUserId,
+                      subtasks: task.subtasks
+                          .map((subtask) => SubTask(
+                                id: subtask.id,
+                                name: subtask.name,
+                                isDone: subtask.done,
+                              ))
+                          .toList(),
+                      // TODO due and creation date
+                    ))
+                .toList(),
+            notes: patient.notes,
             bed: BedMinimal(id: patient.bed.id, name: patient.bed.name),
             room: RoomMinimal(id: patient.room.id, name: patient.room.name),
           ),
@@ -49,8 +69,25 @@ class PatientService {
           (patient) => Patient(
             id: patient.id,
             name: patient.humanReadableIdentifier,
-            tasks: [], // TODO get when backend provides it
-            notes: "",
+            tasks: patient.tasks
+                .map((task) => Task(
+                      id: task.id,
+                      name: task.name,
+                      notes: task.description,
+                      status: taskStatusMapping[task.status]!,
+                      isPublicVisible: task.public,
+                      assignee: task.assignedUserId,
+                      subtasks: task.subtasks
+                          .map((subtask) => SubTask(
+                                id: subtask.id,
+                                name: subtask.name,
+                                isDone: subtask.done,
+                              ))
+                          .toList(),
+                      // TODO due and creation date
+                    ))
+                .toList(),
+            notes: patient.notes,
           ),
         )
         .toList();
@@ -60,8 +97,25 @@ class PatientService {
           (patient) => Patient(
             id: patient.id,
             name: patient.humanReadableIdentifier,
-            tasks: [], // TODO get when backend provides it
-            notes: "",
+            tasks: patient.tasks
+                .map((task) => Task(
+                      id: task.id,
+                      name: task.name,
+                      notes: task.description,
+                      status: taskStatusMapping[task.status]!,
+                      isPublicVisible: task.public,
+                      assignee: task.assignedUserId,
+                      subtasks: task.subtasks
+                          .map((subtask) => SubTask(
+                                id: subtask.id,
+                                name: subtask.name,
+                                isDone: subtask.done,
+                              ))
+                          .toList(),
+                      // TODO due and creation date
+                    ))
+                .toList(),
+            notes: patient.notes,
           ),
         )
         .toList();
@@ -103,11 +157,9 @@ class PatientService {
 
     Map<GetPatientDetailsResponse_TaskStatus, TaskStatus> statusMap = {
       GetPatientDetailsResponse_TaskStatus.TASK_STATUS_TODO: TaskStatus.todo,
-      GetPatientDetailsResponse_TaskStatus.TASK_STATUS_IN_PROGRESS:
-          TaskStatus.inProgress,
+      GetPatientDetailsResponse_TaskStatus.TASK_STATUS_IN_PROGRESS: TaskStatus.inProgress,
       GetPatientDetailsResponse_TaskStatus.TASK_STATUS_DONE: TaskStatus.done,
-      GetPatientDetailsResponse_TaskStatus.TASK_STATUS_UNSPECIFIED:
-          TaskStatus.unspecified,
+      GetPatientDetailsResponse_TaskStatus.TASK_STATUS_UNSPECIFIED: TaskStatus.unspecified,
     };
 
     return Patient(
@@ -134,12 +186,9 @@ class PatientService {
   }
 
   /// Loads the [Room]s with [Bed]s and an optional patient in them
-  Future<List<RoomWithBedWithMinimalPatient>> getPatientAssignmentByWard(
-      {required String wardId}) async {
-    GetPatientAssignmentByWardRequest request =
-        GetPatientAssignmentByWardRequest(wardId: wardId);
-    GetPatientAssignmentByWardResponse response =
-        await patientService.getPatientAssignmentByWard(
+  Future<List<RoomWithBedWithMinimalPatient>> getPatientAssignmentByWard({required String wardId}) async {
+    GetPatientAssignmentByWardRequest request = GetPatientAssignmentByWardRequest(wardId: wardId);
+    GetPatientAssignmentByWardResponse response = await patientService.getPatientAssignmentByWard(
       request,
       options: CallOptions(
         metadata: GRPCClientService().getTaskServiceMetaData(),
@@ -156,9 +205,7 @@ class PatientService {
             return BedWithMinimalPatient(
               id: bed.id,
               name: bed.name,
-              patient: patient.isInitialized()
-                  ? PatientMinimal(id: patient.id, name: patient.name)
-                  : null,
+              patient: patient.isInitialized() ? PatientMinimal(id: patient.id, name: patient.name) : null,
             );
           }).toList());
     }).toList();
@@ -168,10 +215,8 @@ class PatientService {
   /// Discharges a [Patient]
   Future<bool> dischargePatient({required String patientId}) async {
     DischargePatientRequest request = DischargePatientRequest(id: patientId);
-    DischargePatientResponse response = await patientService.dischargePatient(
-        request,
-        options: CallOptions(
-            metadata: GRPCClientService().getTaskServiceMetaData()));
+    DischargePatientResponse response = await patientService.dischargePatient(request,
+        options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()));
 
     if (response.isInitialized()) {
       return true;

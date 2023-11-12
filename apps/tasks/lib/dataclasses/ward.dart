@@ -2,12 +2,10 @@
 class WardMinimal {
   String id;
   String name;
-  String organizationId;
 
   WardMinimal({
     required this.id,
     required this.name,
-    required this.organizationId,
   });
 }
 
