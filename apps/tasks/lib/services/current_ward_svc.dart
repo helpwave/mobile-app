@@ -58,8 +58,7 @@ class _CurrentWardPreferences {
 }
 
 /// Service for the [CurrentWardInformation]
-///
-/// Notifies about changes in light or dark theme preference
+/// Changes the [CurrentWardInformation] globally
 class CurrentWardService extends Listenable {
   /// Whether this Controller has been initialized
   bool _isInitialized = false;
@@ -76,7 +75,7 @@ class CurrentWardService extends Listenable {
   /// Listeners
   final List<VoidCallback> _listeners = [];
 
-  CurrentWardService._initialize(){
+  CurrentWardService._initialize() {
     if (!DEV_MODE) {
       load();
     }
