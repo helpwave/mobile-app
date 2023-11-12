@@ -63,16 +63,20 @@ class TaskController extends ChangeNotifier {
     await TaskService()
         .getTask(id: task.id)
         // TODO update one get Task returns the patient
-        .then((value) => {task = TaskWithPatient.fromTaskAndPatient(task: task)})
+        .then((value) {
+          task = TaskWithPatient.fromTaskAndPatient(task: task);
+          state = LoadingState.loaded;
+        })
         .catchError((error, stackTrace) {
       errorMessage = error.toString();
       state = LoadingState.error;
-      return <TaskWithPatient>{};
     });
   }
 
+  /// Changes the Assignee
+  ///
+  /// Without a backend request as we expect this to be done in the [AssigneeSelectController]
   Future<void> changeAssignee({required String assigneeId}) async {
-    // TODO backend request
     task.assignee = assigneeId;
     notifyListeners();
   }

@@ -15,6 +15,11 @@ class CurrentWardInformation {
   String get organizationId => _organizationId;
 
   CurrentWardInformation(this._wardId, this._organizationId);
+
+  @override
+  String toString() {
+    return "CurrentWardInformation: {wardID: $_wardId, organizationId: $_organizationId}";
+  }
 }
 
 // TODO consider other storage alternatives
@@ -53,7 +58,6 @@ class _CurrentWardPreferences {
 }
 
 /// Service for the [CurrentWardInformation]
-///
 /// Changes the [CurrentWardInformation] globally
 class CurrentWardService extends Listenable {
   /// Whether this Controller has been initialized

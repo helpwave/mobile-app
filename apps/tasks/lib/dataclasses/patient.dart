@@ -2,7 +2,7 @@ import 'package:tasks/dataclasses/bed.dart';
 import 'package:tasks/dataclasses/room.dart';
 import 'package:tasks/dataclasses/task.dart';
 
-enum PatientAssignmentStatus { active, unassigned, discharged }
+enum PatientAssignmentStatus { active, unassigned, discharged, all }
 
 class PatientMinimal {
   String id;
@@ -61,11 +61,13 @@ class PatientsByAssignmentStatus {
   List<Patient> active;
   List<Patient> unassigned;
   List<Patient> discharged;
+  List<Patient> all;
 
   PatientsByAssignmentStatus({
     this.active = const [],
     this.unassigned = const [],
     this.discharged = const [],
+    this.all = const [],
   });
 
   byAssignmentStatus(PatientAssignmentStatus status) {
@@ -76,6 +78,8 @@ class PatientsByAssignmentStatus {
         return unassigned;
       case PatientAssignmentStatus.discharged:
         return discharged;
+      case PatientAssignmentStatus.all:
+        return all;
     }
   }
 }

@@ -106,7 +106,12 @@ class AuthenticationService {
     if (credential == null) {
       return null;
     }
-    UserInfo userInfo = await credential.getUserInfo();
+    UserInfo userInfo;
+    try {
+      userInfo = await credential.getUserInfo();
+    } catch (e) {
+      return null;
+    }
     return _toIdentity(credential, userInfo);
   }
 
@@ -201,18 +206,21 @@ class AuthenticationService {
     }
   }
 
+  Future<void> clearFromStorage() async {
+    await storage.delete(key: idTokenStorageKey);
+    await storage.delete(key: accessStorageKey);
+    await storage.delete(key: refreshStorageKey);
+    await storage.delete(key: expiresStorageKey);
+  }
+
   /// Revokes the current token
-  revoke() async {
+  Future<void> revoke() async {
     Identity? identity = await tokenLogin();
-    if (identity == null) {
-      return;
+    if (identity != null) {
+      // TODO revoke the credential server sided
+      // await identity.credential?.revoke();
     }
-    // TODO revoke the credential server sided
-    // await identity.credential?.revoke();
-    storage.delete(key: idTokenStorageKey);
-    storage.delete(key: accessStorageKey);
-    storage.delete(key: refreshStorageKey);
-    storage.delete(key: expiresStorageKey);
+    await clearFromStorage();
   }
 
   /// Validate the saved token
