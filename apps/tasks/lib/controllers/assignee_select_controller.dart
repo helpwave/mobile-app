@@ -42,15 +42,14 @@ class AssigneeSelectController extends ChangeNotifier {
     load();
   }
 
-  final Logger _logger = Logger();
-
   /// Loads the tasks
   Future<void> load() async {
     state = LoadingState.loading;
     String? currentOrganization = CurrentWardService().currentWard?.organizationId;
     if(currentOrganization == null){
       if(kDebugMode){
-        Logger().w("Organization Id not set in CurrentWardService while trying to load in AssigneeSelectController");
+        Logger().w("Organization Id not set in CurrentWardService"
+            " while trying to load in AssigneeSelectController");
       }
       state = LoadingState.error;
       return;
