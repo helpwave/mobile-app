@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:helpwave_service/src/auth/identity.dart';
 import 'package:jose/jose.dart';
+import 'package:logger/logger.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:openid_client/openid_client_io.dart';
 
@@ -50,6 +51,8 @@ class AuthenticationService {
 
   /// The storage in which to save the tokens
   final storage = const FlutterSecureStorage();
+
+  final Logger _logger = Logger();
 
   /// The url used to discover the service
   ///
@@ -130,7 +133,7 @@ class AuthenticationService {
       await closeInAppWebView();
     } catch (e) {
       if (kDebugMode) {
-        print(e);
+        _logger.e(e);
       }
       throw AuthenticationError("Failed to receive Credentials");
     }
@@ -200,7 +203,7 @@ class AuthenticationService {
       );
     } catch (e) {
       if (kDebugMode) {
-        print(e);
+        _logger.e(e);
       }
       throw AuthenticationIdentityError("Could not get the full user information");
     }
@@ -236,7 +239,7 @@ class AuthenticationService {
       tokenResponse = await credential.getTokenResponse();
     } catch (e) {
       if (kDebugMode) {
-        print(e);
+        _logger.e(e);
       }
       return false;
     }
