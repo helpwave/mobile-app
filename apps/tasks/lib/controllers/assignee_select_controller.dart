@@ -50,7 +50,7 @@ class AssigneeSelectController extends ChangeNotifier {
     String? currentOrganization = CurrentWardService().currentWard?.organizationId;
     if(currentOrganization == null){
       if(kDebugMode){
-        _logger.w("Organization Id not set in CurrentWardService while trying to load in AssigneeSelectController");
+        Logger().w("Organization Id not set in CurrentWardService while trying to load in AssigneeSelectController");
       }
       state = LoadingState.error;
       return;
