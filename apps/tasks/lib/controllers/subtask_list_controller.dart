@@ -50,6 +50,18 @@ class SubtasksController extends ChangeNotifier {
 
   Future<void> load() async {
     state = LoadingState.loading;
+    if (!isCreating) {
+      await TaskService().getTask(id: taskId).then((task) {
+        subtasks = task.subtasks;
+        state = LoadingState.loaded;
+      }).onError(
+        (error, stackTrace) {
+          state = LoadingState.error;
+        },
+      );
+      return;
+    }
+    state = LoadingState.loaded;
   }
 
   /// Delete the subtask by the index
@@ -113,6 +125,19 @@ class SubtasksController extends ChangeNotifier {
         errorMessage = error.toString();
         state = LoadingState.error;
         return null;
+      });
+    }
+    notifyListeners();
+  }
+
+  Future<void> updateSubtask({required SubTask subTask}) async {
+    if (!subTask.isCreating) {
+      state = LoadingState.loading;
+      TaskService().updateSubTask(subTask: subTask).then((value) {
+        state = LoadingState.loaded;
+      }).catchError((error, stackTrace) {
+        // Just reload in case of an error
+        load();
       });
     }
     notifyListeners();

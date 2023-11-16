@@ -46,6 +46,7 @@ class SubtaskList extends StatelessWidget {
               .then((_) => onChange(subtasksController.subtasks)),
           itemBuilder: (context, _, subtask) => ListTile(
             contentPadding: EdgeInsets.zero,
+            // TODO make this editable
             title: Text(subtask.name),
             leading: Checkbox(
               visualDensity: VisualDensity.compact,
