@@ -103,7 +103,7 @@ class SubtasksController extends ChangeNotifier {
       notifyListeners();
       return;
     }
-    TaskService().addSubTask(taskId: taskId, subTask: subTask).then((value) {
+    await TaskService().addSubTask(taskId: taskId, subTask: subTask).then((value) {
       _subtasks.add(value);
       state = LoadingState.loaded;
     }).catchError((error, stackTrace) {
