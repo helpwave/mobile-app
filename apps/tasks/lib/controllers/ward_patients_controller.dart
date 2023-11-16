@@ -74,7 +74,8 @@ class WardPatientsController extends ChangeNotifier {
     state = LoadingState.loading;
     notifyListeners();
 
-    _patientsByAssignmentStatus = await PatientService().getPatientList(wardId: CurrentWardService().currentWard?.wardId);
+    _patientsByAssignmentStatus =
+        await PatientService().getPatientList(wardId: CurrentWardService().currentWard?.wardId);
     state = LoadingState.loaded;
     notifyListeners();
   }

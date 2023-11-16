@@ -59,6 +59,16 @@ class PatientController extends ChangeNotifier {
     });
   }
 
+  /// Discharges the patient the [patients]
+  Future<void> unassign() async {
+    state = LoadingState.loading;
+    notifyListeners();
+    await PatientService().unassignPatient(patientId: patient.id);
+    // Here we can maybe use optimistic updates
+    load();
+  }
+
+  /// Assigns the patient to a bed
   Future<void> changeBed({required String bedId}) async {
     state = LoadingState.loading;
     await PatientService()

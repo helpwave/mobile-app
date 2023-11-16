@@ -7,6 +7,7 @@ import 'package:helpwave_proto_dart/proto/services/user_svc/v1/organization_svc.
 import 'package:helpwave_proto_dart/proto/services/user_svc/v1/user_svc.pbgrpc.dart';
 import 'package:tasks/config/config.dart';
 
+import 'current_ward_svc.dart';
 import 'user_session_service.dart';
 
 /// The Underlying GrpcService it provides other clients and the correct metadata for the requests
@@ -30,11 +31,9 @@ class GRPCClientService {
     return {};
   }
 
-  /*
-  String get fallbackOrganizationId =>
+  String? get fallbackOrganizationId =>
       // Maybe throw a error instead for the last case
-      CurrentWardService().currentWard?.organizationId ?? authService.identity?.firstOrganization ?? "";
-   */
+      CurrentWardService().currentWard?.organizationId ?? authService.identity?.firstOrganization;
 
   Map<String, String> getTaskServiceMetaData({String? organizationId}) {
     var metaData = {

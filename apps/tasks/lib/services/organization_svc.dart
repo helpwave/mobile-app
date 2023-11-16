@@ -34,7 +34,11 @@ class OrganizationService {
     GetOrganizationsForUserRequest request = GetOrganizationsForUserRequest();
     GetOrganizationsForUserResponse response = await organizationService.getOrganizationsForUser(
       request,
-      options: CallOptions(metadata: GRPCClientService().getUserServiceMetaData()),
+      options: CallOptions(
+        metadata: GRPCClientService().getUserServiceMetaData(
+          organizationId: GRPCClientService().fallbackOrganizationId,
+        ),
+      ),
     );
 
     List<Organization> organizations = response.organizations
@@ -51,8 +55,12 @@ class OrganizationService {
   /// Loads the members of an [Organization] as [User]s
   Future<List<User>> getMembersByOrganization(String organizationId) async {
     GetMembersByOrganizationRequest request = GetMembersByOrganizationRequest(id: organizationId);
-    GetMembersByOrganizationResponse response = await organizationService.getMembersByOrganization(request,
-        options: CallOptions(metadata: GRPCClientService().getUserServiceMetaData(organizationId: organizationId)));
+    GetMembersByOrganizationResponse response = await organizationService.getMembersByOrganization(
+      request,
+      options: CallOptions(
+        metadata: GRPCClientService().getUserServiceMetaData(organizationId: organizationId),
+      ),
+    );
 
     List<User> users = response.members
         .map((member) => User(
