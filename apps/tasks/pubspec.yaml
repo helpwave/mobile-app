@@ -45,9 +45,10 @@ dependencies:
     path: "../../packages/helpwave_widget"
   helpwave_service:
     path: "../../packages/helpwave_service"
-  helpwave_proto_dart: 0.30.0-56920cc.0
+  helpwave_proto_dart: 0.30.3-17f08ef.0
   grpc: ^3.2.4
   shared_preferences: ^2.0.15
+  logger: ^2.0.2+1
 
 dev_dependencies:
   flutter_test:

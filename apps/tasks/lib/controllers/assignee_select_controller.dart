@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:helpwave_widget/loading.dart';
+import 'package:logger/logger.dart';
 import 'package:tasks/dataclasses/task.dart';
 import 'package:tasks/services/current_ward_svc.dart';
 import 'package:tasks/services/organization_svc.dart';
@@ -47,7 +48,8 @@ class AssigneeSelectController extends ChangeNotifier {
     String? currentOrganization = CurrentWardService().currentWard?.organizationId;
     if(currentOrganization == null){
       if(kDebugMode){
-        print("Organization Id not set in CurrentWardService while trying to load in AssigneeSelectController");
+        Logger().w("Organization Id not set in CurrentWardService"
+            " while trying to load in AssigneeSelectController");
       }
       state = LoadingState.error;
       return;

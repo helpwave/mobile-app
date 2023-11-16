@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:tasks/dataclasses/task.dart';
+import 'package:tasks/services/current_ward_svc.dart';
 import 'package:tasks/services/patient_svc.dart';
 import 'package:tasks/services/task_svc.dart';
+
 import '../dataclasses/patient.dart';
 
 /// The Controller for [Task]s of the current [User]
@@ -36,7 +38,7 @@ class MyTasksController extends ChangeNotifier {
       notifyListeners();
     }
 
-    var patients = await PatientService().getPatientList();
+    var patients = await PatientService().getPatientList(wardId: CurrentWardService().currentWard?.wardId);
     List<Patient>allPatients = patients.all;
 
     // TODO use the already given information by the later updated getPatientList
