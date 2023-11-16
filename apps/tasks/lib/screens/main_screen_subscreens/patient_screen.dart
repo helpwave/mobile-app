@@ -32,12 +32,8 @@ class _PatientScreenState extends State<PatientScreen> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(
-                  left: paddingSmall,
-                  right: paddingSmall,
-                  bottom: paddingMedium),
-              child: Consumer<WardPatientsController>(
-                  builder: (_, patientController, __) {
+              padding: const EdgeInsets.only(left: paddingSmall, right: paddingSmall, bottom: paddingMedium),
+              child: Consumer<WardPatientsController>(builder: (_, patientController, __) {
                 return SearchBar(
                   hintText: context.localization!.searchPatient,
                   trailing: [
@@ -48,10 +44,7 @@ class _PatientScreenState extends State<PatientScreen> {
                       icon: Icon(
                         Icons.search,
                         size: iconSizeTiny,
-                        color: Theme.of(context)
-                            .searchBarTheme
-                            .textStyle!
-                            .resolve({MaterialState.selected})!.color,
+                        color: Theme.of(context).searchBarTheme.textStyle!.resolve({MaterialState.selected})!.color,
                       ),
                     ),
                   ],
@@ -66,8 +59,7 @@ class _PatientScreenState extends State<PatientScreen> {
               child: SizedBox(
                 height: 40,
                 child: Consumer<WardPatientsController>(
-                  builder: (_, patientController, __) =>
-                      PatientStatusChipSelect(
+                  builder: (_, patientController, __) => PatientStatusChipSelect(
                     // TODO fix this to allow for an select all button working as intended
                     initialSelection: patientController.selectedPatientStatus,
                     onChange: (value) => setState(() {
@@ -89,8 +81,7 @@ class _PatientScreenState extends State<PatientScreen> {
                       children: patientController.filtered
                           .map(
                             (patient) => Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: paddingSmall),
+                              padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
                               child: Dismissible(
                                 key: Key(patient.id),
                                 background: Padding(
@@ -98,11 +89,9 @@ class _PatientScreenState extends State<PatientScreen> {
                                   child: Container(
                                       decoration: BoxDecoration(
                                         color: primaryColor,
-                                        borderRadius: BorderRadius.circular(
-                                            borderRadiusMedium),
+                                        borderRadius: BorderRadius.circular(borderRadiusMedium),
                                       ),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: paddingMedium),
+                                      padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
                                       child: Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
@@ -113,25 +102,21 @@ class _PatientScreenState extends State<PatientScreen> {
                                   padding: const EdgeInsets.all(paddingTiny),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          borderRadiusSmall),
+                                      borderRadius: BorderRadius.circular(borderRadiusSmall),
                                       color: negativeColor,
                                     ),
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: paddingMedium),
+                                          padding: const EdgeInsets.only(right: paddingMedium),
                                           child: Text(
                                             context.localization!.discharge,
                                           )),
                                     ),
                                   ),
                                 ),
-                                onDismissed:
-                                    (DismissDirection direction) async {
-                                  if (direction ==
-                                      DismissDirection.endToStart) {
+                                onDismissed: (DismissDirection direction) async {
+                                  if (direction == DismissDirection.endToStart) {
                                     patientController.discharge(patient.id);
                                   } else {
                                     showModalBottomSheet(
@@ -141,18 +126,16 @@ class _PatientScreenState extends State<PatientScreen> {
                                         task: Task.empty,
                                         patient: patient,
                                       ),
-                                    );
+                                    ).then((value) => patientController.load());
                                   }
                                 },
                                 child: PatientCard(
                                   onClick: () => showModalBottomSheet(
                                     context: context,
-                                    builder: (context) => PatientBottomSheet(
-                                        patentId: patient.id),
+                                    builder: (context) => PatientBottomSheet(patentId: patient.id),
                                   ),
                                   patient: patient,
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: paddingTiny),
+                                  margin: const EdgeInsets.symmetric(vertical: paddingTiny),
                                 ),
                               ),
                             ),

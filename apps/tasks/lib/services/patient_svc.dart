@@ -183,6 +183,8 @@ class PatientService {
                     .toList(),
               ))
           .toList(),
+      bed: response.hasBed() ? BedMinimal(id: response.bed.id, name: response.bed.name) : null,
+      room: response.hasRoom() ? RoomMinimal(id: response.room.id, name: response.room.name) : null,
     );
   }
 
@@ -216,8 +218,38 @@ class PatientService {
   /// Discharges a [Patient]
   Future<bool> dischargePatient({required String patientId}) async {
     DischargePatientRequest request = DischargePatientRequest(id: patientId);
-    DischargePatientResponse response = await patientService.dischargePatient(request,
-        options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()));
+    DischargePatientResponse response = await patientService.dischargePatient(
+      request,
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+    );
+
+    if (response.isInitialized()) {
+      return true;
+    }
+    return false;
+  }
+
+  /// Unassigns a [Patient] from a [Bed]
+  Future<bool> unassignPatient({required String patientId}) async {
+    UnassignBedRequest request = UnassignBedRequest(id: patientId);
+    UnassignBedResponse response = await patientService.unassignBed(
+      request,
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+    );
+
+    if (response.isInitialized()) {
+      return true;
+    }
+    return false;
+  }
+
+  /// Assigns a [Patient] to a [Bed]
+  Future<bool> assignBed({required String patientId, required String bedId}) async {
+    AssignBedRequest request = AssignBedRequest(id: patientId, bedId: bedId);
+    AssignBedResponse response = await patientService.assignBed(
+      request,
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+    );
 
     if (response.isInitialized()) {
       return true;

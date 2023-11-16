@@ -145,6 +145,7 @@
   "public": "Öffentlich",
   "private": "Privat",
   "assignee": "Zugewiesene Person",
+  "assignBed": "Bett zuweisen",
   "loginFailed": "Login fehlgeschlagen",
   "selectWard": "Station auswählen",
   "ward": "Station",
