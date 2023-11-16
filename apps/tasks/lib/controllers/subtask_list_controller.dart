@@ -118,7 +118,7 @@ class SubtasksController extends ChangeNotifier {
       subTask.isDone = value;
     } else {
       state = LoadingState.loading;
-      TaskService().changeSubtaskStatus(id: subTask.id, isDone: value).then((value) {
+      await TaskService().changeSubtaskStatus(id: subTask.id, isDone: value).then((value) {
         subTask.isDone = value;
         state = LoadingState.loaded;
       }).catchError((error, stackTrace) {
