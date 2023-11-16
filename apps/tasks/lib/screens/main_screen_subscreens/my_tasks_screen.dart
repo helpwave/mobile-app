@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:tasks/components/task_expansion_tile.dart';
 import 'package:helpwave_widget/loading.dart';
+import '../../components/user_header.dart';
 import '../../controllers/my_tasks_controller.dart';
 import '../../dataclasses/task.dart';
-import '../settings_screen.dart';
 
 /// The Screen for showing all [Task]'s the [User] has assigned to them
 class MyTasksScreen extends StatefulWidget {
@@ -22,22 +22,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
     return ChangeNotifierProvider(
       create: (_) => MyTasksController(),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(context.localization!.myTasks),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SettingsScreen(),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.settings),
-            )
-          ],
-        ),
+        appBar: const UserHeader(),
         body: Consumer<MyTasksController>(
           builder: (BuildContext context, MyTasksController tasksController, Widget? child) {
             return LoadingAndErrorWidget(
