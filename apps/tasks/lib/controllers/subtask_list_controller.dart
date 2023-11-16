@@ -133,7 +133,7 @@ class SubtasksController extends ChangeNotifier {
   Future<void> updateSubtask({required SubTask subTask}) async {
     if (!subTask.isCreating) {
       state = LoadingState.loading;
-      TaskService().updateSubTask(subTask: subTask).then((value) {
+      await TaskService().updateSubTask(subTask: subTask).then((value) {
         state = LoadingState.loaded;
       }).catchError((error, stackTrace) {
         // Just reload in case of an error
