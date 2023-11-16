@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:helpwave_service/src/auth/identity.dart';
 import 'package:jose/jose.dart';
+import 'package:logger/logger.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:openid_client/openid_client_io.dart';
 
@@ -50,6 +51,9 @@ class AuthenticationService {
 
   /// The storage in which to save the tokens
   final storage = const FlutterSecureStorage();
+
+  /// A Logger for logging
+  final Logger _logger = Logger();
 
   /// The url used to discover the service
   ///
@@ -106,7 +110,13 @@ class AuthenticationService {
     if (credential == null) {
       return null;
     }
-    UserInfo userInfo = await credential.getUserInfo();
+    UserInfo userInfo;
+    try {
+      userInfo = await credential.getUserInfo();
+    } catch (e) {
+      return null;
+    }
+
     return _toIdentity(credential, userInfo);
   }
 
@@ -125,7 +135,7 @@ class AuthenticationService {
       await closeInAppWebView();
     } catch (e) {
       if (kDebugMode) {
-        print(e);
+        _logger.e(e);
       }
       throw AuthenticationError("Failed to receive Credentials");
     }
@@ -195,24 +205,27 @@ class AuthenticationService {
       );
     } catch (e) {
       if (kDebugMode) {
-        print(e);
+        _logger.e(e);
       }
       throw AuthenticationIdentityError("Could not get the full user information");
     }
   }
 
+  Future<void> clearFromStorage() async {
+    await storage.delete(key: idTokenStorageKey);
+    await storage.delete(key: accessStorageKey);
+    await storage.delete(key: refreshStorageKey);
+    await storage.delete(key: expiresStorageKey);
+  }
+
   /// Revokes the current token
-  revoke() async {
+  Future<void> revoke() async {
     Identity? identity = await tokenLogin();
-    if (identity == null) {
-      return;
+    if (identity != null) {
+      // TODO revoke the credential server sided
+      // await identity.credential?.revoke();
     }
-    // TODO revoke the credential server sided
-    // await identity.credential?.revoke();
-    storage.delete(key: idTokenStorageKey);
-    storage.delete(key: accessStorageKey);
-    storage.delete(key: refreshStorageKey);
-    storage.delete(key: expiresStorageKey);
+    await clearFromStorage();
   }
 
   /// Validate the saved token
@@ -228,7 +241,7 @@ class AuthenticationService {
       tokenResponse = await credential.getTokenResponse();
     } catch (e) {
       if (kDebugMode) {
-        print(e);
+        _logger.e(e);
       }
       return false;
     }

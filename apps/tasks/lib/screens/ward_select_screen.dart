@@ -18,8 +18,8 @@ class WardSelectScreen extends StatefulWidget {
 }
 
 class _WardSelectScreen extends State<WardSelectScreen> {
-  String? organizationId;
-  String? wardId;
+  Organization? organization;
+  WardMinimal? ward;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class _WardSelectScreen extends State<WardSelectScreen> {
         children: [
           ListTile(
             // TODO change to organization name
-            title: Text(organizationId ?? context.localization!.none),
+            title: Text(organization?.name ?? context.localization!.none),
             subtitle: Text(context.localization!.organization),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () => Navigator.push<Organization?>(
@@ -63,38 +63,35 @@ class _WardSelectScreen extends State<WardSelectScreen> {
               if (value != null) {
                 setState(() {
                   // check if ward is changed
-                  if (value.id != organizationId) {
-                    wardId = null;
+                  if (value.id != organization?.id) {
+                    ward = null;
                   }
-                  organizationId = value.id;
+                  organization = value;
                 });
               }
             }),
           ),
           ListTile(
             // TODO change to organization name
-            title: Text(wardId ?? context.localization!.none),
+            title: Text(ward?.name ?? context.localization!.none),
             subtitle: Text(context.localization!.ward),
             trailing: const Icon(Icons.arrow_forward),
-            onTap: organizationId == null
+            onTap: organization == null
                 ? null
                 : () => Navigator.push<WardOverview?>(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ListSearch<WardOverview>(
                           title: context.localization!.ward,
-                          asyncItems: (_) async {
-                            List<WardOverview> organizations =
-                                await WardService().getWardOverviews(organizationId: organizationId);
-                            return organizations;
-                          },
+                          asyncItems: (_) async =>
+                              await WardService().getWardOverviews(organizationId: organization!.id),
                           elementToString: (WardOverview ward) => ward.name,
                         ),
                       ),
                     ).then((value) {
                       if (value != null) {
                         setState(() {
-                          wardId = value.id;
+                          ward = value;
                         });
                       }
                     }),
@@ -102,10 +99,10 @@ class _WardSelectScreen extends State<WardSelectScreen> {
           Consumer<CurrentWardController>(
             builder: (context, currentWardService, __) => TextButton(
               onPressed: () {
-                if (wardId == null || organizationId == null) {
+                if (ward == null || organization == null) {
                   return;
                 }
-                currentWardService.currentWard = CurrentWardInformation(wardId!, organizationId!);
+                currentWardService.currentWard = CurrentWardInformation(ward!, organization!);
               },
               child: Text(context.localization!.switch_),
             ),

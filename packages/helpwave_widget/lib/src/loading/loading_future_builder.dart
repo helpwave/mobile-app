@@ -33,14 +33,14 @@ class LoadingFutureBuilder<T> extends StatelessWidget {
         if (snapshot.hasError) {
           state = LoadingState.error;
         }
-        if (!snapshot.hasData) {
+        if (!snapshot.hasData || snapshot.data == null) {
           state = LoadingState.loading;
         }
         return LoadingAndErrorWidget(
           state: state,
           errorWidget: Center(child: errorWidget),
           loadingWidget: Center(child: loadingWidget),
-          // Prevent brief moments with a casting error
+          // Safety check because typecast may fail otherwise
           child: snapshot.data != null ? thenWidgetBuilder(context, snapshot.data as T) : const SizedBox(),
         );
       },

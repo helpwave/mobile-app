@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:helpwave_widget/loading.dart';
-import 'package:tasks/dataclasses/subtask.dart';
 import 'package:tasks/dataclasses/task.dart';
+import 'package:tasks/services/current_ward_svc.dart';
+import 'package:tasks/services/patient_svc.dart';
+import 'package:tasks/services/task_svc.dart';
+
 import '../dataclasses/patient.dart';
 
 /// The Controller for [Task]s of the current [User]
@@ -35,80 +38,26 @@ class MyTasksController extends ChangeNotifier {
       notifyListeners();
     }
 
-    // TODO make grpc request here
-    PatientMinimal patient = PatientMinimal(
-      id: 'patient 1',
-      name: "Victoria Schäfer",
-    );
-    await Future.delayed(const Duration(seconds: 2));
-    _tasks = [
-      TaskWithPatient(
-        id: "task1",
-        name: "Task name - 1",
-        assignee: "",
-        notes: "Some text describing the task",
-        dueDate: DateTime.now().add(const Duration(days: 20)),
-        status: TaskStatus.inProgress,
-        subtasks: [
-          SubTask(id: "subtask 1", name: "Subtask 1"),
-          SubTask(id: "subtask 2", name: "Subtask 2"),
-        ],
-        patient: patient,
-      ),
-      TaskWithPatient(
-        id: "task2",
-        name: "Task name - 2",
-        assignee: "",
-        notes: "Some text describing the task with an very very very long text",
-        dueDate: DateTime.now().add(const Duration(hours: 10)),
-        status: TaskStatus.done,
-        subtasks: [
-          SubTask(id: "subtask 1", name: "Subtask 1", isDone: true),
-          SubTask(id: "subtask 2", name: "Subtask 2"),
-        ],
-        patient: patient,
-      ),
-      TaskWithPatient(
-        id: "task3",
-        name: "Task name - 3",
-        assignee: "",
-        notes: "Some text describing the task",
-        dueDate: DateTime.now().add(const Duration(hours: 1)),
-        status: TaskStatus.todo,
-        subtasks: [
-          SubTask(id: "subtask 1", name: "Subtask 1"),
-          SubTask(id: "subtask 2", name: "Subtask 2", isDone: true),
-        ],
-        patient: patient,
-      ),
-      TaskWithPatient(
-        id: "task4",
-        name: "Task name - 4",
-        assignee: "",
-        notes: "Some text describing the task",
-        dueDate: DateTime.now().subtract(const Duration(days: 20)),
-        status: TaskStatus.inProgress,
-        subtasks: [
-          SubTask(id: "subtask 1", name: "Subtask 1"),
-          SubTask(id: "subtask 2", name: "Subtask 2", isDone: true),
-          SubTask(id: "subtask 3", name: "Subtask 3", isDone: true),
-        ],
-        patient: patient,
-      ),
-      TaskWithPatient(
-        id: "task5",
-        name: "Task name - 5",
-        assignee: "",
-        notes: "Some text describing the task",
-        status: TaskStatus.inProgress,
-        subtasks: [
-          SubTask(id: "subtask 1", name: "Subtask 1"),
-          SubTask(id: "subtask 2", name: "Subtask 2", isDone: true),
-          SubTask(id: "subtask 3", name: "Subtask 3", isDone: true),
-        ],
-        patient: patient,
-      )
-    ];
+    var patients = await PatientService().getPatientList(wardId: CurrentWardService().currentWard?.wardId);
+    List<Patient>allPatients = patients.all;
+
+    // TODO use the already given information by the later updated getPatientList
+    for(Patient patient in allPatients) {
+      List<Task> tasks = await TaskService().getTasksByPatient(patientId: patient.id);
+      for(var task in tasks) {
+        _tasks.add(TaskWithPatient(
+          id: task.id,
+          name: task.name,
+          assignee: task.assignee,
+          notes: task.notes,
+          dueDate: task.dueDate,
+          status: task.status,
+          subtasks: task.subtasks,
+          patient: patient,
+        ));
+      }
+    }
+
     state = LoadingState.loaded;
     notifyListeners();
   }

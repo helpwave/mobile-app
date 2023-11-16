@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasks/config/config.dart';
+import 'package:tasks/dataclasses/organization.dart';
+import 'package:tasks/dataclasses/ward.dart';
+import 'package:tasks/services/organization_svc.dart';
+import 'package:tasks/services/ward_service.dart';
 
 /// A readonly class for getting the CurrentWard information
 class CurrentWardInformation {
   /// The identifier of the ward
-  final String _wardId;
+  final WardMinimal ward;
 
   /// The identifier of the organization
-  final String _organizationId;
+  final Organization organization;
 
-  String get wardId => _wardId;
+  String get wardId => ward.id;
 
-  String get organizationId => _organizationId;
+  String get wardName => ward.name;
 
-  CurrentWardInformation(this._wardId, this._organizationId);
+  String get organizationId => organization.id;
+
+  String get organizationName => "${organization.name} (${organization.shortName})";
+
+  bool get hasFullInformation => ward.name != "" && organization.name != "";
+
+  CurrentWardInformation(this.ward, this.organization);
+
+  @override
+  String toString() {
+    return "CurrentWardInformation: {ward: ${ward.toString()}, organization: ${organization.toString()}";
+  }
 }
 
 // TODO consider other storage alternatives
@@ -46,7 +61,10 @@ class _CurrentWardPreferences {
     String? wardId = sharedPreferences.getString(sharedPreferencesCurrentWardKey);
     String? organizationId = sharedPreferences.getString(sharedPreferencesCurrentOrganizationKey);
     if (wardId != null && organizationId != null) {
-      return CurrentWardInformation(wardId, organizationId);
+      return CurrentWardInformation(
+        WardMinimal(id: wardId, name: ""),
+        Organization(id: organizationId, name: "", shortName: ""),
+      );
     }
     return null;
   }
@@ -72,7 +90,9 @@ class CurrentWardService extends Listenable {
   final List<VoidCallback> _listeners = [];
 
   CurrentWardService._initialize() {
-    load();
+    if (!DEV_MODE) {
+      load();
+    }
   }
 
   static final CurrentWardService _currentWardService = CurrentWardService._initialize();
@@ -89,6 +109,9 @@ class CurrentWardService extends Listenable {
     }
     _currentWard = currentWard;
     _isInitialized = _currentWard != null;
+    if(_currentWard != null && !_currentWard!.hasFullInformation){
+      fetch();
+    }
     notifyListeners();
   }
 
@@ -96,15 +119,24 @@ class CurrentWardService extends Listenable {
 
   /// Load the preferences with the [ThemePreferences]
   Future<void> load() async {
-    if (!DEV_MODE) {
-      currentWard = await _preferences.getInformation();
-    } else {
-      currentWard = null;
+    // everything is done in the setter
+    currentWard = await _preferences.getInformation();
+  }
+
+  /// Fetch [Ward] and [Organization] from backend
+  Future<void> fetch() async {
+    if(!_isInitialized || _currentWard == null){
+      return;
     }
+    Organization organization = await OrganizationService().getOrganization(id: currentWard!.organizationId);
+    WardMinimal ward = await WardService().getWard(id: currentWard!.wardId);
+    _currentWard = CurrentWardInformation(ward, organization);
+    notifyListeners();
   }
 
   /// Clears the [CurrentWardInformation]
-  Future<void> clear() async {
+  void clear() {
+    _isInitialized = false;
     currentWard = null;
   }
 

@@ -28,14 +28,37 @@ class PatientService {
       ),
     );
 
+    Map<GetPatientListResponse_TaskStatus, TaskStatus> taskStatusMapping = {
+      GetPatientListResponse_TaskStatus.TASK_STATUS_TODO: TaskStatus.todo,
+      GetPatientListResponse_TaskStatus.TASK_STATUS_IN_PROGRESS: TaskStatus.inProgress,
+      GetPatientListResponse_TaskStatus.TASK_STATUS_DONE: TaskStatus.done,
+      GetPatientListResponse_TaskStatus.TASK_STATUS_UNSPECIFIED: TaskStatus.unspecified,
+    };
+
     List<Patient> active = response.active
         .map(
           (patient) => Patient(
             id: patient.id,
             name: patient.humanReadableIdentifier,
-            tasks: [],
-            // TODO get when backend provides it
-            notes: "",
+            tasks: patient.tasks
+                .map((task) => Task(
+                      id: task.id,
+                      name: task.name,
+                      notes: task.description,
+                      status: taskStatusMapping[task.status]!,
+                      isPublicVisible: task.public,
+                      assignee: task.assignedUserId,
+                      subtasks: task.subtasks
+                          .map((subtask) => SubTask(
+                                id: subtask.id,
+                                name: subtask.name,
+                                isDone: subtask.done,
+                              ))
+                          .toList(),
+                      // TODO due and creation date
+                    ))
+                .toList(),
+            notes: patient.notes,
             bed: BedMinimal(id: patient.bed.id, name: patient.bed.name),
             room: RoomMinimal(id: patient.room.id, name: patient.room.name),
           ),
@@ -47,8 +70,25 @@ class PatientService {
           (patient) => Patient(
             id: patient.id,
             name: patient.humanReadableIdentifier,
-            tasks: [], // TODO get when backend provides it
-            notes: "",
+            tasks: patient.tasks
+                .map((task) => Task(
+                      id: task.id,
+                      name: task.name,
+                      notes: task.description,
+                      status: taskStatusMapping[task.status]!,
+                      isPublicVisible: task.public,
+                      assignee: task.assignedUserId,
+                      subtasks: task.subtasks
+                          .map((subtask) => SubTask(
+                                id: subtask.id,
+                                name: subtask.name,
+                                isDone: subtask.done,
+                              ))
+                          .toList(),
+                      // TODO due and creation date
+                    ))
+                .toList(),
+            notes: patient.notes,
           ),
         )
         .toList();
@@ -58,13 +98,31 @@ class PatientService {
           (patient) => Patient(
             id: patient.id,
             name: patient.humanReadableIdentifier,
-            tasks: [], // TODO get when backend provides it
-            notes: "",
+            tasks: patient.tasks
+                .map((task) => Task(
+                      id: task.id,
+                      name: task.name,
+                      notes: task.description,
+                      status: taskStatusMapping[task.status]!,
+                      isPublicVisible: task.public,
+                      assignee: task.assignedUserId,
+                      subtasks: task.subtasks
+                          .map((subtask) => SubTask(
+                                id: subtask.id,
+                                name: subtask.name,
+                                isDone: subtask.done,
+                              ))
+                          .toList(),
+                      // TODO due and creation date
+                    ))
+                .toList(),
+            notes: patient.notes,
           ),
         )
         .toList();
 
     return PatientsByAssignmentStatus(
+      all: active + unassigned + discharged,
       active: active,
       unassigned: unassigned,
       discharged: discharged,
