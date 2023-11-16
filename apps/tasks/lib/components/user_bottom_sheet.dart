@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
+import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
+import 'package:tasks/services/current_ward_svc.dart';
+
+import '../dataclasses/ward.dart';
+import '../services/ward_service.dart';
 
 /// A [BottomSheet] for showing the [User]s information
 class UserBottomSheet extends StatefulWidget {
@@ -13,9 +18,6 @@ class UserBottomSheet extends StatefulWidget {
 }
 
 class _UserBottomSheetState extends State<UserBottomSheet> {
-  final items = ["station 1"];
-  String? selectedStation;
-
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
@@ -59,17 +61,14 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
                               color: Colors.grey,
                               width: 2,
                             ),
-                            borderRadius:
-                            BorderRadius.circular(borderRadiusMedium),
+                            borderRadius: BorderRadius.circular(borderRadiusMedium),
                           ),
                         ),
                         onPressed: () {},
                         child: Text(
                           context.localization!.logout,
                           style: TextStyle(
-                            color: themeNotifier.getIsDarkNullSafe(context)
-                                ? Colors.white
-                                : Colors.black,
+                            color: themeNotifier.getIsDarkNullSafe(context) ? Colors.white : Colors.black,
                           ),
                         ),
                       ),
@@ -105,13 +104,17 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
                           ),
                         ),
                       ),
+                      // TODO get current user
                       const Text(
                         "Max Mustermann",
                         style: TextStyle(fontSize: fontSizeBig),
                       ),
-                      const Text("Uniklikum Münster (UKM)",
-                          style: TextStyle(
-                              fontSize: fontSizeSmall, color: Colors.grey)),
+                      // TODO consider a loading widget here
+                      Consumer<CurrentWardController>(
+                        builder: (context, currentWardController, __) => Text(
+                            currentWardController.currentWard?.organizationName ?? context.localization!.loading,
+                            style: const TextStyle(fontSize: fontSizeSmall, color: Colors.grey)),
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(paddingBig),
                         child: Container(
@@ -124,42 +127,50 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
                             padding: const EdgeInsets.symmetric(
                               horizontal: paddingMedium,
                             ),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                value: selectedStation,
-                                isExpanded: true,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedStation = value.toString();
-                                  });
-                                },
-                                items: items.map((String value) {
-                                  return DropdownMenuItem(
-                                    value: value,
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          context.localization!.station,
-                                          style: const TextStyle(
-                                              color: Colors.grey),
-                                        ),
-                                        Expanded(
-                                          child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Text(
-                                              value,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
+                            child: Consumer<CurrentWardController>(builder: (context, currentWardController, __) {
+                              return LoadingFutureBuilder(
+                                loadingWidget: const SizedBox(),
+                                future: WardService().getWardOverviews(
+                                    organizationId: currentWardController.currentWard!.organizationId),
+                                thenWidgetBuilder: (BuildContext context, List<WardOverview> data) {
+                                  return DropdownButtonHideUnderline(
+                                    child: DropdownButton(
+                                      value: currentWardController.currentWard!.wardId,
+                                      isExpanded: true,
+                                      onChanged: (wardId) {
+                                        currentWardController.currentWard = CurrentWardInformation(
+                                            data.firstWhere((ward) => ward.id == wardId),
+                                            currentWardController.currentWard!.organization);
+                                      },
+                                      items: data.map((WardOverview ward) {
+                                        return DropdownMenuItem(
+                                          value: ward.id,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                context.localization!.station,
+                                                style: const TextStyle(color: Colors.grey),
                                               ),
-                                            ),
+                                              Expanded(
+                                                child: Align(
+                                                  alignment: Alignment.centerRight,
+                                                  child: Text(
+                                                    ward.name,
+                                                    style: const TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
+                                        );
+                                      }).toList(),
                                     ),
                                   );
-                                }).toList(),
-                              ),
-                            ),
+                                },
+                              );
+                            }),
                           ),
                         ),
                       ),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:provider/provider.dart';
 import 'package:tasks/components/user_bottom_sheet.dart';
 import 'package:tasks/dataclasses/organization.dart';
 import 'package:tasks/dataclasses/ward.dart';
 import 'package:tasks/screens/settings_screen.dart';
+import 'package:tasks/services/current_ward_svc.dart';
 
 /// A [AppBar] for diplaying the current [User], [Organization] and [Ward]
 class UserHeader extends StatelessWidget implements PreferredSizeWidget {
@@ -59,20 +61,36 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
               builder: (context) => const UserBottomSheet(),
             );
           },
-          child: const Column(
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              // TODO get information somewhere
+              const Text(
                 "Max Mustermann",
                 style: TextStyle(fontSize: 16),
               ),
-              Row(
-                children: [
-                  Text("Uniklinikum Münster (UKM) - ", style: TextStyle(color: Colors.grey, fontSize: 14)),
-                  Text("Station 1", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                ],
-              )
+              // TODO maybe show something for loading
+              Consumer<CurrentWardController>(
+                builder: (context, currentWardController, __) => Row(
+                  children: [
+                    Text(
+                      "${currentWardController.currentWard?.organizationName ?? ""} - ",
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                    ),
+                    Text(
+                      currentWardController.currentWard?.wardName ?? "",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
