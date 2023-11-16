@@ -25,6 +25,11 @@ class CurrentWardInformation {
   bool get hasFullInformation => ward.name != "" && organization.name != "";
 
   CurrentWardInformation(this.ward, this.organization);
+
+  @override
+  String toString() {
+    return "CurrentWardInformation: {ward: ${ward.toString()}, organization: ${organization.toString()}";
+  }
 }
 
 // TODO consider other storage alternatives
