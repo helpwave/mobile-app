@@ -7,6 +7,11 @@ class WardMinimal {
     required this.id,
     required this.name,
   });
+
+  @override
+  String toString() {
+    return "{id: $id, name: $name}";
+  }
 }
 
 class Ward extends WardMinimal {

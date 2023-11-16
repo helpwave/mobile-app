@@ -9,4 +9,9 @@ class Organization {
     required this.name,
     required this.shortName,
   });
+
+  @override
+  String toString() {
+    return "{id: $id, name: $name, shortName: $shortName}";
+  }
 }
