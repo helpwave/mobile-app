@@ -41,6 +41,8 @@ class Task {
 
   bool get isCreating => id == "";
 
+  bool get hasAssignee => assignee != null && assignee != "";
+
   Task({
     required this.id,
     required this.name,

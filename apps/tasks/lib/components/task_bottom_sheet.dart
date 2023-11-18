@@ -152,9 +152,9 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                     // TODO move this to its own component
                     (context, taskController, __) {
                   List<Patient> patients = [];
-                  return LoadingAndErrorWidget(
+                  return LoadingAndErrorWidget.pulsing(
                     state: taskController.state,
-                    child: taskController.hasInitialPatient
+                    child: !taskController.isCreating
                         ? Text(taskController.patient.name)
                         : DropdownButton(
                             underline: const SizedBox(),
@@ -185,7 +185,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                       label: context.localization!.assignedTo,
                       onTap: () => showModalBottomSheet(
                         context: context,
-                        builder: (BuildContext context) => LoadingAndErrorWidget(
+                        builder: (BuildContext context) => LoadingAndErrorWidget.pulsing(
                           state: taskController.state,
                           child: ChangeNotifierProvider(
                             create: (BuildContext context) => AssigneeSelectController(
@@ -202,13 +202,13 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                       ),
                       // TODO maybe do some optimisations here
                       // TODO update the error and loading widgets
-                      valueWidget: LoadingAndErrorWidget(
+                      valueWidget: LoadingAndErrorWidget.pulsing(
                         state: taskController.state,
-                        child: taskController.task.assignee != null
+                        child: taskController.task.hasAssignee
                             ? ChangeNotifierProvider(
                                 create: (context) => UserController(User.empty(id: taskController.task.assignee!)),
                                 child: Consumer<UserController>(
-                                  builder: (context, userController, __) => LoadingAndErrorWidget(
+                                  builder: (context, userController, __) => LoadingAndErrorWidget.pulsing(
                                     state: userController.state,
                                     child: Text(
                                       userController.user.name,
@@ -231,7 +231,23 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                         icon: Icons.access_time,
                         label: context.localization!.due,
                         // TODO localization and date formatting here
-                        valueText: taskController.task.dueDate.toString(),
+                        valueWidget: Builder(builder: (context) {
+                          DateTime? dueDate = taskController.task.dueDate;
+                          if (dueDate != null) {
+                            String date = "${dueDate.day.toString().padLeft(2, "0")}.${dueDate.month.toString()
+                                .padLeft(2, "0")}.${dueDate.year.toString().padLeft(4, "0")}";
+                            String time = "${dueDate.hour.toString().padLeft(2, "0")}:${dueDate.minute.toString().padLeft(2, "0")}";
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(time, style: editableValueTextStyle),
+                                Text(date),
+                              ],
+                            );
+                          }
+                          return Text(context.localization!.none);
+                        }),
                       ),
                     ),
                   ),
@@ -239,7 +255,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               ),
               const SizedBox(height: distanceSmall),
               Consumer<TaskController>(
-                builder: (_, taskController, __) => LoadingAndErrorWidget(
+                builder: (_, taskController, __) => LoadingAndErrorWidget.pulsing(
                   state: taskController.state,
                   child: _SheetListTile(
                     icon: Icons.lock,
@@ -260,7 +276,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               ),
               const SizedBox(height: distanceTiny),
               Consumer<TaskController>(
-                builder: (_, taskController, __) => LoadingAndErrorWidget(
+                builder: (_, taskController, __) => LoadingAndErrorWidget.pulsing(
                   state: taskController.state,
                   child: TextFormField(
                     initialValue: taskController.task.notes,
@@ -281,7 +297,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               const SizedBox(height: distanceBig),
               // TODO add callback here for task creation to update the Task accordingly
               Consumer<TaskController>(
-                builder: (_, taskController, __) => LoadingAndErrorWidget(
+                builder: (_, taskController, __) => LoadingAndErrorWidget.pulsing(
                   state: taskController.state,
                   child: SubtaskList(
                     taskId: taskController.task.id,
