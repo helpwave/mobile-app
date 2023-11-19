@@ -7,8 +7,6 @@ import 'package:helpwave_proto_dart/proto/services/user_svc/v1/organization_svc.
 import 'package:helpwave_proto_dart/proto/services/user_svc/v1/user_svc.pbgrpc.dart';
 import 'package:tasks/config/config.dart';
 import 'package:tasks/services/current_ward_svc.dart';
-
-import 'current_ward_svc.dart';
 import 'user_session_service.dart';
 
 /// The Underlying GrpcService it provides other clients and the correct metadata for the requests
