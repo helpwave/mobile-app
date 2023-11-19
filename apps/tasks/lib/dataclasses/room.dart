@@ -11,12 +11,12 @@ class RoomMinimal {
   });
 }
 
-class RoomWithBed {
+class RoomWithBeds {
   String id;
   String name;
-  List<BedMinimal> bed;
+  List<BedMinimal> beds;
 
-  RoomWithBed({required this.id, required this.name, required this.bed});
+  RoomWithBeds({required this.id, required this.name, required this.beds});
 }
 
 class RoomWithBedFlat {

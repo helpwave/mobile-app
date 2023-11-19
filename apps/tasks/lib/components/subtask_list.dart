@@ -1,15 +1,14 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/lists.dart';
+import 'package:provider/provider.dart';
+import 'package:tasks/controllers/subtask_list_controller.dart';
 import 'package:tasks/dataclasses/subtask.dart';
 import 'package:tasks/dataclasses/task.dart';
 
 /// A [Widget] for displaying an updating a [List] of [SubTask]s
-class SubtaskList extends StatefulWidget {
-  // TODO change this here to make an exclusive choice between taskId and subtasks
-  // Subtasks should only be used for Task creation and taskId when the task already exists
+class SubtaskList extends StatelessWidget {
   /// The identifier of the [Task] to which all of these [SubTask]s belong
   final String taskId;
 
@@ -23,73 +22,56 @@ class SubtaskList extends StatefulWidget {
 
   const SubtaskList({
     super.key,
-    required this.taskId,
-    required this.subtasks,
+    this.taskId = "",
+    this.subtasks = const [],
     required this.onChange,
   });
-
-  @override
-  State<StatefulWidget> createState() => _SubtaskListState();
-}
-
-class _SubtaskListState extends State<SubtaskList> {
-  List<SubTask> subtasks = [];
-
-  @override
-  void initState() {
-    subtasks = [...widget.subtasks];
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     const double sizeForSubtasks = 200;
 
-    return AddList(
-      maxHeight: sizeForSubtasks,
-      items: subtasks,
-      title: Text(
-        context.localization!.subtasks,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-      ),
-      onAdd: () {
-        // TODO insert grpc request here
-        subtasks = [
-          ...subtasks,
-          SubTask(id: Random().nextDouble().toString(), name: "Subtask ${subtasks.length + 1}"),
-        ];
-        setState(() {});
-        widget.onChange(subtasks);
-      },
-      itemBuilder: (context, _, subtask) => ListTile(
-        contentPadding: EdgeInsets.zero,
-        title: Text(subtask.name),
-        leading: Checkbox(
-          visualDensity: VisualDensity.compact,
-          value: subtask.isDone,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(iconSizeSmall),
+    return ChangeNotifierProvider(
+      create: (context) => SubtasksController(taskId: taskId, subtasks: subtasks),
+      child: Consumer<SubtasksController>(builder: (context, subtasksController, __) {
+        return AddList(
+          maxHeight: sizeForSubtasks,
+          items: subtasksController.subtasks,
+          title: Text(
+            context.localization!.subtasks,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
-          onChanged: (value) {
-            // TODO insert grpc request here
-            setState(() {
-              subtask.isDone = value ?? false;
-            });
-          },
-        ),
-        trailing: GestureDetector(
-          onTap: () {
-            // TODO insert grpc request here
-            setState(() {
-              subtasks = subtasks.where((element) => element.id != subtask.id).toList();
-            });
-          },
-          child: Text(
-            context.localization!.delete,
-            style: const TextStyle(color: negativeColor),
+          onAdd: () => subtasksController
+              .add(SubTask(id: "", name: "Subtask ${subtasksController.subtasks.length + 1}"))
+              .then((_) => onChange(subtasksController.subtasks)),
+          itemBuilder: (context, _, subtask) => ListTile(
+            contentPadding: EdgeInsets.zero,
+            // TODO make this editable
+            title: Text(subtask.name),
+            leading: Checkbox(
+              visualDensity: VisualDensity.compact,
+              value: subtask.isDone,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(iconSizeSmall),
+              ),
+              onChanged: (value) => subtasksController
+                  .changeStatus(subTask: subtask, value: value ?? false)
+                  .then((value) => onChange(subtasksController.subtasks)),
+            ),
+            trailing: GestureDetector(
+              onTap: () {
+                subtasksController
+                    .deleteByIndex(subtasksController.subtasks.indexWhere((element) => element.id == subtask.id))
+                    .then((value) => onChange(subtasksController.subtasks));
+              },
+              child: Text(
+                context.localization!.delete,
+                style: const TextStyle(color: negativeColor),
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

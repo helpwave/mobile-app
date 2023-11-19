@@ -147,6 +147,7 @@
   "public": "Public",
   "private": "Private",
   "assignee": "Assignee",
+  "assignBed": "Assign bed",
   "loginFailed": "Login failed",
   "selectWard": "Select Ward",
   "ward": "Ward",

@@ -52,6 +52,7 @@ class AuthenticationService {
   /// The storage in which to save the tokens
   final storage = const FlutterSecureStorage();
 
+  /// A Logger for logging
   final Logger _logger = Logger();
 
   /// The url used to discover the service
@@ -115,6 +116,7 @@ class AuthenticationService {
     } catch (e) {
       return null;
     }
+
     return _toIdentity(credential, userInfo);
   }
 

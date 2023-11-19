@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:tasks/dataclasses/patient.dart';
+import 'package:tasks/services/current_ward_svc.dart';
 import 'package:tasks/services/patient_svc.dart';
 import 'package:tasks/util/search_helpers.dart';
 
@@ -73,7 +74,8 @@ class WardPatientsController extends ChangeNotifier {
     state = LoadingState.loading;
     notifyListeners();
 
-    _patientsByAssignmentStatus = await PatientService().getPatientList();
+    _patientsByAssignmentStatus =
+        await PatientService().getPatientList(wardId: CurrentWardService().currentWard?.wardId);
     state = LoadingState.loaded;
     notifyListeners();
   }
