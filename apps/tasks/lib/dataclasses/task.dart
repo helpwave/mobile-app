@@ -23,6 +23,8 @@ class Task {
 
   static get empty => Task(id: "", name: "name", notes: "");
 
+  final _nullID = "00000000-0000-0000-0000-000000000000";
+
   double get progress => subtasks.isNotEmpty
       ? subtasks.where((element) => element.isDone).length / subtasks.length
       : 1;
@@ -41,7 +43,7 @@ class Task {
 
   bool get isCreating => id == "";
 
-  bool get hasAssignee => assignee != null && assignee != "";
+  bool get hasAssignee => assignee != null && assignee != "" && assignee != _nullID;
 
   Task({
     required this.id,

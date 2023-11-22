@@ -185,7 +185,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                       label: context.localization!.assignedTo,
                       onTap: () => showModalBottomSheet(
                         context: context,
-                        builder: (BuildContext context) => LoadingAndErrorWidget.pulsing(
+                        builder: (BuildContext context) => LoadingAndErrorWidget(
                           state: taskController.state,
                           child: ChangeNotifierProvider(
                             create: (BuildContext context) => AssigneeSelectController(
@@ -225,7 +225,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                     );
                   }),
                   Consumer<TaskController>(
-                    builder: (context, taskController, __) => LoadingAndErrorWidget(
+                    builder: (context, taskController, __) => LoadingAndErrorWidget.pulsing(
                       state: taskController.state,
                       child: _SheetListTile(
                         icon: Icons.access_time,
