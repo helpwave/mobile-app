@@ -1,0 +1,52 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Get certificates"
+  lane :certificates do
+    sync_code_signing(
+      type: "development",
+      app_identifier: ['de.helpwave.tasks'],
+      force_for_new_devices: true,
+      readonly: true
+    )
+
+    sync_code_signing(
+      type: "appstore",
+      app_identifier: 'de.helpwave.tasks',
+      readonly: true
+    )
+  end
+
+  desc "Generate certificates"
+  lane :generate_certificates do
+    sync_code_signing(
+      type: "development",
+      app_identifier: ['de.helpwave.tasks'],
+      force_for_new_devices: true,
+      readonly: false
+    )
+
+    sync_code_signing(
+      type: "appstore",
+      app_identifier: ['de.helpwave.tasks'],
+      force_for_new_devices: true,
+      readonly: false
+    )
+  end
+
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    sync_code_signing(
+      type: "appstore",
+      app_identifier: 'de.helpwave.tasks',
+      readonly: true
+    )
+    #increment_build_number(xcodeproj: "Runner.xcodeproj")
+    build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
+    app_store_connect_api_key(
+      is_key_content_base64: true,
+      in_house: false, # if it is enterprise or not
+    )
+    upload_to_testflight
+  end
+end
