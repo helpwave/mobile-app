@@ -50,10 +50,9 @@ class UserController extends ChangeNotifier {
   /// A function to load the [User]
   load() async {
     state = LoadingState.loading;
-    await UserService().getUser(id: user.id).then((value) => {user = value}).catchError((error, stackTrace) {
+    await UserService().getUser(id: user.id).then((value) {user = value;}).catchError((error, stackTrace) {
       errorMessage = error.toString();
       state = LoadingState.error;
-      return <User>{};
     });
   }
 }

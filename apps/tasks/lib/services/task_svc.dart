@@ -16,12 +16,10 @@ class TaskService {
 
   /// Loads the [Task]s by a [Patient] identifier
   Future<List<Task>> getTasksByPatient({String? patientId}) async {
-    GetTasksByPatientRequest request =
-      GetTasksByPatientRequest(patientId: patientId);
+    GetTasksByPatientRequest request = GetTasksByPatientRequest(patientId: patientId);
     GetTasksByPatientResponse response = await taskService.getTasksByPatient(
       request,
-      options:
-        CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
     );
 
     return response.tasks
@@ -45,15 +43,14 @@ class TaskService {
   }
 
   /// Loads the [Task]s by it's identifier
-  Future<Task> getTask({String? id}) async {
+  Future<TaskWithPatient> getTask({String? id}) async {
     GetTaskRequest request = GetTaskRequest(id: id);
     GetTaskResponse response = await taskService.getTask(
       request,
-      options:
-          CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
     );
 
-    return Task(
+    return TaskWithPatient(
       id: response.id,
       name: response.name,
       notes: response.description,
@@ -61,6 +58,7 @@ class TaskService {
       status: taskStatusMapping[response.status]!,
       assignee: response.assignedUserId,
       dueDate: response.dueAt.toDateTime(),
+      patient: PatientMinimal(id: response.patient.id, name: response.patient.name),
       subtasks: response.subtasks
           .map((subtask) => SubTask(
                 id: subtask.id,
@@ -76,18 +74,16 @@ class TaskService {
     AssignTaskToUserRequest request = AssignTaskToUserRequest(id: taskId, userId: userId);
     AssignTaskToUserResponse response = await taskService.assignTaskToUser(
       request,
-      options:
-      CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
     );
 
-    if(!response.isInitialized()){
+    if (!response.isInitialized()) {
       // Handle error
     }
   }
 
   /// Add a [SubTask] to a [Task]
-  Future<SubTask> addSubTask(
-      {required String taskId, required SubTask subTask}) async {
+  Future<SubTask> addSubTask({required String taskId, required SubTask subTask}) async {
     AddSubTaskRequest request = AddSubTaskRequest(
       taskId: taskId,
       name: subTask.name,
@@ -95,8 +91,7 @@ class TaskService {
     );
     AddSubTaskResponse response = await taskService.addSubTask(
       request,
-      options:
-      CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
     );
 
     return SubTask(
@@ -111,8 +106,7 @@ class TaskService {
     RemoveSubTaskRequest request = RemoveSubTaskRequest(id: id);
     RemoveSubTaskResponse response = await taskService.removeSubTask(
       request,
-      options:
-      CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
     );
 
     return response.isInitialized();
@@ -123,8 +117,7 @@ class TaskService {
     SubTaskToDoneRequest request = SubTaskToDoneRequest(id: id);
     SubTaskToDoneResponse response = await taskService.subTaskToDone(
       request,
-      options:
-      CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
     );
 
     return response.isInitialized();
@@ -135,8 +128,7 @@ class TaskService {
     SubTaskToToDoRequest request = SubTaskToToDoRequest(id: id);
     SubTaskToToDoResponse response = await taskService.subTaskToToDo(
       request,
-      options:
-      CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
     );
 
     return response.isInitialized();
@@ -162,8 +154,7 @@ class TaskService {
     );
     UpdateSubTaskResponse response = await taskService.updateSubTask(
       request,
-      options:
-      CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
     );
 
     return response.isInitialized();

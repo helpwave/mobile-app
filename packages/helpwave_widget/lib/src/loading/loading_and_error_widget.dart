@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/loading.dart';
 
 enum LoadingState {
@@ -47,6 +48,27 @@ class LoadingAndErrorWidget extends StatelessWidget {
     this.initialWidget = const SizedBox(),
     this.unspecifiedWidget,
   });
+
+  factory LoadingAndErrorWidget.pulsing({
+    Key? key,
+    required LoadingState state,
+    required Widget child,
+    Widget loadingWidget = const PulsingContainer(),
+    Widget errorWidget = const PulsingContainer(
+      maxOpacity: 1,
+      minOpacity: 1,
+      color: negativeColor,
+    ),
+    Widget? unspecifiedWidget,
+  }) =>
+      LoadingAndErrorWidget(
+        key: key,
+        state: state,
+        loadingWidget: loadingWidget,
+        errorWidget: errorWidget,
+        unspecifiedWidget: unspecifiedWidget,
+        child: child,
+      );
 
   @override
   Widget build(BuildContext context) {

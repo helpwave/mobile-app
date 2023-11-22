@@ -16,7 +16,11 @@ class UserService {
     ReadPublicProfileRequest request = ReadPublicProfileRequest(id: id);
     ReadPublicProfileResponse response = await userService.readPublicProfile(
       request,
-      options: CallOptions(metadata: GRPCClientService().getUserServiceMetaData()),
+      options: CallOptions(
+        metadata: GRPCClientService().getUserServiceMetaData(
+          organizationId: GRPCClientService().fallbackOrganizationId,
+        ),
+      ),
     );
 
     return User(

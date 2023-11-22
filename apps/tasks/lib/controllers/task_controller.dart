@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_widget/loading.dart';
+import '../dataclasses/patient.dart';
 import '../dataclasses/task.dart';
 import '../services/task_svc.dart';
 
@@ -17,15 +18,11 @@ class TaskController extends ChangeNotifier {
   /// Saves whether we are currently creating of a Task or already have them
   bool _isCreating = false;
 
-  /// When Creating a new [TaskWithPatient] remember whether the Patient existed on Creation
-  bool _hasInitialPatient = false;
-
   TaskController(this._task) {
     _isCreating = _task.id == "";
     if (!_isCreating) {
       load();
     } else {
-      _hasInitialPatient = !task.patient.isCreating;
       state = LoadingState.unspecified;
     }
   }
@@ -51,23 +48,19 @@ class TaskController extends ChangeNotifier {
     state = LoadingState.loaded;
   }
 
-  get isCreating => _isCreating;
+  bool get isCreating => _isCreating;
 
-  get hasInitialPatient => _hasInitialPatient;
-
-  get patient => task.patient;
+  PatientMinimal get patient => task.patient;
 
   /// A function to load the [Task]
   load() async {
     state = LoadingState.loading;
     await TaskService()
         .getTask(id: task.id)
-        // TODO update one get Task returns the patient
         .then((value) {
-          task = TaskWithPatient.fromTaskAndPatient(task: task);
-          state = LoadingState.loaded;
-        })
-        .catchError((error, stackTrace) {
+      task = value;
+      state = LoadingState.loaded;
+    }).catchError((error, stackTrace) {
       errorMessage = error.toString();
       state = LoadingState.error;
     });
