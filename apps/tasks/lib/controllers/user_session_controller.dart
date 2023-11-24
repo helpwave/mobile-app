@@ -9,6 +9,10 @@ class UserSessionController extends ChangeNotifier {
   /// Whether the user is logged in
   get isLoggedIn => _service.isLoggedIn;
 
+  /// Identity of the current user
+  get identity => _service.identity;
+
+
   /// Whether the stored token have already been tried for authentication
   get hasTriedTokens => _service.hasTriedTokens;
 
