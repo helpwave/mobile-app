@@ -1,0 +1,58 @@
+name: Deploy tasks to TestFlight
+
+env:
+  RUBY_VERSION: '2.6.10'
+  FLUTTER_VERSION: '3.13.0'
+  MELOS_VERSION: '3.0.0'
+
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - 'v*'
+  pull_request:
+
+jobs:
+
+  beta:
+    runs-on: macos-13
+    environment: 'tasks (iOS: TestFlight)'
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.0.1'
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - uses: bluefireteam/melos-action@v1
+        with:
+          melos-version: ${{ env.MELOS_VERSION }}
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.HELPWAVE_BOT_GITHUB_SSH_KEY }}
+
+      - run: bundle install
+        working-directory: apps/tasks/ios
+
+      - name: fastlane beta
+        run: bundle exec fastlane beta
+        working-directory: apps/tasks/ios
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_USERNAME: ${{ secrets.MATCH_USERNAME }}
+          APP_STORE_CONNECT_API_KEY_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY_ID }}
+          APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY }}
