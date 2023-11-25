@@ -1,0 +1,28 @@
+default_platform(:android)
+
+def latest_google_play_version_code
+  productionVersionCodes = google_play_track_version_codes(track: 'production')
+  betaVersionCodes = google_play_track_version_codes(track: 'beta')
+  alphaVersionCodes = google_play_track_version_codes(track: 'alpha')
+  internalVersionCodes = google_play_track_version_codes(track: 'internal')
+
+  # puts version codes from all tracks into the same array
+  versionCodes = [
+    productionVersionCodes,
+    betaVersionCodes,
+    alphaVersionCodes,
+    internalVersionCodes
+  ].reduce([], :concat)
+
+  # returns the highest version code from array
+  return versionCodes.max
+end
+
+platform :android do
+  lane :internal do
+    new_version_code = latest_google_play_version_code + 1
+
+    gradle(task: "clean bundle", build_type: "Release", properties: { "versionCode" => new_version_code })
+    upload_to_play_store(track: "internal", skip_upload_metadata: true, skip_upload_changelogs: true, aab: "../build/app/outputs/bundle/release/app-release.aab")
+  end
+end

@@ -1,5 +1,5 @@
  def keystoreProperties = new Properties()
- def keystorePropertiesFile = rootProject.file('key.properties')
+ def keystorePropertiesFile = rootProject.file('keystore.properties')
  if (keystorePropertiesFile.exists()) {
      keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
  }
@@ -64,7 +64,7 @@ android {
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion versionProperties.getProperty('flutter.minSdkVersion').toInteger()
         targetSdkVersion versionProperties.getProperty('flutter.targetSdkVersion').toInteger()
-        versionCode flutterVersionCode.toInteger()
+        versionCode project.hasProperty('versionCode') ? project.versionCode.toInteger() : flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
     }
