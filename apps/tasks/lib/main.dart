@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => UserSessionController(),
-        )
+        ),
       ],
       child: Consumer2<ThemeModel, LanguageModel>(
           builder: (_, ThemeModel themeNotifier, LanguageModel languageNotifier, __) {
