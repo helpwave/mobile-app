@@ -46,7 +46,16 @@ class SubtaskList extends StatelessWidget {
               .then((_) => onChange(subtasksController.subtasks)),
           itemBuilder: (context, _, subtask) => ListTile(
             contentPadding: EdgeInsets.zero,
-            // TODO make this editable
+            // Open a BottomSheet to get the new subtask-name as input
+            onTap: () => showDialog<String>(
+              context: context,
+              builder: (context) => SubTaskChangeDialog(initialName: subtask.name),
+            ).then((value) {
+              if (value != null) {
+                subtask.name = value;
+                subtasksController.updateSubtask(subTask: subtask);
+              }
+            }),
             title: Text(subtask.name),
             leading: Checkbox(
               visualDensity: VisualDensity.compact,
@@ -72,6 +81,67 @@ class SubtaskList extends StatelessWidget {
           ),
         );
       }),
+    );
+  }
+}
+
+/// A [BottomSheet] for updating a subtask
+class SubTaskChangeDialog extends StatefulWidget {
+  /// The initial value for the [TextFormField] to change the name
+  final String initialName;
+
+  const SubTaskChangeDialog({super.key, required this.initialName});
+
+  @override
+  State<StatefulWidget> createState() => _SubTaskChangeDialogState();
+}
+
+class _SubTaskChangeDialogState extends State<SubTaskChangeDialog> {
+  String? updatedName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(borderRadiusMedium))),
+      child: Padding(
+        padding: const EdgeInsets.all(distanceMedium),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Center(
+              child: Text(
+                context.localization!.changeSubtask,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: distanceDefault),
+            TextFormField(
+              decoration: InputDecoration(labelText: context.localization!.subtaskName),
+              initialValue: widget.initialName,
+              onChanged: (value) => updatedName = value,
+            ),
+            const SizedBox(height: distanceDefault),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context, null),
+                  style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(negativeColor)),
+                  child: Text(context.localization!.cancel),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(context, updatedName),
+                  style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(primaryColor)),
+                  child: Text(context.localization!.update),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
