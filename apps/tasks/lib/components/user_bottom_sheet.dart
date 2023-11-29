@@ -4,6 +4,7 @@ import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
+import 'package:tasks/controllers/user_session_controller.dart';
 import 'package:tasks/services/current_ward_svc.dart';
 
 import '../dataclasses/ward.dart';
@@ -23,8 +24,8 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
 
-    return Consumer<ThemeModel>(
-      builder: (BuildContext context, ThemeModel themeNotifier, __) {
+    return Consumer2<ThemeModel, UserSessionController>(
+      builder: (BuildContext context, ThemeModel themeNotifier, UserSessionController userSessionController,  _) {
         return BottomSheet(
           animationController: AnimationController(
             vsync: Navigator.of(context),
@@ -104,10 +105,9 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
                           ),
                         ),
                       ),
-                      // TODO get current user
-                      const Text(
-                        "Max Mustermann",
-                        style: TextStyle(fontSize: fontSizeBig),
+                      Text(
+                        userSessionController.identity!.name,
+                        style: const TextStyle(fontSize: fontSizeBig),
                       ),
                       // TODO consider a loading widget here
                       Consumer<CurrentWardController>(
