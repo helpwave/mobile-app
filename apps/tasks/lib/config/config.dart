@@ -4,7 +4,7 @@ const minimumPasswordCharacters = 6;
 /// Whether the development mode should be enabled
 ///
 /// Shortens the login
-const bool DEV_MODE = true;
+const bool DEV_MODE = false;
 
 /// The API for testing
 const String STAGING_API_URL = "staging.api.helpwave.de";
