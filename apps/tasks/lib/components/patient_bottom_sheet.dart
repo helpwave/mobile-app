@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
+import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/lists.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
@@ -52,7 +53,8 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
         builder: (BuildContext context, ThemeModel themeNotifier, PatientController patientController, __) {
           Patient patient = patientController.patient;
           return SingleChildScrollView(
-            child: BottomSheet(
+            child: BottomSheetBase(
+              titleText: patient.name,
               onClosing: () {
                 // TODO handle this
               },
@@ -61,77 +63,44 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: paddingMedium),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                constraints: const BoxConstraints(maxWidth: iconSizeTiny, maxHeight: iconSizeTiny),
-                                padding: EdgeInsets.zero,
-                                iconSize: iconSizeTiny,
-                                onPressed: () => Navigator.maybePop(context),
-                                icon: const Icon(Icons.close_rounded),
-                              ),
-                              Flexible(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: paddingOffset),
-                                  child: Text(
-                                    patient.name,
-                                    style: const TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontSize: fontSizeBig,
-                                    ),
-                                  ),
+                    Center(
+                      child: LoadingFutureBuilder(
+                        future: loadRoomsWithBeds(patientController.patient.id),
+                        // TODO use a better loading widget
+                        loadingWidget: const SizedBox(),
+                        thenWidgetBuilder: (context, beds) {
+                          return DropdownButtonHideUnderline(
+                            child: DropdownButton<RoomWithBedFlat>(
+                              padding: EdgeInsets.zero,
+                              isDense: true,
+                              hint: Text(context.localization!.assignBed),
+                              value: patient.bed != null && patient.room != null
+                                  ? RoomWithBedFlat(room: patient.room!, bed: patient.bed!)
+                                  : null,
+                              items: beds
+                                  .map((roomWithBed) => DropdownMenuItem(
+                                value: roomWithBed,
+                                child: Text(
+                                  "${roomWithBed.room.name} - ${roomWithBed.bed.name}",
+                                  style: const TextStyle(color: Colors.grey),
                                 ),
-                              ),
-                              const SizedBox(width: iconSizeTiny),
-                            ],
-                          ),
-                          Center(
-                            child: LoadingFutureBuilder(
-                              future: loadRoomsWithBeds(patientController.patient.id),
-                              // TODO use a better loading widget
-                              loadingWidget: const SizedBox(),
-                              thenWidgetBuilder: (context, beds) {
-                                return DropdownButtonHideUnderline(
-                                  child: DropdownButton<RoomWithBedFlat>(
-                                    padding: EdgeInsets.zero,
-                                    isDense: true,
-                                    hint: Text(context.localization!.assignBed),
-                                    value: patient.bed != null && patient.room != null
-                                        ? RoomWithBedFlat(room: patient.room!, bed: patient.bed!)
-                                        : null,
-                                    items: beds
-                                        .map((roomWithBed) => DropdownMenuItem(
-                                              value: roomWithBed,
-                                              child: Text(
-                                                "${roomWithBed.room.name} - ${roomWithBed.bed.name}",
-                                                style: const TextStyle(color: Colors.grey),
-                                              ),
-                                            ))
-                                        .toList(),
-                                    onChanged: (RoomWithBedFlat? value) {
-                                      // TODO later unassign here
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      patientController.changeBed(bedId: value.bed.id).then((_) {
-                                        patientController.updatePatient((patient) {
-                                          patient.room = value.room;
-                                          patient.bed = value.bed;
-                                        });
-                                      });
-                                    },
-                                  ),
-                                );
+                              ))
+                                  .toList(),
+                              onChanged: (RoomWithBedFlat? value) {
+                                // TODO later unassign here
+                                if (value == null) {
+                                  return;
+                                }
+                                patientController.changeBed(bedId: value.bed.id).then((_) {
+                                  patientController.updatePatient((patient) {
+                                    patient.room = value.room;
+                                    patient.bed = value.bed;
+                                  });
+                                });
                               },
                             ),
-                          )
-                        ],
+                          );
+                        },
                       ),
                     ),
                     Text(

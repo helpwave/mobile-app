@@ -133,7 +133,7 @@ class _PatientScreenState extends State<PatientScreen> {
                                   onClick: () => showModalBottomSheet(
                                     context: context,
                                     builder: (context) => PatientBottomSheet(patentId: patient.id),
-                                  ),
+                                  ).then((_) => patientController.load()),
                                   patient: patient,
                                   margin: const EdgeInsets.symmetric(vertical: paddingTiny),
                                 ),
