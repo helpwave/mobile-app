@@ -1,0 +1,75 @@
+name: Deploy tasks to Google Play
+
+env:
+  RUBY_VERSION: '2.6.10'
+  FLUTTER_VERSION: '3.13.0'
+  MELOS_VERSION: '3.0.0'
+
+on:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - 'v*'
+
+jobs:
+
+  beta:
+    runs-on: ubuntu-latest
+    environment: 'tasks (Google Play: Internal)'
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - uses: bluefireteam/melos-action@v1
+        with:
+          melos-version: ${{ env.MELOS_VERSION }}
+
+      - uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 7.6
+
+      - run: bundle install
+        working-directory: apps/tasks/android
+
+      - name: Configure Keystore
+        working-directory: apps/tasks/android
+        run: |
+          echo "$KEYSTORE_FILE" > keystore.jks.b64
+          base64 -d -i keystore.jks.b64 > app/keystore.jks
+          echo "storeFile=keystore.jks" >> keystore.properties
+          echo "keyAlias=$KEYSTORE_KEY_ALIAS" >> keystore.properties
+          echo "storePassword=$KEYSTORE_STORE_PASSWORD" >> keystore.properties
+          echo "keyPassword=$KEYSTORE_KEY_PASSWORD" >> keystore.properties
+        env:
+          KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}
+          KEYSTORE_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
+          KEYSTORE_STORE_PASSWORD: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
+          KEYSTORE_KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+
+      - name: Configure Google Play Service account
+        working-directory: apps/tasks/android
+        run: |
+          echo "$GOOGLE_PLAY_SERVICE_ACCOUNT_FILE" > google_play_service_account.json.b64
+          base64 -d -i google_play_service_account.json.b64 > google_play_service_account.json
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_FILE: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_FILE }}
+
+      - name: Setup project
+        run: |
+          melos run intl
+          gradle wrapper
+        working-directory: apps/tasks/android
+
+      - name: fastlane internal
+        run: bundle exec fastlane internal
+        working-directory: apps/tasks/android
