@@ -151,5 +151,9 @@
   "ward": "Station",
   "organization": "Organisation",
   "none": "None",
-  "switch_": "Wechseln"
+  "switch_": "Wechseln",
+  "changeSubtask": "Subtask Ändern",
+  "update": "ändern",
+  "cancel": "Abbrechen",
+  "subtaskName": "Subtask Name"
 }

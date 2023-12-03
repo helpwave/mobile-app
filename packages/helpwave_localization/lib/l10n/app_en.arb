@@ -153,5 +153,9 @@
   "ward": "Ward",
   "organization": "Organization",
   "none": "None",
-  "switch_": "Switch"
+  "switch_": "Switch",
+  "changeSubtask": "Change Subtask",
+  "update": "Update",
+  "cancel": "Cancel",
+  "subtaskName": "Subtask Name"
 }
