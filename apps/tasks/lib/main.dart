@@ -48,9 +48,8 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: getSupportedLocals(),
           locale: Locale(languageNotifier.language),
-          home: Container(
-            color: themeNotifier.getIsDarkNullSafe(context) ? Colors.white10 : Colors.white,
-            child: const SafeArea(child: LoginScreen()),
+          home: const Scaffold(
+            body: SafeArea(child: LoginScreen()),
           ),
         );
       }),
