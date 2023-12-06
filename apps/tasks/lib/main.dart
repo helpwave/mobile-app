@@ -48,8 +48,8 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: getSupportedLocals(),
           locale: Locale(languageNotifier.language),
-          home: const SafeArea(
-            child: LoginScreen(),
+          home: const Scaffold(
+            body: SafeArea(child: LoginScreen()),
           ),
         );
       }),
