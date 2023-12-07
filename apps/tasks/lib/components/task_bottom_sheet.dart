@@ -71,7 +71,7 @@ class _SheetListTile extends StatelessWidget {
               valueText != null
                   ? Text(
                       valueText!,
-                      style: editableValueTextStyle,
+                      style: editableValueTextStyle(context),
                     )
                   : valueWidget!,
             ],
@@ -132,8 +132,8 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               });
             },
             textAlign: TextAlign.center,
-            textStyle: const TextStyle(
-              color: primaryColor,
+            textStyle: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
               fontWeight: FontWeight.bold,
               fontSize: iconSizeTiny,
               fontFamily: "SpaceGrotesk",
@@ -212,14 +212,14 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                                     state: userController.state,
                                     child: Text(
                                       userController.user.name,
-                                      style: editableValueTextStyle,
+                                      style: editableValueTextStyle(context),
                                     ),
                                   ),
                                 ),
                               )
                             : Text(
                                 context.localization!.unassigned,
-                                style: editableValueTextStyle,
+                                style: editableValueTextStyle(context),
                               ),
                       ),
                     );
@@ -241,7 +241,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(time, style: editableValueTextStyle),
+                                Text(time, style: editableValueTextStyle(context)),
                                 Text(date),
                               ],
                             );
@@ -264,7 +264,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                       isPublicVisible: taskController.task.isPublicVisible,
                       onChanged: (value) => taskController.changeIsPublic(isPublic: value),
                       isCreating: taskController.isCreating,
-                      textStyle: editableValueTextStyle,
+                      textStyle: editableValueTextStyle(context),
                     ),
                   ),
                 ),

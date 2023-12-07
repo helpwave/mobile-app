@@ -12,15 +12,15 @@ class _DefaultAddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     const double subtaskAddIconSize = 21;
     return Circle(
-      color: primaryColor,
+      color: Theme.of(context).colorScheme.secondary,
       diameter: subtaskAddIconSize,
       child: IconButton(
         padding: EdgeInsets.zero,
         iconSize: subtaskAddIconSize,
         onPressed: onClick,
-        icon: const Icon(
+        icon: Icon(
           Icons.add_rounded,
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.onSecondary,
         ),
       ),
     );

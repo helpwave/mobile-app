@@ -32,6 +32,8 @@ class TaskExpansionTile extends StatelessWidget {
         listTileTheme: Theme.of(context).listTileTheme.copyWith(minLeadingWidth: 0, horizontalTitleGap: paddingSmall),
       ),
       child: ExpansionTile(
+        iconColor: Theme.of(context).colorScheme.primary.withOpacity(0.8),
+        collapsedIconColor: Theme.of(context).colorScheme.primary.withOpacity(0.8),
         textColor: color,
         collapsedTextColor: color,
         initiallyExpanded: true,

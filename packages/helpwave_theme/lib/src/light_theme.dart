@@ -1,23 +1,53 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
 
+const primaryColor = Color.fromARGB(255, 0, 0, 0);
+const onPrimaryColor = Color.fromARGB(255, 255, 255, 255);
+const inversePrimaryColor = Color.fromARGB(255, 210, 210, 210);
+const secondaryColor = Color.fromARGB(255, 105, 75, 180);
+const onSecondaryColor = Color.fromARGB(255, 255, 255, 255);
+const tertiary = Color.fromARGB(255, 180, 180, 180);
+const onTertiary = Color.fromARGB(255, 0, 0, 0);
+
+const backgroundColor = Color.fromARGB(255, 230, 230, 230);
+const onBackgroundColor = Color.fromARGB(255, 0, 0, 0);
+
+const surface = Color.fromARGB(255, 210, 210, 210);
+const onSurface = Color.fromARGB(255, 0, 0, 0);
+const surfaceVariant = Color.fromARGB(255, 170, 170, 170);
+const onSurfaceVariant = Color.fromARGB(255, 0, 0, 0);
+const inverseSurface = Color.fromARGB(255, 120, 120, 120);
+const onInverseSurface = Color.fromARGB(255, 255, 255, 255);
+
+const primaryContainer = Color.fromARGB(255, 200, 200, 200);
+const onPrimaryContainer = Color.fromARGB(255, 0, 0, 0);
+const secondaryContainer = Color.fromARGB(255, 160, 160, 160);
+const onSecondaryContainer = Color.fromARGB(255, 0, 0, 0);
+const tertiaryContainer = Color.fromARGB(255, 120, 120, 120);
+const onTertiaryContainer = Color.fromARGB(255, 255, 255, 255);
+
+const surfaceTint = Colors.transparent;
+const shadow = Color.fromARGB(255, 60, 60, 60);
+const outline = Color.fromARGB(255, 30, 30, 30);
+const disabledColor = Color.fromARGB(255, 100, 100, 100);
 const focusedColor = Color.fromARGB(255, 30, 30, 30);
 const defaultColor = Color.fromARGB(255, 120, 120, 120);
-const backgroundColor = Color.fromARGB(255, 255, 255, 255);
 
 /// Theme data for Light-Theme
 ThemeData lightTheme = ThemeData(
-  disabledColor: const Color.fromARGB(255, 100, 100, 100),
-  scaffoldBackgroundColor: backgroundColor,
+  useMaterial3: true,
+  disabledColor: disabledColor,
   textSelectionTheme: const TextSelectionThemeData(
     cursorColor: Colors.blue,
     selectionHandleColor: Colors.blueAccent,
   ),
+  scaffoldBackgroundColor: backgroundColor,
   bottomSheetTheme: const BottomSheetThemeData(
     backgroundColor: backgroundColor,
     modalBackgroundColor: backgroundColor,
   ),
   inputDecorationTheme: InputDecorationTheme(
+    hintStyle: const TextStyle(color: Color.fromARGB(255, 100, 100, 100)),
     focusColor: focusedColor,
     focusedBorder: defaultOutlineInputBorder.copyWith(borderSide: const BorderSide(color: focusedColor)),
     enabledBorder: defaultOutlineInputBorder.copyWith(borderSide: const BorderSide(color: defaultColor)),
@@ -57,74 +87,80 @@ ThemeData lightTheme = ThemeData(
   ),
   appBarTheme: const AppBarTheme(
     centerTitle: true,
-    backgroundColor: Color.fromARGB(0, 0, 0, 0),
-    shadowColor: Color.fromARGB(0, 0, 0, 0),
+    foregroundColor: primaryColor,
+    backgroundColor: Colors.transparent,
+    shadowColor: Colors.transparent,
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: buttonStyle.copyWith(
-      backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 255, 51, 51)),
-      foregroundColor: MaterialStateProperty.all<Color>(
-        const Color.fromARGB(255, 255, 255, 255),
-      ),
+      backgroundColor: const MaterialStatePropertyAll(secondaryColor),
+      foregroundColor: const MaterialStatePropertyAll(onSecondaryColor),
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: buttonStyle.copyWith(
-      foregroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 0, 0, 0)),
-      backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 238, 238, 238)),
-      side: MaterialStateProperty.all<BorderSide>(
-        buttonBorderSide.copyWith(
-          color: const Color.fromARGB(255, 0, 0, 0),
-        ),
+      backgroundColor: const MaterialStatePropertyAll(backgroundColor),
+      side: MaterialStatePropertyAll(
+        buttonBorderSide.copyWith(color: focusedColor),
       ),
     ),
   ),
   textButtonTheme: TextButtonThemeData(
-    style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 140, 140, 140)),
-      foregroundColor: const MaterialStatePropertyAll(Color.fromARGB(255, 255, 255, 255)),
+    style: buttonStyle.copyWith(
+      backgroundColor: const MaterialStatePropertyAll(secondaryColor),
+      foregroundColor: const MaterialStatePropertyAll(onSecondaryColor),
     ),
   ),
   iconTheme: const IconThemeData(
     size: iconSizeSmall,
-    color: Color.fromARGB(255, 0, 0, 0),
+    color: primaryColor,
   ),
-  chipTheme: chipTheme,
+  chipTheme: chipTheme.copyWith(
+    selectedColor: secondaryColor,
+    secondaryLabelStyle: const TextStyle(color: onSecondaryColor), // The TextStyle for selection
+    labelStyle: const TextStyle(color: primaryColor),
+  ),
+  cardTheme: CardTheme(
+    elevation: 0,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(borderRadiusMedium),
+    ),
+  ),
   searchBarTheme: searchBarTheme,
-  expansionTileTheme: const ExpansionTileThemeData(textColor: Colors.black, iconColor: Colors.black),
+  expansionTileTheme: const ExpansionTileThemeData(textColor: Colors.white, iconColor: Colors.white),
   colorScheme: const ColorScheme(
     // General
-    brightness: Brightness.light,
-    outline: Color.fromARGB(255, 30, 30, 30),
-    shadow: Color.fromARGB(255, 60, 60, 60),
+    brightness: Brightness.dark,
+    outline: outline,
+    shadow: shadow,
     //Basic Colors
-    primary: Color.fromARGB(255, 255, 255, 255),
-    inversePrimary: Color.fromARGB(255, 30, 30, 30),
-    onPrimary: Color.fromARGB(255, 0, 0, 0),
-    background: Color.fromARGB(255, 153, 153, 153),
-    onBackground: Color.fromARGB(255, 0, 0, 0),
-    secondary: Color.fromARGB(255, 190, 190, 190),
-    onSecondary: Color.fromARGB(255, 0, 0, 0),
-    tertiary: Color.fromARGB(255, 153, 153, 153),
-    onTertiary: Color.fromARGB(255, 255, 255, 255),
+    primary: primaryColor,
+    inversePrimary: inversePrimaryColor,
+    onPrimary: onPrimaryColor,
+    background: backgroundColor,
+    onBackground: onBackgroundColor,
+    secondary: secondaryColor,
+    onSecondary: onSecondaryColor,
+    tertiary: tertiary,
+    onTertiary: onTertiary,
     error: errorColor,
-    onError: Color.fromARGB(255, 255, 255, 255),
+    onError: onErrorColor,
     // Surface
-    surfaceTint: Color.fromARGB(0, 0, 0, 0),
-    surface: Color.fromARGB(255, 100, 100, 100),
-    onSurface: Color.fromARGB(255, 0, 0, 0),
-    surfaceVariant: Color.fromARGB(255, 153, 153, 153),
-    onSurfaceVariant: Color.fromARGB(255, 255, 255, 255),
-    inverseSurface: Color.fromARGB(255, 153, 153, 153),
-    onInverseSurface: Color.fromARGB(255, 0, 0, 0),
+    surfaceTint: surfaceTint,
+    surface: surface,
+    onSurface: onSurface,
+    surfaceVariant: surfaceVariant,
+    onSurfaceVariant: onSurfaceVariant,
+    inverseSurface: inverseSurface,
+    onInverseSurface: onInverseSurface,
     // Container
-    primaryContainer: Color.fromARGB(255, 255, 51, 51),
-    onPrimaryContainer: Color.fromARGB(255, 255, 255, 255),
-    secondaryContainer: Color.fromARGB(255, 85, 85, 85),
-    onSecondaryContainer: Color.fromARGB(255, 255, 255, 255),
-    tertiaryContainer: Color.fromARGB(255, 0, 0, 0),
-    onTertiaryContainer: Color.fromARGB(255, 255, 255, 255),
+    primaryContainer: primaryContainer,
+    onPrimaryContainer: onPrimaryContainer,
+    secondaryContainer: secondaryContainer,
+    onSecondaryContainer: onSecondaryContainer,
+    tertiaryContainer: tertiaryContainer,
+    onTertiaryContainer: onTertiaryContainer,
     errorContainer: errorColor,
-    onErrorContainer: Color.fromARGB(255, 255, 255, 255),
+    onErrorContainer: onErrorColor,
   ),
 );

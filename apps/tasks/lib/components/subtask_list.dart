@@ -134,7 +134,6 @@ class _SubTaskChangeDialogState extends State<SubTaskChangeDialog> {
                 ),
                 TextButton(
                   onPressed: () => Navigator.pop(context, updatedName),
-                  style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(primaryColor)),
                   child: Text(context.localization!.update),
                 )
               ],

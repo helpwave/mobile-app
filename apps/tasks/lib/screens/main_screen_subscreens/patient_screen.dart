@@ -88,7 +88,7 @@ class _PatientScreenState extends State<PatientScreen> {
                                   padding: const EdgeInsets.all(paddingTiny),
                                   child: Container(
                                       decoration: BoxDecoration(
-                                        color: primaryColor,
+                                        color: Theme.of(context).colorScheme.secondary,
                                         borderRadius: BorderRadius.circular(borderRadiusMedium),
                                       ),
                                       padding: const EdgeInsets.symmetric(horizontal: paddingMedium),

@@ -71,20 +71,23 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                         thenWidgetBuilder: (context, beds) {
                           return DropdownButtonHideUnderline(
                             child: DropdownButton<RoomWithBedFlat>(
+                              iconEnabledColor: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
                               padding: EdgeInsets.zero,
                               isDense: true,
-                              hint: Text(context.localization!.assignBed),
+                              hint: Text(context.localization!.assignBed,
+                                  style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.6))),
                               value: patient.bed != null && patient.room != null
                                   ? RoomWithBedFlat(room: patient.room!, bed: patient.bed!)
                                   : null,
                               items: beds
                                   .map((roomWithBed) => DropdownMenuItem(
-                                value: roomWithBed,
-                                child: Text(
-                                  "${roomWithBed.room.name} - ${roomWithBed.bed.name}",
-                                  style: const TextStyle(color: Colors.grey),
-                                ),
-                              ))
+                                        value: roomWithBed,
+                                        child: Text(
+                                          "${roomWithBed.room.name} - ${roomWithBed.bed.name}",
+                                          style:
+                                              TextStyle(color: Theme.of(context).colorScheme.primary.withOpacity(0.6)),
+                                        ),
+                                      ))
                                   .toList(),
                               onChanged: (RoomWithBedFlat? value) {
                                 // TODO later unassign here
@@ -183,14 +186,6 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                                   onPressed: () {
                                     // TODO: implement create
                                   },
-                                  style: ButtonStyle(
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(borderRadiusMedium),
-                                      ),
-                                    ),
-                                    backgroundColor: MaterialStateProperty.all(primaryColor),
-                                  ),
                                   child: Text(context.localization!.create),
                                 )
                               ]
@@ -202,11 +197,6 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                                       // TODO: implement unassign
                                     },
                                     style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(borderRadiusMedium),
-                                        ),
-                                      ),
                                       backgroundColor: MaterialStateProperty.all(inProgressColor),
                                     ),
                                     child: Text(context.localization!.unassigne),

@@ -21,7 +21,7 @@ class LoadingSpinner extends StatelessWidget {
     this.text,
     this.size = iconSizeBig,
     this.width = 6,
-    this.color = primaryColor,
+    this.color,
   });
 
   @override
@@ -36,7 +36,7 @@ class LoadingSpinner extends StatelessWidget {
           child: CircularProgressIndicator(
             strokeWidth: width,
             semanticsLabel: text ?? context.localization!.loading,
-            color: color,
+            color: color ?? Theme.of(context).colorScheme.secondary,
           ),
         ),
         const SizedBox(height: distanceBig),
