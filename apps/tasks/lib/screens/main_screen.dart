@@ -45,29 +45,29 @@ class _MainScreenState extends State<MainScreen> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: isShowingActionButton ? _TaskPatientFloatingActionButton() : null,
         bottomNavigationBar: NavigationBar(
-          indicatorColor: primaryColor,
+          indicatorColor: Theme.of(context).colorScheme.secondary,
           backgroundColor: themeNotifier.getIsDarkNullSafe(context) ? Colors.white10 : Colors.white,
           destinations: [
             NavigationDestination(
-              selectedIcon: const Icon(
+              selectedIcon: Icon(
                 Icons.check_circle_outline,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               icon: const Icon(Icons.check_circle_outline),
               label: context.localization!.myTasks,
             ),
             NavigationDestination(
-              selectedIcon: const Icon(
+              selectedIcon: Icon(
                 Icons.add_circle_outline,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               icon: const Icon(Icons.add_circle_outline),
               label: context.localization!.addTask,
             ),
             NavigationDestination(
-              selectedIcon: const Icon(
+              selectedIcon: Icon(
                 Icons.person,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               icon: const Icon(Icons.person),
               label: context.localization!.patients,
@@ -109,16 +109,24 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(componentHeight / 2),
-        color: primaryColor,
+        borderRadius: BorderRadius.circular(componentHeight),
+        color: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
+        padding: const EdgeInsets.all(paddingSmall),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             ActionChip(
+              labelPadding: EdgeInsets.zero,
+              visualDensity: VisualDensity.compact,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              labelStyle: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              side: BorderSide.none,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(chipHeight), // Adjust the radius as needed
+              ),
               label: SizedBox(
                 width: chipWidth,
                 height: chipHeight,
@@ -136,6 +144,14 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
               width: distanceSmall,
             ),
             ActionChip(
+              labelPadding: EdgeInsets.zero,
+              visualDensity: VisualDensity.compact,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              labelStyle: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              side: BorderSide.none,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(chipHeight), // Adjust the radius as needed
+              ),
               label: SizedBox(
                 width: chipWidth,
                 height: chipHeight,

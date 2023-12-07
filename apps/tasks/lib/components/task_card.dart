@@ -73,10 +73,6 @@ class TaskCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: margin,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-        side: const BorderSide(color: Colors.grey, width: 2),
-      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: paddingSmall, horizontal: paddingMedium),
         child: Column(
@@ -86,12 +82,13 @@ class TaskCard extends StatelessWidget {
               children: [
                 StaticProgressIndicator(
                   progress: task.progress,
-                  color: primaryColor,
-                  backgroundColor: const Color.fromARGB(255, 210, 210, 210),
+                  color: Theme.of(context).colorScheme.secondary,
+                  backgroundColor: Theme.of(context).colorScheme.onSecondary.withOpacity(0.5),
                   isClockwise: true,
                   angle: 0,
                 ),
                 Chip(
+                  side: BorderSide.none,
                   backgroundColor: getBackgroundColor(),
                   label: Text(
                     getDueText(context),
@@ -113,7 +110,7 @@ class TaskCard extends StatelessWidget {
                     children: [
                       Text(
                         task.patient.name,
-                        style: const TextStyle(color: primaryColor),
+                        style: TextStyle(color: Theme.of(context).colorScheme.secondary),
                       ),
                       Text(
                         task.name,
@@ -123,14 +120,15 @@ class TaskCard extends StatelessWidget {
                           fontFamily: "SpaceGrotesk",
                         ),
                       ),
-                      Text(
+                      task.notes.isNotEmpty ? Text(
                         task.notes,
-                        style: const TextStyle(
-                            fontSize: 14,
-                            fontFamily: "SpaceGrotesk",
-                            overflow: TextOverflow.ellipsis,
-                            color: Color.fromARGB(255, 100, 100, 100)),
-                      ),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: "SpaceGrotesk",
+                          overflow: TextOverflow.ellipsis,
+                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                        ),
+                      ) : const SizedBox(),
                     ],
                   ),
                 ),
@@ -145,7 +143,7 @@ class TaskCard extends StatelessWidget {
                     size: iconSizeTiny,
                     Icons.check_circle_outline_rounded,
                     // TODO change colors later
-                    color: task.status == TaskStatus.done ? Colors.grey : primaryColor,
+                    color: task.status == TaskStatus.done ? Colors.grey : Theme.of(context).colorScheme.secondary,
                   ),
                 ),
               ],

@@ -28,17 +28,8 @@ class PatientCard extends StatelessWidget {
       onTap: onClick,
       child: Card(
         margin: margin,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            color: Colors.black.withOpacity(0.2),
-            width: 2,
-          ),
-          borderRadius: BorderRadius.circular(borderRadiusSmall),
-        ),
-        color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.all(paddingSmall),
+          padding: const EdgeInsets.symmetric(vertical: paddingSmall, horizontal: paddingSmall),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -50,16 +41,14 @@ class PatientCard extends StatelessWidget {
                     style: const TextStyle(
                       // TODO set font to SpaceGrotesk
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
                     ),
                   ),
                   Text(
                     patient.bed != null && patient.room != null
                         ? "${patient.room?.name} - ${patient.bed?.name}"
                         : context.localization!.unassigned,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w400,
-                      color: Colors.black.withOpacity(0.6),
                     ),
                   ),
                 ],

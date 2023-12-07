@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:helpwave_theme/constants.dart';
 
 /// A Widget that is a normal [TextFormField], but has no border
 class ClickableTextEdit extends StatelessWidget {
@@ -13,6 +12,14 @@ class ClickableTextEdit extends StatelessWidget {
   final Function(String value)? onChanged;
 
   /// The [TextStyle] to be used
+  ///
+  /// The default uses:
+  ///
+  /// ```dart
+  /// color: Theme.of(context).colorScheme.secondary,
+  /// fontSize: 20,
+  /// fontWeight: FontWeight.w700
+  /// ```
   final TextStyle? textStyle;
 
   /// The [TextAlign] to be used
@@ -23,8 +30,7 @@ class ClickableTextEdit extends StatelessWidget {
     this.onChanged,
     this.formKey,
     this.initialValue,
-    this.textStyle = const TextStyle(
-        color: primaryColor, fontSize: 20, fontWeight: FontWeight.w700),
+    this.textStyle,
     this.textAlign = TextAlign.left,
   });
 
@@ -50,7 +56,8 @@ class ClickableTextEdit extends StatelessWidget {
         key: formKey,
         initialValue: initialValue,
         onChanged: onChanged,
-        style: textStyle,
+        style: textStyle ??
+            TextStyle(color: Theme.of(context).colorScheme.secondary, fontSize: 20, fontWeight: FontWeight.w700),
         textAlign: textAlign,
       ),
     );

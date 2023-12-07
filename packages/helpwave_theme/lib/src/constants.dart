@@ -31,7 +31,6 @@ const double paddingBig = 40;
 
 const double paddingOffset = 10;
 
-
 const double dropDownVerticalPadding = 12;
 
 /// margin
@@ -68,6 +67,7 @@ const Color inProgressColor = Color(0xFFC79345);
 const Color doneColor = Color(0xFF7A977E);
 
 const errorColor = Color.fromARGB(255, 255, 51, 51);
+const onErrorColor = Color.fromARGB(255, 255, 255, 255);
 
 /// Animation
 const Duration zeroDuration = Duration.zero;
@@ -97,11 +97,10 @@ const searchBarTheme = SearchBarThemeData(
     textStyle: MaterialStatePropertyAll(TextStyle(color: Colors.black)));
 
 const chipTheme = ChipThemeData(
-  selectedColor: primaryColor,
   elevation: 2,
   pressElevation: 4,
-  secondaryLabelStyle: TextStyle(color: Colors.white), // The TextStyle for selection
 );
 
 /// TextStyles
-const TextStyle editableValueTextStyle = TextStyle(color: primaryColor, fontSize: 16, fontWeight: FontWeight.bold);
+TextStyle editableValueTextStyle(BuildContext context) =>
+    TextStyle(color: Theme.of(context).colorScheme.secondary, fontSize: 16, fontWeight: FontWeight.bold);
