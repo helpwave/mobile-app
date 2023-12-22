@@ -126,6 +126,17 @@ ThemeData lightTheme = ThemeData(
       borderRadius: BorderRadius.circular(borderRadiusMedium),
     ),
   ),
+  // TODO icon color here
+  dropdownMenuTheme: const DropdownMenuThemeData(
+    inputDecorationTheme: InputDecorationTheme(
+      fillColor: surfaceVariant,
+      filled: true,
+      iconColor: onSurfaceVariant,
+      suffixIconColor: onSurfaceVariant,
+    ),
+    textStyle: TextStyle(color: onSurfaceVariant),
+    menuStyle: MenuStyle(backgroundColor: MaterialStatePropertyAll(surfaceVariant)),
+  ),
   searchBarTheme: searchBarTheme,
   expansionTileTheme: const ExpansionTileThemeData(textColor: Colors.white, iconColor: Colors.white),
   colorScheme: const ColorScheme(

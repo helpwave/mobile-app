@@ -157,5 +157,6 @@
   "changeSubtask": "Change Subtask",
   "update": "Update",
   "cancel": "Cancel",
-  "subtaskName": "Subtask Name"
+  "subtaskName": "Subtask Name",
+  "profile": "Profile"
 }
