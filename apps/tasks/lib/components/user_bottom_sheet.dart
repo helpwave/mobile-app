@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
@@ -9,7 +8,6 @@ import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/controllers/user_session_controller.dart';
 import 'package:tasks/services/current_ward_svc.dart';
-
 import '../dataclasses/ward.dart';
 import '../screens/login_screen.dart';
 import '../services/user_session_service.dart';
@@ -28,10 +26,7 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
 
-    return Consumer2<ThemeModel, UserSessionController>(
-      builder: (BuildContext context, ThemeModel themeNotifier,
-          UserSessionController userSessionController, _) {
-        return BottomSheetBase(
+    return BottomSheetBase(
           onClosing: () {},
           titleText: context.localization!.profile,
           builder: (BuildContext ctx) => Column(
