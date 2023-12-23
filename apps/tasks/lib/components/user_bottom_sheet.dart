@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
@@ -27,7 +29,8 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
     final double width = MediaQuery.of(context).size.width;
 
     return Consumer2<ThemeModel, UserSessionController>(
-      builder: (BuildContext context, ThemeModel themeNotifier, UserSessionController userSessionController, _) {
+      builder: (BuildContext context, ThemeModel themeNotifier,
+          UserSessionController userSessionController, _) {
         return BottomSheetBase(
           onClosing: () {},
           titleText: context.localization!.profile,
@@ -35,8 +38,10 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.all(paddingSmall),
+                padding: const EdgeInsets.all(paddingSmall)
+                    .copyWith(top: paddingMedium),
                 child: CircleAvatar(
+                  radius: iconSizeMedium,
                   child: Container(
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
@@ -66,73 +71,115 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
               // TODO consider a loading widget here
               Consumer<CurrentWardController>(
                 builder: (context, currentWardController, __) => Text(
-                    currentWardController.currentWard?.organizationName ?? context.localization!.loading,
+                    currentWardController.currentWard?.organizationName ??
+                        context.localization!.loading,
                     style: TextStyle(
-                        fontSize: fontSizeSmall, color: Theme.of(context).colorScheme.primary.withOpacity(0.6))),
+                        fontSize: fontSizeSmall,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.6))),
               ),
               Padding(
-                padding: const EdgeInsets.all(paddingBig),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(borderRadiusMedium),
-                    //color: Theme.of(context).colorScheme.surfaceVariant,
-                  ),
-                  width: width * 0.7,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: paddingMedium,
-                    ),
-                    child: Consumer<CurrentWardController>(builder: (context, currentWardController, __) {
-                      return LoadingFutureBuilder(
-                        loadingWidget: const SizedBox(),
-                        future: WardService()
-                            .getWardOverviews(organizationId: currentWardController.currentWard!.organizationId),
-                        thenWidgetBuilder: (BuildContext context, List<WardOverview> data) {
-                          return DropdownButton(
-                            value: currentWardController.currentWard!.wardId,
-                            isExpanded: true,
-                            onChanged: (wardId) {
-                              currentWardController.currentWard = CurrentWardInformation(
-                                  data.firstWhere((ward) => ward.id == wardId),
-                                  currentWardController.currentWard!.organization);
-                            },
-                            items: data.map((WardOverview ward) {
-                              // TODO use outlined border
-                              return DropdownMenuItem(
-                                value: ward.id,
+                padding: const EdgeInsets.symmetric(
+                  vertical: paddingBig,
+                ),
+                child: Consumer<CurrentWardController>(
+                    builder: (context, currentWardController, __) {
+                  return LoadingFutureBuilder(
+                      loadingWidget: const SizedBox(),
+                      future: WardService().getWardOverviews(
+                          organizationId: currentWardController
+                              .currentWard!.organizationId),
+                      thenWidgetBuilder:
+                          (BuildContext context, List<WardOverview> data) {
+                        double menuWidth = min(250, width * 0.7);
+                        // The theme disables unwanted corner splash effects
+                        // For using splashes on the child wrap it in a new Theme()
+                        return PopupMenuButton(
+                          initialValue: currentWardController.currentWard?.wardId,
+                          shadowColor: Colors.transparent,
+                          position: PopupMenuPosition.under,
+                          itemBuilder: (context) {
+                            return data
+                                .map(
+                                  (WardOverview ward) => PopupMenuItem(
+                                    value: ward.id,
+                                    child: SizedBox(
+                                      child: Text(ward.name),
+                                    ),
+                                  ),
+                                )
+                                .toList();
+                          },
+                          onSelected: (wardId) {
+                            currentWardController.currentWard =
+                                CurrentWardInformation(
+                                    data.firstWhere(
+                                        (ward) => ward.id == wardId),
+                                    currentWardController
+                                        .currentWard!.organization);
+                          },
+                          // Material used to hide splash effects of the PopupMenu's Inkwell
+                          child: Material(
+                            child: Container(
+                              width: menuWidth,
+                              constraints: BoxConstraints(
+                                  maxWidth: menuWidth, minWidth: menuWidth),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(borderRadiusMedium),
+                                color: Theme.of(context).popupMenuTheme.color,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: paddingMedium,
+                                    vertical: paddingSmall),
                                 child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      context.localization!.station,
+                                      context.localization!.ward,
                                       style: TextStyle(
-                                          color:
-                                              Theme.of(context).dropdownMenuTheme.textStyle?.color?.withOpacity(0.6)),
+                                          color: Theme.of(context)
+                                              .popupMenuTheme
+                                              .textStyle
+                                              ?.color
+                                              ?.withOpacity(0.6)),
                                     ),
-                                    Expanded(
-                                      child: Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Text(
-                                          ward.name,
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          currentWardController
+                                                  .currentWard?.wardName ??
+                                              context.localization!.none,
                                           style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                              fontWeight: FontWeight.bold),
                                         ),
-                                      ),
+                                        const SizedBox(
+                                          width: distanceTiny,
+                                        ),
+                                        const Icon(
+                                          Icons.expand_more_rounded,
+                                          size: iconSizeTiny,
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              );
-                            }).toList(),
-                          );
-                        },
-                      );
-                    }),
-                  ),
-                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                }),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: distanceMedium),
-                child: Consumer<CurrentWardController>(builder: (context, currentWardService, _) {
+                child: Consumer<CurrentWardController>(
+                    builder: (context, currentWardService, _) {
                   return TextButton(
                     onPressed: () {
                       UserSessionService().logout();

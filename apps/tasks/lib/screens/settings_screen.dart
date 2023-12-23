@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_localization/localization_model.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/screens/login_screen.dart';
@@ -29,7 +30,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ListTile(
               leading: const Icon(Icons.brightness_medium),
               title: Text(context.localization!.darkMode),
-              trailing: Consumer<ThemeModel>(builder: (_, ThemeModel themeNotifier, __) {
+              trailing: Consumer<ThemeModel>(
+                  builder: (_, ThemeModel themeNotifier, __) {
                 return Switch(
                   value: themeNotifier.getIsDarkNullSafe(context),
                   onChanged: (bool value) {
@@ -45,21 +47,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 return ListTile(
                   leading: const Icon(Icons.language),
                   title: Text(context.localization!.language),
-                  trailing: DropdownButton(
-                    value: languageModel.local,
-                    items: getSupportedLocalsWithName()
-                        .map((local) => DropdownMenuItem(
-                              value: local.local,
-                              child: Text(
-                                local.name,
-                              ),
-                            ))
-                        .toList(),
-                    onChanged: (value) {
-                      if (value != null) {
-                        languageModel.setLanguage(value);
-                      }
+                  trailing: PopupMenuButton(
+                    position: PopupMenuPosition.under,
+                    initialValue: languageModel.local,
+                    onSelected: (value) {
+                      languageModel.setLanguage(value);
                     },
+                    itemBuilder: (BuildContext context) =>
+                        getSupportedLocalsWithName()
+                            .map((local) => PopupMenuItem(
+                                  value: local.local,
+                                  child: Text(
+                                    local.name,
+                                  ),
+                                ))
+                            .toList(),
+                    child: Material(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(languageModel.name,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w800,
+                              )),
+                          const SizedBox(
+                            width: distanceTiny,
+                          ),
+                          const Icon(
+                            Icons.expand_more_rounded,
+                            size: iconSizeTiny,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               },
@@ -70,7 +91,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               trailing: const Icon(Icons.arrow_forward),
               onTap: () => {showLicensePage(context: context)},
             ),
-            Consumer<CurrentWardController>(builder: (context, currentWardService, _) {
+            Consumer<CurrentWardController>(
+                builder: (context, currentWardService, _) {
               return ListTile(
                 leading: const Icon(Icons.logout),
                 title: Text(context.localization!.logout),
