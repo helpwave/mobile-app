@@ -41,6 +41,7 @@ class MyTasksController extends ChangeNotifier {
     var patients = await PatientService().getPatientList(wardId: CurrentWardService().currentWard?.wardId);
     List<Patient>allPatients = patients.all;
 
+    _tasks = [];
     // TODO use the already given information by the later updated getPatientList
     for(Patient patient in allPatients) {
       List<Task> tasks = await TaskService().getTasksByPatient(patientId: patient.id);
