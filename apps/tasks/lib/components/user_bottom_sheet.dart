@@ -32,8 +32,7 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding:
-                const EdgeInsets.all(paddingSmall).copyWith(top: paddingMedium),
+            padding: const EdgeInsets.all(paddingSmall).copyWith(top: paddingMedium),
             child: CircleAvatar(
               radius: iconSizeMedium,
               child: Container(
@@ -58,39 +57,32 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
               ),
             ),
           ),
-          Consumer<UserSessionController>(
-            builder: (context, userSessionController, _) {
-              return Text(
-                userSessionController.identity!.name,
-                style: const TextStyle(fontSize: fontSizeBig),
-              );
-            }
-          ),
+          Consumer<UserSessionController>(builder: (context, userSessionController, _) {
+            return Text(
+              userSessionController.identity!.name,
+              style: const TextStyle(fontSize: fontSizeBig),
+            );
+          }),
           // TODO consider a loading widget here
           Consumer<CurrentWardController>(
             builder: (context, currentWardController, __) => Text(
-                currentWardController.currentWard?.organizationName ??
-                    context.localization!.loading,
-                style: TextStyle(
-                    fontSize: fontSizeSmall,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withOpacity(0.6))),
+              currentWardController.currentWard?.organizationName ?? context.localization!.loading,
+              style: TextStyle(
+                fontSize: fontSizeSmall,
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.6),
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
               vertical: paddingBig,
             ),
-            child: Consumer<CurrentWardController>(
-                builder: (context, currentWardController, __) {
+            child: Consumer<CurrentWardController>(builder: (context, currentWardController, __) {
               return LoadingFutureBuilder(
                   loadingWidget: const SizedBox(),
-                  future: WardService().getWardOverviews(
-                      organizationId:
-                          currentWardController.currentWard!.organizationId),
-                  thenWidgetBuilder:
-                      (BuildContext context, List<WardOverview> data) {
+                  future:
+                      WardService().getWardOverviews(organizationId: currentWardController.currentWard!.organizationId),
+                  thenWidgetBuilder: (BuildContext context, List<WardOverview> data) {
                     double menuWidth = min(250, width * 0.7);
                     return PopupMenuButton(
                       initialValue: currentWardController.currentWard?.wardId,
@@ -109,48 +101,36 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
                             .toList();
                       },
                       onSelected: (wardId) {
-                        currentWardController.currentWard =
-                            CurrentWardInformation(
-                                data.firstWhere((ward) => ward.id == wardId),
-                                currentWardController
-                                    .currentWard!.organization);
+                        currentWardController.currentWard = CurrentWardInformation(
+                            data.firstWhere((ward) => ward.id == wardId),
+                            currentWardController.currentWard!.organization);
                       },
                       // Material used to hide splash effects of the PopupMenu's Inkwell
                       child: Material(
                         child: Container(
                           width: menuWidth,
-                          constraints: BoxConstraints(
-                              maxWidth: menuWidth, minWidth: menuWidth),
+                          constraints: BoxConstraints(maxWidth: menuWidth, minWidth: menuWidth),
                           decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(borderRadiusMedium),
+                            borderRadius: BorderRadius.circular(borderRadiusMedium),
                             color: Theme.of(context).popupMenuTheme.color,
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: paddingMedium,
-                                vertical: paddingSmall),
+                            padding: const EdgeInsets.symmetric(horizontal: paddingMedium, vertical: paddingSmall),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   context.localization!.ward,
                                   style: TextStyle(
-                                      color: Theme.of(context)
-                                          .popupMenuTheme
-                                          .textStyle
-                                          ?.color
-                                          ?.withOpacity(0.6)),
+                                    color: Theme.of(context).popupMenuTheme.textStyle?.color?.withOpacity(0.6),
+                                  ),
                                 ),
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      currentWardController
-                                              .currentWard?.wardName ??
-                                          context.localization!.none,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                      currentWardController.currentWard?.wardName ?? context.localization!.none,
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
                                     ),
                                     const SizedBox(
                                       width: distanceTiny,
@@ -172,8 +152,7 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: distanceMedium),
-            child: Consumer<CurrentWardController>(
-                builder: (context, currentWardService, _) {
+            child: Consumer<CurrentWardController>(builder: (context, currentWardService, _) {
               return TextButton(
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
