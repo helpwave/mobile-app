@@ -50,12 +50,15 @@ class BottomSheetBase extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  IconButton(
-                    constraints: const BoxConstraints(maxWidth: iconSizeTiny, maxHeight: iconSizeTiny),
-                    padding: EdgeInsets.zero,
-                    iconSize: iconSizeTiny,
-                    onPressed: () => Navigator.maybePop(context),
-                    icon: const Icon(Icons.close_rounded),
+                  SizedBox(
+                    width: iconSizeTiny,
+                    height: iconSizeTiny,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      iconSize: iconSizeTiny,
+                      onPressed: () => Navigator.maybePop(context),
+                      icon: const Icon(Icons.close_rounded),
+                    ),
                   ),
                   Flexible(
                     child: Padding(

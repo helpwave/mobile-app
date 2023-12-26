@@ -155,5 +155,7 @@
   "changeSubtask": "Subtask Ändern",
   "update": "ändern",
   "cancel": "Abbrechen",
-  "subtaskName": "Subtask Name"
+  "subtaskName": "Subtask Name",
+  "profile": "Profil",
+  "currentWard": "Aktuelle Station"
 }

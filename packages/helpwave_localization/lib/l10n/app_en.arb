@@ -136,7 +136,6 @@
   "upcoming": "Upcoming",
   "inProgress": "In Progress",
   "done": "Done",
-  "currentWard": "Current Ward",
   "subtasks": "Subtasks",
   "notes": "Notes",
   "yourNotes": "Your Notes",
@@ -157,5 +156,7 @@
   "changeSubtask": "Change Subtask",
   "update": "Update",
   "cancel": "Cancel",
-  "subtaskName": "Subtask Name"
+  "subtaskName": "Subtask Name",
+  "profile": "Profile",
+  "currentWard": "Current Ward"
 }

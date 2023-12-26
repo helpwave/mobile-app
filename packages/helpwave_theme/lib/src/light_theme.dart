@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_theme/src/theme.dart';
 import 'constants.dart';
 
 const primaryColor = Color.fromARGB(255, 0, 0, 0);
@@ -12,7 +13,7 @@ const onTertiary = Color.fromARGB(255, 0, 0, 0);
 const backgroundColor = Color.fromARGB(255, 230, 230, 230);
 const onBackgroundColor = Color.fromARGB(255, 0, 0, 0);
 
-const surface = Color.fromARGB(255, 210, 210, 210);
+const surface = Color.fromARGB(255, 220, 220, 220);
 const onSurface = Color.fromARGB(255, 0, 0, 0);
 const surfaceVariant = Color.fromARGB(255, 170, 170, 170);
 const onSurfaceVariant = Color.fromARGB(255, 0, 0, 0);
@@ -34,133 +35,48 @@ const focusedColor = Color.fromARGB(255, 30, 30, 30);
 const defaultColor = Color.fromARGB(255, 120, 120, 120);
 
 /// Theme data for Light-Theme
-ThemeData lightTheme = ThemeData(
-  useMaterial3: true,
+ThemeData lightTheme = makeTheme(
+  // main colors
+  primaryColor: primaryColor,
+  onPrimaryColor: onPrimaryColor,
+  inversePrimaryColor: inversePrimaryColor,
+  secondaryColor: secondaryColor,
+  onSecondaryColor: onSecondaryColor,
+  tertiary: tertiary,
+  onTertiary: onTertiary,
+  errorColor: errorColor,
+  onErrorColor: onErrorColor,
+
+  // background color
+  backgroundColor: backgroundColor,
+  onBackgroundColor: onBackgroundColor,
+
+  // surface
+  surface: surface,
+  onSurface: onSurface,
+  surfaceVariant: surfaceVariant,
+  onSurfaceVariant: onSurfaceVariant,
+  inverseSurface: inverseSurface,
+  onInverseSurface: onInverseSurface,
+
+  // container
+  primaryContainer: primaryContainer,
+  onPrimaryContainer: onPrimaryContainer,
+  secondaryContainer: secondaryContainer,
+  onSecondaryContainer: onSecondaryContainer,
+  tertiaryContainer: tertiaryContainer,
+  onTertiaryContainer: onTertiaryContainer,
+  errorContainer: errorColor,
+  onErrorContainer: onErrorColor,
+
+  // other
+  surfaceTint: surfaceTint,
+  shadow: shadow,
+  outline: outline,
   disabledColor: disabledColor,
-  textSelectionTheme: const TextSelectionThemeData(
-    cursorColor: Colors.blue,
-    selectionHandleColor: Colors.blueAccent,
-  ),
-  scaffoldBackgroundColor: backgroundColor,
-  bottomSheetTheme: const BottomSheetThemeData(
-    backgroundColor: backgroundColor,
-    modalBackgroundColor: backgroundColor,
-  ),
-  inputDecorationTheme: InputDecorationTheme(
-    hintStyle: const TextStyle(color: Color.fromARGB(255, 100, 100, 100)),
-    focusColor: focusedColor,
-    focusedBorder: defaultOutlineInputBorder.copyWith(borderSide: const BorderSide(color: focusedColor)),
-    enabledBorder: defaultOutlineInputBorder.copyWith(borderSide: const BorderSide(color: defaultColor)),
-    errorBorder: defaultOutlineInputBorder.copyWith(borderSide: const BorderSide(color: errorColor)),
-    focusedErrorBorder: defaultOutlineInputBorder.copyWith(borderSide: const BorderSide(color: errorColor)),
-    iconColor: MaterialStateColor.resolveWith((states) {
-      if (states.contains(MaterialState.focused)) {
-        return focusedColor;
-      } else {
-        return defaultColor;
-      }
-    }),
-    suffixIconColor: MaterialStateColor.resolveWith((states) {
-      if (states.contains(MaterialState.focused)) {
-        return focusedColor;
-      } else {
-        return defaultColor;
-      }
-    }),
-    labelStyle: MaterialStateTextStyle.resolveWith((states) {
-      if (states.contains(MaterialState.focused)) {
-        return const TextStyle(color: focusedColor);
-      } else {
-        return const TextStyle(color: defaultColor);
-      }
-    }),
-    floatingLabelStyle: MaterialStateTextStyle.resolveWith((states) {
-      if (states.contains(MaterialState.focused)) {
-        return const TextStyle(color: focusedColor);
-      } else {
-        return const TextStyle(color: defaultColor);
-      }
-    }),
-  ),
-  listTileTheme: const ListTileThemeData(
-    iconColor: focusedColor,
-  ),
-  appBarTheme: const AppBarTheme(
-    centerTitle: true,
-    foregroundColor: primaryColor,
-    backgroundColor: Colors.transparent,
-    shadowColor: Colors.transparent,
-  ),
-  elevatedButtonTheme: ElevatedButtonThemeData(
-    style: buttonStyle.copyWith(
-      backgroundColor: const MaterialStatePropertyAll(secondaryColor),
-      foregroundColor: const MaterialStatePropertyAll(onSecondaryColor),
-    ),
-  ),
-  outlinedButtonTheme: OutlinedButtonThemeData(
-    style: buttonStyle.copyWith(
-      backgroundColor: const MaterialStatePropertyAll(backgroundColor),
-      side: MaterialStatePropertyAll(
-        buttonBorderSide.copyWith(color: focusedColor),
-      ),
-    ),
-  ),
-  textButtonTheme: TextButtonThemeData(
-    style: buttonStyle.copyWith(
-      backgroundColor: const MaterialStatePropertyAll(secondaryColor),
-      foregroundColor: const MaterialStatePropertyAll(onSecondaryColor),
-    ),
-  ),
-  iconTheme: const IconThemeData(
-    size: iconSizeSmall,
-    color: primaryColor,
-  ),
-  chipTheme: chipTheme.copyWith(
-    selectedColor: secondaryColor,
-    secondaryLabelStyle: const TextStyle(color: onSecondaryColor), // The TextStyle for selection
-    labelStyle: const TextStyle(color: primaryColor),
-  ),
-  cardTheme: CardTheme(
-    elevation: 0,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(borderRadiusMedium),
-    ),
-  ),
-  searchBarTheme: searchBarTheme,
-  expansionTileTheme: const ExpansionTileThemeData(textColor: Colors.white, iconColor: Colors.white),
-  colorScheme: const ColorScheme(
-    // General
-    brightness: Brightness.dark,
-    outline: outline,
-    shadow: shadow,
-    //Basic Colors
-    primary: primaryColor,
-    inversePrimary: inversePrimaryColor,
-    onPrimary: onPrimaryColor,
-    background: backgroundColor,
-    onBackground: onBackgroundColor,
-    secondary: secondaryColor,
-    onSecondary: onSecondaryColor,
-    tertiary: tertiary,
-    onTertiary: onTertiary,
-    error: errorColor,
-    onError: onErrorColor,
-    // Surface
-    surfaceTint: surfaceTint,
-    surface: surface,
-    onSurface: onSurface,
-    surfaceVariant: surfaceVariant,
-    onSurfaceVariant: onSurfaceVariant,
-    inverseSurface: inverseSurface,
-    onInverseSurface: onInverseSurface,
-    // Container
-    primaryContainer: primaryContainer,
-    onPrimaryContainer: onPrimaryContainer,
-    secondaryContainer: secondaryContainer,
-    onSecondaryContainer: onSecondaryContainer,
-    tertiaryContainer: tertiaryContainer,
-    onTertiaryContainer: onTertiaryContainer,
-    errorContainer: errorColor,
-    onErrorContainer: onErrorColor,
-  ),
+  focusedColor: focusedColor,
+  defaultColor: defaultColor,
+
+  // additional
+  brightness: Brightness.dark,
 );
