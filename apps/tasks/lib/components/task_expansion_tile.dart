@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/shapes.dart';
 import 'package:tasks/components/task_bottom_sheet.dart';
 import 'package:tasks/components/task_card.dart';
@@ -51,10 +52,9 @@ class TaskExpansionTile extends StatelessWidget {
             .map(
               (task) => GestureDetector(
                 onTap: () {
-                  showModalBottomSheet(
+                  context.pushModal(
                     context: context,
                     builder: (context) => TaskBottomSheet(task: task, patient: task.patient),
-                    isScrollControlled: true,
                   );
                 },
                 child: TaskCard(
