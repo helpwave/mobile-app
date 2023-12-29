@@ -158,7 +158,6 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                     maxLines: 6,
                     keyboardType: TextInputType.multiline,
                   ),
-                  Container(height: 800, color: Colors.red),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: paddingMedium),
                     child: AddList(
@@ -209,9 +208,8 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                         style: const TextStyle(fontSize: fontSizeBig, fontWeight: FontWeight.bold),
                       ),
                       // TODO use return value to add it to task list or force a refetch
-                      onAdd: () => showModalBottomSheet(
+                      onAdd: () => context.pushModal(
                         context: context,
-                        isScrollControlled: true,
                         builder: (context) => TaskBottomSheet(task: Task.empty, patient: patient),
                       ),
                     ),

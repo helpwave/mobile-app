@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
 
@@ -8,8 +7,9 @@ extension PushModalContextExtension<T> on BuildContext {
     required Widget Function(BuildContext context) builder,
     Duration animationDuration = const Duration(milliseconds: 500),
   }) async {
-    return Navigator.of(context).push<T>(
+    T? value = await Navigator.of(context).push<T>(
       PageRouteBuilder(
+        barrierColor: Colors.black.withOpacity(0.3),
         transitionDuration: animationDuration,
         reverseTransitionDuration: animationDuration,
         opaque: false,
@@ -40,6 +40,7 @@ extension PushModalContextExtension<T> on BuildContext {
         },
       ),
     );
+    return value;
   }
 }
 
@@ -83,7 +84,7 @@ class _ModalWrapperState extends State<_ModalWrapper> with TickerProviderStateMi
 
   @override
   Widget build(BuildContext context) {
-    double backgroundDim = 0.3 * max(0, 1 - offset / 300);
+    //double backgroundDim = 0.3 * max(0, 1 - offset / 300);
 
     return GestureDetector(
       onVerticalDragUpdate: (details) {
@@ -108,16 +109,17 @@ class _ModalWrapperState extends State<_ModalWrapper> with TickerProviderStateMi
           returnToNormalSize();
         }
       },
-      child: Material(
-        color: Colors.transparent,
-        child: Scaffold(
-          backgroundColor: Colors.black.withOpacity(backgroundDim),
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-          body: Transform.translate(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        //backgroundColor: Colors.black.withOpacity(backgroundDim),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        body: Align(
+          alignment: Alignment.bottomCenter,
+          child: Transform.translate(
             offset: Offset(0, offset),
             child: widget.builder(context),
           ),

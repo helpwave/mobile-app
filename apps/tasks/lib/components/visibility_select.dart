@@ -82,7 +82,7 @@ class VisibilitySelect extends StatelessWidget {
       onTap: () => {
         if (isCreating || !isPublicVisible)
           {
-            showModalBottomSheet(
+            context.pushModal(
               context: context,
               builder: (context) => _VisibilityBottomSheet(
                 onChange: onChanged,

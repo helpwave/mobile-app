@@ -91,9 +91,8 @@ class _SheetListTile extends StatelessWidget {
 /// to true as seen in the example below to avoid an overflow
 ///
 /// ```dart
-///   showModalBottomSheet(
+///   context.pushModal(
 ///     context: context,
-///     isScrollControlled: true,
 ///     builder: (context) => TaskBottomSheet(),
 ///   );
 /// ```
@@ -183,7 +182,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                     return _SheetListTile(
                       icon: Icons.person,
                       label: context.localization!.assignedTo,
-                      onTap: () => showModalBottomSheet(
+                      onTap: () => context.pushModal(
                         context: context,
                         builder: (BuildContext context) => LoadingAndErrorWidget(
                           state: taskController.state,
