@@ -41,6 +41,7 @@ ThemeData makeTheme({
   required Color shadow,
   required Color outline,
   required Color disabledColor,
+  required Color onDisabledColor,
   required Color focusedColor,
   required Color defaultColor,
 
@@ -63,14 +64,10 @@ ThemeData makeTheme({
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: const TextStyle(color: Color.fromARGB(255, 100, 100, 100)),
       focusColor: focusedColor,
-      focusedBorder: defaultOutlineInputBorder.copyWith(
-          borderSide: BorderSide(color: focusedColor)),
-      enabledBorder: defaultOutlineInputBorder.copyWith(
-          borderSide: BorderSide(color: defaultColor)),
-      errorBorder: defaultOutlineInputBorder.copyWith(
-          borderSide: BorderSide(color: errorColor)),
-      focusedErrorBorder: defaultOutlineInputBorder.copyWith(
-          borderSide: BorderSide(color: errorColor)),
+      focusedBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide(color: focusedColor)),
+      enabledBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide(color: defaultColor)),
+      errorBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide(color: errorColor)),
+      focusedErrorBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide(color: errorColor)),
       iconColor: MaterialStateColor.resolveWith((states) {
         if (states.contains(MaterialState.focused)) {
           return focusedColor;
@@ -128,8 +125,10 @@ ThemeData makeTheme({
     ),
     textButtonTheme: TextButtonThemeData(
       style: buttonStyle.copyWith(
-        backgroundColor: MaterialStatePropertyAll(secondaryColor),
-        foregroundColor: MaterialStatePropertyAll(onSecondaryColor),
+        backgroundColor: MaterialStateColor.resolveWith(
+            (states) => states.contains(MaterialState.disabled) ? disabledColor : secondaryColor),
+        foregroundColor: MaterialStateColor.resolveWith(
+            (states) => states.contains(MaterialState.disabled) ? onDisabledColor : onSecondaryColor),
       ),
     ),
     iconTheme: IconThemeData(

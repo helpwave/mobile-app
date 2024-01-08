@@ -272,10 +272,10 @@ packages:
     dependency: "direct main"
     description:
       name: helpwave_proto_dart
-      sha256: "63abb0a40805dfdd105f43930c5dfa0e50f98c60d5fbdfe4adb2eba5d88c5b4e"
+      sha256: "0803ce0f79ad6a7f05defca9851212b99dedd06709d5d54d9fdea3604e892b26"
       url: "https://pub.dev"
     source: hosted
-    version: "0.30.3-17f08ef.0"
+    version: "0.30.6-93b05e4.0"
   helpwave_service:
     dependency: "direct main"
     description:

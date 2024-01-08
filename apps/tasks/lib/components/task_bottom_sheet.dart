@@ -12,6 +12,7 @@ import 'package:tasks/controllers/task_controller.dart';
 import 'package:tasks/controllers/user_controller.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/user.dart';
+import 'package:tasks/services/patient_svc.dart';
 import '../controllers/assignee_select_controller.dart';
 import '../dataclasses/task.dart';
 
@@ -140,6 +141,30 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
             ),
           ),
         ),
+        bottomWidget: Flexible(
+          child: Consumer<TaskController>(
+            builder: (context, taskController, child) => taskController.isCreating
+                ? Padding(
+                    padding: const EdgeInsets.only(top: paddingSmall),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: TextButton(
+                        onPressed: taskController.isReadyForCreate
+                            ? () {
+                                taskController.create().then((value) {
+                                  if (value) {
+                                    Navigator.pop(context);
+                                  }
+                                });
+                              }
+                            : null,
+                        child: Text(context.localization!.create),
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
+          ),
+        ),
         builder: (context) => Container(
           constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.8),
           child: Column(
@@ -150,27 +175,32 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 child: Consumer<TaskController>(builder:
                     // TODO move this to its own component
                     (context, taskController, __) {
-                  List<Patient> patients = [];
                   return LoadingAndErrorWidget.pulsing(
                     state: taskController.state,
                     child: !taskController.isCreating
                         ? Text(taskController.patient.name)
-                        : DropdownButton(
-                            underline: const SizedBox(),
-                            // removes the default underline
-                            padding: EdgeInsets.zero,
-                            isDense: true,
-                            // TODO use the full list of possible assignees
-                            items: patients
-                                .map((patient) => DropdownMenuItem(value: patient, child: Text(patient.name)))
-                                .toList(),
-                            value: null,
-                            onChanged: (value) {
-                              setState(() {
-                                // patient = value;
-                              });
-                            },
-                          ),
+                        : LoadingFutureBuilder(
+                            future: PatientService().getPatientList(),
+                            loadingWidget: const PulsingContainer(),
+                            thenWidgetBuilder: (context, patientList) {
+                              List<Patient> patients = patientList.active + patientList.unassigned;
+                              return DropdownButton(
+                                underline: const SizedBox(),
+                                iconEnabledColor: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
+                                // removes the default underline
+                                padding: EdgeInsets.zero,
+                                hint: Text(
+                                  context.localization!.selectPatient,
+                                  style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),
+                                ),
+                                isDense: true,
+                                items: patients
+                                    .map((patient) => DropdownMenuItem(value: patient, child: Text(patient.name)))
+                                    .toList(),
+                                value: taskController.patient.isCreating ? null : taskController.patient,
+                                onChanged: (patient) => taskController.changePatient(patient ?? PatientMinimal.empty()),
+                              );
+                            }),
                   );
                 }),
               ),
@@ -233,9 +263,10 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                         valueWidget: Builder(builder: (context) {
                           DateTime? dueDate = taskController.task.dueDate;
                           if (dueDate != null) {
-                            String date = "${dueDate.day.toString().padLeft(2, "0")}.${dueDate.month.toString()
-                                .padLeft(2, "0")}.${dueDate.year.toString().padLeft(4, "0")}";
-                            String time = "${dueDate.hour.toString().padLeft(2, "0")}:${dueDate.minute.toString().padLeft(2, "0")}";
+                            String date =
+                                "${dueDate.day.toString().padLeft(2, "0")}.${dueDate.month.toString().padLeft(2, "0")}.${dueDate.year.toString().padLeft(4, "0")}";
+                            String time =
+                                "${dueDate.hour.toString().padLeft(2, "0")}:${dueDate.minute.toString().padLeft(2, "0")}";
                             return Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,

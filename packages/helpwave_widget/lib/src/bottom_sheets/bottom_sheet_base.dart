@@ -227,7 +227,9 @@ class _BottomSheetBase extends State<BottomSheetBase> with TickerProviderStateMi
                   const SizedBox(width: iconSizeTiny),
                 ],
               ),
-              widget.builder(context),
+              SingleChildScrollView(
+                child: widget.builder(context),
+              ),
               widget.bottomWidget ?? const SizedBox(),
             ],
           ),

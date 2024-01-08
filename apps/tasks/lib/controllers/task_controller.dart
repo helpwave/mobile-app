@@ -15,12 +15,8 @@ class TaskController extends ChangeNotifier {
   /// The error message to show should only be used when [state] == [LoadingState.error]
   String errorMessage = "";
 
-  /// Saves whether we are currently creating of a Task or already have them
-  bool _isCreating = false;
-
   TaskController(this._task) {
-    _isCreating = _task.id == "";
-    if (!_isCreating) {
+    if (!_task.isCreating) {
       load();
     } else {
       state = LoadingState.unspecified;
@@ -48,16 +44,17 @@ class TaskController extends ChangeNotifier {
     state = LoadingState.loaded;
   }
 
-  bool get isCreating => _isCreating;
+  bool get isCreating => _task.isCreating;
+
+  // only create when a patient is assigned
+  bool get isReadyForCreate => !task.patient.isCreating;
 
   PatientMinimal get patient => task.patient;
 
   /// A function to load the [Task]
   load() async {
     state = LoadingState.loading;
-    await TaskService()
-        .getTask(id: task.id)
-        .then((value) {
+    await TaskService().getTask(id: task.id).then((value) {
       task = value;
       state = LoadingState.loaded;
     }).catchError((error, stackTrace) {
@@ -84,5 +81,27 @@ class TaskController extends ChangeNotifier {
     // TODO backend request when appropriate
     task.notes = notes;
     notifyListeners();
+  }
+
+  /// Only usable when creating
+  Future<void> changePatient(PatientMinimal patient) async {
+    assert(task.isCreating, "Only use TaskController.changePatient, when you create a new task.");
+    task.patient = patient;
+    notifyListeners();
+  }
+
+  /// Creates the Task and returns
+  Future<bool> create() async {
+    assert(!task.patient.isCreating, "A the patient must be set to create a task");
+    state = LoadingState.loading;
+    return await TaskService().createTask(task).then((value) {
+      task.id = value;
+      state = LoadingState.loaded;
+      return true;
+    }).catchError((error, stackTrace) {
+      errorMessage = error.toString();
+      state = LoadingState.error;
+      return false;
+    });
   }
 }
