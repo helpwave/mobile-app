@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/user_bottom_sheet.dart';
 import 'package:tasks/controllers/user_session_controller.dart';
@@ -23,7 +24,7 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
         leadingWidth: iconSizeSmall,
         leading: GestureDetector(
           onTap: () {
-            showModalBottomSheet(
+            context.pushModal(
               context: context,
               builder: (context) => const UserBottomSheet(),
             );
@@ -57,7 +58,7 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
         ),
         title: GestureDetector(
           onTap: () {
-            showModalBottomSheet(
+            context.pushModal(
               context: context,
               builder: (context) => const UserBottomSheet(),
             );
