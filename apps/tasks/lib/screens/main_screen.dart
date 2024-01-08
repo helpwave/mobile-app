@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
+import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/patient_bottom_sheet.dart';
+import 'package:tasks/components/user_header.dart';
 import 'package:tasks/screens/main_screen_subscreens/my_tasks_screen.dart';
 import 'package:tasks/screens/main_screen_subscreens/patient_screen.dart';
 import 'package:tasks/screens/ward_select_screen.dart';
@@ -41,6 +43,7 @@ class _MainScreenState extends State<MainScreen> {
         return const WardSelectScreen();
       }
       return Scaffold(
+        appBar: const UserHeader(),
         body: [const MyTasksScreen(), const SizedBox(), const PatientScreen()][index],
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: isShowingActionButton ? _TaskPatientFloatingActionButton() : null,
@@ -133,10 +136,9 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
                 child: Center(child: Text(context.localization!.task)),
               ),
               onPressed: () {
-                showModalBottomSheet(
+                context.pushModal(
                   context: context,
                   builder: (context) => TaskBottomSheet(task: Task.empty),
-                  isScrollControlled: true,
                 );
               },
             ),
@@ -158,10 +160,9 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
                 child: Center(child: Text(context.localization!.patient)),
               ),
               onPressed: () {
-                showModalBottomSheet(
+                context.pushModal(
                   context: context,
                   builder: (context) => const PatientBottomSheet(patentId: ""),
-                  isScrollControlled: true,
                 );
               },
             ),

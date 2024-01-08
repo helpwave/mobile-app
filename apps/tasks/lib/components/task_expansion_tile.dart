@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/shapes.dart';
-import 'package:provider/provider.dart';
 import 'package:tasks/components/task_bottom_sheet.dart';
 import 'package:tasks/components/task_card.dart';
-import 'package:tasks/controllers/my_tasks_controller.dart';
 import '../dataclasses/task.dart';
 
 /// A [ExpansionTile] for showing a [List] of [Task]s
@@ -53,10 +52,9 @@ class TaskExpansionTile extends StatelessWidget {
             .map(
               (task) => GestureDetector(
                 onTap: () {
-                  showModalBottomSheet(
+                  context.pushModal(
                     context: context,
                     builder: (context) => TaskBottomSheet(task: task, patient: task.patient),
-                    isScrollControlled: true,
                   ).then((_) {
                     MyTasksController controller = Provider.of<MyTasksController>(context, listen: false);
                     controller.load();

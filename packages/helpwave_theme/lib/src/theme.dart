@@ -58,6 +58,7 @@ ThemeData makeTheme({
     bottomSheetTheme: BottomSheetThemeData(
       backgroundColor: backgroundColor,
       modalBackgroundColor: backgroundColor,
+      constraints: null,
     ),
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: const TextStyle(color: Color.fromARGB(255, 100, 100, 100)),
@@ -98,6 +99,9 @@ ThemeData makeTheme({
           return TextStyle(color: defaultColor);
         }
       }),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: backgroundColor,
     ),
     listTileTheme: ListTileThemeData(
       iconColor: focusedColor,
