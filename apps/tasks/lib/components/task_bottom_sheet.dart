@@ -190,7 +190,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                             ),
                             child: AssigneeSelect(
                               onChanged: (assignee) {
-                                taskController.changeAssignee(assignee.id);
+                                taskController.changeAssignee(assignee.id).then((value) => Navigator.of(context).pop());
                               },
                             ),
                           ),
