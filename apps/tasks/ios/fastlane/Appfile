@@ -1,0 +1,4 @@
+app_identifier("de.helpwave.tasks") # The bundle identifier of your app
+apple_id("tech@helpwave.de") # Your Apple Developer Portal username
+itc_team_id("126723789") # App Store Connect Team ID
+team_id("D667HAR4UP") # Developer Portal Team ID
