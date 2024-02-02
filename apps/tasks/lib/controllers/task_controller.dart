@@ -38,9 +38,24 @@ class TaskController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Used to trigger the notify call without having to copy or save the Task locally
-  updateTask(void Function(TaskWithPatient task) transformer) {
-    transformer(task);
+  /// Used to trigger the notify call without having to copy or save the Task locally
+  updateTask(void Function(TaskWithPatient task) updateTransform, void Function(TaskWithPatient task) revertTransform) {
+    updateTransform(task);
+    if (!isCreating) {
+      TaskService().updateTask(task).then((value) {
+        if (value) {
+          state = LoadingState.loaded;
+        } else {
+          throw Error();
+        }
+      }).catchError((error, stackTrace) {
+        revertTransform(task);
+        errorMessage = error.toString();
+        state = LoadingState.error;
+      });
+    } else {
+      state = LoadingState.loaded;
+    }
     state = LoadingState.loaded;
   }
 
@@ -66,21 +81,41 @@ class TaskController extends ChangeNotifier {
   /// Changes the Assignee
   ///
   /// Without a backend request as we expect this to be done in the [AssigneeSelectController]
-  Future<void> changeAssignee({required String assigneeId}) async {
-    task.assignee = assigneeId;
-    notifyListeners();
+  Future<void> changeAssignee(String assigneeId) async {
+    String? old = task.assignee;
+    updateTask((task) {
+      task.assignee = assigneeId;
+    }, (task) {
+      task.assignee = old;
+    });
   }
 
-  Future<void> changeIsPublic({required bool isPublic}) async {
-    // TODO backend request
+  Future<void> changeName(String name) async {
+    String oldName = task.name;
+    updateTask((task) {
+      task.name = name;
+    }, (task) {
+      task.name = oldName;
+    });
+  }
+
+  Future<void> changeIsPublic(bool isPublic) async {
     task.isPublicVisible = isPublic;
-    notifyListeners();
+    bool old = task.isPublicVisible;
+    updateTask((task) {
+      task.isPublicVisible = isPublic;
+    }, (task) {
+      task.isPublicVisible = old;
+    });
   }
 
   Future<void> changeNotes(String notes) async {
-    // TODO backend request when appropriate
-    task.notes = notes;
-    notifyListeners();
+    String oldNotes = notes;
+    updateTask((task) {
+      task.notes = notes;
+    }, (task) {
+      task.notes = oldNotes;
+    });
   }
 
   /// Only usable when creating

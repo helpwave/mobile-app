@@ -126,11 +126,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
         title: Consumer<TaskController>(
           builder: (context, taskController, child) => ClickableTextEdit(
             initialValue: taskController.task.name,
-            onChanged: (value) {
-              taskController.updateTask((task) {
-                task.name = value;
-              });
-            },
+            onUpdated: taskController.changeName,
             textAlign: TextAlign.center,
             textStyle: TextStyle(
               color: Theme.of(context).colorScheme.secondary,
@@ -223,7 +219,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                             ),
                             child: AssigneeSelect(
                               onChanged: (assignee) {
-                                taskController.changeAssignee(assigneeId: assignee.id);
+                                taskController.changeAssignee(assignee.id).then((value) => Navigator.of(context).pop());
                               },
                             ),
                           ),
@@ -292,7 +288,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                     label: context.localization!.visibility,
                     valueWidget: VisibilitySelect(
                       isPublicVisible: taskController.task.isPublicVisible,
-                      onChanged: (value) => taskController.changeIsPublic(isPublic: value),
+                      onChanged: taskController.changeIsPublic,
                       isCreating: taskController.isCreating,
                       textStyle: editableValueTextStyle(context),
                     ),
@@ -306,11 +302,23 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               ),
               const SizedBox(height: distanceTiny),
               Consumer<TaskController>(
-                builder: (_, taskController, __) => LoadingAndErrorWidget.pulsing(
+                builder: (_, taskController, __) => LoadingAndErrorWidget(
                   state: taskController.state,
-                  child: TextFormField(
+                  loadingWidget: PulsingContainer(
+                    width: MediaQuery.of(context).size.width,
+                    height: 25 * 6, // 25px per line
+                  ),
+                  errorWidget: PulsingContainer(
+                    width: MediaQuery.of(context).size.width,
+                    height: 25 * 6,
+                    // 25px per line
+                    maxOpacity: 1,
+                    minOpacity: 1,
+                    color: negativeColor,
+                  ),
+                  child: TextFormFieldWithTimer(
                     initialValue: taskController.task.notes,
-                    onChanged: taskController.changeNotes,
+                    onUpdate: taskController.changeNotes,
                     maxLines: 6,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.all(paddingMedium),

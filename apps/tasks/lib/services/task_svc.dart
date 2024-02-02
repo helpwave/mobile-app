@@ -177,4 +177,21 @@ class TaskService {
 
     return response.isInitialized();
   }
+
+  Future<bool> updateTask(Task task) async {
+    UpdateTaskRequest request = UpdateTaskRequest(
+      id: task.id,
+      name: task.name,
+      description: task.notes,
+      dueAt: task.dueDate != null ? Timestamp.fromDateTime(task.dueDate!) : null,
+      public: task.isPublicVisible,
+    );
+
+    UpdateTaskResponse response = await taskService.updateTask(
+      request,
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+    );
+
+    return response.isInitialized();
+  }
 }

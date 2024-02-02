@@ -1,5 +1,5 @@
-name: helpwave_widget
-description: A package containing some of helpwave's reusable widgets
+name: helpwave_util
+description: A package containing helpwave's utility classes
 version: 0.0.1
 homepage: https://github.com/helpwave/mobile-app
 
@@ -12,12 +12,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  helpwave_theme:
-    path: "../helpwave_theme"
-  helpwave_localization:
-    path: "../helpwave_localization"
-  helpwave_util:
-    path: "../helpwave_util"
 
 dev_dependencies:
   flutter_test:
