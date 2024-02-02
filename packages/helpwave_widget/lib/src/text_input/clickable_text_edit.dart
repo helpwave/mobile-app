@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_widget/src/text_input/text_form_field_with_timer.dart';
 
 /// A Widget that is a normal [TextFormField], but has no border
 class ClickableTextEdit extends StatelessWidget {
@@ -10,6 +11,9 @@ class ClickableTextEdit extends StatelessWidget {
 
   /// The callback when the value is changed
   final Function(String value)? onChanged;
+
+  /// The callback when the value is updated
+  final Function(String value)? onUpdated;
 
   /// The [TextStyle] to be used
   ///
@@ -28,6 +32,7 @@ class ClickableTextEdit extends StatelessWidget {
   const ClickableTextEdit({
     super.key,
     this.onChanged,
+    this.onUpdated,
     this.formKey,
     this.initialValue,
     this.textStyle,
@@ -52,10 +57,11 @@ class ClickableTextEdit extends StatelessWidget {
             errorBorder: borderTheme,
             focusedErrorBorder: borderTheme),
       ),
-      child: TextFormField(
+      child: TextFormFieldWithTimer(
         key: formKey,
         initialValue: initialValue,
         onChanged: onChanged,
+        onUpdate: onUpdated,
         style: textStyle ??
             TextStyle(color: Theme.of(context).colorScheme.secondary, fontSize: 20, fontWeight: FontWeight.w700),
         textAlign: textAlign,

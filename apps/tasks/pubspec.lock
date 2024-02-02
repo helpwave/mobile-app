@@ -290,6 +290,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  helpwave_util:
+    dependency: "direct overridden"
+    description:
+      path: "../../packages/helpwave_util"
+      relative: true
+    source: path
+    version: "0.0.1"
   helpwave_widget:
     dependency: "direct main"
     description:

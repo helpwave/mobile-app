@@ -32,7 +32,6 @@ class AssigneeSelect extends StatelessWidget {
                   return ListTile(
                     onTap: () {
                       assigneeSelectController.changeAssignee(user.id).then((value) {
-                        Navigator.pop(context);
                         onChanged(user);
                       });
                     },

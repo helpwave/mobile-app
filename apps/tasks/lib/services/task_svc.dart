@@ -1,4 +1,5 @@
 import 'package:grpc/grpc.dart';
+import 'package:helpwave_proto_dart/google/protobuf/timestamp.pb.dart';
 import 'package:helpwave_proto_dart/proto/services/task_svc/v1/task_svc.pbgrpc.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/subtask.dart';
@@ -153,6 +154,23 @@ class TaskService {
       name: subTask.name,
     );
     UpdateSubTaskResponse response = await taskService.updateSubTask(
+      request,
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+    );
+
+    return response.isInitialized();
+  }
+
+  Future<bool> updateTask(Task task) async {
+    UpdateTaskRequest request = UpdateTaskRequest(
+      id: task.id,
+      name: task.name,
+      description: task.notes,
+      dueAt: task.dueDate != null ? Timestamp.fromDateTime(task.dueDate!) : null,
+      public: task.isPublicVisible,
+    );
+
+    UpdateTaskResponse response = await taskService.updateTask(
       request,
       options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
     );
