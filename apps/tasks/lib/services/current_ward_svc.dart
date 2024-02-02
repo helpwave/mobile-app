@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasks/config/config.dart';
@@ -21,6 +22,8 @@ class CurrentWardInformation {
   String get organizationId => organization.id;
 
   String get organizationName => "${organization.name} (${organization.shortName})";
+
+  bool get isEmpty =>  wardId == "" || organizationId == "";
 
   bool get hasFullInformation => ward.name != "" && organization.name != "";
 
@@ -74,9 +77,6 @@ class _CurrentWardPreferences {
 ///
 /// Changes the [CurrentWardInformation] globally
 class CurrentWardService extends Listenable {
-  /// Whether this Controller has been initialized
-  bool _isInitialized = false;
-
   /// A storage for the current ward
   final _CurrentWardPreferences _preferences = _CurrentWardPreferences();
 
@@ -84,7 +84,10 @@ class CurrentWardService extends Listenable {
   CurrentWardInformation? _currentWard;
 
   /// Whether this Controller has been initialized
-  bool get isInitialized => _isInitialized;
+  bool get isInitialized => currentWard != null && !currentWard!.isEmpty;
+
+  /// Whether all information are loaded
+  bool get isLoaded => currentWard != null && currentWard!.hasFullInformation;
 
   /// Listeners
   final List<VoidCallback> _listeners = [];
@@ -108,24 +111,26 @@ class CurrentWardService extends Listenable {
       }
     }
     _currentWard = currentWard;
-    _isInitialized = _currentWard != null;
-    if(_currentWard != null && !_currentWard!.hasFullInformation){
+    if(!isLoaded){
       fetch();
+    }
+    if(kDebugMode){
+      print(currentWard);
     }
     notifyListeners();
   }
 
   CurrentWardInformation? get currentWard => _currentWard;
 
-  /// Load the preferences with the [ThemePreferences]
+  /// Load the preferences with the [_CurrentWardPreferences]
   Future<void> load() async {
     // everything is done in the setter
-    currentWard = await _preferences.getInformation();
+    currentWard = DEV_MODE ? null : await _preferences.getInformation();
   }
 
   /// Fetch [Ward] and [Organization] from backend
   Future<void> fetch() async {
-    if(!_isInitialized || _currentWard == null){
+    if(!isInitialized){
       return;
     }
     Organization organization = await OrganizationService().getOrganization(id: currentWard!.organizationId);
@@ -136,7 +141,6 @@ class CurrentWardService extends Listenable {
 
   /// Clears the [CurrentWardInformation]
   void clear() {
-    _isInitialized = false;
     currentWard = null;
   }
 
@@ -179,7 +183,7 @@ class CurrentWardController extends ChangeNotifier {
 
   CurrentWardInformation? get currentWard => service.currentWard;
 
-  /// Load the preferences with the [ThemePreferences]
+  /// Load the information
   Future<void> load() async {
     service.load();
   }

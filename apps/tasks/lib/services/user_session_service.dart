@@ -14,9 +14,7 @@ class UserSessionService {
 
   static final UserSessionService _userSessionService = UserSessionService._ensureInitialized();
 
-  UserSessionService._ensureInitialized() {
-    _hasTriedTokens = DEV_MODE;
-  }
+  UserSessionService._ensureInitialized();
 
   factory UserSessionService() => _userSessionService;
 
@@ -33,7 +31,7 @@ class UserSessionService {
     if (!DEV_MODE) {
       _identity = await _authService.tokenLogin();
       // new login required thus delete all saved information
-      if(_identity == null){
+      if (_identity == null) {
         _authService.clearFromStorage();
         CurrentWardService().clear();
       }
