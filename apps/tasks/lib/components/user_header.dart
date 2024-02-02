@@ -82,7 +82,7 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
                 builder: (context, currentWardController, __) => Row(
                   children: [
                     Text(
-                      "${currentWardController.currentWard?.organizationName ?? ""} - ",
+                      "${currentWardController.currentWard?.organization.shortName ?? ""} - ",
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 14,
