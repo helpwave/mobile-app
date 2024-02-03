@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:tasks/services/patient_svc.dart';
+import '../dataclasses/bed.dart';
 import '../dataclasses/patient.dart';
+import '../dataclasses/room.dart';
 
 /// The Controller for managing [Patient]s in a Ward
 class PatientController extends ChangeNotifier {
@@ -14,12 +16,8 @@ class PatientController extends ChangeNotifier {
   /// The error message to show should only be used when [state] == [LoadingState.error]
   String errorMessage = "";
 
-  /// Saves whether we are currently creating of a patient or already have them
-  bool _isCreating = false;
-
   PatientController(this._patient) {
-    _isCreating = _patient.id == "";
-    if (!_isCreating) {
+    if (!_patient.isCreating) {
       load();
     }
   }
@@ -39,27 +37,42 @@ class PatientController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Used to trigger the notify call without having to copy or save the patient locally
-  updatePatient(void Function(Patient patient) transformer) {
-    transformer(patient);
-    state = LoadingState.loaded;
-  }
+  /// Saves whether we are currently creating of a patient or already have them
+  get isCreating => _patient.isCreating;
 
-  get isCreating => _isCreating;
+  // Used to trigger the notify call without having to copy or save the patient locally
+  updatePatient(void Function(Patient patient) updateTransform, void Function(Patient patient) revertTransform) {
+    updateTransform(patient);
+    if (!isCreating) {
+      PatientService().updatePatient(patient).then((value) {
+        if (value) {
+          state = LoadingState.loaded;
+        } else {
+          throw Error();
+        }
+      }).catchError((error, stackTrace) {
+        revertTransform(patient);
+        errorMessage = error.toString();
+        state = LoadingState.error;
+      });
+    } else {
+      state = LoadingState.loaded;
+    }
+  }
 
   /// A function to load the [Patient]
   Future<void> load() async {
     state = LoadingState.loading;
-    await PatientService()
-        .getPatientDetails(patientId: patient.id)
-        .then((value) {patient = value;})
-        .catchError((error, stackTrace) {
+    await PatientService().getPatientDetails(patientId: patient.id).then((value) {
+      patient = value;
+      state = LoadingState.loaded;
+    }).catchError((error, stackTrace) {
       errorMessage = error.toString();
       state = LoadingState.error;
     });
   }
 
-  /// Discharges the patient the [patients]
+  /// Unassigns the patient the [patients]
   Future<void> unassign() async {
     state = LoadingState.loading;
     notifyListeners();
@@ -68,15 +81,74 @@ class PatientController extends ChangeNotifier {
     load();
   }
 
-  /// Assigns the patient to a bed
-  Future<void> changeBed({required String bedId}) async {
+  /// Discharges the patient the [patients]
+  Future<void> discharge() async {
     state = LoadingState.loading;
-    await PatientService()
-        .assignBed(patientId: patient.id, bedId: bedId)
-        .then((value) {})
-        .catchError((error, stackTrace) {
+    notifyListeners();
+    await PatientService().dischargePatient(patientId: patient.id);
+    // Here we can maybe use optimistic updates
+    load();
+  }
+
+  /// Assigns the patient to a bed
+  Future<void> changeBed(RoomMinimal room, BedMinimal bed) async {
+    if (isCreating) {
+      patient.room = room;
+      patient.bed = bed;
+      state = LoadingState.loaded;
+      return;
+    }
+    state = LoadingState.loading;
+    await PatientService().assignBed(patientId: patient.id, bedId: bed.id).then((value) {
+      patient.room = room;
+      patient.bed = bed;
+      state = LoadingState.loaded;
+    }).catchError((error, stackTrace) {
       errorMessage = error.toString();
       state = LoadingState.error;
+    });
+  }
+
+  /// Change the name of the [patient]
+  Future<void> changeName(String name) async {
+    String oldName = name;
+    updatePatient(
+      (patient) {
+        patient.name = name;
+      },
+      (patient) {
+        patient.name = oldName;
+      },
+    );
+  }
+
+  /// Change the notes of the [patient]
+  Future<void> changeNotes(String notes) async {
+    String oldNotes = notes;
+    updatePatient(
+      (patient) {
+        patient.notes = notes;
+      },
+      (patient) {
+        patient.notes = oldNotes;
+      },
+    );
+  }
+
+  /// Creates the patient and returns
+  Future<bool> create() async {
+    state = LoadingState.loading;
+    return await PatientService().createPatient(patient).then((value) async {
+      patient.id = value;
+      if (!patient.isUnassigned) {
+        await PatientService().assignBed(patientId: patient.id, bedId: patient.bed!.id);
+      }
+      state = LoadingState.loaded;
+      return true;
+    }).catchError((error, stackTrace) {
+      errorMessage = error.toString();
+      state = LoadingState.error;
+      return false;
     });
   }
 }

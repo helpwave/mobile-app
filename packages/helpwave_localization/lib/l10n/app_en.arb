@@ -159,5 +159,6 @@
   "subtaskName": "Subtask Name",
   "profile": "Profile",
   "currentWard": "Current Ward",
-  "selectPatient": "Select Patient"
+  "selectPatient": "Select Patient",
+  "noFreeBeds": "No free beds"
 }

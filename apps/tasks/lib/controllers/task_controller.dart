@@ -56,7 +56,6 @@ class TaskController extends ChangeNotifier {
     } else {
       state = LoadingState.loaded;
     }
-    state = LoadingState.loaded;
   }
 
   bool get isCreating => _task.isCreating;
@@ -83,39 +82,51 @@ class TaskController extends ChangeNotifier {
   /// Without a backend request as we expect this to be done in the [AssigneeSelectController]
   Future<void> changeAssignee(String assigneeId) async {
     String? old = task.assignee;
-    updateTask((task) {
-      task.assignee = assigneeId;
-    }, (task) {
-      task.assignee = old;
-    });
+    updateTask(
+      (task) {
+        task.assignee = assigneeId;
+      },
+      (task) {
+        task.assignee = old;
+      },
+    );
   }
 
   Future<void> changeName(String name) async {
     String oldName = task.name;
-    updateTask((task) {
-      task.name = name;
-    }, (task) {
-      task.name = oldName;
-    });
+    updateTask(
+      (task) {
+        task.name = name;
+      },
+      (task) {
+        task.name = oldName;
+      },
+    );
   }
 
   Future<void> changeIsPublic(bool isPublic) async {
     task.isPublicVisible = isPublic;
     bool old = task.isPublicVisible;
-    updateTask((task) {
-      task.isPublicVisible = isPublic;
-    }, (task) {
-      task.isPublicVisible = old;
-    });
+    updateTask(
+      (task) {
+        task.isPublicVisible = isPublic;
+      },
+      (task) {
+        task.isPublicVisible = old;
+      },
+    );
   }
 
   Future<void> changeNotes(String notes) async {
     String oldNotes = notes;
-    updateTask((task) {
-      task.notes = notes;
-    }, (task) {
-      task.notes = oldNotes;
-    });
+    updateTask(
+      (task) {
+        task.notes = notes;
+      },
+      (task) {
+        task.notes = oldNotes;
+      },
+    );
   }
 
   /// Only usable when creating

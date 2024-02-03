@@ -158,5 +158,6 @@
   "subtaskName": "Subtask Name",
   "profile": "Profil",
   "currentWard": "Aktuelle Station",
-  "selectPatient": "Patient Auswählen"
+  "selectPatient": "Patient Auswählen",
+  "noBedsAvailable": "Keine freien Betten"
 }
