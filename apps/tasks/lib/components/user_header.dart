@@ -90,6 +90,7 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
                     ),
                     Text(
                       currentWardController.currentWard?.wardName ?? "",
+                      overflow: TextOverflow.fade,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
