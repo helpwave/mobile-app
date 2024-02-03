@@ -17,7 +17,7 @@ class OrganizationService {
     GetOrganizationRequest request = GetOrganizationRequest(id: id);
     GetOrganizationResponse response = await organizationService.getOrganization(
       request,
-      options: CallOptions(metadata: GRPCClientService().getUserServiceMetaData()),
+      options: CallOptions(metadata: GRPCClientService().getUserServiceMetaData(organizationId: id)),
     );
 
     // TODO use full information of request
