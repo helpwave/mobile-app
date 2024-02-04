@@ -18,7 +18,6 @@
   "start": "starten",
   "selectLanguage": "Wählen Sie Ihre Sprache",
   "language": "Sprache",
-  "darkMode": "Dunkles Design",
   "on": "An",
   "off": "Aus",
   "settings": "Einstellungen",
@@ -157,5 +156,9 @@
   "cancel": "Abbrechen",
   "subtaskName": "Subtask Name",
   "profile": "Profil",
-  "currentWard": "Aktuelle Station"
+  "currentWard": "Aktuelle Station",
+  "themeMode": "Farbmodus",
+  "darkMode": "Dunkel",
+  "lightMode": "Hell",
+  "systemMode": "System"
 }
