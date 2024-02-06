@@ -113,7 +113,7 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(componentHeight),
-        color: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
+        color: Color.alphaBlend(Theme.of(context).colorScheme.secondary.withOpacity(0.7), Colors.black),
       ),
       child: Padding(
         padding: const EdgeInsets.all(paddingSmall),
