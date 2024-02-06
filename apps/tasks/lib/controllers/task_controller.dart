@@ -105,7 +105,6 @@ class TaskController extends ChangeNotifier {
   }
 
   Future<void> changeIsPublic(bool isPublic) async {
-    task.isPublicVisible = isPublic;
     bool old = task.isPublicVisible;
     updateTask(
       (task) {
@@ -125,6 +124,18 @@ class TaskController extends ChangeNotifier {
       },
       (task) {
         task.notes = oldNotes;
+      },
+    );
+  }
+
+  Future<void> changeDueDate(DateTime? dueDate) async {
+    DateTime? old = task.dueDate;
+    updateTask(
+          (task) {
+        task.dueDate = dueDate;
+      },
+          (task) {
+        task.dueDate = old;
       },
     );
   }

@@ -274,6 +274,49 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                           }
                           return Text(context.localization!.none);
                         }),
+                        onTap: () => showDatePicker(
+                          context: context,
+                          initialDate: taskController.task.dueDate ?? DateTime.now(),
+                          firstDate: DateTime(1960),
+                          lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
+                          builder: (context, child) {
+                            // Overwrite the Theme
+                            ThemeData pickerTheme = Theme.of(context).copyWith(textButtonTheme: const TextButtonThemeData());
+                            return Theme(data: pickerTheme, child: child ?? const SizedBox());
+                          },
+                        ).then((date) async {
+                          await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.fromDateTime(taskController.task.dueDate ?? DateTime.now()),
+                            builder: (context, child) {
+                              ThemeData originalTheme = Theme.of(context);
+
+                              // Temporarily set a default theme for the picker
+                              ThemeData pickerTheme = ThemeData.fallback().copyWith(
+                                colorScheme: originalTheme.colorScheme,
+                              );
+                              return Theme(data: pickerTheme, child: child ?? const SizedBox());
+                            },
+                          ).then((time) {
+                            if (date == null && time == null) {
+                              return;
+                            }
+                            date ??= taskController.task.dueDate;
+                            if (date == null) {
+                              return;
+                            }
+                            if (time != null) {
+                              date = DateTime(
+                                date!.year,
+                                date!.month,
+                                date!.day,
+                                time.hour,
+                                time.minute,
+                              );
+                            }
+                            taskController.changeDueDate(date);
+                          });
+                        }),
                       ),
                     ),
                   ),
