@@ -158,5 +158,6 @@
   "cancel": "Cancel",
   "subtaskName": "Subtask Name",
   "profile": "Profile",
-  "currentWard": "Current Ward"
+  "currentWard": "Current Ward",
+  "newTaskOrPatient": "New"
 }
