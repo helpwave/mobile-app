@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
+import 'package:helpwave_widget/dialog.dart';
 import 'package:tasks/dataclasses/task.dart';
 
 /// A [BottomSheet] to change the visibility
@@ -79,21 +80,37 @@ class VisibilitySelect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {
-        if (isCreating || !isPublicVisible)
-          {
-            context.pushModal(
-              context: context,
-              builder: (context) => _VisibilityBottomSheet(
-                onChange: onChanged,
+      onTap: () {
+        if (isCreating) {
+          context.pushModal(
+            context: context,
+            builder: (context) => _VisibilityBottomSheet(
+              onChange: onChanged,
+            ),
+          );
+          return;
+        }
+        // Not creating
+
+        if (isPublicVisible) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(context.localization!.publicTasksCannotBeMadePrivate)));
+        } else {
+          showDialog(
+            context: context,
+            builder: (context) => AcceptDialog(
+              titleText: context.localization!.makeTaskPublic,
+              content: Text(
+                context.localization!.thisCannotBeUndone,
+                // TODO replace with warning color by theme
+                style: const TextStyle(color: warningColor),
               ),
-            )
-          }
+            ),
+          ).then((value) => onChanged(value));
+        }
       },
       child: Text(
-        isPublicVisible
-            ? context.localization!.public
-            : context.localization!.private,
+        isPublicVisible ? context.localization!.public : context.localization!.private,
         style: textStyle,
       ),
     );

@@ -159,5 +159,9 @@
   "profile": "Profil",
   "currentWard": "Aktuelle Station",
   "selectPatient": "Patient Auswählen",
-  "noBedsAvailable": "Keine freien Betten"
+  "noBedsAvailable": "Keine freien Betten",
+  "publicTasksCannotBeMadePrivate": "Öffentliche Tasks könnent nicht privat gesetzt werden",
+  "makeTaskPublic": "Task veröffentlichen?",
+  "thisCannotBeUndone": "Diese Aktion kann nicht rückgängig gemacht werden.",
+  "dischargePatient": "Patient entlassen?"
 }

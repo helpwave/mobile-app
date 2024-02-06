@@ -145,6 +145,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                     child: Align(
                       alignment: Alignment.topRight,
                       child: TextButton(
+                        style: buttonStyleBig,
                         onPressed: taskController.isReadyForCreate
                             ? () {
                                 taskController.create().then((value) {

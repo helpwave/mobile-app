@@ -11,6 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   shared_preferences: ^2.0.15
+  helpwave_util:
+    path: "../helpwave_util"
 
 dev_dependencies:
   flutter_test:

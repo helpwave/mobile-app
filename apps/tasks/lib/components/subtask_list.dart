@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/lists.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/controllers/subtask_list_controller.dart';
@@ -75,7 +76,7 @@ class SubtaskList extends StatelessWidget {
               },
               child: Text(
                 context.localization!.delete,
-                style: const TextStyle(color: negativeColor),
+                style: const TextStyle(color: negativeColor, fontSize: 17),
               ),
             ),
           ),
@@ -129,7 +130,12 @@ class _SubTaskChangeDialogState extends State<SubTaskChangeDialog> {
               children: [
                 TextButton(
                   onPressed: () => Navigator.pop(context, null),
-                  style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(negativeColor)),
+                  style: ButtonStyle(
+                    backgroundColor: resolveByStatesAndContextBackground(
+                      context: context,
+                      defaultValue: negativeColor,
+                    ),
+                  ),
                   child: Text(context.localization!.cancel),
                 ),
                 TextButton(

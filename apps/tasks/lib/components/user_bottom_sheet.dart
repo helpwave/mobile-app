@@ -154,6 +154,7 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
             padding: const EdgeInsets.only(bottom: distanceMedium),
             child: Consumer<CurrentWardController>(builder: (context, currentWardService, _) {
               return TextButton(
+                style: buttonStyleMedium,
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (_) => const LoginScreen()),

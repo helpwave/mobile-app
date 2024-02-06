@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_util/material_state.dart';
 import '../constants.dart';
 
 // A function to map incoming colors to a theme
@@ -110,25 +111,43 @@ ThemeData makeTheme({
       shadowColor: Colors.transparent,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
-      style: buttonStyle.copyWith(
-        backgroundColor: MaterialStatePropertyAll(secondaryColor),
-        foregroundColor: MaterialStatePropertyAll(onSecondaryColor),
+      style: buttonStyleSmall.copyWith(
+        backgroundColor: resolveByStates(
+          defaultValue: secondaryColor,
+          disabled: disabledColor,
+        ),
+        foregroundColor: resolveByStates(
+          defaultValue: onSecondaryColor,
+          disabled: onDisabledColor,
+        ),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
-      style: buttonStyle.copyWith(
-        backgroundColor: MaterialStatePropertyAll(backgroundColor),
-        side: MaterialStatePropertyAll(
-          buttonBorderSide.copyWith(color: focusedColor),
+      style: buttonStyleSmall.copyWith(
+        backgroundColor: resolveByStates(
+          defaultValue: Colors.transparent,
+          disabled: disabledColor,
+        ),
+        foregroundColor: resolveByStates(
+          defaultValue: focusedColor,
+          disabled: onDisabledColor,
+        ),
+        side: resolveByStates(
+          defaultValue: BorderSide(color: focusedColor),
+          disabled: BorderSide(color: onDisabledColor),
         ),
       ),
     ),
     textButtonTheme: TextButtonThemeData(
-      style: buttonStyle.copyWith(
-        backgroundColor: MaterialStateColor.resolveWith(
-            (states) => states.contains(MaterialState.disabled) ? disabledColor : secondaryColor),
-        foregroundColor: MaterialStateColor.resolveWith(
-            (states) => states.contains(MaterialState.disabled) ? onDisabledColor : onSecondaryColor),
+      style: buttonStyleSmall.copyWith(
+        backgroundColor: resolveByStates(
+          defaultValue: secondaryColor,
+          disabled: disabledColor,
+        ),
+        foregroundColor: resolveByStates(
+          defaultValue: onSecondaryColor,
+          disabled: onDisabledColor,
+        ),
       ),
     ),
     iconTheme: IconThemeData(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
+import 'package:helpwave_widget/dialog.dart';
 import 'package:helpwave_widget/lists.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:helpwave_widget/text_input.dart';
@@ -75,10 +77,11 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
           padding: const EdgeInsets.only(top: paddingMedium),
           child: Consumer<PatientController>(builder: (context, patientController, _) {
             return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: patientController.isCreating ? MainAxisAlignment.end : MainAxisAlignment.spaceBetween,
               children: patientController.isCreating
                   ? [
                       TextButton(
+                        style: buttonStyleBig,
                         onPressed: patientController.create,
                         child: Text(context.localization!.create),
                       )
@@ -93,10 +96,14 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                               : () {
                                   patientController.unassign();
                                 },
-                          style: ButtonStyle(
-                            backgroundColor: patientController.patient.isUnassigned
-                                ? null
-                                : const MaterialStatePropertyAll(inProgressColor),
+                          style: buttonStyleMedium.copyWith(
+                            backgroundColor: resolveByStatesAndContextBackground(
+                              context: context,
+                              defaultValue: inProgressColor,
+                            ),
+                            foregroundColor: resolveByStatesAndContextForeground(
+                              context: context,
+                            ),
                           ),
                           child: Text(context.localization!.unassigne),
                         ),
@@ -106,15 +113,23 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                         child: TextButton(
                           // TODO check whether the patient is active
                           onPressed: () {
-                            // TODO: implement discharge
+                            showDialog(
+                              context: context,
+                              builder: (context) => AcceptDialog(titleText: context.localization!.dischargePatient),
+                            ).then((value) {
+                              if (value) {
+                                patientController.discharge();
+                              }
+                            });
                           },
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(borderRadiusMedium),
-                              ),
+                          style: buttonStyleMedium.copyWith(
+                            backgroundColor: resolveByStatesAndContextBackground(
+                              context: context,
+                              defaultValue: negativeColor,
                             ),
-                            backgroundColor: MaterialStateProperty.all(negativeColor),
+                            foregroundColor: resolveByStatesAndContextForeground(
+                              context: context,
+                            ),
                           ),
                           child: Text(context.localization!.discharge),
                         ),
