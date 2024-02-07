@@ -166,5 +166,6 @@
   "themeMode": "Farbmodus",
   "darkMode": "Dunkel",
   "lightMode": "Hell",
-  "system": "System"
+  "system": "System",
+  "newTaskOrPatient": "Neu"
 }

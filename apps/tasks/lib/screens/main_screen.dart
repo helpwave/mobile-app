@@ -4,6 +4,7 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
+import 'package:helpwave_widget/animation.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/patient_bottom_sheet.dart';
 import 'package:tasks/components/user_header.dart';
@@ -46,7 +47,10 @@ class _MainScreenState extends State<MainScreen> {
         appBar: const UserHeader(),
         body: [const MyTasksScreen(), const SizedBox(), const PatientScreen()][index],
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: isShowingActionButton ? _TaskPatientFloatingActionButton() : null,
+        floatingActionButton: PopInAndOutAnimator(
+          visible: isShowingActionButton,
+          child: _TaskPatientFloatingActionButton(),
+        ),
         bottomNavigationBar: NavigationBar(
           indicatorColor: Theme.of(context).colorScheme.secondary,
           backgroundColor: themeNotifier.getIsDarkNullSafe(context) ? Colors.white10 : Colors.white,
@@ -65,7 +69,7 @@ class _MainScreenState extends State<MainScreen> {
                 color: Theme.of(context).colorScheme.onSecondary,
               ),
               icon: const Icon(Icons.add_circle_outline),
-              label: context.localization!.addTask,
+              label: context.localization!.newTaskOrPatient,
             ),
             NavigationDestination(
               selectedIcon: Icon(

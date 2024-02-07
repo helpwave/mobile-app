@@ -167,5 +167,6 @@
   "themeMode": "Thememode",
   "darkMode": "Dark",
   "lightMode": "Light",
-  "system": "System"
+  "system": "System",
+  "newTaskOrPatient": "New"
 }
