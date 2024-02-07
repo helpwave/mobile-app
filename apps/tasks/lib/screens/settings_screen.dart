@@ -34,13 +34,45 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   title: Text(context.localization!.darkMode),
                   trailing: Consumer<ThemeModel>(
                     builder: (_, ThemeModel themeNotifier, __) {
-                      return Switch(
-                        value: themeNotifier.getIsDarkNullSafe(context),
-                        onChanged: (bool value) {
-                          setState(() {
-                            themeNotifier.isDark = value;
-                          });
+                      return PopupMenuButton(
+                        initialValue: themeNotifier.themeMode,
+                        position: PopupMenuPosition.under,
+                        itemBuilder: (context) => [
+                          PopupMenuItem(value: ThemeMode.dark, child: Text(context.localization!.darkMode)),
+                          PopupMenuItem(value: ThemeMode.light, child: Text(context.localization!.lightMode)),
+                          PopupMenuItem(value: ThemeMode.system, child: Text(context.localization!.system)),
+                        ],
+                        onSelected: (value) {
+                          if (value == ThemeMode.system) {
+                            themeNotifier.isDark = null;
+                          } else {
+                            themeNotifier.isDark = value == ThemeMode.dark;
+                          }
                         },
+                        child: Material(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                  {
+                                    ThemeMode.dark: context.localization!.darkMode,
+                                    ThemeMode.light: context.localization!.lightMode,
+                                    ThemeMode.system: context.localization!.system,
+                                  }[themeNotifier.themeMode]!,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w800,
+                                  )),
+                              const SizedBox(
+                                width: distanceTiny,
+                              ),
+                              const Icon(
+                                Icons.expand_more_rounded,
+                                size: iconSizeTiny,
+                              ),
+                            ],
+                          ),
+                        ),
                       );
                     },
                   ),
@@ -56,14 +88,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         onSelected: (value) {
                           languageModel.setLanguage(value);
                         },
-                        itemBuilder: (BuildContext context) =>
-                            getSupportedLocalsWithName()
-                                .map((local) => PopupMenuItem(
-                              value: local.local,
-                              child: Text(
-                                local.name,
-                              ),
-                            )).toList(),
+                        itemBuilder: (BuildContext context) => getSupportedLocalsWithName()
+                            .map((local) => PopupMenuItem(
+                                  value: local.local,
+                                  child: Text(
+                                    local.name,
+                                  ),
+                                ))
+                            .toList(),
                         child: Material(
                           child: Row(
                             mainAxisSize: MainAxisSize.min,

@@ -18,7 +18,6 @@
   "start": "start",
   "selectLanguage": "select your language",
   "language": "Language",
-  "darkMode": "Dark theme",
   "on": "On",
   "off": "Off",
   "settings": "Settings",
@@ -164,5 +163,9 @@
   "publicTasksCannotBeMadePrivate": "Public Tasks cannot be made private",
   "makeTaskPublic": "Make Task public?",
   "thisCannotBeUndone": "This action cannot be undone",
-  "dischargePatient": "Discharge Patient?"
+  "dischargePatient": "Discharge Patient?",
+  "themeMode": "Thememode",
+  "darkMode": "Dark",
+  "lightMode": "Light",
+  "system": "System"
 }
