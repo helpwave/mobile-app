@@ -56,7 +56,14 @@ class SubtaskList extends StatelessWidget {
                 subtasksController.updateSubtask(subTask: subtask);
               }
             }),
-            title: Text(subtask.name),
+            title: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(subtask.name),
+                const SizedBox(width: distanceTiny),
+                const Icon(Icons.edit, size: iconSizeTiny),
+              ],
+            ),
             leading: Checkbox(
               visualDensity: VisualDensity.compact,
               value: subtask.isDone,
