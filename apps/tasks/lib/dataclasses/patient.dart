@@ -16,6 +16,30 @@ class PatientMinimal {
     required this.id,
     required this.name,
   });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+
+    if (other is PatientMinimal) {
+      return id == other.id && name == other.name;
+    }
+
+    return false;
+  }
+
+  @override
+  int get hashCode => id.hashCode + name.hashCode;
+
+  @override
+  String toString() {
+    if(isCreating){
+      return "PatientMinimal<Empty>";
+    }
+    return "PatientMinimal<$id, $name>";
+  }
 }
 
 /// data class for [Patient] with TaskCount
@@ -43,7 +67,7 @@ class Patient extends PatientMinimal {
   get doneCount => doneTasks.length;
 
   factory Patient.empty({String id = ""}) {
-    return Patient(id: id, name: "", tasks: [], notes: "");
+    return Patient(id: id, name: "Patient", tasks: [], notes: "");
   }
 
   Patient({

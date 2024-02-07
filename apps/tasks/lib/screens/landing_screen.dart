@@ -24,13 +24,7 @@ class LandingScreen extends StatelessWidget {
           }
 
           return OutlinedButton(
-            style: ButtonStyle(
-              shape: MaterialStatePropertyAll(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(borderRadiusSmall),
-                ),
-              ),
-            ),
+            style: buttonStyleBig.copyWith(side: const MaterialStatePropertyAll(buttonBorderSideBig)),
             child: Text(
               context.localization!.loginSlogan,
               style: Theme.of(context).textTheme.labelLarge,

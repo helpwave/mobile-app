@@ -12,6 +12,7 @@ import 'package:tasks/controllers/task_controller.dart';
 import 'package:tasks/controllers/user_controller.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/user.dart';
+import 'package:tasks/services/patient_svc.dart';
 import '../controllers/assignee_select_controller.dart';
 import '../dataclasses/task.dart';
 
@@ -136,6 +137,31 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
             ),
           ),
         ),
+        bottomWidget: Flexible(
+          child: Consumer<TaskController>(
+            builder: (context, taskController, child) => taskController.isCreating
+                ? Padding(
+                    padding: const EdgeInsets.only(top: paddingSmall),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: TextButton(
+                        style: buttonStyleBig,
+                        onPressed: taskController.isReadyForCreate
+                            ? () {
+                                taskController.create().then((value) {
+                                  if (value) {
+                                    Navigator.pop(context);
+                                  }
+                                });
+                              }
+                            : null,
+                        child: Text(context.localization!.create),
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
+          ),
+        ),
         builder: (context) => Container(
           constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.8),
           child: Column(
@@ -146,27 +172,32 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 child: Consumer<TaskController>(builder:
                     // TODO move this to its own component
                     (context, taskController, __) {
-                  List<Patient> patients = [];
                   return LoadingAndErrorWidget.pulsing(
                     state: taskController.state,
                     child: !taskController.isCreating
                         ? Text(taskController.patient.name)
-                        : DropdownButton(
-                            underline: const SizedBox(),
-                            // removes the default underline
-                            padding: EdgeInsets.zero,
-                            isDense: true,
-                            // TODO use the full list of possible assignees
-                            items: patients
-                                .map((patient) => DropdownMenuItem(value: patient, child: Text(patient.name)))
-                                .toList(),
-                            value: null,
-                            onChanged: (value) {
-                              setState(() {
-                                // patient = value;
-                              });
-                            },
-                          ),
+                        : LoadingFutureBuilder(
+                            future: PatientService().getPatientList(),
+                            loadingWidget: const PulsingContainer(),
+                            thenWidgetBuilder: (context, patientList) {
+                              List<Patient> patients = patientList.active + patientList.unassigned;
+                              return DropdownButton(
+                                underline: const SizedBox(),
+                                iconEnabledColor: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
+                                // removes the default underline
+                                padding: EdgeInsets.zero,
+                                hint: Text(
+                                  context.localization!.selectPatient,
+                                  style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),
+                                ),
+                                isDense: true,
+                                items: patients
+                                    .map((patient) => DropdownMenuItem(value: patient, child: Text(patient.name)))
+                                    .toList(),
+                                value: taskController.patient.isCreating ? null : taskController.patient,
+                                onChanged: (patient) => taskController.changePatient(patient ?? PatientMinimal.empty()),
+                              );
+                            }),
                   );
                 }),
               ),
@@ -243,6 +274,49 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                             );
                           }
                           return Text(context.localization!.none);
+                        }),
+                        onTap: () => showDatePicker(
+                          context: context,
+                          initialDate: taskController.task.dueDate ?? DateTime.now(),
+                          firstDate: DateTime(1960),
+                          lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
+                          builder: (context, child) {
+                            // Overwrite the Theme
+                            ThemeData pickerTheme = Theme.of(context).copyWith(textButtonTheme: const TextButtonThemeData());
+                            return Theme(data: pickerTheme, child: child ?? const SizedBox());
+                          },
+                        ).then((date) async {
+                          await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.fromDateTime(taskController.task.dueDate ?? DateTime.now()),
+                            builder: (context, child) {
+                              ThemeData originalTheme = Theme.of(context);
+
+                              // Temporarily set a default theme for the picker
+                              ThemeData pickerTheme = ThemeData.fallback().copyWith(
+                                colorScheme: originalTheme.colorScheme,
+                              );
+                              return Theme(data: pickerTheme, child: child ?? const SizedBox());
+                            },
+                          ).then((time) {
+                            if (date == null && time == null) {
+                              return;
+                            }
+                            date ??= taskController.task.dueDate;
+                            if (date == null) {
+                              return;
+                            }
+                            if (time != null) {
+                              date = DateTime(
+                                date!.year,
+                                date!.month,
+                                date!.day,
+                                time.hour,
+                                time.minute,
+                              );
+                            }
+                            taskController.changeDueDate(date);
+                          });
                         }),
                       ),
                     ),

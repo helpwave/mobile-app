@@ -1,22 +1,50 @@
 import 'package:flutter/material.dart';
 
 /// Button attributes and
-const double buttonWidth = 250;
-const double buttonHeight = 50;
-const BorderSide buttonBorderSide = BorderSide(width: 1);
-const TextStyle buttonTextStyle = TextStyle(
-  fontSize: 20,
-  fontWeight: FontWeight.w500,
+
+const BorderSide buttonBorderSideSmall = BorderSide(width: 1);
+const BorderSide buttonBorderSideMedium = BorderSide(width: 1.5);
+const BorderSide buttonBorderSideBig = BorderSide(width: 2);
+
+ButtonStyle buttonStyleSmall = ButtonStyle(
+  minimumSize: const MaterialStatePropertyAll(Size(50, 20)),
+  shape: MaterialStatePropertyAll(
+    RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(borderRadiusSmall),
+    ),
+  ),
+  textStyle: const MaterialStatePropertyAll(TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+  )),
 );
-ButtonStyle buttonStyle = ButtonStyle(
-  minimumSize: const MaterialStatePropertyAll<Size>(Size(buttonWidth, buttonHeight)),
-  shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+
+ButtonStyle buttonStyleMedium = ButtonStyle(
+  minimumSize: const MaterialStatePropertyAll(Size(120, 40)),
+  shape: MaterialStatePropertyAll(
+    RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(7),
+    ),
+  ),
+  textStyle: const MaterialStatePropertyAll(TextStyle(
+    fontSize: 17,
+    fontWeight: FontWeight.w500,
+  )),
+);
+
+ButtonStyle buttonStyleBig = ButtonStyle(
+  minimumSize: const MaterialStatePropertyAll(Size(250, 50)),
+  shape: MaterialStatePropertyAll(
     RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(borderRadiusMedium),
     ),
   ),
-  textStyle: const MaterialStatePropertyAll<TextStyle>(buttonTextStyle),
+  textStyle: const MaterialStatePropertyAll(TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+  )),
 );
+
 
 /// Paddings/Distances
 const double distanceTiny = 6;
@@ -61,6 +89,7 @@ const defaultOutlineInputBorder = OutlineInputBorder(
 const positiveColor = Color.fromARGB(255, 52, 199, 89);
 const negativeColor = Color(0xFFD67268);
 const primaryColor = Color(0xFF694BB4);
+const warningColor = Color(0xFFC98D32);
 
 const Color upcomingColor = Color(0xFF5D5FEF);
 const Color inProgressColor = Color(0xFFC79345);

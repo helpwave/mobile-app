@@ -3,6 +3,8 @@ description: The Theme of the helpwave app
 version: 0.0.1
 homepage: https://github.com/helpwave/mobile-app
 
+publish_to: none
+
 environment:
   sdk: '>=3.1.0'
   flutter: ">=3.13.0"
@@ -11,6 +13,8 @@ dependencies:
   flutter:
     sdk: flutter
   shared_preferences: ^2.0.15
+  helpwave_util:
+    path: "../helpwave_util"
 
 dev_dependencies:
   flutter_test:

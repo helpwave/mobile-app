@@ -31,6 +31,7 @@ const surfaceTint = Colors.transparent;
 const shadow = Color.fromARGB(255, 60, 60, 60);
 const outline = Color.fromARGB(255, 255, 255, 255);
 const disabledColor = Color.fromARGB(255, 100, 100, 100);
+const onDisabledColor = Color.fromARGB(255, 255, 255, 255);
 const focusedColor = Color.fromARGB(255, 255, 255, 255);
 const defaultColor = Color.fromARGB(255, 150, 150, 150);
 
@@ -74,6 +75,7 @@ ThemeData darkTheme = makeTheme(
   shadow: shadow,
   outline: outline,
   disabledColor: disabledColor,
+  onDisabledColor: onDisabledColor,
   focusedColor: focusedColor,
   defaultColor: defaultColor,
 

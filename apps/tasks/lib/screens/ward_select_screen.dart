@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/content_selection.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/dataclasses/organization.dart';
@@ -98,6 +99,7 @@ class _WardSelectScreen extends State<WardSelectScreen> {
           ),
           Consumer<CurrentWardController>(
             builder: (context, currentWardService, __) => TextButton(
+              style: buttonStyleBig,
               onPressed: () {
                 if (ward == null || organization == null) {
                   return;

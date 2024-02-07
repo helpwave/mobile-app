@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_util/material_state.dart';
 import '../constants.dart';
 
 // A function to map incoming colors to a theme
@@ -41,6 +42,7 @@ ThemeData makeTheme({
   required Color shadow,
   required Color outline,
   required Color disabledColor,
+  required Color onDisabledColor,
   required Color focusedColor,
   required Color defaultColor,
 
@@ -63,14 +65,10 @@ ThemeData makeTheme({
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: const TextStyle(color: Color.fromARGB(255, 100, 100, 100)),
       focusColor: focusedColor,
-      focusedBorder: defaultOutlineInputBorder.copyWith(
-          borderSide: BorderSide(color: focusedColor)),
-      enabledBorder: defaultOutlineInputBorder.copyWith(
-          borderSide: BorderSide(color: defaultColor)),
-      errorBorder: defaultOutlineInputBorder.copyWith(
-          borderSide: BorderSide(color: errorColor)),
-      focusedErrorBorder: defaultOutlineInputBorder.copyWith(
-          borderSide: BorderSide(color: errorColor)),
+      focusedBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide(color: focusedColor)),
+      enabledBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide(color: defaultColor)),
+      errorBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide(color: errorColor)),
+      focusedErrorBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide(color: errorColor)),
       iconColor: MaterialStateColor.resolveWith((states) {
         if (states.contains(MaterialState.focused)) {
           return focusedColor;
@@ -113,23 +111,43 @@ ThemeData makeTheme({
       shadowColor: Colors.transparent,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
-      style: buttonStyle.copyWith(
-        backgroundColor: MaterialStatePropertyAll(secondaryColor),
-        foregroundColor: MaterialStatePropertyAll(onSecondaryColor),
+      style: buttonStyleSmall.copyWith(
+        backgroundColor: resolveByStates(
+          defaultValue: secondaryColor,
+          disabled: disabledColor,
+        ),
+        foregroundColor: resolveByStates(
+          defaultValue: onSecondaryColor,
+          disabled: onDisabledColor,
+        ),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
-      style: buttonStyle.copyWith(
-        backgroundColor: MaterialStatePropertyAll(backgroundColor),
-        side: MaterialStatePropertyAll(
-          buttonBorderSide.copyWith(color: focusedColor),
+      style: buttonStyleSmall.copyWith(
+        backgroundColor: resolveByStates(
+          defaultValue: Colors.transparent,
+          disabled: disabledColor,
+        ),
+        foregroundColor: resolveByStates(
+          defaultValue: focusedColor,
+          disabled: onDisabledColor,
+        ),
+        side: resolveByStates(
+          defaultValue: BorderSide(color: focusedColor),
+          disabled: BorderSide(color: onDisabledColor),
         ),
       ),
     ),
     textButtonTheme: TextButtonThemeData(
-      style: buttonStyle.copyWith(
-        backgroundColor: MaterialStatePropertyAll(secondaryColor),
-        foregroundColor: MaterialStatePropertyAll(onSecondaryColor),
+      style: buttonStyleSmall.copyWith(
+        backgroundColor: resolveByStates(
+          defaultValue: secondaryColor,
+          disabled: disabledColor,
+        ),
+        foregroundColor: resolveByStates(
+          defaultValue: onSecondaryColor,
+          disabled: onDisabledColor,
+        ),
       ),
     ),
     iconTheme: IconThemeData(

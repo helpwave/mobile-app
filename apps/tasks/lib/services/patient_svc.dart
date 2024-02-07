@@ -214,6 +214,38 @@ class PatientService {
     }).toList();
   }
 
+  /// Create a [Patient]
+  Future<String> createPatient(Patient patient) async {
+    CreatePatientRequest request = CreatePatientRequest(
+      notes: patient.notes,
+      humanReadableIdentifier: patient.name,
+    );
+    CreatePatientResponse response = await patientService.createPatient(
+      request,
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+    );
+
+    return response.id;
+  }
+
+  /// Update a [Patient]
+  Future<bool> updatePatient(Patient patient) async {
+    UpdatePatientRequest request = UpdatePatientRequest(
+      id: patient.id,
+      notes: patient.notes,
+      humanReadableIdentifier: patient.name,
+    );
+    UpdatePatientResponse response = await patientService.updatePatient(
+      request,
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+    );
+
+    if (response.isInitialized()) {
+      return true;
+    }
+    return false;
+  }
+
   // TODO consider an enum instead of an string
   /// Discharges a [Patient]
   Future<bool> dischargePatient({required String patientId}) async {

@@ -29,7 +29,7 @@ class TaskService {
               name: task.name,
               notes: task.description,
               isPublicVisible: task.public,
-              status: taskStatusMapping[task.status]!,
+              status: taskStatusMappingFromProto[task.status]!,
               assignee: task.assignedUserId,
               dueDate: task.dueAt.toDateTime(),
               subtasks: task.subtasks
@@ -56,7 +56,7 @@ class TaskService {
       name: response.name,
       notes: response.description,
       isPublicVisible: response.public,
-      status: taskStatusMapping[response.status]!,
+      status: taskStatusMappingFromProto[response.status]!,
       assignee: response.assignedUserId,
       dueDate: response.dueAt.toDateTime(),
       patient: PatientMinimal(id: response.patient.id, name: response.patient.name),
@@ -68,6 +68,23 @@ class TaskService {
               ))
           .toList(),
     );
+  }
+
+  Future<String> createTask(TaskWithPatient task) async {
+    CreateTaskRequest request = CreateTaskRequest(
+      name: task.name,
+      description: task.notes,
+      initialStatus: taskStatusMappingToProto[task.status],
+      dueAt: task.dueDate != null ? Timestamp.fromDateTime(task.dueDate!) : null,
+      patientId: !task.patient.isCreating ? task.patient.id : null,
+      public: task.isPublicVisible,
+    );
+    CreateTaskResponse response = await taskService.createTask(
+      request,
+      options: CallOptions(metadata: GRPCClientService().getTaskServiceMetaData()),
+    );
+
+    return response.id;
   }
 
   /// Assign a [Task] to a [User]
