@@ -92,7 +92,7 @@ class CurrentWardService extends Listenable {
   final List<VoidCallback> _listeners = [];
 
   CurrentWardService._initialize() {
-    if (!DEV_MODE) {
+    if (!devMode) {
       load();
     }
   }
@@ -102,7 +102,7 @@ class CurrentWardService extends Listenable {
   factory CurrentWardService() => _currentWardService;
 
   set currentWard(CurrentWardInformation? currentWard) {
-    if (!DEV_MODE) {
+    if (!devMode) {
       if (currentWard == null) {
         _preferences.clear();
       } else {
@@ -124,7 +124,7 @@ class CurrentWardService extends Listenable {
   /// Load the preferences with the [_CurrentWardPreferences]
   Future<void> load() async {
     // everything is done in the setter
-    currentWard = DEV_MODE ? null : await _preferences.getInformation();
+    currentWard = devMode ? null : await _preferences.getInformation();
   }
 
   /// Fetch [Ward] and [Organization] from backend

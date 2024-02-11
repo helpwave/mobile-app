@@ -28,7 +28,7 @@ class UserSessionService {
   ///
   /// Sets the [hasTriedTokens] to true
   Future<void> tokenLogin() async {
-    if (!DEV_MODE) {
+    if (!devMode) {
       _identity = await _authService.tokenLogin();
       // new login required thus delete all saved information
       if (_identity == null) {
@@ -43,14 +43,14 @@ class UserSessionService {
 
   /// Logs a User in by a in app web view
   Future<void> login() async {
-    if (!DEV_MODE) {
+    if (!devMode) {
       _identity = await _authService.login();
     }
   }
 
   /// Logs a User out and removes all stored information
   logout() {
-    _identity = DEV_MODE ? Identity.defaultIdentity() : null;
+    _identity = devMode ? Identity.defaultIdentity() : null;
     _hasTriedTokens = true;
     _authService.revoke();
   }

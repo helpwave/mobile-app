@@ -12,10 +12,10 @@ import 'user_session_service.dart';
 /// The Underlying GrpcService it provides other clients and the correct metadata for the requests
 class GRPCClientService {
   static final taskServiceChannel = ClientChannel(
-    USED_API_URL,
+    usedAPIURL,
   );
   static final userServiceChannel = ClientChannel(
-    USED_API_URL,
+    usedAPIURL,
   );
 
   final UserSessionService authService = UserSessionService();
