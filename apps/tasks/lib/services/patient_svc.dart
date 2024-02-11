@@ -25,9 +25,7 @@ class PatientService {
     GetPatientListResponse response = await patientService.getPatientList(
       request,
       options: CallOptions(
-        metadata: GRPCClientService().getTaskServiceMetaData(
-          organizationId: CurrentWardService().currentWard?.organizationId
-        ),
+        metadata: GRPCClientService().getTaskServiceMetaData(),
       ),
     );
 
