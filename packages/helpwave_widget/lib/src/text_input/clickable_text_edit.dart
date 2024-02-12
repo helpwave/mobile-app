@@ -78,7 +78,7 @@ class _ClickableTextEditState extends State<ClickableTextEdit> {
         TextStyle(color: Theme.of(context).colorScheme.secondary, fontSize: 20, fontWeight: FontWeight.w700);
 
     return Theme(
-      data: ThemeData(
+      data: Theme.of(context).copyWith(
         inputDecorationTheme: const InputDecorationTheme(
           contentPadding: EdgeInsets.zero,
           border: borderTheme,
