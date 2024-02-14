@@ -11,6 +11,8 @@ class TextFormFieldWithTimer extends StatefulWidget {
   final TextAlign textAlign;
   final int? maxLines;
   final InputDecoration? decoration;
+  final FocusNode? focusNode;
+  final bool autofocus;
 
   const TextFormFieldWithTimer({
     super.key,
@@ -22,6 +24,8 @@ class TextFormFieldWithTimer extends StatefulWidget {
     this.textAlign = TextAlign.left,
     this.maxLines,
     this.decoration,
+    this.focusNode,
+    this.autofocus = false,
   });
 
   @override
@@ -29,11 +33,13 @@ class TextFormFieldWithTimer extends StatefulWidget {
 }
 
 class _TextFormFieldWithTimerState extends State<TextFormFieldWithTimer> {
-  final FocusNode _focusNode = FocusNode();
+  late final FocusNode _focusNode;
   TimedValueUpdater<String>? valueUpdater;
 
   @override
   void initState() {
+    _focusNode = widget.focusNode ?? FocusNode();
+
     if (widget.onUpdate != null) {
       valueUpdater = TimedValueUpdater(
         widget.initialValue ?? "",
@@ -54,7 +60,9 @@ class _TextFormFieldWithTimerState extends State<TextFormFieldWithTimer> {
 
   @override
   void dispose() {
-    _focusNode.dispose();
+    if(widget.focusNode == null){
+      _focusNode.dispose();
+    }
     valueUpdater?.dispose();
     super.dispose();
   }
@@ -74,6 +82,7 @@ class _TextFormFieldWithTimerState extends State<TextFormFieldWithTimer> {
       textAlign: widget.textAlign,
       maxLines: widget.maxLines,
       decoration: widget.decoration,
+      autofocus: widget.autofocus,
     );
   }
 }
