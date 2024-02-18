@@ -40,9 +40,11 @@ class GRPCClientService {
       "dapr-app-id": "task-svc",
     };
 
-    metaData["X-Organization"] = fallbackOrganizationId!;
     if (organizationId != null) {
       metaData["X-Organization"] = organizationId;
+    }
+    else {
+      metaData["X-Organization"] = fallbackOrganizationId!;
     }
 
     return metaData;
