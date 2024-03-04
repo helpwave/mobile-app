@@ -42,8 +42,7 @@ class GRPCClientService {
 
     if (organizationId != null) {
       metaData["X-Organization"] = organizationId;
-    }
-    else {
+    } else {
       metaData["X-Organization"] = fallbackOrganizationId!;
     }
 
