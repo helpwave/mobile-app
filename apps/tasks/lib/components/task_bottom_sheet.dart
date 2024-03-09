@@ -119,64 +119,65 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
     return ChangeNotifierProvider(
       create: (context) =>
           TaskController(TaskWithPatient.fromTaskAndPatient(task: widget.task, patient: widget.patient)),
-      child: BottomSheetBase(
-        onClosing: () async {
-          // TODO do saving or something when the dialog is closed
-        },
-        title: Consumer<TaskController>(
-          builder: (context, taskController, child) => ClickableTextEdit(
-            initialValue: taskController.task.name,
-            onUpdated: taskController.changeName,
-            textAlign: TextAlign.center,
-            textStyle: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
-              fontWeight: FontWeight.bold,
-              fontSize: iconSizeTiny,
-              fontFamily: "SpaceGrotesk",
-              overflow: TextOverflow.ellipsis,
+      child: SingleChildScrollView(
+        child: BottomSheetBase(
+          onClosing: () async {
+            // TODO do saving or something when the dialog is closed
+          },
+          title: Consumer<TaskController>(
+            builder: (context, taskController, child) => ClickableTextEdit(
+              initialValue: taskController.task.name,
+              onUpdated: taskController.changeName,
+              textAlign: TextAlign.center,
+              textStyle: TextStyle(
+                color: Theme.of(context).colorScheme.secondary,
+                fontWeight: FontWeight.bold,
+                fontSize: iconSizeTiny,
+                fontFamily: "SpaceGrotesk",
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
-        ),
-        bottomWidget: Flexible(
-          child: Consumer<TaskController>(
-            builder: (context, taskController, child) => taskController.isCreating
-                ? Padding(
-                    padding: const EdgeInsets.only(top: paddingSmall),
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: TextButton(
-                        style: buttonStyleBig,
-                        onPressed: taskController.isReadyForCreate
-                            ? () {
-                                taskController.create().then((value) {
-                                  if (value) {
-                                    Navigator.pop(context);
-                                  }
-                                });
-                              }
-                            : null,
-                        child: Text(context.localization!.create),
-                      ),
-                    ),
-                  )
-                : const SizedBox(),
+          bottomWidget: Flexible(
+            child: Consumer<TaskController>(
+              builder: (context, taskController, child) => taskController.isCreating
+                  ? Padding(
+                padding: const EdgeInsets.only(top: paddingSmall),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: TextButton(
+                    style: buttonStyleBig,
+                    onPressed: taskController.isReadyForCreate
+                        ? () {
+                      taskController.create().then((value) {
+                        if (value) {
+                          Navigator.pop(context);
+                        }
+                      });
+                    }
+                        : null,
+                    child: Text(context.localization!.create),
+                  ),
+                ),
+              )
+                  : const SizedBox(),
+            ),
           ),
-        ),
-        builder: (context) => Container(
-          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.8),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Consumer<TaskController>(builder:
+          builder: (context) => Container(
+              constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Consumer<TaskController>(builder:
                     // TODO move this to its own component
-                    (context, taskController, __) {
-                  return LoadingAndErrorWidget.pulsing(
-                    state: taskController.state,
-                    child: !taskController.isCreating
-                        ? Text(taskController.patient.name)
-                        : LoadingFutureBuilder(
+                        (context, taskController, __) {
+                      return LoadingAndErrorWidget.pulsing(
+                        state: taskController.state,
+                        child: !taskController.isCreating
+                            ? Text(taskController.patient.name)
+                            : LoadingFutureBuilder(
                             future: PatientService().getPatientList(),
                             loadingWidget: const PulsingContainer(),
                             thenWidgetBuilder: (context, patientList) {
@@ -198,201 +199,202 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                                 onChanged: (patient) => taskController.changePatient(patient ?? PatientMinimal.empty()),
                               );
                             }),
-                  );
-                }),
-              ),
-              const SizedBox(height: distanceMedium),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Consumer<TaskController>(builder: (context, taskController, __) {
-                    return _SheetListTile(
-                      icon: Icons.person,
-                      label: context.localization!.assignedTo,
-                      onTap: () => context.pushModal(
-                        context: context,
-                        builder: (BuildContext context) => LoadingAndErrorWidget(
+                      );
+                    }),
+                  ),
+                  const SizedBox(height: distanceMedium),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Consumer<TaskController>(builder: (context, taskController, __) {
+                        return _SheetListTile(
+                          icon: Icons.person,
+                          label: context.localization!.assignedTo,
+                          onTap: () => context.pushModal(
+                            context: context,
+                            builder: (BuildContext context) => LoadingAndErrorWidget(
+                              state: taskController.state,
+                              child: ChangeNotifierProvider(
+                                create: (BuildContext context) => AssigneeSelectController(
+                                  selected: taskController.task.assignee,
+                                  taskId: taskController.task.id,
+                                ),
+                                child: AssigneeSelect(
+                                  onChanged: (assignee) {
+                                    taskController.changeAssignee(assignee.id).then((value) => Navigator.of(context).pop());
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          // TODO maybe do some optimisations here
+                          // TODO update the error and loading widgets
+                          valueWidget: LoadingAndErrorWidget.pulsing(
+                            state: taskController.state,
+                            child: taskController.task.hasAssignee
+                                ? ChangeNotifierProvider(
+                              create: (context) => UserController(User.empty(id: taskController.task.assignee!)),
+                              child: Consumer<UserController>(
+                                builder: (context, userController, __) => LoadingAndErrorWidget.pulsing(
+                                  state: userController.state,
+                                  child: Text(
+                                    userController.user.name,
+                                    style: editableValueTextStyle(context),
+                                  ),
+                                ),
+                              ),
+                            )
+                                : Text(
+                              context.localization!.unassigned,
+                              style: editableValueTextStyle(context),
+                            ),
+                          ),
+                        );
+                      }),
+                      Consumer<TaskController>(
+                        builder: (context, taskController, __) => LoadingAndErrorWidget.pulsing(
                           state: taskController.state,
-                          child: ChangeNotifierProvider(
-                            create: (BuildContext context) => AssigneeSelectController(
-                              selected: taskController.task.assignee,
-                              taskId: taskController.task.id,
-                            ),
-                            child: AssigneeSelect(
-                              onChanged: (assignee) {
-                                taskController.changeAssignee(assignee.id).then((value) => Navigator.of(context).pop());
+                          child: _SheetListTile(
+                            icon: Icons.access_time,
+                            label: context.localization!.due,
+                            // TODO localization and date formatting here
+                            valueWidget: Builder(builder: (context) {
+                              DateTime? dueDate = taskController.task.dueDate;
+                              if (dueDate != null) {
+                                String date =
+                                    "${dueDate.day.toString().padLeft(2, "0")}.${dueDate.month.toString().padLeft(2, "0")}.${dueDate.year.toString().padLeft(4, "0")}";
+                                String time =
+                                    "${dueDate.hour.toString().padLeft(2, "0")}:${dueDate.minute.toString().padLeft(2, "0")}";
+                                return Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(time, style: editableValueTextStyle(context)),
+                                    Text(date),
+                                  ],
+                                );
+                              }
+                              return Text(context.localization!.none);
+                            }),
+                            onTap: () => showDatePicker(
+                              context: context,
+                              initialDate: taskController.task.dueDate ?? DateTime.now(),
+                              firstDate: DateTime(1960),
+                              lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
+                              builder: (context, child) {
+                                // Overwrite the Theme
+                                ThemeData pickerTheme = Theme.of(context).copyWith(textButtonTheme: const TextButtonThemeData());
+                                return Theme(data: pickerTheme, child: child ?? const SizedBox());
                               },
-                            ),
+                            ).then((date) async {
+                              await showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay.fromDateTime(taskController.task.dueDate ?? DateTime.now()),
+                                builder: (context, child) {
+                                  ThemeData originalTheme = Theme.of(context);
+
+                                  // Temporarily set a default theme for the picker
+                                  ThemeData pickerTheme = ThemeData.fallback().copyWith(
+                                    colorScheme: originalTheme.colorScheme,
+                                  );
+                                  return Theme(data: pickerTheme, child: child ?? const SizedBox());
+                                },
+                              ).then((time) {
+                                if (date == null && time == null) {
+                                  return;
+                                }
+                                date ??= taskController.task.dueDate;
+                                if (date == null) {
+                                  return;
+                                }
+                                if (time != null) {
+                                  date = DateTime(
+                                    date!.year,
+                                    date!.month,
+                                    date!.day,
+                                    time.hour,
+                                    time.minute,
+                                  );
+                                }
+                                taskController.changeDueDate(date);
+                              });
+                            }),
                           ),
                         ),
                       ),
-                      // TODO maybe do some optimisations here
-                      // TODO update the error and loading widgets
-                      valueWidget: LoadingAndErrorWidget.pulsing(
-                        state: taskController.state,
-                        child: taskController.task.hasAssignee
-                            ? ChangeNotifierProvider(
-                                create: (context) => UserController(User.empty(id: taskController.task.assignee!)),
-                                child: Consumer<UserController>(
-                                  builder: (context, userController, __) => LoadingAndErrorWidget.pulsing(
-                                    state: userController.state,
-                                    child: Text(
-                                      userController.user.name,
-                                      style: editableValueTextStyle(context),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : Text(
-                                context.localization!.unassigned,
-                                style: editableValueTextStyle(context),
-                              ),
-                      ),
-                    );
-                  }),
+                    ],
+                  ),
+                  const SizedBox(height: distanceSmall),
                   Consumer<TaskController>(
-                    builder: (context, taskController, __) => LoadingAndErrorWidget.pulsing(
+                    builder: (_, taskController, __) => LoadingAndErrorWidget.pulsing(
                       state: taskController.state,
                       child: _SheetListTile(
-                        icon: Icons.access_time,
-                        label: context.localization!.due,
-                        // TODO localization and date formatting here
-                        valueWidget: Builder(builder: (context) {
-                          DateTime? dueDate = taskController.task.dueDate;
-                          if (dueDate != null) {
-                            String date =
-                                "${dueDate.day.toString().padLeft(2, "0")}.${dueDate.month.toString().padLeft(2, "0")}.${dueDate.year.toString().padLeft(4, "0")}";
-                            String time =
-                                "${dueDate.hour.toString().padLeft(2, "0")}:${dueDate.minute.toString().padLeft(2, "0")}";
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(time, style: editableValueTextStyle(context)),
-                                Text(date),
-                              ],
-                            );
+                        icon: Icons.lock,
+                        label: context.localization!.visibility,
+                        valueWidget: VisibilitySelect(
+                          isPublicVisible: taskController.task.isPublicVisible,
+                          onChanged: taskController.changeIsPublic,
+                          isCreating: taskController.isCreating,
+                          textStyle: editableValueTextStyle(context),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: distanceMedium),
+                  Text(
+                    context.localization!.notes,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  const SizedBox(height: distanceTiny),
+                  Consumer<TaskController>(
+                    builder: (_, taskController, __) => LoadingAndErrorWidget(
+                      state: taskController.state,
+                      loadingWidget: PulsingContainer(
+                        width: MediaQuery.of(context).size.width,
+                        height: 25 * 6, // 25px per line
+                      ),
+                      errorWidget: PulsingContainer(
+                        width: MediaQuery.of(context).size.width,
+                        height: 25 * 6,
+                        // 25px per line
+                        maxOpacity: 1,
+                        minOpacity: 1,
+                        color: negativeColor,
+                      ),
+                      child: TextFormFieldWithTimer(
+                        initialValue: taskController.task.notes,
+                        onUpdate: taskController.changeNotes,
+                        maxLines: 6,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(paddingMedium),
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1.0,
+                            ),
+                          ),
+                          hintText: context.localization!.yourNotes,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: distanceBig),
+                  // TODO add callback here for task creation to update the Task accordingly
+                  Consumer<TaskController>(
+                    builder: (_, taskController, __) => LoadingAndErrorWidget.pulsing(
+                      state: taskController.state,
+                      child: SubtaskList(
+                        taskId: taskController.task.id,
+                        subtasks: taskController.task.subtasks,
+                        onChange: (subtasks) {
+                          if (taskController.task.isCreating) {
+                            taskController.task.subtasks = subtasks;
                           }
-                          return Text(context.localization!.none);
-                        }),
-                        onTap: () => showDatePicker(
-                          context: context,
-                          initialDate: taskController.task.dueDate ?? DateTime.now(),
-                          firstDate: DateTime(1960),
-                          lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
-                          builder: (context, child) {
-                            // Overwrite the Theme
-                            ThemeData pickerTheme = Theme.of(context).copyWith(textButtonTheme: const TextButtonThemeData());
-                            return Theme(data: pickerTheme, child: child ?? const SizedBox());
-                          },
-                        ).then((date) async {
-                          await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.fromDateTime(taskController.task.dueDate ?? DateTime.now()),
-                            builder: (context, child) {
-                              ThemeData originalTheme = Theme.of(context);
-
-                              // Temporarily set a default theme for the picker
-                              ThemeData pickerTheme = ThemeData.fallback().copyWith(
-                                colorScheme: originalTheme.colorScheme,
-                              );
-                              return Theme(data: pickerTheme, child: child ?? const SizedBox());
-                            },
-                          ).then((time) {
-                            if (date == null && time == null) {
-                              return;
-                            }
-                            date ??= taskController.task.dueDate;
-                            if (date == null) {
-                              return;
-                            }
-                            if (time != null) {
-                              date = DateTime(
-                                date!.year,
-                                date!.month,
-                                date!.day,
-                                time.hour,
-                                time.minute,
-                              );
-                            }
-                            taskController.changeDueDate(date);
-                          });
-                        }),
+                        },
                       ),
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(height: distanceSmall),
-              Consumer<TaskController>(
-                builder: (_, taskController, __) => LoadingAndErrorWidget.pulsing(
-                  state: taskController.state,
-                  child: _SheetListTile(
-                    icon: Icons.lock,
-                    label: context.localization!.visibility,
-                    valueWidget: VisibilitySelect(
-                      isPublicVisible: taskController.task.isPublicVisible,
-                      onChanged: taskController.changeIsPublic,
-                      isCreating: taskController.isCreating,
-                      textStyle: editableValueTextStyle(context),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: distanceMedium),
-              Text(
-                context.localization!.notes,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-              const SizedBox(height: distanceTiny),
-              Consumer<TaskController>(
-                builder: (_, taskController, __) => LoadingAndErrorWidget(
-                  state: taskController.state,
-                  loadingWidget: PulsingContainer(
-                    width: MediaQuery.of(context).size.width,
-                    height: 25 * 6, // 25px per line
-                  ),
-                  errorWidget: PulsingContainer(
-                    width: MediaQuery.of(context).size.width,
-                    height: 25 * 6,
-                    // 25px per line
-                    maxOpacity: 1,
-                    minOpacity: 1,
-                    color: negativeColor,
-                  ),
-                  child: TextFormFieldWithTimer(
-                    initialValue: taskController.task.notes,
-                    onUpdate: taskController.changeNotes,
-                    maxLines: 6,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(paddingMedium),
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1.0,
-                        ),
-                      ),
-                      hintText: context.localization!.yourNotes,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: distanceBig),
-              // TODO add callback here for task creation to update the Task accordingly
-              Consumer<TaskController>(
-                builder: (_, taskController, __) => LoadingAndErrorWidget.pulsing(
-                  state: taskController.state,
-                  child: SubtaskList(
-                    taskId: taskController.task.id,
-                    subtasks: taskController.task.subtasks,
-                    onChange: (subtasks) {
-                      if (taskController.task.isCreating) {
-                        taskController.task.subtasks = subtasks;
-                      }
-                    },
-                  ),
-                ),
-              ),
-            ],
+              )
           ),
         ),
       ),
