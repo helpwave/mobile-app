@@ -46,6 +46,9 @@ class WardPatientsController extends ChangeNotifier {
         ..._patientsByAssignmentStatus.discharged,
       ];
 
+  /// Discharged [Patients]
+  List<Patient> get discharged => _patientsByAssignmentStatus.discharged;
+
   /// Filtered by Search
   List<Patient> get filtered {
     List<Patient> usedPatients = all;

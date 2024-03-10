@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:tasks/components/task_bottom_sheet.dart';
 import 'package:tasks/components/task_expansion_tile.dart';
 import 'package:tasks/controllers/patient_controller.dart';
+import 'package:tasks/controllers/ward_patients_controller.dart';
 import 'package:tasks/dataclasses/bed.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/room.dart';
@@ -49,8 +50,15 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return ChangeNotifierProvider(
-      create: (_) => PatientController(Patient.empty(id: widget.patentId)),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => PatientController(Patient.empty(id: widget.patentId)),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => WardPatientsController(),
+        ),
+      ],
       child: BottomSheetBase(
         title: Consumer<PatientController>(builder: (context, patientController, _) {
           if (patientController.state == LoadingState.loaded || patientController.isCreating) {
@@ -75,67 +83,70 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
         },
         bottomWidget: Padding(
           padding: const EdgeInsets.only(top: paddingMedium),
-          child: Consumer<PatientController>(builder: (context, patientController, _) {
-            return Row(
+          child: Consumer2<PatientController, WardPatientsController>(builder: (context, patientController, wardPatientController, _) {
+            return LoadingAndErrorWidget(
+                state: wardPatientController.state,
+                child: Row(
               mainAxisAlignment: patientController.isCreating ? MainAxisAlignment.end : MainAxisAlignment.spaceBetween,
               children: patientController.isCreating
                   ? [
-                      TextButton(
-                        style: buttonStyleBig,
-                        onPressed: patientController.create,
-                        child: Text(context.localization!.create),
-                      )
-                    ]
+                TextButton(
+                  style: buttonStyleBig,
+                  onPressed: patientController.create,
+                  child: Text(context.localization!.create),
+                )
+              ]
                   : [
-                      SizedBox(
-                        width: width * 0.4,
-                        // TODO make this state checking easier and more readable
-                        child: TextButton(
-                          onPressed: patientController.patient.isUnassigned
-                              ? null
-                              : () {
-                                  patientController.unassign();
-                                },
-                          style: buttonStyleMedium.copyWith(
-                            backgroundColor: resolveByStatesAndContextBackground(
-                              context: context,
-                              defaultValue: inProgressColor,
-                            ),
-                            foregroundColor: resolveByStatesAndContextForeground(
-                              context: context,
-                            ),
-                          ),
-                          child: Text(context.localization!.unassigne),
-                        ),
+                SizedBox(
+                  width: width * 0.4,
+                  // TODO make this state checking easier and more readable
+                  child: TextButton(
+                    onPressed: patientController.patient.isUnassigned
+                        ? null
+                        : () {
+                      patientController.unassign();
+                    },
+                    style: buttonStyleMedium.copyWith(
+                      backgroundColor: resolveByStatesAndContextBackground(
+                        context: context,
+                        defaultValue: inProgressColor,
                       ),
-                      SizedBox(
-                        width: width * 0.4,
-                        child: TextButton(
-                          // TODO check whether the patient is active
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AcceptDialog(titleText: context.localization!.dischargePatient),
-                            ).then((value) {
-                              if (value) {
-                                patientController.discharge();
-                              }
-                            });
-                          },
-                          style: buttonStyleMedium.copyWith(
-                            backgroundColor: resolveByStatesAndContextBackground(
-                              context: context,
-                              defaultValue: negativeColor,
-                            ),
-                            foregroundColor: resolveByStatesAndContextForeground(
-                              context: context,
-                            ),
-                          ),
-                          child: Text(context.localization!.discharge),
-                        ),
+                      foregroundColor: resolveByStatesAndContextForeground(
+                        context: context,
                       ),
-                    ],
-            );
+                    ),
+                    child: Text(context.localization!.unassigne),
+                  ),
+                ),
+                SizedBox(
+                  width: width * 0.4,
+                  child: TextButton(
+                    // TODO check whether the patient is active
+                    onPressed: wardPatientController.discharged.contains(patientController.patient)? null : () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AcceptDialog(titleText: context.localization!.dischargePatient),
+                      ).then((value) {
+                        if (value) {
+                          patientController.discharge();
+                          Navigator.of(context).pop();
+                        }
+                      });
+                    },
+                    style: buttonStyleMedium.copyWith(
+                      backgroundColor: resolveByStatesAndContextBackground(
+                        context: context,
+                        defaultValue: negativeColor,
+                      ),
+                      foregroundColor: resolveByStatesAndContextForeground(
+                        context: context,
+                      ),
+                    ),
+                    child: Text(context.localization!.discharge),
+                  ),
+                ),
+              ],
+            ));
           }),
         ),
         builder: (BuildContext context) => Column(
