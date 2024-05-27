@@ -10,6 +10,7 @@ extension PushModalContextExtension<T> on BuildContext {
     T? value = await Navigator.of(context).push<T>(
       PageRouteBuilder(
         barrierColor: Colors.black.withOpacity(0.3),
+        barrierDismissible: true,
         transitionDuration: animationDuration,
         reverseTransitionDuration: animationDuration,
         opaque: false,
@@ -57,12 +58,12 @@ class _ModalWrapper extends StatefulWidget {
 
 class _ModalWrapperState extends State<_ModalWrapper> with TickerProviderStateMixin {
   double touchPositionY = 0;
-  double offset = 0;
+  ValueNotifier<double> offset = ValueNotifier(0);
   double velocityY = 0;
 
   Future<void> returnToNormalSize() async {
     const Duration duration = Duration(milliseconds: 100);
-    Tween<double> tween = Tween(begin: offset, end: 0);
+    Tween<double> tween = Tween(begin: offset.value, end: 0);
 
     // Use an AnimationController for the animation
     final AnimationController controller = AnimationController(duration: duration, vsync: this);
@@ -70,9 +71,7 @@ class _ModalWrapperState extends State<_ModalWrapper> with TickerProviderStateMi
 
     // Listen for updates to the animation value
     animation.addListener(() {
-      setState(() {
-        offset = tween.evaluate(animation);
-      });
+      offset.value = tween.evaluate(animation);
     });
 
     // Start the animation
@@ -89,15 +88,15 @@ class _ModalWrapperState extends State<_ModalWrapper> with TickerProviderStateMi
     return GestureDetector(
       onVerticalDragUpdate: (details) {
         double velocity = details.primaryDelta ?? 0;
-        double newOffset = offset += velocity;
+        double newOffset = offset.value += velocity;
         if (newOffset < 0) {
           newOffset = 0;
         }
-        setState(() {
-          offset = newOffset;
-          touchPositionY = details.globalPosition.dy;
-          velocityY = velocity;
-        });
+        
+        offset.value = newOffset;
+
+        touchPositionY = details.globalPosition.dy;
+        velocityY = velocity;
       },
       onVerticalDragEnd: (details) {
         double velocityThreshold = 2;
@@ -109,21 +108,21 @@ class _ModalWrapperState extends State<_ModalWrapper> with TickerProviderStateMi
           returnToNormalSize();
         }
       },
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        //backgroundColor: Colors.black.withOpacity(backgroundDim),
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: Align(
-          alignment: Alignment.bottomCenter,
-          child: Transform.translate(
-            offset: Offset(0, offset),
-            child: widget.builder(context),
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: ValueListenableBuilder<double>(
+            valueListenable: offset,
+            child: Material(
+              color: Colors.transparent,
+              child: widget.builder(context),
+            ),
+            builder: (context, offsetValue, child) {
+              return Transform.translate(
+              offset: Offset(0, offsetValue),
+                child: child,
+              );
+            },
           ),
-        ),
       ),
     );
   }
