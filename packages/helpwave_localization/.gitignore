@@ -32,3 +32,4 @@ migrate_working_dir/
 build/
 
 lib/l10n/app_localizations*
+/untranslated_messages.json

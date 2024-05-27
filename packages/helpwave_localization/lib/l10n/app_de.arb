@@ -140,6 +140,7 @@
   "yourNotes": "Deine Notizen,",
   "visibility": "Sichtbarkeit",
   "assignedTo": "Zugewiesen zu",
+  "due": "Fällig",
   "unassigne": "Zuweisung aufheben",
   "public": "Öffentlich",
   "private": "Privat",
