@@ -48,6 +48,7 @@ class Patient extends PatientMinimal {
   BedMinimal? bed;
   String notes;
   List<Task> tasks;
+  bool isDischarged;
 
   get isUnassigned => bed == null && room == null;
 
@@ -67,7 +68,7 @@ class Patient extends PatientMinimal {
   get doneCount => doneTasks.length;
 
   factory Patient.empty({String id = ""}) {
-    return Patient(id: id, name: "Patient", tasks: [], notes: "");
+    return Patient(id: id, name: "Patient", tasks: [], notes: "", isDischarged: false);
   }
 
   Patient({
@@ -75,6 +76,7 @@ class Patient extends PatientMinimal {
     required super.name,
     required this.tasks,
     required this.notes,
+    required this.isDischarged,
     this.room,
     this.bed,
   });

@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'package:tasks/components/task_bottom_sheet.dart';
 import 'package:tasks/components/task_expansion_tile.dart';
 import 'package:tasks/controllers/patient_controller.dart';
-import 'package:tasks/controllers/ward_patients_controller.dart';
 import 'package:tasks/dataclasses/bed.dart';
 import 'package:tasks/dataclasses/patient.dart';
 import 'package:tasks/dataclasses/room.dart';
@@ -55,9 +54,6 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
         ChangeNotifierProvider(
           create: (_) => PatientController(Patient.empty(id: widget.patentId)),
         ),
-        ChangeNotifierProvider(
-          create: (_) => WardPatientsController(),
-        ),
       ],
       child: BottomSheetBase(
         title: Consumer<PatientController>(builder: (context, patientController, _) {
@@ -83,9 +79,9 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
         },
         bottomWidget: Padding(
           padding: const EdgeInsets.only(top: paddingMedium),
-          child: Consumer2<PatientController, WardPatientsController>(builder: (context, patientController, wardPatientController, _) {
+          child: Consumer<PatientController>(builder: (context, patientController, _) {
             return LoadingAndErrorWidget(
-                state: wardPatientController.state,
+                state: patientController.state,
                 child: Row(
               mainAxisAlignment: patientController.isCreating ? MainAxisAlignment.end : MainAxisAlignment.spaceBetween,
               children: patientController.isCreating
@@ -122,7 +118,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                   width: width * 0.4,
                   child: TextButton(
                     // TODO check whether the patient is active
-                    onPressed: wardPatientController.discharged.contains(patientController.patient)? null : () {
+                    onPressed: patientController.patient.isDischarged ? null : () {
                       showDialog(
                         context: context,
                         builder: (context) => AcceptDialog(titleText: context.localization!.dischargePatient),

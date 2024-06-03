@@ -40,6 +40,7 @@ class PatientService {
           (patient) => Patient(
             id: patient.id,
             name: patient.humanReadableIdentifier,
+            isDischarged: response.dischargedPatients.contains(patient),
             tasks: patient.tasks
                 .map((task) => Task(
                       id: task.id,
@@ -70,6 +71,7 @@ class PatientService {
           (patient) => Patient(
             id: patient.id,
             name: patient.humanReadableIdentifier,
+            isDischarged: response.dischargedPatients.contains(patient),
             tasks: patient.tasks
                 .map((task) => Task(
                       id: task.id,
@@ -98,6 +100,7 @@ class PatientService {
           (patient) => Patient(
             id: patient.id,
             name: patient.humanReadableIdentifier,
+            isDischarged: true,
             tasks: patient.tasks
                 .map((task) => Task(
                       id: task.id,
@@ -167,6 +170,7 @@ class PatientService {
       id: response.id,
       name: response.humanReadableIdentifier,
       notes: response.notes,
+      isDischarged: response.isDischarged,
       tasks: response.tasks
           .map((task) => Task(
                 id: task.id,
