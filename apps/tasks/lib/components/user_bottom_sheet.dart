@@ -81,7 +81,7 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
               return LoadingFutureBuilder(
                   loadingWidget: const SizedBox(),
                   future:
-                      WardService().getWardOverviews(organizationId: currentWardController.currentWard!.organizationId),
+                      WardService().getWardOverviews(organizationId: currentWardController.currentWard?.organizationId),
                   thenWidgetBuilder: (BuildContext context, List<WardOverview> data) {
                     double menuWidth = min(250, width * 0.7);
                     return PopupMenuButton(
