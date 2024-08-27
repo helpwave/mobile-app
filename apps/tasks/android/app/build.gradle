@@ -1,15 +1,21 @@
- def keystoreProperties = new Properties()
- def keystorePropertiesFile = rootProject.file('keystore.properties')
- if (keystorePropertiesFile.exists()) {
-     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
- }
+plugins {
+  id "com.android.application"
+  id "kotlin-android"
+  id "dev.flutter.flutter-gradle-plugin"
+}
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('keystore.properties')
+if (keystorePropertiesFile.exists()) {
+  keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
+  localPropertiesFile.withReader('UTF-8') { reader ->
+    localProperties.load(reader)
+  }
 }
 
 def versionProperties = new Properties()
@@ -20,73 +26,59 @@ if (versionPropertiesFile.exists()) {
   }
 }
 
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
-}
-
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
+  flutterVersionCode = '1'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
+  flutterVersionName = '1.0'
 }
 
-
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
 android {
-    compileSdkVersion versionProperties.getProperty('flutter.compileSdkVersion').toInteger()
-    ndkVersion flutter.ndkVersion
+  compileSdkVersion versionProperties.getProperty('flutter.compileSdkVersion').toInteger()
+  ndkVersion flutter.ndkVersion
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+  kotlinOptions {
+    jvmTarget = '1.8'
+  }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+  }
 
-    defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "de.helpwave.tasks"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion versionProperties.getProperty('flutter.minSdkVersion').toInteger()
-        targetSdkVersion versionProperties.getProperty('flutter.targetSdkVersion').toInteger()
-        versionCode project.hasProperty('versionCode') ? project.versionCode.toInteger() : flutterVersionCode.toInteger()
-        versionName flutterVersionName
-        multiDexEnabled true
+  defaultConfig {
+    // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+    applicationId "de.helpwave.tasks"
+    // You can update the following values to match your application needs.
+    // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+    minSdkVersion versionProperties.getProperty('flutter.minSdkVersion').toInteger()
+    targetSdkVersion versionProperties.getProperty('flutter.targetSdkVersion').toInteger()
+    versionCode project.hasProperty('versionCode') ? project.versionCode.toInteger() : flutterVersionCode.toInteger()
+    versionName flutterVersionName
+    multiDexEnabled true
+  }
+  signingConfigs {
+    release {
+      keyAlias keystoreProperties['keyAlias']
+      keyPassword keystoreProperties['keyPassword']
+      storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+      storePassword keystoreProperties['storePassword']
     }
-    signingConfigs {
-        release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
-        }
+  }
+  buildTypes {
+    release {
+      signingConfig signingConfigs.release
     }
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-        }
-    }
+  }
 }
 
 flutter {
-    source '../..'
-}
-
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  source '../..'
 }
