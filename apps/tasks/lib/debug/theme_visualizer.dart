@@ -5,9 +5,7 @@ import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/subtask_list.dart';
 import 'package:tasks/components/task_card.dart';
-import 'package:tasks/dataclasses/patient.dart';
-
-import '../dataclasses/task.dart';
+import 'package:helpwave_service/tasks.dart';
 
 class ThemeVisualizer extends StatelessWidget {
   const ThemeVisualizer({super.key});

@@ -8,9 +8,7 @@ import 'package:tasks/components/patient_bottom_sheet.dart';
 import 'package:tasks/components/patient_card.dart';
 import 'package:tasks/components/patient_status_chip_select.dart';
 import 'package:tasks/components/task_bottom_sheet.dart';
-import 'package:tasks/controllers/ward_patients_controller.dart';
-import 'package:tasks/dataclasses/patient.dart';
-import 'package:tasks/dataclasses/task.dart';
+import 'package:helpwave_service/tasks.dart';
 
 /// A screen for showing a all [Patient]s by certain user-selectable filter properties
 ///

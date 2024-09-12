@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/auth.dart';
+import 'package:helpwave_service/tasks.dart';
+import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/content_selection.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/dataclasses/organization.dart';
 import 'package:tasks/screens/settings_screen.dart';
-import 'package:tasks/services/current_ward_svc.dart';
-import 'package:tasks/services/organization_svc.dart';
-import 'package:tasks/services/ward_service.dart';
-import '../dataclasses/ward.dart';
 
-/// A Screen to select the current [Organization] and [Ward]
+/// A Screen to select the current [OrganizationService] and [Ward]
 class WardSelectScreen extends StatefulWidget {
   const WardSelectScreen({super.key});
 
