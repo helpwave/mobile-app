@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_widget/content_selection.dart';
-import 'package:tasks/dataclasses/patient.dart';
 
 enum PatientStatusChipSelectOptions { all, active, unassigned, discharged }
 

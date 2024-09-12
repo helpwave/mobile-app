@@ -5,12 +5,9 @@ import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/controllers/user_session_controller.dart';
-import 'package:tasks/services/current_ward_svc.dart';
-import '../dataclasses/ward.dart';
-import '../screens/login_screen.dart';
-import '../services/user_session_service.dart';
-import '../services/ward_service.dart';
+import 'package:helpwave_service/tasks.dart';
+import 'package:helpwave_service/auth.dart';
+import 'package:tasks/screens/login_screen.dart';
 
 /// A [BottomSheet] for showing the [User]s information
 class UserBottomSheet extends StatefulWidget {

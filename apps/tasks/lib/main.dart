@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_service/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_localization/l10n/app_localizations.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_localization/localization_model.dart';
 import 'package:helpwave_theme/theme.dart';
+import 'package:tasks/config/config.dart';
+import 'package:helpwave_service/tasks.dart';
 import 'package:tasks/screens/login_screen.dart';
-import 'package:tasks/services/current_ward_svc.dart';
-import 'controllers/user_session_controller.dart';
 
 void main() {
+  UserSessionService().changeMode(devMode);
+  TasksAPIServices.apiUrl = usedAPIURL;
   runApp(const MyApp());
 }
 
@@ -26,7 +29,7 @@ class MyApp extends StatelessWidget {
           create: (_) => LanguageModel(),
         ),
         ChangeNotifierProvider(
-          create: (_) => CurrentWardController(),
+          create: (_) => CurrentWardController(devMode: devMode),
         ),
         ChangeNotifierProvider(
           create: (_) => UserSessionController(),

@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/lists.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/controllers/subtask_list_controller.dart';
-import 'package:tasks/dataclasses/subtask.dart';
-import 'package:tasks/dataclasses/task.dart';
 
-/// A [Widget] for displaying an updating a [List] of [SubTask]s
+/// A [Widget] for displaying an updating a [List] of [Subtask]s
 class SubtaskList extends StatelessWidget {
-  /// The identifier of the [Task] to which all of these [SubTask]s belong
+  /// The identifier of the [Task] to which all of these [Subtask]s belong
   final String taskId;
 
   /// The [List] of initial subtasks
-  final List<SubTask> subtasks;
+  final List<Subtask> subtasks;
 
   /// The callback when the [subtasks] are changed
   ///
   /// Should **only** be used when [taskId == ""]
-  final void Function(List<SubTask> subtasks) onChange;
+  final void Function(List<Subtask> subtasks) onChange;
 
   const SubtaskList({
     super.key,
@@ -43,7 +41,7 @@ class SubtaskList extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           onAdd: () => subtasksController
-              .add(SubTask(id: "", name: "Subtask ${subtasksController.subtasks.length + 1}"))
+              .add(Subtask(id: "", name: "Subtask ${subtasksController.subtasks.length + 1}"))
               .then((_) => onChange(subtasksController.subtasks)),
           itemBuilder: (context, _, subtask) => ListTile(
             contentPadding: EdgeInsets.zero,
@@ -71,8 +69,8 @@ class SubtaskList extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(iconSizeSmall),
               ),
-              onChanged: (value) => subtasksController
-                  .changeStatus(subTask: subtask, value: value ?? false)
+              onChanged: (isDone) => subtasksController
+                  .updateSubtask(subTask: subtask.copyWith(isDone: isDone))
                   .then((value) => onChange(subtasksController.subtasks)),
             ),
             trailing: GestureDetector(

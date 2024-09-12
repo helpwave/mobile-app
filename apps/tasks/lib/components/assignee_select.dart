@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/tasks.dart';
+import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/controllers/assignee_select_controller.dart';
-import 'package:tasks/dataclasses/user.dart';
 
 /// A [BottomSheet] for selecting a assignee
 class AssigneeSelect extends StatelessWidget {

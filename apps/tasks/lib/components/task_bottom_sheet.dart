@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/loading.dart';
@@ -8,13 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:tasks/components/assignee_select.dart';
 import 'package:tasks/components/subtask_list.dart';
 import 'package:tasks/components/visibility_select.dart';
-import 'package:tasks/controllers/task_controller.dart';
-import 'package:tasks/controllers/user_controller.dart';
-import 'package:tasks/dataclasses/patient.dart';
-import 'package:tasks/dataclasses/user.dart';
-import 'package:tasks/services/patient_svc.dart';
-import '../controllers/assignee_select_controller.dart';
-import '../dataclasses/task.dart';
+import 'package:helpwave_service/tasks.dart';
 
 /// A private [Widget] similar to a [ListTile] that has an icon and then to text
 ///
