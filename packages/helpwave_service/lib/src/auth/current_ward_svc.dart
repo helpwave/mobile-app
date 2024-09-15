@@ -9,7 +9,7 @@ class CurrentWardInformation {
   final WardMinimal ward;
 
   /// The identifier of the organization
-  final Organization organization;
+  final OrganizationMinimal organization;
 
   String get wardId => ward.id;
 
@@ -17,11 +17,11 @@ class CurrentWardInformation {
 
   String get organizationId => organization.id;
 
-  String get organizationName => "${organization.name} (${organization.shortName})";
+  String get organizationName => "${organization.longName} (${organization.shortName})";
 
   bool get isEmpty =>  wardId == "" || organizationId == "";
 
-  bool get hasFullInformation => ward.name != "" && organization.name != "";
+  bool get hasFullInformation => ward.name != "" && organization.longName != "";
 
   CurrentWardInformation(this.ward, this.organization);
 
@@ -62,7 +62,7 @@ class _CurrentWardPreferences {
     if (wardId != null && organizationId != null) {
       return CurrentWardInformation(
         WardMinimal(id: wardId, name: ""),
-        Organization(id: organizationId, name: "", shortName: ""),
+        OrganizationMinimal(id: organizationId, longName: "", shortName: ""),
       );
     }
     return null;

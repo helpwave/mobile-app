@@ -44,7 +44,7 @@ class MyTasksController extends ChangeNotifier {
         _tasks.add(TaskWithPatient(
           id: task.id,
           name: task.name,
-          assignee: task.assignee,
+          assignee: task.assigneeId,
           notes: task.notes,
           dueDate: task.dueDate,
           status: task.status,

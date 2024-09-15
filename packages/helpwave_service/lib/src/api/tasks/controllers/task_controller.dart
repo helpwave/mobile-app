@@ -79,13 +79,13 @@ class TaskController extends ChangeNotifier {
   ///
   /// Without a backend request as we expect this to be done in the [AssigneeSelectController]
   Future<void> changeAssignee(String assigneeId) async {
-    String? old = task.assignee;
+    String? old = task.assigneeId;
     updateTask(
       (task) {
-        task.assignee = assigneeId;
+        task.assigneeId = assigneeId;
       },
       (task) {
-        task.assignee = old;
+        task.assigneeId = old;
       },
     );
   }

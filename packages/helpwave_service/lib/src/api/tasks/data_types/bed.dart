@@ -11,6 +11,12 @@ class BedMinimal {
   });
 }
 
+class BedWithRoomId extends BedMinimal {
+  String roomId;
+
+  BedWithRoomId({required super.id, required super.name, required this.roomId});
+}
+
 class BedWithMinimalPatient extends BedMinimal{
   PatientMinimal? patient;
 

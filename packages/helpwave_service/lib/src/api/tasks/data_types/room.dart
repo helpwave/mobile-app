@@ -11,6 +11,12 @@ class RoomMinimal {
   });
 }
 
+class RoomWithWardId extends RoomMinimal {
+  String wardId;
+
+  RoomWithWardId({required super.id, required super.name, required this.wardId});
+}
+
 class RoomWithBeds {
   String id;
   String name;

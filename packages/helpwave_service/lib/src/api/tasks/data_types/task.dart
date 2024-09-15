@@ -1,4 +1,3 @@
-// TODO delete later and import from protobufs
 import 'package:helpwave_service/src/api/tasks/data_types/patient.dart';
 import 'package:helpwave_service/src/api/tasks/data_types/subtask.dart';
 
@@ -11,29 +10,28 @@ enum TaskStatus {
 
 /// data class for [Task]
 class Task {
-  String id;
+  final String id;
   String name;
-  String? assignee;
+  String? assigneeId;
   String notes;
   TaskStatus status;
   List<Subtask> subtasks;
   DateTime? dueDate;
-  DateTime? creationDate;
+  final DateTime? creationDate;
+  final String? createdBy;
   bool isPublicVisible;
+  final String patientId;
 
-  static get empty => Task(id: "", name: "name", notes: "");
+  factory Task.empty(String patientId) => Task(id: "", name: "name", notes: "", patientId: patientId);
 
   final _nullID = "00000000-0000-0000-0000-000000000000";
 
-  double get progress => subtasks.isNotEmpty
-      ? subtasks.where((element) => element.isDone).length / subtasks.length
-      : 1;
+  double get progress => subtasks.isNotEmpty ? subtasks.where((element) => element.isDone).length / subtasks.length : 1;
 
   /// the remaining time until a task is due
   ///
   /// **NOTE**: returns [Duration.zero] if [dueDate] is null
-  Duration get remainingTime =>
-      dueDate != null ? dueDate!.difference(DateTime.now()) : Duration.zero;
+  Duration get remainingTime => dueDate != null ? dueDate!.difference(DateTime.now()) : Duration.zero;
 
   bool get isOverdue => remainingTime.isNegative;
 
@@ -43,29 +41,65 @@ class Task {
 
   bool get isCreating => id == "";
 
-  bool get hasAssignee => assignee != null && assignee != "" && assignee != _nullID;
+  bool get hasAssignee => assigneeId != null && assigneeId != "" && assigneeId != _nullID;
 
   Task({
     required this.id,
     required this.name,
     required this.notes,
-    this.assignee,
+    this.assigneeId,
     this.status = TaskStatus.todo,
     this.subtasks = const [],
     this.dueDate,
     this.creationDate,
+    this.createdBy,
     this.isPublicVisible = false,
+    required this.patientId,
   });
+
+  Task copyWith({
+    String? id,
+    String? name,
+    String? assigneeId,
+    String? notes,
+    TaskStatus? status,
+    List<Subtask>? subtasks,
+    DateTime? dueDate,
+    DateTime? creationDate,
+    String? createdBy,
+    bool? isPublicVisible,
+    String? patientId,
+  }) {
+    return Task(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      assigneeId: assigneeId ?? this.assigneeId,
+      notes: notes ?? this.notes,
+      status: status ?? this.status,
+      subtasks: subtasks ?? this.subtasks,
+      dueDate: dueDate ?? this.dueDate,
+      creationDate: creationDate ?? this.creationDate,
+      createdBy: createdBy ?? this.createdBy,
+      isPublicVisible: isPublicVisible ?? this.isPublicVisible,
+      patientId: patientId ?? this.patientId,
+    );
+  }
 }
 
 class TaskWithPatient extends Task {
-  PatientMinimal patient;
+  final PatientMinimal patient;
 
   factory TaskWithPatient.empty({
     String taskId = "",
     PatientMinimal? patient,
   }) {
-    return TaskWithPatient(id: taskId, name: "task name", notes: "", patient: patient ?? PatientMinimal.empty());
+    return TaskWithPatient(
+      id: taskId,
+      name: "task name",
+      notes: "",
+      patient: patient ?? PatientMinimal.empty(),
+      patientId: patient?.id ?? "",
+    );
   }
 
   factory TaskWithPatient.fromTaskAndPatient({
@@ -82,8 +116,9 @@ class TaskWithPatient extends Task {
       status: task.status,
       dueDate: task.dueDate,
       creationDate: task.creationDate,
-      assignee: task.assignee,
+      assigneeId: task.assigneeId,
       patient: patient ?? PatientMinimal.empty(),
+      patientId: patient?.id ?? "",
     );
   }
 
@@ -91,12 +126,13 @@ class TaskWithPatient extends Task {
     required super.id,
     required super.name,
     required super.notes,
-    super.assignee,
+    super.assigneeId,
     super.status,
     super.subtasks,
     super.dueDate,
     super.creationDate,
     super.isPublicVisible,
+    required super.patientId,
     required this.patient,
-  });
+  }) : assert(patientId == patient.id);
 }

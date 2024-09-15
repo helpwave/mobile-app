@@ -7,10 +7,10 @@ import 'package:helpwave_service/src/api/tasks/util/task_status_mapping.dart';
 /// The GRPC Service for [Patient]s
 ///
 /// Provides queries and requests that load or alter [Patient] objects on the server
-/// The server is defined in the underlying [TasksAPIServices]
+/// The server is defined in the underlying [TasksAPIServiceClients]
 class PatientService {
   /// The GRPC ServiceClient which handles GRPC
-  PatientServiceClient patientService = TasksAPIServices.patientServiceClient;
+  PatientServiceClient patientService = TasksAPIServiceClients.patientServiceClient;
 
   // TODO consider an enum instead of an string
   /// Loads the [Patient]s by [Ward] and sorts them by their assignment status
@@ -19,7 +19,7 @@ class PatientService {
     GetPatientListResponse response = await patientService.getPatientList(
       request,
       options: CallOptions(
-        metadata: TasksAPIServices().getMetaData(),
+        metadata: TasksAPIServiceClients().getMetaData(),
       ),
     );
 
@@ -36,14 +36,16 @@ class PatientService {
                       notes: task.description,
                       status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
                       isPublicVisible: task.public,
-                      assignee: task.assignedUserId,
+                      assigneeId: task.assignedUserId,
                       subtasks: task.subtasks
                           .map((subtask) => Subtask(
                                 id: subtask.id,
                                 name: subtask.name,
                                 isDone: subtask.done,
+                                taskId: task.id
                               ))
                           .toList(),
+                      patientId: patient.id,
                       // TODO due and creation date
                     ))
                 .toList(),
@@ -67,7 +69,7 @@ class PatientService {
                       notes: task.description,
                       status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
                       isPublicVisible: task.public,
-                      assignee: task.assignedUserId,
+                      assigneeId: task.assignedUserId,
                       subtasks: task.subtasks
                           .map((subtask) => Subtask(
                                 id: subtask.id,
@@ -96,7 +98,7 @@ class PatientService {
                       notes: task.description,
                       status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
                       isPublicVisible: task.public,
-                      assignee: task.assignedUserId,
+                      assigneeId: task.assignedUserId,
                       subtasks: task.subtasks
                           .map((subtask) => Subtask(
                                 id: subtask.id,
@@ -126,7 +128,7 @@ class PatientService {
     GetPatientResponse response = await patientService.getPatient(
       request,
       options: CallOptions(
-        metadata: TasksAPIServices().getMetaData(),
+        metadata: TasksAPIServiceClients().getMetaData(),
       ),
     );
 
@@ -143,7 +145,7 @@ class PatientService {
     GetPatientDetailsResponse response = await patientService.getPatientDetails(
       request,
       options: CallOptions(
-        metadata: TasksAPIServices().getMetaData(),
+        metadata: TasksAPIServiceClients().getMetaData(),
       ),
     );
 
@@ -157,7 +159,7 @@ class PatientService {
                 id: task.id,
                 name: task.name,
                 notes: task.description,
-                assignee: task.assignedUserId,
+                assigneeId: task.assignedUserId,
                 status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
                 isPublicVisible: task.public,
                 subtasks: task.subtasks
@@ -179,7 +181,7 @@ class PatientService {
     GetPatientAssignmentByWardResponse response = await patientService.getPatientAssignmentByWard(
       request,
       options: CallOptions(
-        metadata: TasksAPIServices().getMetaData(),
+        metadata: TasksAPIServiceClients().getMetaData(),
       ),
     );
 
@@ -207,7 +209,7 @@ class PatientService {
     );
     CreatePatientResponse response = await patientService.createPatient(
       request,
-      options: CallOptions(metadata: TasksAPIServices().getMetaData()),
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
     );
 
     return response.id;
@@ -222,7 +224,7 @@ class PatientService {
     );
     UpdatePatientResponse response = await patientService.updatePatient(
       request,
-      options: CallOptions(metadata: TasksAPIServices().getMetaData()),
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
     );
 
     if (response.isInitialized()) {
@@ -237,7 +239,7 @@ class PatientService {
     DischargePatientRequest request = DischargePatientRequest(id: patientId);
     DischargePatientResponse response = await patientService.dischargePatient(
       request,
-      options: CallOptions(metadata: TasksAPIServices().getMetaData()),
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
     );
 
     if (response.isInitialized()) {
@@ -251,7 +253,7 @@ class PatientService {
     UnassignBedRequest request = UnassignBedRequest(id: patientId);
     UnassignBedResponse response = await patientService.unassignBed(
       request,
-      options: CallOptions(metadata: TasksAPIServices().getMetaData()),
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
     );
 
     if (response.isInitialized()) {
@@ -265,7 +267,7 @@ class PatientService {
     AssignBedRequest request = AssignBedRequest(id: patientId, bedId: bedId);
     AssignBedResponse response = await patientService.assignBed(
       request,
-      options: CallOptions(metadata: TasksAPIServices().getMetaData()),
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
     );
 
     if (response.isInitialized()) {

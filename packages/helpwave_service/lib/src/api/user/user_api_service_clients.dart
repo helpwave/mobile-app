@@ -6,14 +6,14 @@ import 'package:helpwave_service/src/auth/index.dart';
 /// A bundling of all User API services which can be used and are configured
 ///
 /// Make sure to set the [apiURL] to use the services
-class UserAPIServices {
+class UserAPIServiceClients {
   /// The api URL used
   static String? apiUrl;
 
   static ClientChannel get serviceChannel {
-    assert(UserAPIServices.apiUrl != null);
+    assert(UserAPIServiceClients.apiUrl != null);
     return ClientChannel(
-      UserAPIServices.apiUrl!,
+      UserAPIServiceClients.apiUrl!,
     );
   }
 

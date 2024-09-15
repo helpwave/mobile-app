@@ -6,14 +6,14 @@ import 'package:helpwave_proto_dart/services/tasks_svc/v1/task_svc.pbgrpc.dart';
 import 'package:helpwave_service/src/auth/index.dart';
 
 /// The Underlying GrpcService it provides other clients and the correct metadata for the requests
-class TasksAPIServices {
+class TasksAPIServiceClients {
   /// The api URL used
   static String? apiUrl;
 
   static ClientChannel get serviceChannel {
-    assert(TasksAPIServices.apiUrl != null);
+    assert(TasksAPIServiceClients.apiUrl != null);
     return ClientChannel(
-      TasksAPIServices.apiUrl!,
+      TasksAPIServiceClients.apiUrl!,
     );
   }
 

@@ -7,17 +7,17 @@ import '../util/task_status_mapping.dart';
 /// The GRPC Service for [Task]s
 ///
 /// Provides queries and requests that load or alter [Task] objects on the server
-/// The server is defined in the underlying [TasksAPIServices]
+/// The server is defined in the underlying [TasksAPIServiceClients]
 class TaskService {
   /// The GRPC ServiceClient which handles GRPC
-  TaskServiceClient taskService = TasksAPIServices.taskServiceClient;
+  TaskServiceClient taskService = TasksAPIServiceClients.taskServiceClient;
 
   /// Loads the [Task]s by a [Patient] identifier
   Future<List<Task>> getTasksByPatient({String? patientId}) async {
     GetTasksByPatientRequest request = GetTasksByPatientRequest(patientId: patientId);
     GetTasksByPatientResponse response = await taskService.getTasksByPatient(
       request,
-      options: CallOptions(metadata: TasksAPIServices().getMetaData()),
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
     );
 
     return response.tasks
@@ -27,7 +27,7 @@ class TaskService {
               notes: task.description,
               isPublicVisible: task.public,
               status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
-              assignee: task.assignedUserId,
+              assigneeId: task.assignedUserId,
               dueDate: task.dueAt.toDateTime(),
               subtasks: task.subtasks
                   .map((subtask) => Subtask(
@@ -45,7 +45,7 @@ class TaskService {
     GetTaskRequest request = GetTaskRequest(id: id);
     GetTaskResponse response = await taskService.getTask(
       request,
-      options: CallOptions(metadata: TasksAPIServices().getMetaData()),
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
     );
 
     return TaskWithPatient(
@@ -78,7 +78,7 @@ class TaskService {
     );
     CreateTaskResponse response = await taskService.createTask(
       request,
-      options: CallOptions(metadata: TasksAPIServices().getMetaData()),
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
     );
 
     return response.id;
@@ -89,7 +89,7 @@ class TaskService {
     AssignTaskRequest request = AssignTaskRequest(taskId: taskId, userId: userId);
     AssignTaskResponse response = await taskService.assignTask(
       request,
-      options: CallOptions(metadata: TasksAPIServices().getMetaData()),
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
     );
 
     if (!response.isInitialized()) {
@@ -107,7 +107,7 @@ class TaskService {
         ));
     CreateSubtaskResponse response = await taskService.createSubtask(
       request,
-      options: CallOptions(metadata: TasksAPIServices().getMetaData()),
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
     );
 
     return Subtask(
@@ -122,7 +122,7 @@ class TaskService {
     DeleteSubtaskRequest request = DeleteSubtaskRequest(subtaskId: subtaskId, taskId: taskId);
     DeleteSubtaskResponse response = await taskService.deleteSubtask(
       request,
-      options: CallOptions(metadata: TasksAPIServices().getMetaData()),
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
     );
 
     return response.isInitialized();
@@ -137,7 +137,7 @@ class TaskService {
     );
     UpdateSubtaskResponse response = await taskService.updateSubtask(
       request,
-      options: CallOptions(metadata: TasksAPIServices().getMetaData()),
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
     );
 
     return response.isInitialized();
@@ -155,7 +155,7 @@ class TaskService {
 
     UpdateTaskResponse response = await taskService.updateTask(
       request,
-      options: CallOptions(metadata: TasksAPIServices().getMetaData()),
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
     );
 
     return response.isInitialized();

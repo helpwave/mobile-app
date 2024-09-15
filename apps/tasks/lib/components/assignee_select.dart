@@ -36,7 +36,7 @@ class AssigneeSelect extends StatelessWidget {
                       });
                     },
                     leading: CircleAvatar(
-                        foregroundColor: Colors.blue, backgroundImage: NetworkImage(user.profile.toString())),
+                        foregroundColor: Colors.blue, backgroundImage: NetworkImage(user.profileUrl.toString())),
                     title: Text(user.nickName),
                   );
                 },

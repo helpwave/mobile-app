@@ -211,7 +211,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                               state: taskController.state,
                               child: ChangeNotifierProvider(
                                 create: (BuildContext context) => AssigneeSelectController(
-                                  selected: taskController.task.assignee,
+                                  selected: taskController.task.assigneeId,
                                   taskId: taskController.task.id,
                                 ),
                                 child: AssigneeSelect(
@@ -228,7 +228,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                             state: taskController.state,
                             child: taskController.task.hasAssignee
                                 ? ChangeNotifierProvider(
-                              create: (context) => UserController(User.empty(id: taskController.task.assignee!)),
+                              create: (context) => UserController(User.empty(id: taskController.task.assigneeId!)),
                               child: Consumer<UserController>(
                                 builder: (context, userController, __) => LoadingAndErrorWidget.pulsing(
                                   state: userController.state,

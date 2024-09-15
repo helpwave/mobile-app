@@ -43,7 +43,7 @@ class _WardSelectScreen extends State<WardSelectScreen> {
         children: [
           ListTile(
             // TODO change to organization name
-            title: Text(organization?.name ?? context.localization!.none),
+            title: Text(organization?.longName ?? context.localization!.none),
             subtitle: Text(context.localization!.organization),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () => Navigator.push<Organization?>(
@@ -55,7 +55,7 @@ class _WardSelectScreen extends State<WardSelectScreen> {
                     List<Organization> organizations = await OrganizationService().getOrganizationsForUser();
                     return organizations;
                   },
-                  elementToString: (Organization t) => t.name,
+                  elementToString: (Organization t) => t.longName,
                 ),
               ),
             ).then((value) {

@@ -33,11 +33,43 @@ class PatientMinimal {
 
   @override
   String toString() {
-    if(isCreating){
+    if (isCreating) {
       return "PatientMinimal<Empty>";
     }
     return "PatientMinimal<$id, $name>";
   }
+}
+
+class PatientWithBedId extends PatientMinimal {
+  String? bedId;
+  bool isDischarged;
+  String notes;
+
+  PatientWithBedId({
+    required super.id,
+    required super.name,
+    required this.isDischarged,
+    required this.notes,
+    this.bedId,
+  });
+
+  PatientWithBedId copyWith({
+    String? id,
+    String? name,
+    String? bedId,
+    bool? isDischarged,
+    String? notes,
+  }) {
+    return PatientWithBedId(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      isDischarged: isDischarged ?? this.isDischarged,
+      notes: notes ?? this.notes,
+      bedId: bedId ?? this.bedId,
+    );
+  }
+
+  bool get hasBed => bedId != null;
 }
 
 /// data class for [Patient] with TaskCount
@@ -54,8 +86,7 @@ class Patient extends PatientMinimal {
 
   List<Task> get unscheduledTasks => tasks.where((task) => task.status == TaskStatus.todo).toList();
 
-  List<Task> get inProgressTasks =>
-      tasks.where((task) => task.status == TaskStatus.inProgress).toList();
+  List<Task> get inProgressTasks => tasks.where((task) => task.status == TaskStatus.inProgress).toList();
 
   List<Task> get doneTasks => tasks.where((task) => task.status == TaskStatus.done).toList();
 

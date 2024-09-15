@@ -11,7 +11,7 @@ import 'package:tasks/screens/login_screen.dart';
 
 void main() {
   UserSessionService().changeMode(devMode);
-  TasksAPIServices.apiUrl = usedAPIURL;
+  TasksAPIServiceClients.apiUrl = usedAPIURL;
   runApp(const MyApp());
 }
 

@@ -3,20 +3,28 @@ class User {
   String id;
   String name;
   String nickName;
-  Uri profile;
-
-  // TODO add email
+  String email;
+  Uri profileUrl;
 
   User({
     required this.id,
     required this.name,
     required this.nickName,
-    required this.profile,
+    required this.email,
+    required this.profileUrl,
   });
 
-  factory User.empty({String id = ""}) => User(id: id, name: "", nickName: "", profile: Uri.base);
+  factory User.empty({String id = ""}) => User(id: id, name: "", nickName: "", email: "", profileUrl: Uri.base);
 
   bool get isCreating => id == "";
+
+  User copyWith({String? name, String? nickName, Uri? profileUrl, String? email}) => User(
+        id: id,
+        name: name ?? this.name,
+        nickName: nickName ?? this.nickName,
+        profileUrl: profileUrl ?? this.profileUrl,
+        email: email ?? this.email,
+      );
 
   @override
   bool operator ==(Object other) {
