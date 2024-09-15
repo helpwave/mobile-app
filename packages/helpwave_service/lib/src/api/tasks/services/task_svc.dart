@@ -22,21 +22,24 @@ class TaskService {
 
     return response.tasks
         .map((task) => Task(
-              id: task.id,
-              name: task.name,
-              notes: task.description,
-              isPublicVisible: task.public,
-              status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
-              assigneeId: task.assignedUserId,
-              dueDate: task.dueAt.toDateTime(),
-              subtasks: task.subtasks
-                  .map((subtask) => Subtask(
-                        id: subtask.id,
-                        name: subtask.name,
-                        isDone: subtask.done,
-                      ))
-                  .toList(),
-            ))
+            id: task.id,
+            name: task.name,
+            notes: task.description,
+            isPublicVisible: task.public,
+            status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
+            assigneeId: task.assignedUserId,
+            dueDate: task.dueAt.toDateTime(),
+            subtasks: task.subtasks
+                .map((subtask) => Subtask(
+                      id: subtask.id,
+                      taskId: task.id,
+                      name: subtask.name,
+                      isDone: subtask.done,
+                    ))
+                .toList(),
+            patientId: task.patientId,
+            createdBy: task.createdBy,
+            creationDate: task.createdAt.toDateTime()))
         .toList();
   }
 
@@ -53,17 +56,21 @@ class TaskService {
       name: response.name,
       notes: response.description,
       isPublicVisible: response.public,
-      status:  GRPCTypeConverter.taskStatusFromGRPC(response.status),
-      assignee: response.assignedUserId,
+      status: GRPCTypeConverter.taskStatusFromGRPC(response.status),
+      assigneeId: response.assignedUserId,
       dueDate: response.dueAt.toDateTime(),
       patient: PatientMinimal(id: response.patient.id, name: response.patient.humanReadableIdentifier),
       subtasks: response.subtasks
           .map((subtask) => Subtask(
                 id: subtask.id,
+                taskId: response.id,
                 name: subtask.name,
                 isDone: subtask.done,
               ))
           .toList(),
+      patientId: response.patient.id,
+      createdBy: response.createdBy,
+      creationDate: response.createdAt.toDateTime(),
     );
   }
 
@@ -71,7 +78,7 @@ class TaskService {
     CreateTaskRequest request = CreateTaskRequest(
       name: task.name,
       description: task.notes,
-      initialStatus:  GRPCTypeConverter.taskStatusToGRPC(task.status),
+      initialStatus: GRPCTypeConverter.taskStatusToGRPC(task.status),
       dueAt: task.dueDate != null ? Timestamp.fromDateTime(task.dueDate!) : null,
       patientId: !task.patient.isCreating ? task.patient.id : null,
       public: task.isPublicVisible,
@@ -112,6 +119,7 @@ class TaskService {
 
     return Subtask(
       id: response.subtaskId,
+      taskId: taskId,
       name: subTask.name,
       isDone: subTask.isDone,
     );

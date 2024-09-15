@@ -131,6 +131,7 @@ class TaskWithPatient extends Task {
     super.subtasks,
     super.dueDate,
     super.creationDate,
+    super.createdBy,
     super.isPublicVisible,
     required super.patientId,
     required this.patient,

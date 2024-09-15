@@ -3,7 +3,6 @@ import 'package:helpwave_proto_dart/services/tasks_svc/v1/patient_svc.pbgrpc.dar
 import 'package:helpwave_service/src/api/tasks/index.dart';
 import 'package:helpwave_service/src/api/tasks/util/task_status_mapping.dart';
 
-
 /// The GRPC Service for [Patient]s
 ///
 /// Provides queries and requests that load or alter [Patient] objects on the server
@@ -23,96 +22,41 @@ class PatientService {
       ),
     );
 
-    List<Patient> active = response.active
-        .map(
-          (patient) => Patient(
-            id: patient.id,
-            name: patient.humanReadableIdentifier,
-            isDischarged: response.dischargedPatients.contains(patient),
-            tasks: patient.tasks
-                .map((task) => Task(
-                      id: task.id,
-                      name: task.name,
-                      notes: task.description,
-                      status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
-                      isPublicVisible: task.public,
-                      assigneeId: task.assignedUserId,
-                      subtasks: task.subtasks
-                          .map((subtask) => Subtask(
-                                id: subtask.id,
-                                name: subtask.name,
-                                isDone: subtask.done,
-                                taskId: task.id
-                              ))
-                          .toList(),
-                      patientId: patient.id,
-                      // TODO due and creation date
-                    ))
-                .toList(),
-            notes: patient.notes,
-            bed: BedMinimal(id: patient.bed.id, name: patient.bed.name),
-            room: RoomMinimal(id: patient.room.id, name: patient.room.name),
-          ),
-        )
-        .toList();
+    mapping(GetPatientListResponse_Patient patient) {
+      final res = Patient(
+        id: patient.id,
+        name: patient.humanReadableIdentifier,
+        isDischarged: response.dischargedPatients.contains(patient),
+        tasks: patient.tasks
+            .map((task) => Task(
+                  id: task.id,
+                  name: task.name,
+                  notes: task.description,
+                  status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
+                  isPublicVisible: task.public,
+                  assigneeId: task.assignedUserId,
+                  subtasks: task.subtasks
+                      .map((subtask) =>
+                          Subtask(id: subtask.id, name: subtask.name, isDone: subtask.done, taskId: task.id))
+                      .toList(),
+                  patientId: patient.id,
+                  // TODO due and creation date
+                ))
+            .toList(),
+        notes: patient.notes,
+        bed: BedMinimal(id: patient.bed.id, name: patient.bed.name),
+        room: RoomMinimal(id: patient.room.id, name: patient.room.name),
+      );
+      if (patient.hasBed() && patient.hasRoom()) {
+        res.bed = BedMinimal(id: patient.bed.id, name: patient.bed.name);
+        res.room = RoomMinimal(id: patient.room.id, name: patient.room.name);
+      }
+      return res;
+    }
 
-    List<Patient> unassigned = response.unassignedPatients
-        .map(
-          (patient) => Patient(
-            id: patient.id,
-            name: patient.humanReadableIdentifier,
-            isDischarged: response.dischargedPatients.contains(patient),
-            tasks: patient.tasks
-                .map((task) => Task(
-                      id: task.id,
-                      name: task.name,
-                      notes: task.description,
-                      status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
-                      isPublicVisible: task.public,
-                      assigneeId: task.assignedUserId,
-                      subtasks: task.subtasks
-                          .map((subtask) => Subtask(
-                                id: subtask.id,
-                                name: subtask.name,
-                                isDone: subtask.done,
-                              ))
-                          .toList(),
-                      // TODO due and creation date
-                    ))
-                .toList(),
-            notes: patient.notes,
-          ),
-        )
-        .toList();
-
-    List<Patient> discharged = response.dischargedPatients
-        .map(
-          (patient) => Patient(
-            id: patient.id,
-            name: patient.humanReadableIdentifier,
-            isDischarged: true,
-            tasks: patient.tasks
-                .map((task) => Task(
-                      id: task.id,
-                      name: task.name,
-                      notes: task.description,
-                      status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
-                      isPublicVisible: task.public,
-                      assigneeId: task.assignedUserId,
-                      subtasks: task.subtasks
-                          .map((subtask) => Subtask(
-                                id: subtask.id,
-                                name: subtask.name,
-                                isDone: subtask.done,
-                              ))
-                          .toList(),
-                      // TODO due and creation date
-                    ))
-                .toList(),
-            notes: patient.notes,
-          ),
-        )
-        .toList();
+    final active = response.active.map(mapping).toList();
+    final unassigned = response.unassignedPatients.map(mapping).toList();
+    final discharged = response.dischargedPatients.map(mapping).toList();
 
     return PatientsByAssignmentStatus(
       all: active + unassigned + discharged,
@@ -156,19 +100,20 @@ class PatientService {
       isDischarged: response.isDischarged,
       tasks: response.tasks
           .map((task) => Task(
-                id: task.id,
-                name: task.name,
-                notes: task.description,
-                assigneeId: task.assignedUserId,
-                status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
-                isPublicVisible: task.public,
-                subtasks: task.subtasks
-                    .map((subtask) => Subtask(
-                          id: subtask.id,
-                          name: subtask.name,
-                        ))
-                    .toList(),
-              ))
+              id: task.id,
+              name: task.name,
+              notes: task.description,
+              assigneeId: task.assignedUserId,
+              status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
+              isPublicVisible: task.public,
+              subtasks: task.subtasks
+                  .map((subtask) => Subtask(
+                        id: subtask.id,
+                        taskId: task.id,
+                        name: subtask.name,
+                      ))
+                  .toList(),
+              patientId: response.id))
           .toList(),
       bed: response.hasBed() ? BedMinimal(id: response.bed.id, name: response.bed.name) : null,
       room: response.hasRoom() ? RoomMinimal(id: response.room.id, name: response.room.name) : null,

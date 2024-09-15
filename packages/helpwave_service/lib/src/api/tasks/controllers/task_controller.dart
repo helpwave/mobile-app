@@ -141,7 +141,7 @@ class TaskController extends ChangeNotifier {
   /// Only usable when creating
   Future<void> changePatient(PatientMinimal patient) async {
     assert(task.isCreating, "Only use TaskController.changePatient, when you create a new task.");
-    task.patient = patient;
+    task = task.copyWith(patient);
     notifyListeners();
   }
 
