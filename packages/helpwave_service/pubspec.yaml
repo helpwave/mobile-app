@@ -2,6 +2,7 @@ name: helpwave_service
 description: A package for the helpwave services
 version: 0.0.1
 homepage: https://github.com/helpwave/mobile-app
+publish_to: none
 
 environment:
   sdk: '>=3.1.0'
@@ -16,6 +17,10 @@ dependencies:
   flutter_secure_storage: 9.0.0
   jose: ^0.3.4
   logger: ^2.0.2+1
+  helpwave_proto_dart: ^0.46.0-336429a
+  grpc: ^3.2.4
+  helpwave_util:
+    path: "../helpwave_util"
 
 dev_dependencies:
   flutter_test:
@@ -24,4 +29,4 @@ dev_dependencies:
 
 
 flutter:
-
+  # flutter config

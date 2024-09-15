@@ -1,23 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_util/loading_state.dart';
 import 'package:helpwave_widget/loading.dart';
-
-enum LoadingState {
-  /// The date is initializing
-  initializing,
-
-  /// The date is loaded
-  loaded,
-
-  /// The date is currently loading
-  loading,
-
-  /// The loading produced an error
-  error,
-
-  /// There is no loading state, meaning ignore the LoadingState
-  unspecified,
-}
 
 /// A [Widget] to show different [Widget]s depending on the [LoadingState]
 class LoadingAndErrorWidget extends StatelessWidget {

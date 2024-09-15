@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/loading.dart';
@@ -8,13 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:tasks/components/assignee_select.dart';
 import 'package:tasks/components/subtask_list.dart';
 import 'package:tasks/components/visibility_select.dart';
-import 'package:tasks/controllers/task_controller.dart';
-import 'package:tasks/controllers/user_controller.dart';
-import 'package:tasks/dataclasses/patient.dart';
-import 'package:tasks/dataclasses/user.dart';
-import 'package:tasks/services/patient_svc.dart';
-import '../controllers/assignee_select_controller.dart';
-import '../dataclasses/task.dart';
+import 'package:helpwave_service/tasks.dart';
 
 /// A private [Widget] similar to a [ListTile] that has an icon and then to text
 ///
@@ -216,7 +211,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                               state: taskController.state,
                               child: ChangeNotifierProvider(
                                 create: (BuildContext context) => AssigneeSelectController(
-                                  selected: taskController.task.assignee,
+                                  selected: taskController.task.assigneeId,
                                   taskId: taskController.task.id,
                                 ),
                                 child: AssigneeSelect(
@@ -233,7 +228,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                             state: taskController.state,
                             child: taskController.task.hasAssignee
                                 ? ChangeNotifierProvider(
-                              create: (context) => UserController(User.empty(id: taskController.task.assignee!)),
+                              create: (context) => UserController(User.empty(id: taskController.task.assigneeId!)),
                               child: Consumer<UserController>(
                                 builder: (context, userController, __) => LoadingAndErrorWidget.pulsing(
                                   state: userController.state,

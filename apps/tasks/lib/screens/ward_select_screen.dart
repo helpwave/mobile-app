@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/auth.dart';
+import 'package:helpwave_service/tasks.dart';
+import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/content_selection.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/dataclasses/organization.dart';
 import 'package:tasks/screens/settings_screen.dart';
-import 'package:tasks/services/current_ward_svc.dart';
-import 'package:tasks/services/organization_svc.dart';
-import 'package:tasks/services/ward_service.dart';
-import '../dataclasses/ward.dart';
 
-/// A Screen to select the current [Organization] and [Ward]
+/// A Screen to select the current [OrganizationService] and [Ward]
 class WardSelectScreen extends StatefulWidget {
   const WardSelectScreen({super.key});
 
@@ -44,8 +42,7 @@ class _WardSelectScreen extends State<WardSelectScreen> {
       body: Column(
         children: [
           ListTile(
-            // TODO change to organization name
-            title: Text(organization?.name ?? context.localization!.none),
+            title: Text(organization?.longName ?? context.localization!.none),
             subtitle: Text(context.localization!.organization),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () => Navigator.push<Organization?>(
@@ -57,7 +54,7 @@ class _WardSelectScreen extends State<WardSelectScreen> {
                     List<Organization> organizations = await OrganizationService().getOrganizationsForUser();
                     return organizations;
                   },
-                  elementToString: (Organization t) => t.name,
+                  elementToString: (Organization t) => t.longName,
                 ),
               ),
             ).then((value) {
@@ -73,7 +70,6 @@ class _WardSelectScreen extends State<WardSelectScreen> {
             }),
           ),
           ListTile(
-            // TODO change to organization name
             title: Text(ward?.name ?? context.localization!.none),
             subtitle: Text(context.localization!.ward),
             trailing: const Icon(Icons.arrow_forward),

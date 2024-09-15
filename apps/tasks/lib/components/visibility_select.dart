@@ -3,7 +3,6 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/dialog.dart';
-import 'package:tasks/dataclasses/task.dart';
 
 /// A [BottomSheet] to change the visibility
 class _VisibilityBottomSheet extends StatelessWidget {

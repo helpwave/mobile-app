@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/static_progress_indicator.dart';
-import 'package:tasks/dataclasses/task.dart';
 
 /// A [Card] showing a [Task]'s information
 class TaskCard extends StatelessWidget {

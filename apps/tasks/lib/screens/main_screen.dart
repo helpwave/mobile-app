@@ -1,19 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/auth.dart';
+import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/animation.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/patient_bottom_sheet.dart';
+import 'package:tasks/components/task_bottom_sheet.dart';
 import 'package:tasks/components/user_header.dart';
 import 'package:tasks/screens/main_screen_subscreens/my_tasks_screen.dart';
 import 'package:tasks/screens/main_screen_subscreens/patient_screen.dart';
 import 'package:tasks/screens/ward_select_screen.dart';
-import 'package:tasks/services/current_ward_svc.dart';
-import '../components/task_bottom_sheet.dart';
-import '../dataclasses/task.dart';
 
 /// The main screen of the app
 ///
@@ -142,7 +142,7 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
               onPressed: () {
                 context.pushModal(
                   context: context,
-                  builder: (context) => TaskBottomSheet(task: Task.empty),
+                  builder: (context) => TaskBottomSheet(task: Task.empty("")),
                 );
               },
             ),

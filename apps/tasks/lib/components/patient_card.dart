@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_service/tasks.dart';
 import 'package:tasks/components/task_status_pill_box.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
-import 'package:tasks/dataclasses/patient.dart';
 
 /// A [Widget] for displaying a card containing [Patient] information
 class PatientCard extends StatelessWidget {
