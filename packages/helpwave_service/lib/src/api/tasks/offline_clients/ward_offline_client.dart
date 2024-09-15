@@ -57,12 +57,15 @@ class WardOfflineService {
     OfflineClientStore().roomStore.findRooms(wardId).forEach((element) {
       OfflineClientStore().roomStore.delete(element.id);
     });
-    // TODO delete ward templates
+    final taskTemplates = OfflineClientStore().taskTemplateStore.findTaskTemplates(wardId);
+    for (var element in taskTemplates) {
+      OfflineClientStore().taskTemplateStore.delete(element.id);
+    }
   }
 }
 
-class WardServicePromiseClient extends WardServiceClient {
-  WardServicePromiseClient(super.channel);
+class WardOfflineClient extends WardServiceClient {
+  WardOfflineClient(super.channel);
 
   @override
   ResponseFuture<GetWardResponse> getWard(GetWardRequest request, {CallOptions? options}) {
@@ -104,7 +107,16 @@ class WardServicePromiseClient extends WardServiceClient {
       id: ward.id,
       name: ward.name,
       rooms: rooms,
-      // TODO taskTemplates:
+      taskTemplates: OfflineClientStore()
+          .taskTemplateStore
+          .findTaskTemplates(ward.id)
+          .map((template) => GetWardDetailsResponse_TaskTemplate(
+                id: template.id,
+                name: template.name,
+                subtasks: OfflineClientStore().taskTemplateSubtaskStore.findTemplateSubtasks(template.id).map(
+                      (subtask) => GetWardDetailsResponse_Subtask(id: subtask.id, name: subtask.name),
+                    ),
+              )),
     );
 
     return MockResponseFuture.value(response);
@@ -120,6 +132,70 @@ class WardServicePromiseClient extends WardServiceClient {
         .toList();
 
     final response = GetWardsResponse()..wards.addAll(wardsList);
+
+    return MockResponseFuture.value(response);
+  }
+
+  @override
+  ResponseFuture<GetRecentWardsResponse> getRecentWards(GetRecentWardsRequest request, {CallOptions? options}) {
+    final wards = OfflineClientStore().wardStore.findWards();
+    final wardsList = wards.map((ward) {
+      final rooms = OfflineClientStore().roomStore.findRooms(ward.id);
+      final beds =
+          rooms.map((room) => OfflineClientStore().bedStore.findBeds(room.id)).expand((element) => element).toList();
+      List<PatientWithBedId> patients = [];
+      for (var bed in beds) {
+        final patient = OfflineClientStore().patientStore.findPatient(bed.id);
+        if (patient != null) {
+          patients.add(patient);
+        }
+      }
+      List<Task> tasks = patients
+          .map((patient) => OfflineClientStore().taskStore.findTasks(patient.id))
+          .expand((element) => element)
+          .toList();
+      return GetRecentWardsResponse_Ward(
+        id: ward.id,
+        name: ward.name,
+        bedCount: beds.length,
+        tasksDone: tasks.where((element) => element.status == TaskStatus.done).length,
+        tasksInProgress: tasks.where((element) => element.status == TaskStatus.inProgress).length,
+        tasksTodo: tasks.where((element) => element.status == TaskStatus.todo).length,
+      );
+    });
+    final response = GetRecentWardsResponse()..wards.addAll(wardsList);
+
+    return MockResponseFuture.value(response);
+  }
+
+  @override
+  ResponseFuture<GetWardOverviewsResponse> getWardOverviews(GetWardOverviewsRequest request, {CallOptions? options}) {
+    final wards = OfflineClientStore().wardStore.findWards();
+    final wardsList = wards.map((ward) {
+      final rooms = OfflineClientStore().roomStore.findRooms(ward.id);
+      final beds =
+          rooms.map((room) => OfflineClientStore().bedStore.findBeds(room.id)).expand((element) => element).toList();
+      List<PatientWithBedId> patients = [];
+      for (var bed in beds) {
+        final patient = OfflineClientStore().patientStore.findPatient(bed.id);
+        if (patient != null) {
+          patients.add(patient);
+        }
+      }
+      List<Task> tasks = patients
+          .map((patient) => OfflineClientStore().taskStore.findTasks(patient.id))
+          .expand((element) => element)
+          .toList();
+      return GetWardOverviewsResponse_Ward(
+        id: ward.id,
+        name: ward.name,
+        bedCount: beds.length,
+        tasksDone: tasks.where((element) => element.status == TaskStatus.done).length,
+        tasksInProgress: tasks.where((element) => element.status == TaskStatus.inProgress).length,
+        tasksTodo: tasks.where((element) => element.status == TaskStatus.todo).length,
+      );
+    });
+    final response = GetWardOverviewsResponse(wards: wardsList);
 
     return MockResponseFuture.value(response);
   }

@@ -9,7 +9,7 @@ import 'package:helpwave_service/src/api/tasks/util/task_status_mapping.dart';
 /// The server is defined in the underlying [TasksAPIServiceClients]
 class PatientService {
   /// The GRPC ServiceClient which handles GRPC
-  PatientServiceClient patientService = TasksAPIServiceClients.patientServiceClient;
+  PatientServiceClient patientService = TasksAPIServiceClients().patientServiceClient;
 
   // TODO consider an enum instead of an string
   /// Loads the [Patient]s by [Ward] and sorts them by their assignment status

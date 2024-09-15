@@ -60,8 +60,8 @@ class RoomOfflineService {
   }
 }
 
-class RoomServicePromiseClient extends RoomServiceClient {
-  RoomServicePromiseClient(super.channel);
+class RoomOfflineClient extends RoomServiceClient {
+  RoomOfflineClient(super.channel);
 
   @override
   ResponseFuture<GetRoomResponse> getRoom(GetRoomRequest request, {CallOptions? options}) {

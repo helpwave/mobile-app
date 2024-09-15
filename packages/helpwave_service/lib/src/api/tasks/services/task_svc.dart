@@ -10,7 +10,7 @@ import '../util/task_status_mapping.dart';
 /// The server is defined in the underlying [TasksAPIServiceClients]
 class TaskService {
   /// The GRPC ServiceClient which handles GRPC
-  TaskServiceClient taskService = TasksAPIServiceClients.taskServiceClient;
+  TaskServiceClient taskService = TasksAPIServiceClients().taskServiceClient;
 
   /// Loads the [Task]s by a [Patient] identifier
   Future<List<Task>> getTasksByPatient({String? patientId}) async {

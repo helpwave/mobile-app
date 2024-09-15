@@ -9,7 +9,7 @@ import 'package:helpwave_service/src/api/tasks/tasks_api_service_clients.dart';
 /// The server is defined in the underlying [TasksAPIServiceClients]
 class WardService {
   /// The GRPC ServiceClient which handles GRPC
-  WardServiceClient wardService = TasksAPIServiceClients.wardServiceClient;
+  WardServiceClient wardService = TasksAPIServiceClients().wardServiceClient;
 
   /// Loads a [WardMinimal] by its identifier
   Future<WardMinimal> getWard({required String id}) async {

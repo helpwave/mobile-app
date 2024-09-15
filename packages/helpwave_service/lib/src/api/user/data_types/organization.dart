@@ -28,6 +28,7 @@ class Organization extends OrganizationMinimal {
   });
 
   Organization copyWith({
+    String? id,
     String? shortName,
     String? longName,
     String? avatarURL,
@@ -36,8 +37,7 @@ class Organization extends OrganizationMinimal {
     bool? isVerified,
   }) {
     return Organization(
-      id: id,
-      // `id` is not changeable
+      id: id ?? this.id,
       shortName: shortName ?? this.shortName,
       longName: longName ?? this.longName,
       avatarURL: avatarURL ?? this.avatarURL,

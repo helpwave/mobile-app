@@ -118,7 +118,7 @@ class _PatientScreenState extends State<PatientScreen> {
                                   context.pushModal(
                                     context: context,
                                     builder: (context) => TaskBottomSheet(
-                                      task: Task.empty,
+                                      task: Task.empty(patient.id),
                                       patient: patient,
                                     ),
                                   ).then((value) => patientController.load());

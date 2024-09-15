@@ -10,7 +10,7 @@ import '../data_types/index.dart';
 /// The server is defined in the underlying [UserAPIServiceClients]
 class UserService {
   /// The GRPC ServiceClient which handles GRPC
-  UserServiceClient userService = UserAPIServiceClients.userServiceClient;
+  UserServiceClient userService = UserAPIServiceClients().userServiceClient;
 
   /// Loads the [User]s by it's identifier
   Future<User> getUser({String? id}) async {
@@ -18,7 +18,7 @@ class UserService {
     ReadPublicProfileResponse response = await userService.readPublicProfile(
       request,
       options: CallOptions(
-        metadata: UserAPIServiceClients.getMetaData(
+        metadata: UserAPIServiceClients().getMetaData(
           organizationId: AuthenticationUtility.fallbackOrganizationId,
         ),
       ),

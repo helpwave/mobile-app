@@ -1,4 +1,4 @@
-import 'package:grpc/grpc_web.dart';
+import 'package:grpc/grpc.dart';
 import 'package:helpwave_service/src/api/offline/offline_client_store.dart';
 import 'package:helpwave_service/src/api/offline/util.dart';
 import 'package:helpwave_service/src/api/user/index.dart';

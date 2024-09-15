@@ -170,10 +170,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                           context.localization!.assignBed,
                           style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),
                         ),
-                        value: !patientController.patient.isUnassigned
-                            ? RoomWithBedFlat(
-                                room: patientController.patient.room!, bed: patientController.patient.bed!)
-                            : null,
+                        value: beds.where((beds) => beds.bed.id == patientController.patient.bed?.id).firstOrNull,
                         items: beds
                             .map((roomWithBed) => DropdownMenuItem(
                                   value: roomWithBed,
@@ -265,7 +262,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                   // TODO use return value to add it to task list or force a refetch
                   onAdd: () => context.pushModal(
                     context: context,
-                    builder: (context) => TaskBottomSheet(task: Task.empty, patient: patient),
+                    builder: (context) => TaskBottomSheet(task: Task.empty(patient.id), patient: patient),
                   ),
                 );
               }),

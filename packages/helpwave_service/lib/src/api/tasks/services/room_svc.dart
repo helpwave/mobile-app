@@ -9,7 +9,7 @@ import 'package:helpwave_service/src/api/tasks/tasks_api_service_clients.dart';
 /// The server is defined in the underlying [TasksAPIServiceClients]
 class RoomService {
   /// The GRPC ServiceClient which handles GRPC
-  RoomServiceClient roomService = TasksAPIServiceClients.roomServiceClient;
+  RoomServiceClient roomService = TasksAPIServiceClients().roomServiceClient;
 
   Future<List<RoomWithBedWithMinimalPatient>> getRoomOverviews({required String wardId}) async {
     GetRoomOverviewsByWardRequest request = GetRoomOverviewsByWardRequest(id: wardId);

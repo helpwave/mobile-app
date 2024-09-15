@@ -44,6 +44,7 @@ class ThemeVisualizer extends StatelessWidget {
                     name: "Task",
                     notes: "Some Notes",
                     status: TaskStatus.inProgress,
+                    patientId: "patient",
                     dueDate: DateTime.now().add(const Duration(hours: 2)),
                     patient: PatientMinimal(
                       id: "patient",

@@ -1,23 +1,31 @@
 import 'package:grpc/grpc.dart';
 import 'package:helpwave_proto_dart/services/user_svc/v1/user_svc.pbgrpc.dart';
 import 'package:helpwave_proto_dart/services/user_svc/v1/organization_svc.pbgrpc.dart';
+import 'package:helpwave_service/src/api/user/offline_clients/organization_offline_client.dart';
+import 'package:helpwave_service/src/api/user/offline_clients/user_offline_client.dart';
 import 'package:helpwave_service/src/auth/index.dart';
 
 /// A bundling of all User API services which can be used and are configured
 ///
 /// Make sure to set the [apiURL] to use the services
 class UserAPIServiceClients {
-  /// The api URL used
-  static String? apiUrl;
+  UserAPIServiceClients._privateConstructor();
 
-  static ClientChannel get serviceChannel {
-    assert(UserAPIServiceClients.apiUrl != null);
-    return ClientChannel(
-      UserAPIServiceClients.apiUrl!,
-    );
+  static final UserAPIServiceClients _instance = UserAPIServiceClients._privateConstructor();
+
+  factory UserAPIServiceClients() => _instance;
+
+  /// The api URL used
+  String? apiUrl;
+
+  bool offlineMode = false;
+
+  ClientChannel get serviceChannel {
+    assert(apiUrl != null);
+    return ClientChannel(apiUrl!);
   }
 
-  static Map<String, String> getMetaData({String? organizationId}) {
+  Map<String, String> getMetaData({String? organizationId}) {
     var metaData = {
       ...AuthenticationUtility.authMetaData,
       "dapr-app-id": "user-svc",
@@ -30,7 +38,9 @@ class UserAPIServiceClients {
     return metaData;
   }
 
-  static UserServiceClient get userServiceClient => UserServiceClient(serviceChannel);
+  UserServiceClient get userServiceClient =>
+      offlineMode ? UserOfflineClient(serviceChannel) : UserServiceClient(serviceChannel);
 
-  static OrganizationServiceClient get organizationServiceClient => OrganizationServiceClient(serviceChannel);
+  OrganizationServiceClient get organizationServiceClient =>
+      offlineMode ? OrganizationOfflineClient(serviceChannel) : OrganizationServiceClient(serviceChannel);
 }

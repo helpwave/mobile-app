@@ -42,7 +42,6 @@ class _WardSelectScreen extends State<WardSelectScreen> {
       body: Column(
         children: [
           ListTile(
-            // TODO change to organization name
             title: Text(organization?.longName ?? context.localization!.none),
             subtitle: Text(context.localization!.organization),
             trailing: const Icon(Icons.arrow_forward),
@@ -71,7 +70,6 @@ class _WardSelectScreen extends State<WardSelectScreen> {
             }),
           ),
           ListTile(
-            // TODO change to organization name
             title: Text(ward?.name ?? context.localization!.none),
             subtitle: Text(context.localization!.ward),
             trailing: const Icon(Icons.arrow_forward),

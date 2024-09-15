@@ -55,7 +55,10 @@ class BedOfflineService {
   void delete(String bedId) {
     final valueStore = OfflineClientStore().bedStore;
     valueStore.beds = valueStore.beds.where((value) => value.id != bedId).toList();
-    // TODO: Cascade delete to bed-bound templates
+    final patient = OfflineClientStore().patientStore.findPatientByBed(bedId);
+    if(patient != null){
+      OfflineClientStore().patientStore.unassignBed(patient.id);
+    }
   }
 }
 

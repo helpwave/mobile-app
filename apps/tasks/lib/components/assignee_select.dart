@@ -19,31 +19,26 @@ class AssigneeSelect extends StatelessWidget {
     return BottomSheetBase(
       titleText: context.localization!.assignee,
       onClosing: () => {},
-      builder: (context) => Flexible(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: paddingMedium),
-          child: Consumer<AssigneeSelectController>(builder: (context, assigneeSelectController, __) {
-            return LoadingAndErrorWidget(
-              state: assigneeSelectController.state,
-              child: ListView.builder(
-                itemCount: assigneeSelectController.users.length,
-                itemBuilder: (context, index) {
-                  User user = assigneeSelectController.users[index];
-                  return ListTile(
-                    onTap: () {
-                      assigneeSelectController.changeAssignee(user.id).then((value) {
-                        onChanged(user);
-                      });
-                    },
-                    leading: CircleAvatar(
-                        foregroundColor: Colors.blue, backgroundImage: NetworkImage(user.profileUrl.toString())),
-                    title: Text(user.nickName),
-                  );
-                },
-              ),
-            );
-          }),
-        ),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: paddingMedium),
+        child: Consumer<AssigneeSelectController>(builder: (context, assigneeSelectController, __) {
+          return LoadingAndErrorWidget(
+            state: assigneeSelectController.state,
+            child: Column(
+              children: assigneeSelectController.users.map((user) =>
+                 ListTile(
+                  onTap: () {
+                    assigneeSelectController.changeAssignee(user.id).then((value) {
+                      onChanged(user);
+                    });
+                  },
+                  leading: CircleAvatar(
+                      foregroundColor: Colors.blue, backgroundImage: NetworkImage(user.profileUrl.toString())),
+                  title: Text(user.nickName),
+                )).toList(),
+            ),
+          );
+        }),
       ),
     );
   }

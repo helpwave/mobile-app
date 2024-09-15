@@ -141,7 +141,7 @@ class TaskController extends ChangeNotifier {
   /// Only usable when creating
   Future<void> changePatient(PatientMinimal patient) async {
     assert(task.isCreating, "Only use TaskController.changePatient, when you create a new task.");
-    task = task.copyWith(patient);
+    task = TaskWithPatient.fromTaskAndPatient(task: task.copyWith(patientId: patient.id), patient: patient);
     notifyListeners();
   }
 
@@ -150,7 +150,7 @@ class TaskController extends ChangeNotifier {
     assert(!task.patient.isCreating, "A the patient must be set to create a task");
     state = LoadingState.loading;
     return await TaskService().createTask(task).then((value) {
-      task.id = value;
+      task.copyWith(id: value);
       state = LoadingState.loaded;
       return true;
     }).catchError((error, stackTrace) {

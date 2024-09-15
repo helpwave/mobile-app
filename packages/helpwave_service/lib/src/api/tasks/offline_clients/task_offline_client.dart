@@ -185,8 +185,8 @@ class SubtaskOfflineService {
   }
 }
 
-class TaskServicePromiseClient extends TaskServiceClient {
-  TaskServicePromiseClient(super.channel);
+class TaskOfflineClient extends TaskServiceClient {
+  TaskOfflineClient(super.channel);
 
   @override
   ResponseFuture<GetTaskResponse> getTask(GetTaskRequest request, {CallOptions? options}) {

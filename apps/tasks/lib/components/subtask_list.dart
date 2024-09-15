@@ -41,7 +41,7 @@ class SubtaskList extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           onAdd: () => subtasksController
-              .add(Subtask(id: "", name: "Subtask ${subtasksController.subtasks.length + 1}"))
+              .add(Subtask(id: "", name: "Subtask ${subtasksController.subtasks.length + 1}", taskId: taskId))
               .then((_) => onChange(subtasksController.subtasks)),
           itemBuilder: (context, _, subtask) => ListTile(
             contentPadding: EdgeInsets.zero,

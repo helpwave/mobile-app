@@ -3,6 +3,7 @@ import 'package:helpwave_proto_dart/services/tasks_svc/v1/patient_svc.pbgrpc.dar
 import 'package:helpwave_service/src/api/offline/offline_client_store.dart';
 import 'package:helpwave_service/src/api/offline/util.dart';
 import 'package:helpwave_service/src/api/tasks/data_types/patient.dart';
+import 'package:helpwave_service/src/api/tasks/util/task_status_mapping.dart';
 
 class PatientUpdate {
   String id;
@@ -97,12 +98,15 @@ class PatientOfflineService {
   void delete(String patientId) {
     final valueStore = OfflineClientStore().patientStore;
     valueStore.patients = valueStore.patients.where((value) => value.id != patientId).toList();
-    // TODO: Cascade delete to tasks
+    final tasks = OfflineClientStore().taskStore.findTasks(patientId);
+    for (var task in tasks) {
+      OfflineClientStore().taskStore.delete(task.id);
+    }
   }
 }
 
-class PatientServicePromiseClient extends PatientServiceClient {
-  PatientServicePromiseClient(super.channel);
+class PatientOfflineClient extends PatientServiceClient {
+  PatientOfflineClient(super.channel);
 
   @override
   ResponseFuture<GetPatientResponse> getPatient(GetPatientRequest request, {CallOptions? options}) {
@@ -145,7 +149,23 @@ class PatientServicePromiseClient extends PatientServiceClient {
       humanReadableIdentifier: patient.name,
       notes: patient.notes,
       isDischarged: patient.isDischarged,
-      tasks: [], // TODO tasks
+      tasks: OfflineClientStore().taskStore.findTasks(patient.id).map((task) => GetPatientDetailsResponse_Task(
+            id: task.id,
+            name: task.name,
+            patientId: patient.id,
+            assignedUserId: task.assigneeId,
+            description: task.notes,
+            public: task.isPublicVisible,
+            status: GRPCTypeConverter.taskStatusToGRPC(task.status),
+            subtasks: OfflineClientStore()
+                .subtaskStore
+                .findSubtasks(task.id)
+                .map((subtask) => GetPatientDetailsResponse_Task_SubTask(
+                      id: subtask.id,
+                      name: subtask.name,
+                      done: subtask.isDone,
+                    )),
+          )),
     );
 
     if (patient.bedId == null) {
@@ -188,7 +208,23 @@ class PatientServicePromiseClient extends PatientServiceClient {
         id: patient.id,
         notes: patient.notes,
         humanReadableIdentifier: patient.name,
-        tasks: [], // TODO get tasks
+        tasks: OfflineClientStore().taskStore.findTasks(patient.id).map((task) => GetPatientListResponse_Task(
+          id: task.id,
+          name: task.name,
+          patientId: patient.id,
+          assignedUserId: task.assigneeId,
+          description: task.notes,
+          public: task.isPublicVisible,
+          status: GRPCTypeConverter.taskStatusToGRPC(task.status),
+          subtasks: OfflineClientStore()
+              .subtaskStore
+              .findSubtasks(task.id)
+              .map((subtask) => GetPatientListResponse_Task_SubTask(
+            id: subtask.id,
+            name: subtask.name,
+            done: subtask.isDone,
+          )),
+        )),
       );
       if (patient.bedId == null) {
         return res;

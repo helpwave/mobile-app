@@ -10,14 +10,14 @@ import '../data_types/index.dart';
 /// The server is defined in the underlying [UserAPIServiceClients]
 class OrganizationService {
   /// The GRPC ServiceClient which handles GRPC
-  OrganizationServiceClient organizationService = UserAPIServiceClients.organizationServiceClient;
+  OrganizationServiceClient organizationService = UserAPIServiceClients().organizationServiceClient;
 
   /// Load a Organization by its identifier
   Future<Organization> getOrganization({required String id}) async {
     GetOrganizationRequest request = GetOrganizationRequest(id: id);
     GetOrganizationResponse response = await organizationService.getOrganization(
       request,
-      options: CallOptions(metadata: UserAPIServiceClients.getMetaData(organizationId: id)),
+      options: CallOptions(metadata: UserAPIServiceClients().getMetaData(organizationId: id)),
     );
 
     Organization organization = Organization(
@@ -37,7 +37,7 @@ class OrganizationService {
     GetOrganizationsForUserResponse response = await organizationService.getOrganizationsForUser(
       request,
       options: CallOptions(
-        metadata: UserAPIServiceClients.getMetaData(
+        metadata: UserAPIServiceClients().getMetaData(
           organizationId: AuthenticationUtility.fallbackOrganizationId,
         ),
       ),
@@ -46,7 +46,7 @@ class OrganizationService {
     List<Organization> organizations = response.organizations
         .map((organization) => Organization(
             id: organization.id,
-            longName: organization.id,
+            longName: organization.longName,
             shortName: organization.shortName,
             avatarURL: organization.avatarUrl,
             email: organization.contactEmail,
@@ -62,7 +62,7 @@ class OrganizationService {
     GetMembersByOrganizationResponse response = await organizationService.getMembersByOrganization(
       request,
       options: CallOptions(
-        metadata: UserAPIServiceClients.getMetaData(organizationId: organizationId),
+        metadata: UserAPIServiceClients().getMetaData(organizationId: organizationId),
       ),
     );
 

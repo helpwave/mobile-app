@@ -142,7 +142,7 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
               onPressed: () {
                 context.pushModal(
                   context: context,
-                  builder: (context) => TaskBottomSheet(task: Task.empty),
+                  builder: (context) => TaskBottomSheet(task: Task.empty("")),
                 );
               },
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_service/auth.dart';
+import 'package:helpwave_service/user.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_localization/l10n/app_localizations.dart';
 import 'package:helpwave_localization/localization.dart';
@@ -11,7 +12,12 @@ import 'package:tasks/screens/login_screen.dart';
 
 void main() {
   UserSessionService().changeMode(devMode);
-  TasksAPIServiceClients.apiUrl = usedAPIURL;
+  TasksAPIServiceClients()
+    ..apiUrl = usedAPIURL
+    ..offlineMode = true;
+  UserAPIServiceClients()
+    ..apiUrl = usedAPIURL
+    ..offlineMode = true;
   runApp(const MyApp());
 }
 
