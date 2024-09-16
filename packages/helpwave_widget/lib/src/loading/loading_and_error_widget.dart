@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:helpwave_theme/constants.dart';
-import 'package:helpwave_util/loading_state.dart';
+import 'package:helpwave_util/loading.dart';
 import 'package:helpwave_widget/loading.dart';
 
 /// A [Widget] to show different [Widget]s depending on the [LoadingState]

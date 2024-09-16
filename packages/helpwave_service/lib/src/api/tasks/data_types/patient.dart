@@ -80,7 +80,7 @@ class Patient extends PatientMinimal {
   List<Task> tasks;
   bool isDischarged;
 
-  get isUnassigned => bed == null && room == null;
+  get isNotAssignedToBed => bed == null && room == null;
 
   get isActive => bed != null && room != null;
 
@@ -109,6 +109,26 @@ class Patient extends PatientMinimal {
     this.room,
     this.bed,
   });
+
+  Patient copyWith({
+    String? id,
+    String? name,
+    List<Task>? tasks,
+    String? notes,
+    bool? isDischarged,
+    RoomMinimal? room,
+    BedMinimal? bed,
+  }) {
+    return Patient(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      tasks: tasks ?? this.tasks,
+      notes: notes ?? this.notes,
+      isDischarged: isDischarged ?? this.isDischarged,
+      room: room ?? this.room,
+      bed: bed ?? this.bed,
+    );
+  }
 }
 
 /// A data class which maps all [PatientAssignmentStatus]es to a [List] of [Patient]s

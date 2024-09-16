@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:tasks/components/task_bottom_sheet.dart';
 import 'package:tasks/components/task_expansion_tile.dart';
 import 'package:helpwave_service/tasks.dart';
-import 'package:helpwave_util/loading_state.dart';
+import 'package:helpwave_util/loading.dart';
 
 /// A [BottomSheet] for showing [Patient] information and [Task]s for that [Patient]
 class PatientBottomSheet extends StatefulWidget {
@@ -94,7 +94,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                             width: width * 0.4,
                             // TODO make this state checking easier and more readable
                             child: TextButton(
-                              onPressed: patientController.patient.isUnassigned
+                              onPressed: patientController.patient.isNotAssignedToBed
                                   ? null
                                   : () {
                                       patientController.unassign();
@@ -185,7 +185,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                           if (value == null) {
                             return;
                           }
-                          patientController.changeBed(value.room, value.bed);
+                          patientController.assignToBed(value.room, value.bed);
                         },
                       ),
                     );

@@ -161,11 +161,11 @@ class PatientService {
   }
 
   /// Update a [Patient]
-  Future<bool> updatePatient(Patient patient) async {
+  Future<bool> updatePatient({required String id, String? notes, String? name}) async {
     UpdatePatientRequest request = UpdatePatientRequest(
-      id: patient.id,
-      notes: patient.notes,
-      humanReadableIdentifier: patient.name,
+      id: id,
+      notes: notes,
+      humanReadableIdentifier: name,
     );
     UpdatePatientResponse response = await patientService.updatePatient(
       request,

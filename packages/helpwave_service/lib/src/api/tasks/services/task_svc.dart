@@ -74,6 +74,39 @@ class TaskService {
     );
   }
 
+  /// Loads the [Task]s assigned to the current [User]
+  Future<List<TaskWithPatient>> getAssignedTasks({String? id}) async {
+    GetAssignedTasksRequest request = GetAssignedTasksRequest();
+    GetAssignedTasksResponse response = await taskService.getAssignedTasks(
+      request,
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
+    );
+
+    return response.tasks
+        .map((task) => TaskWithPatient(
+              id: task.id,
+              name: task.name,
+              notes: task.description,
+              isPublicVisible: task.public,
+              status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
+              assigneeId: task.assignedUserId,
+              dueDate: task.dueAt.toDateTime(),
+              patient: PatientMinimal(id: task.patient.id, name: task.patient.humanReadableIdentifier),
+              subtasks: task.subtasks
+                  .map((subtask) => Subtask(
+                        id: subtask.id,
+                        taskId: task.id,
+                        name: subtask.name,
+                        isDone: subtask.done,
+                      ))
+                  .toList(),
+              patientId: task.patient.id,
+              createdBy: task.createdBy,
+              creationDate: task.createdAt.toDateTime(),
+            ))
+        .toList();
+  }
+
   Future<String> createTask(TaskWithPatient task) async {
     CreateTaskRequest request = CreateTaskRequest(
       name: task.name,

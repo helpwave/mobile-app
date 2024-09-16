@@ -1,22 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:helpwave_service/auth.dart';
 import 'package:helpwave_service/src/api/user/index.dart';
-import 'package:helpwave_util/loading_state.dart';
-import 'package:logger/logger.dart';
+import 'package:helpwave_util/loading.dart';
 import 'package:helpwave_service/tasks.dart';
 
 /// The Controller for selecting a [User] as the assignee of a [Task]
-class AssigneeSelectController extends ChangeNotifier {
-  /// The [LoadingState] of the Controller
-  LoadingState _state = LoadingState.initializing;
-
-  LoadingState get state => _state;
-
-  set state(LoadingState value) {
-    _state = value;
-    notifyListeners();
-  }
-
+class AssigneeSelectController extends LoadingChangeNotifier {
   /// The selected [User] identifier
   String? _selected;
 
@@ -27,12 +15,15 @@ class AssigneeSelectController extends ChangeNotifier {
   /// The currently loaded user
   List<User> _users = [];
 
-  /// The currently loaded tasks
+  /// The currently loaded users
   List<User> get users => _users;
 
   /// The identifier of the current [Task] it determines whether
   /// changes are pushed to the server
   String? _taskId;
+
+  /// Whether the object is
+  bool get isCreating => _taskId == null && _taskId!.isNotEmpty; // TODO remove .isNotEmpty when semantic is changed
 
   AssigneeSelectController({String? selected, String? taskId}) {
     _selected = selected;
@@ -40,30 +31,30 @@ class AssigneeSelectController extends ChangeNotifier {
     load();
   }
 
-  /// Loads the tasks
+  /// Loads the users
   Future<void> load() async {
-    state = LoadingState.loading;
-    String? currentOrganization = CurrentWardService().currentWard?.organizationId;
-    if(currentOrganization == null){
-      if(kDebugMode){
-        Logger().w("Organization Id not set in CurrentWardService"
-            " while trying to load in AssigneeSelectController");
+    loadUsersFuture() async {
+      String? currentOrganization = CurrentWardService().currentWard?.organizationId;
+      if (currentOrganization == null) {
+        // TODO throw a better error here
+        throw "Organization Id not set in CurrentWardService while trying to load in AssigneeSelectController";
       }
-      state = LoadingState.error;
-      return;
+      _users = await OrganizationService().getMembersByOrganization(currentOrganization);
     }
 
-    _users = await OrganizationService().getMembersByOrganization(currentOrganization);
-    state = LoadingState.loaded;
+    await loadHandler(future: loadUsersFuture());
   }
 
   /// Change the assignee
-  Future<void> changeAssignee(String id) async{
-    if(_taskId != null && _taskId!.isNotEmpty){
-      state = LoadingState.loading;
-      await TaskService().assignToUser(taskId: _taskId!, userId: id);
+  Future<void> changeAssignee(String id) async {
+    changeAssigneeFuture() async {
+      if (!isCreating) {
+        await TaskService().assignToUser(taskId: _taskId!, userId: id).then((value) => _selected = id);
+      } else {
+        _selected = id;
+      }
     }
-    _selected = id;
-    state = LoadingState.loaded;
+
+    await loadHandler(future: changeAssigneeFuture());
   }
 }

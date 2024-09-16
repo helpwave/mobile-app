@@ -41,7 +41,7 @@ class SubtaskList extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           onAdd: () => subtasksController
-              .add(Subtask(id: "", name: "Subtask ${subtasksController.subtasks.length + 1}", taskId: taskId))
+              .create(Subtask(id: "", name: "Subtask ${subtasksController.subtasks.length + 1}", taskId: taskId))
               .then((_) => onChange(subtasksController.subtasks)),
           itemBuilder: (context, _, subtask) => ListTile(
             contentPadding: EdgeInsets.zero,
@@ -52,7 +52,7 @@ class SubtaskList extends StatelessWidget {
             ).then((value) {
               if (value != null) {
                 subtask.name = value;
-                subtasksController.updateSubtask(subTask: subtask);
+                subtasksController.update(subtask: subtask);
               }
             }),
             title: Row(
@@ -70,7 +70,7 @@ class SubtaskList extends StatelessWidget {
                 borderRadius: BorderRadius.circular(iconSizeSmall),
               ),
               onChanged: (isDone) => subtasksController
-                  .updateSubtask(subTask: subtask.copyWith(isDone: isDone))
+                  .update(subtask: subtask.copyWith(isDone: isDone))
                   .then((value) => onChange(subtasksController.subtasks)),
             ),
             trailing: GestureDetector(

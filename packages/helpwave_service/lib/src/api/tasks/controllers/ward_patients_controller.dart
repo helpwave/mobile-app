@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:helpwave_service/src/api/tasks/index.dart';
-import 'package:helpwave_util/loading_state.dart';
+import 'package:helpwave_util/loading.dart';
 import 'package:helpwave_util/search.dart';
 
 /// The Controller for managing [Patient]s in a Ward

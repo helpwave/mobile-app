@@ -18,9 +18,9 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => MyTasksController(),
-      child: Consumer<MyTasksController>(
-        builder: (BuildContext context, MyTasksController tasksController, Widget? child) {
+      create: (_) => AssignedTasksController(),
+      child: Consumer<AssignedTasksController>(
+        builder: (BuildContext context, AssignedTasksController tasksController, Widget? child) {
           return LoadingAndErrorWidget(
             state: tasksController.state,
             child: ListView(children: [

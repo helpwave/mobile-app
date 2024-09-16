@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:helpwave_util/loading_state.dart';
+import 'package:helpwave_util/loading.dart';
 import '../index.dart';
 
 /// The Controller for managing a [User]
