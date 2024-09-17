@@ -1,13 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:helpwave_service/src/api/tasks/index.dart';
 import 'package:helpwave_util/loading.dart';
 import 'package:helpwave_util/search.dart';
 
-/// The Controller for managing [Patient]s in a Ward
-class WardPatientsController extends ChangeNotifier {
-  /// The [LoadingState] of the Controller
-  LoadingState state = LoadingState.initializing;
-
+/// The Controller for managing [Patient]s in a [Ward]
+class WardPatientsController extends LoadingChangeNotifier {
   /// The [Patient]s mapped by the [PatientsByAssignmentStatus]
   PatientsByAssignmentStatus _patientsByAssignmentStatus = PatientsByAssignmentStatus();
 
@@ -70,22 +66,20 @@ class WardPatientsController extends ChangeNotifier {
     return results;
   }
 
-  /// Loads the [patients]
+  /// Loads the [Patient]s
   Future<void> load() async {
-    state = LoadingState.loading;
-    notifyListeners();
-
-    _patientsByAssignmentStatus = await PatientService().getPatientList();
-    state = LoadingState.loaded;
-    notifyListeners();
+    loadPatients() async {
+      _patientsByAssignmentStatus = await PatientService().getPatientList();
+    }
+    loadHandler(future: loadPatients());
   }
 
   /// Discharges the patient the [patients]
   Future<void> discharge(String patientId) async {
-    state = LoadingState.loading;
-    notifyListeners();
-    await PatientService().dischargePatient(patientId: patientId);
-    // Here we can maybe use optimistic updates
-    load();
+    dischargePatient() async {
+      await PatientService().dischargePatient(patientId: patientId);
+      await load();
+    }
+    loadHandler(future: dischargePatient());
   }
 }

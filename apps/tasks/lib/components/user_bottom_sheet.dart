@@ -77,7 +77,7 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
             child: Consumer<CurrentWardController>(builder: (context, currentWardController, __) {
               return LoadingFutureBuilder(
                   loadingWidget: const SizedBox(),
-                  future:
+                  data:
                       WardService().getWardOverviews(organizationId: currentWardController.currentWard!.organizationId),
                   thenWidgetBuilder: (BuildContext context, List<WardOverview> data) {
                     double menuWidth = min(250, width * 0.7);

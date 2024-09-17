@@ -20,17 +20,21 @@ class LoadingChangeNotifier extends ChangeNotifier {
 
   LoadingChangeNotifier();
 
-  Future<void> loadHandler({
+  Future<bool> loadHandler({
     required Future<void> future,
     Future<bool> Function(Object? error, StackTrace stackTrace)? errorHandler,
   }) async {
+    bool success = false;
     defaultErrorHandler(errorObj, _) async {
       error = errorObj.toString();
       return false;
     }
 
     changeState(LoadingState.loading);
-    await future.then((_) => changeState(LoadingState.loaded)).onError((error, stackTrace) async {
+    await future.then((_) {
+      changeState(LoadingState.loaded);
+      success = true;
+    }).onError((error, stackTrace) async {
       if (errorHandler != null) {
         try {
           bool isHandled = await errorHandler(error, stackTrace);
@@ -44,5 +48,6 @@ class LoadingChangeNotifier extends ChangeNotifier {
 
       changeState(LoadingState.error);
     });
+    return success;
   }
 }

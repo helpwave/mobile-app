@@ -59,7 +59,6 @@ class PatientService {
     final discharged = response.dischargedPatients.map(mapping).toList();
 
     return PatientsByAssignmentStatus(
-      all: active + unassigned + discharged,
       active: active,
       unassigned: unassigned,
       discharged: discharged,

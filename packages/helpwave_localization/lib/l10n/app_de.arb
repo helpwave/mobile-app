@@ -168,5 +168,6 @@
   "darkMode": "Dunkel",
   "lightMode": "Hell",
   "system": "System",
-  "newTaskOrPatient": "Neu"
+  "newTaskOrPatient": "Neu",
+  "remove": "Entfernen"
 }

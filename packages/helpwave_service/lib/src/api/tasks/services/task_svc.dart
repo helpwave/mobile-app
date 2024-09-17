@@ -124,16 +124,20 @@ class TaskService {
     return response.id;
   }
 
-  /// Assign a [Task] to a [User]
-  Future<void> assignToUser({required String taskId, required String userId}) async {
-    AssignTaskRequest request = AssignTaskRequest(taskId: taskId, userId: userId);
-    AssignTaskResponse response = await taskService.assignTask(
-      request,
-      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
-    );
-
-    if (!response.isInitialized()) {
-      // Handle error
+  /// Assign a [Task] to a [User] or unassign the [User]
+  Future<void> changeAssignee({required String taskId, required String? userId}) async {
+    if(userId != null){
+      AssignTaskRequest request = AssignTaskRequest(taskId: taskId, userId: userId);
+      await taskService.assignTask(
+        request,
+        options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
+      );
+    } else {
+      UnassignTaskRequest request = UnassignTaskRequest(taskId: taskId, userId: userId);
+      await taskService.unassignTask(
+        request,
+        options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
+      );
     }
   }
 
@@ -184,14 +188,21 @@ class TaskService {
     return response.isInitialized();
   }
 
-  Future<bool> updateTask(Task task) async {
+  Future<bool> updateTask({
+    required String taskId,
+    String? name,
+    String? notes,
+    DateTime? dueDate,
+    bool? isPublic,
+    TaskStatus? status,
+  }) async {
     UpdateTaskRequest request = UpdateTaskRequest(
-      id: task.id,
-      name: task.name,
-      description: task.notes,
-      dueAt: task.dueDate != null ? Timestamp.fromDateTime(task.dueDate!) : null,
-      public: task.isPublicVisible,
-      status: GRPCTypeConverter.taskStatusToGRPC(task.status),
+      id: taskId,
+      name: name,
+      description: notes,
+      dueAt: dueDate != null ? Timestamp.fromDateTime(dueDate) : null,
+      public: isPublic,
+      status: status != null ? GRPCTypeConverter.taskStatusToGRPC(status) : null,
     );
 
     UpdateTaskResponse response = await taskService.updateTask(
@@ -200,5 +211,15 @@ class TaskService {
     );
 
     return response.isInitialized();
+  }
+
+  Future<void> removeDueDate({
+    required String taskId,
+  }) async {
+    RemoveTaskDueDateRequest request = RemoveTaskDueDateRequest(taskId: taskId);
+    await taskService.removeTaskDueDate(
+      request,
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
+    );
   }
 }

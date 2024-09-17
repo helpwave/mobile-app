@@ -136,13 +136,12 @@ class PatientsByAssignmentStatus {
   List<Patient> active;
   List<Patient> unassigned;
   List<Patient> discharged;
-  List<Patient> all;
+  List<Patient> get all => active + unassigned + discharged;
 
   PatientsByAssignmentStatus({
     this.active = const [],
     this.unassigned = const [],
     this.discharged = const [],
-    this.all = const [],
   });
 
   byAssignmentStatus(PatientAssignmentStatus status) {

@@ -168,5 +168,6 @@
   "darkMode": "Dark",
   "lightMode": "Light",
   "system": "System",
-  "newTaskOrPatient": "New"
+  "newTaskOrPatient": "New",
+  "remove": "Remove"
 }

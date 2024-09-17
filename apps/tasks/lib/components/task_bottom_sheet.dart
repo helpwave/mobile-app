@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/auth.dart';
 import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_util/loading.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:helpwave_widget/text_input.dart';
@@ -137,24 +139,24 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
             child: Consumer<TaskController>(
               builder: (context, taskController, child) => taskController.isCreating
                   ? Padding(
-                padding: const EdgeInsets.only(top: paddingSmall),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
-                    style: buttonStyleBig,
-                    onPressed: taskController.isReadyForCreate
-                        ? () {
-                      taskController.create().then((value) {
-                        if (value) {
-                          Navigator.pop(context);
-                        }
-                      });
-                    }
-                        : null,
-                    child: Text(context.localization!.create),
-                  ),
-                ),
-              )
+                      padding: const EdgeInsets.only(top: paddingSmall),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: TextButton(
+                          style: buttonStyleBig,
+                          onPressed: taskController.isReadyForCreate
+                              ? () {
+                                  taskController.create().then((value) {
+                                    if (value) {
+                                      Navigator.pop(context);
+                                    }
+                                  });
+                                }
+                              : null,
+                          child: Text(context.localization!.create),
+                        ),
+                      ),
+                    )
                   : const SizedBox(),
             ),
           ),
@@ -166,34 +168,35 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 children: [
                   Center(
                     child: Consumer<TaskController>(builder:
-                    // TODO move this to its own component
+                        // TODO move this to its own component
                         (context, taskController, __) {
                       return LoadingAndErrorWidget.pulsing(
                         state: taskController.state,
                         child: !taskController.isCreating
                             ? Text(taskController.patient.name)
                             : LoadingFutureBuilder(
-                            future: PatientService().getPatientList(),
-                            loadingWidget: const PulsingContainer(),
-                            thenWidgetBuilder: (context, patientList) {
-                              List<Patient> patients = patientList.active + patientList.unassigned;
-                              return DropdownButton(
-                                underline: const SizedBox(),
-                                iconEnabledColor: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
-                                // removes the default underline
-                                padding: EdgeInsets.zero,
-                                hint: Text(
-                                  context.localization!.selectPatient,
-                                  style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),
-                                ),
-                                isDense: true,
-                                items: patients
-                                    .map((patient) => DropdownMenuItem(value: patient, child: Text(patient.name)))
-                                    .toList(),
-                                value: taskController.patient.isCreating ? null : taskController.patient,
-                                onChanged: (patient) => taskController.changePatient(patient ?? PatientMinimal.empty()),
-                              );
-                            }),
+                                data: PatientService().getPatientList(),
+                                loadingWidget: const PulsingContainer(),
+                                thenWidgetBuilder: (context, patientList) {
+                                  List<Patient> patients = patientList.active + patientList.unassigned;
+                                  return DropdownButton(
+                                    underline: const SizedBox(),
+                                    iconEnabledColor: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
+                                    // removes the default underline
+                                    padding: EdgeInsets.zero,
+                                    hint: Text(
+                                      context.localization!.selectPatient,
+                                      style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),
+                                    ),
+                                    isDense: true,
+                                    items: patients
+                                        .map((patient) => DropdownMenuItem(value: patient, child: Text(patient.name)))
+                                        .toList(),
+                                    value: taskController.patient.isCreating ? null : taskController.patient,
+                                    onChanged: (patient) =>
+                                        taskController.changePatient(patient ?? PatientMinimal.empty()),
+                                  );
+                                }),
                       );
                     }),
                   ),
@@ -207,43 +210,30 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                           label: context.localization!.assignedTo,
                           onTap: () => context.pushModal(
                             context: context,
-                            builder: (BuildContext context) => LoadingAndErrorWidget(
-                              state: taskController.state,
-                              child: ChangeNotifierProvider(
-                                create: (BuildContext context) => AssigneeSelectController(
-                                  selected: taskController.task.assigneeId,
-                                  taskId: taskController.task.id,
-                                ),
-                                child: AssigneeSelect(
-                                  onChanged: (assignee) {
-                                    taskController.changeAssignee(assignee.id).then((value) => Navigator.of(context).pop());
-                                  },
-                                ),
-                              ),
+                            builder: (BuildContext context) => AssigneeSelectBottomSheet(
+                              users: OrganizationService()
+                                  .getMembersByOrganization(CurrentWardService().currentWard!.organizationId),
+                              onChanged: (User? assignee) {
+                                taskController.changeAssignee(assignee);
+                                Navigator.pop(context);
+                              },
+                              selectedId: taskController.task.assigneeId,
                             ),
                           ),
-                          // TODO maybe do some optimisations here
-                          // TODO update the error and loading widgets
-                          valueWidget: LoadingAndErrorWidget.pulsing(
-                            state: taskController.state,
-                            child: taskController.task.hasAssignee
-                                ? ChangeNotifierProvider(
-                              create: (context) => UserController(User.empty(id: taskController.task.assigneeId!)),
-                              child: Consumer<UserController>(
-                                builder: (context, userController, __) => LoadingAndErrorWidget.pulsing(
-                                  state: userController.state,
+                          valueWidget: taskController.task.hasAssignee
+                              ? LoadingAndErrorWidget.pulsing(
+                                  state: taskController.assignee != null ? LoadingState.loaded : LoadingState.loading,
                                   child: Text(
-                                    userController.user.name,
+                                    // Never the case that we display the empty String, but the text is computed
+                                    // before being displayed
+                                    taskController.assignee?.name ?? "",
                                     style: editableValueTextStyle(context),
                                   ),
+                                )
+                              : Text(
+                                  context.localization!.unassigned,
+                                  style: editableValueTextStyle(context),
                                 ),
-                              ),
-                            )
-                                : Text(
-                              context.localization!.unassigned,
-                              style: editableValueTextStyle(context),
-                            ),
-                          ),
                         );
                       }),
                       Consumer<TaskController>(
@@ -278,7 +268,8 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                               lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
                               builder: (context, child) {
                                 // Overwrite the Theme
-                                ThemeData pickerTheme = Theme.of(context).copyWith(textButtonTheme: const TextButtonThemeData());
+                                ThemeData pickerTheme =
+                                    Theme.of(context).copyWith(textButtonTheme: const TextButtonThemeData());
                                 return Theme(data: pickerTheme, child: child ?? const SizedBox());
                               },
                             ).then((date) async {
@@ -389,8 +380,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                     ),
                   ),
                 ],
-              )
-          ),
+              )),
         ),
       ),
     );

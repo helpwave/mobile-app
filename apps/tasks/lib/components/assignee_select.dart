@@ -1,18 +1,23 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
-import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
-import 'package:helpwave_widget/loading.dart';
-import 'package:provider/provider.dart';
+import 'package:helpwave_widget/content_selection.dart';
 
 /// A [BottomSheet] for selecting a assignee
-class AssigneeSelect extends StatelessWidget {
+class AssigneeSelectBottomSheet extends StatelessWidget {
   /// The callback when the assignee should be changed
-  final Function(User assignee) onChanged;
+  ///
+  /// Null if the assignee should be removed
+  final Function(User? assignee) onChanged;
 
-  const AssigneeSelect({super.key, required this.onChanged});
+  final FutureOr<List<User>> users;
+
+  final String? selectedId;
+
+  const AssigneeSelectBottomSheet({super.key, required this.onChanged, required this.users, this.selectedId});
 
   @override
   Widget build(BuildContext context) {
@@ -21,24 +26,26 @@ class AssigneeSelect extends StatelessWidget {
       onClosing: () => {},
       builder: (context) => Padding(
         padding: const EdgeInsets.symmetric(vertical: paddingMedium),
-        child: Consumer<AssigneeSelectController>(builder: (context, assigneeSelectController, __) {
-          return LoadingAndErrorWidget(
-            state: assigneeSelectController.state,
-            child: Column(
-              children: assigneeSelectController.users.map((user) =>
-                 ListTile(
-                  onTap: () {
-                    assigneeSelectController.changeAssignee(user.id).then((value) {
-                      onChanged(user);
-                    });
-                  },
-                  leading: CircleAvatar(
-                      foregroundColor: Colors.blue, backgroundImage: NetworkImage(user.profileUrl.toString())),
-                  title: Text(user.nickName),
-                )).toList(),
+        child: Column(
+          children: [
+            TextButton(
+              child: Text(context.localization!.remove),
+              onPressed: () => onChanged(null),
             ),
-          );
-        }),
+            const SizedBox(height: 10),
+            ListSelect(
+              items: users,
+              onSelect: onChanged,
+              builder: (context, user, select) => ListTile(
+                onTap: select,
+                leading: CircleAvatar(
+                    foregroundColor: Colors.blue, backgroundImage: NetworkImage(user.profileUrl.toString())),
+                title: Text(user.nickName,
+                    style: TextStyle(decoration: user.id == selectedId ? TextDecoration.underline : null)),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

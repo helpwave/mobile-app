@@ -19,11 +19,11 @@ class AssignedTasksController extends LoadingChangeNotifier {
   List<TaskWithPatient> get done => _tasks.where((element) => element.status == TaskStatus.done).toList();
 
   AssignedTasksController() {
-    loadTasks();
+    load();
   }
 
   /// Loads the [Task]s
-  Future<void> loadTasks() async {
+  Future<void> load() async {
     loadTasksFuture() async {
       _tasks = await TaskService().getAssignedTasks();
     }

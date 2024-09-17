@@ -15,14 +15,6 @@ const String profileUrl = "https://helpwave.de/favicon.ico";
 final List<Organization> initialOrganizations = [
   Organization(
       id: "organization1",
-      shortName: "Test",
-      longName: "Test Organization",
-      avatarURL: profileUrl,
-      email: "test@helpwave.de",
-      isPersonal: false,
-      isVerified: true),
-  Organization(
-      id: "organization2",
       shortName: "MK",
       longName: "Musterklinikum",
       avatarURL: profileUrl,
@@ -97,6 +89,7 @@ final List<Task> initialTasks = initialPatients
           name: "Task ${index + 1}",
           patientId: patient.id,
           notes: '',
+          assigneeId: [initialUsers[0].id, null, initialUsers[2].id][index],
         )))
     .expand((element) => element)
     .toList();
