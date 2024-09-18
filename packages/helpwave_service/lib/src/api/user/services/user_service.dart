@@ -32,4 +32,24 @@ class UserService {
       profileUrl: Uri.parse(response.avatarUrl),
     );
   }
+
+  Future<User> getSelf() async {
+    ReadSelfRequest request = ReadSelfRequest();
+    ReadSelfResponse response = await userService.readSelf(
+      request,
+      options: CallOptions(
+        metadata: UserAPIServiceClients().getMetaData(
+          organizationId: AuthenticationUtility.fallbackOrganizationId,
+        ),
+      ),
+    );
+
+    return User(
+      id: response.id,
+      name: response.name,
+      nickName: response.nickname,
+      email: "no-email", // TODO replace this
+      profileUrl: Uri.parse(response.avatarUrl),
+    );
+  }
 }

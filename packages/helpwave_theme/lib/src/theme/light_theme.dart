@@ -10,7 +10,7 @@ const onSecondaryColor = Color.fromARGB(255, 255, 255, 255);
 const tertiary = Color.fromARGB(255, 180, 180, 180);
 const onTertiary = Color.fromARGB(255, 0, 0, 0);
 
-const backgroundColor = Color.fromARGB(255, 230, 230, 230);
+const backgroundColor = Color.fromARGB(255, 242, 242, 242);
 const onBackgroundColor = Color.fromARGB(255, 0, 0, 0);
 
 const surface = Color.fromARGB(255, 220, 220, 220);
@@ -81,4 +81,10 @@ ThemeData lightTheme = makeTheme(
 
   // additional
   brightness: Brightness.dark,
+
+  // flutter themes
+  appBarTheme: sharedAppBarTheme.copyWith(
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.black,
+  )
 );

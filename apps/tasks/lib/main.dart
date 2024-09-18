@@ -57,9 +57,7 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: getSupportedLocals(),
           locale: Locale(languageNotifier.language),
-          home: const Scaffold(
-            body: SafeArea(child: LoginScreen()),
-          ),
+          home: const LoginScreen(),
         );
       }),
     );

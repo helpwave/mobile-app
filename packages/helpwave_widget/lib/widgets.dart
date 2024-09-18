@@ -1,1 +1,1 @@
-export 'package:helpwave_widget/src/widgets/widgets.dart';
+export 'package:helpwave_widget/src/widgets/index.dart';

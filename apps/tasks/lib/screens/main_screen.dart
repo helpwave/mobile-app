@@ -45,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
       }
       return Scaffold(
         appBar: const UserHeader(),
-        body: [const MyTasksScreen(), const SizedBox(), const PatientScreen()][index],
+        body: SafeArea(child: [const MyTasksScreen(), const SizedBox(), const PatientScreen()][index]),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: PopInAndOutAnimator(
           visible: isShowingActionButton,

@@ -52,29 +52,31 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
         ),
       ],
       child: BottomSheetBase(
-        title: Consumer<PatientController>(builder: (context, patientController, _) {
-          if (patientController.state == LoadingState.loaded || patientController.isCreating) {
-            return ClickableTextEdit(
-              initialValue: patientController.patient.name,
-              onUpdated: patientController.changeName,
-              textAlign: TextAlign.center,
-              textStyle: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
-                fontWeight: FontWeight.bold,
-                fontSize: iconSizeTiny,
-                fontFamily: "SpaceGrotesk",
-                overflow: TextOverflow.ellipsis,
-              ),
-            );
-          } else {
-            return const PulsingContainer(width: 30);
-          }
-        }),
+        header: BottomSheetHeader(
+          title: Consumer<PatientController>(builder: (context, patientController, _) {
+            if (patientController.state == LoadingState.loaded || patientController.isCreating) {
+              return ClickableTextEdit(
+                initialValue: patientController.patient.name,
+                onUpdated: patientController.changeName,
+                textAlign: TextAlign.center,
+                textStyle: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: iconSizeTiny,
+                  fontFamily: "SpaceGrotesk",
+                  overflow: TextOverflow.ellipsis,
+                ),
+              );
+            } else {
+              return const PulsingContainer(width: 30);
+            }
+          }),
+        ),
         onClosing: () {
           // TODO handle this
         },
         bottomWidget: Padding(
-          padding: const EdgeInsets.only(top: paddingMedium),
+          padding: const EdgeInsets.only(top: paddingSmall),
           child: Consumer<PatientController>(builder: (context, patientController, _) {
             return LoadingAndErrorWidget(
                 state: patientController.state,
@@ -145,129 +147,131 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                 ));
           }),
         ),
-        builder: (BuildContext context) => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Consumer<PatientController>(builder: (context, patientController, _) {
-                return LoadingFutureBuilder(
-                  data: loadRoomsWithBeds(patientController.patient.id),
-                  // TODO use a better loading widget
-                  loadingWidget: const SizedBox(),
-                  thenWidgetBuilder: (context, beds) {
-                    if (beds.isEmpty) {
-                      return Text(
-                        context.localization!.noFreeBeds,
-                        style: TextStyle(color: Theme.of(context).disabledColor, fontWeight: FontWeight.bold),
-                      );
-                    }
-                    return DropdownButtonHideUnderline(
-                      child: DropdownButton<RoomWithBedFlat>(
-                        iconEnabledColor: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
-                        padding: EdgeInsets.zero,
-                        isDense: true,
-                        hint: Text(
-                          context.localization!.assignBed,
-                          style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),
+        builder: (BuildContext context) => SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Consumer<PatientController>(builder: (context, patientController, _) {
+                  return LoadingFutureBuilder(
+                    data: loadRoomsWithBeds(patientController.patient.id),
+                    // TODO use a better loading widget
+                    loadingWidget: const SizedBox(),
+                    thenWidgetBuilder: (context, beds) {
+                      if (beds.isEmpty) {
+                        return Text(
+                          context.localization!.noFreeBeds,
+                          style: TextStyle(color: Theme.of(context).disabledColor, fontWeight: FontWeight.bold),
+                        );
+                      }
+                      return DropdownButtonHideUnderline(
+                        child: DropdownButton<RoomWithBedFlat>(
+                          iconEnabledColor: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
+                          padding: EdgeInsets.zero,
+                          isDense: true,
+                          hint: Text(
+                            context.localization!.assignBed,
+                            style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),
+                          ),
+                          value: beds.where((beds) => beds.bed.id == patientController.patient.bed?.id).firstOrNull,
+                          items: beds
+                              .map((roomWithBed) => DropdownMenuItem(
+                                    value: roomWithBed,
+                                    child: Text(
+                                      "${roomWithBed.room.name} - ${roomWithBed.bed.name}",
+                                      style: TextStyle(color: Theme.of(context).colorScheme.primary.withOpacity(0.6)),
+                                    ),
+                                  ))
+                              .toList(),
+                          onChanged: (RoomWithBedFlat? value) {
+                            // TODO later unassign here
+                            if (value == null) {
+                              return;
+                            }
+                            patientController.assignToBed(value.room, value.bed);
+                          },
                         ),
-                        value: beds.where((beds) => beds.bed.id == patientController.patient.bed?.id).firstOrNull,
-                        items: beds
-                            .map((roomWithBed) => DropdownMenuItem(
-                                  value: roomWithBed,
-                                  child: Text(
-                                    "${roomWithBed.room.name} - ${roomWithBed.bed.name}",
-                                    style: TextStyle(color: Theme.of(context).colorScheme.primary.withOpacity(0.6)),
-                                  ),
-                                ))
-                            .toList(),
-                        onChanged: (RoomWithBedFlat? value) {
-                          // TODO later unassign here
-                          if (value == null) {
-                            return;
-                          }
-                          patientController.assignToBed(value.room, value.bed);
-                        },
-                      ),
-                    );
-                  },
-                );
-              }),
-            ),
-            Text(
-              context.localization!.notes,
-              style: const TextStyle(fontSize: fontSizeBig, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: distanceSmall),
-            Consumer<PatientController>(
-              builder: (context, patientController, _) =>
-                  patientController.state == LoadingState.loaded || patientController.isCreating
-                      ? TextFormFieldWithTimer(
-                          initialValue: patientController.patient.notes,
-                          maxLines: 6,
-                          onUpdate: patientController.changeNotes,
-                        )
-                      : TextFormField(maxLines: 6),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: paddingMedium),
-              child: Consumer<PatientController>(builder: (context, patientController, _) {
-                Patient patient = patientController.patient;
-                return AddList(
-                  maxHeight: width * 0.5,
-                  items: [
-                    ...patient.unscheduledTasks,
-                    ...patient.inProgressTasks,
-                    ...patient.doneTasks,
-                  ],
-                  itemBuilder: (_, index, taskList) {
-                    if (index == 0) {
+                      );
+                    },
+                  );
+                }),
+              ),
+              Text(
+                context.localization!.notes,
+                style: const TextStyle(fontSize: fontSizeBig, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: distanceSmall),
+              Consumer<PatientController>(
+                builder: (context, patientController, _) =>
+                    patientController.state == LoadingState.loaded || patientController.isCreating
+                        ? TextFormFieldWithTimer(
+                            initialValue: patientController.patient.notes,
+                            maxLines: 6,
+                            onUpdate: patientController.changeNotes,
+                          )
+                        : TextFormField(maxLines: 6),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: paddingMedium),
+                child: Consumer<PatientController>(builder: (context, patientController, _) {
+                  Patient patient = patientController.patient;
+                  return AddList(
+                    maxHeight: width * 0.5,
+                    items: [
+                      ...patient.unscheduledTasks,
+                      ...patient.inProgressTasks,
+                      ...patient.doneTasks,
+                    ],
+                    itemBuilder: (_, index, taskList) {
+                      if (index == 0) {
+                        return TaskExpansionTile(
+                          tasks: patient.unscheduledTasks
+                              .map((task) => TaskWithPatient.fromTaskAndPatient(
+                                    task: task,
+                                    patient: patient,
+                                  ))
+                              .toList(),
+                          title: context.localization!.upcoming,
+                          color: upcomingColor,
+                        );
+                      }
+                      if (index == 2) {
+                        return TaskExpansionTile(
+                          tasks: patient.doneTasks
+                              .map((task) => TaskWithPatient.fromTaskAndPatient(
+                                    task: task,
+                                    patient: patient,
+                                  ))
+                              .toList(),
+                          title: context.localization!.inProgress,
+                          color: inProgressColor,
+                        );
+                      }
                       return TaskExpansionTile(
-                        tasks: patient.unscheduledTasks
+                        tasks: patient.inProgressTasks
                             .map((task) => TaskWithPatient.fromTaskAndPatient(
                                   task: task,
                                   patient: patient,
                                 ))
                             .toList(),
-                        title: context.localization!.upcoming,
-                        color: upcomingColor,
+                        title: context.localization!.done,
+                        color: doneColor,
                       );
-                    }
-                    if (index == 2) {
-                      return TaskExpansionTile(
-                        tasks: patient.doneTasks
-                            .map((task) => TaskWithPatient.fromTaskAndPatient(
-                                  task: task,
-                                  patient: patient,
-                                ))
-                            .toList(),
-                        title: context.localization!.inProgress,
-                        color: inProgressColor,
-                      );
-                    }
-                    return TaskExpansionTile(
-                      tasks: patient.inProgressTasks
-                          .map((task) => TaskWithPatient.fromTaskAndPatient(
-                                task: task,
-                                patient: patient,
-                              ))
-                          .toList(),
-                      title: context.localization!.done,
-                      color: doneColor,
-                    );
-                  },
-                  title: Text(
-                    context.localization!.tasks,
-                    style: const TextStyle(fontSize: fontSizeBig, fontWeight: FontWeight.bold),
-                  ),
-                  // TODO use return value to add it to task list or force a refetch
-                  onAdd: () => context.pushModal(
-                    context: context,
-                    builder: (context) => TaskBottomSheet(task: Task.empty(patient.id), patient: patient),
-                  ),
-                );
-              }),
-            ),
-          ],
+                    },
+                    title: Text(
+                      context.localization!.tasks,
+                      style: const TextStyle(fontSize: fontSizeBig, fontWeight: FontWeight.bold),
+                    ),
+                    // TODO use return value to add it to task list or force a refetch
+                    onAdd: () => context.pushModal(
+                      context: context,
+                      builder: (context) => TaskBottomSheet(task: Task.empty(patient.id), patient: patient),
+                    ),
+                  );
+                }),
+              ),
+            ],
+          ),
         ),
       ),
     );

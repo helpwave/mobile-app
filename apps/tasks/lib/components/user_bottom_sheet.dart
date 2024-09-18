@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/loading.dart';
@@ -8,50 +9,42 @@ import 'package:provider/provider.dart';
 import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_service/auth.dart';
 import 'package:tasks/screens/login_screen.dart';
+import 'package:helpwave_widget/widgets.dart';
+import 'package:tasks/screens/settings_screen.dart';
 
-/// A [BottomSheet] for showing the [User]s information
-class UserBottomSheet extends StatefulWidget {
-  const UserBottomSheet({super.key});
+
+class UserBottomSheetPageBuilder with BottomSheetPageBuilder {
+  @override
+  BottomSheetHeader? headerBuilder(BuildContext context, NestedBottomSheetNavigationController controller) {
+    return BottomSheetHeader(
+      trailing: BottomSheetAction(
+        icon: Icons.settings,
+        onPressed: () => controller.push(SettingsBottomSheetPageBuilder()),
+      ),
+    );
+  }
 
   @override
-  State<UserBottomSheet> createState() => _UserBottomSheetState();
-}
-
-class _UserBottomSheetState extends State<UserBottomSheet> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, NestedBottomSheetNavigationController controller) {
     final double width = MediaQuery.of(context).size.width;
 
-    return BottomSheetBase(
-      onClosing: () {},
-      titleText: context.localization!.profile,
-      builder: (BuildContext ctx) => Column(
+    return Flexible(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.all(paddingSmall).copyWith(top: paddingMedium),
-            child: CircleAvatar(
-              radius: iconSizeMedium,
-              child: Container(
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment(0.8, 1),
-                    colors: <Color>[
-                      Color(0xff1f005c),
-                      Color(0xff5b0060),
-                      Color(0xff870160),
-                      Color(0xffac255e),
-                      Color(0xffca485c),
-                      Color(0xffe16b5c),
-                      Color(0xfff39060),
-                      Color(0xffffb56b),
-                    ],
-                    tileMode: TileMode.mirror,
-                  ),
-                ),
-              ),
+            child: LoadingFutureBuilder(
+              data: UserService().getSelf(),
+              thenWidgetBuilder: (context, data) {
+                return CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: iconSizeMedium,
+                  foregroundImage: NetworkImage(data.profileUrl.toString()),
+                );
+              },
+              loadingWidget: const FallbackAvatar(size: iconSizeMedium),
+              errorWidget: const FallbackAvatar(size: iconSizeMedium),
             ),
           ),
           Consumer<UserSessionController>(builder: (context, userSessionController, _) {
@@ -60,7 +53,6 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
               style: const TextStyle(fontSize: fontSizeBig),
             );
           }),
-          // TODO consider a loading widget here
           Consumer<CurrentWardController>(
             builder: (context, currentWardController, __) => Text(
               currentWardController.currentWard?.organizationName ?? context.localization!.loading,
@@ -147,6 +139,7 @@ class _UserBottomSheetState extends State<UserBottomSheet> {
                   });
             }),
           ),
+          const Spacer(),
           Padding(
             padding: const EdgeInsets.only(bottom: distanceMedium),
             child: Consumer<CurrentWardController>(builder: (context, currentWardService, _) {

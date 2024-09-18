@@ -130,6 +130,8 @@ const chipTheme = ChipThemeData(
   pressElevation: 4,
 );
 
+const AppBarTheme sharedAppBarTheme = AppBarTheme(centerTitle: true);
+
 /// TextStyles
 TextStyle editableValueTextStyle(BuildContext context) =>
     TextStyle(color: Theme.of(context).colorScheme.secondary, fontSize: 16, fontWeight: FontWeight.bold);

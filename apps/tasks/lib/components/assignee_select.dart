@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_service/user.dart';
-import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/content_selection.dart';
 
@@ -22,31 +21,32 @@ class AssigneeSelectBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomSheetBase(
-      titleText: context.localization!.assignee,
+      header: BottomSheetHeader(
+        titleText: context.localization!.assignee,
+      ),
       onClosing: () => {},
-      builder: (context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: paddingMedium),
-        child: Column(
+      builder: (context) =>  Column(
           children: [
             TextButton(
               child: Text(context.localization!.remove),
               onPressed: () => onChanged(null),
             ),
             const SizedBox(height: 10),
-            ListSelect(
-              items: users,
-              onSelect: onChanged,
-              builder: (context, user, select) => ListTile(
-                onTap: select,
-                leading: CircleAvatar(
-                    foregroundColor: Colors.blue, backgroundImage: NetworkImage(user.profileUrl.toString())),
-                title: Text(user.nickName,
-                    style: TextStyle(decoration: user.id == selectedId ? TextDecoration.underline : null)),
+            SingleChildScrollView(
+              child: ListSelect(
+                items: users,
+                onSelect: onChanged,
+                builder: (context, user, select) => ListTile(
+                  onTap: select,
+                  leading: CircleAvatar(
+                      foregroundColor: Colors.blue, backgroundImage: NetworkImage(user.profileUrl.toString())),
+                  title: Text(user.nickName,
+                      style: TextStyle(decoration: user.id == selectedId ? TextDecoration.underline : null)),
+                ),
               ),
             ),
           ],
         ),
-      ),
     );
   }
 }

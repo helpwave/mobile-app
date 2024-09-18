@@ -48,6 +48,9 @@ ThemeData makeTheme({
 
   // additional parameters
   required Brightness brightness,
+
+  // Flutter Themes
+  AppBarTheme appBarTheme = sharedAppBarTheme,
 }) {
   return ThemeData(
     useMaterial3: true,
@@ -104,12 +107,7 @@ ThemeData makeTheme({
     listTileTheme: ListTileThemeData(
       iconColor: focusedColor,
     ),
-    appBarTheme: AppBarTheme(
-      centerTitle: true,
-      foregroundColor: primaryColor,
-      backgroundColor: Colors.transparent,
-      shadowColor: Colors.transparent,
-    ),
+    appBarTheme: appBarTheme,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: buttonStyleSmall.copyWith(
         backgroundColor: resolveByStates(

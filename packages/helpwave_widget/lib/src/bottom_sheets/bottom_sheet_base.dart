@@ -6,13 +6,14 @@ extension PushModalContextExtension<T> on BuildContext {
     required BuildContext context,
     required Widget Function(BuildContext context) builder,
     Duration animationDuration = const Duration(milliseconds: 500),
+    Duration reverseDuration = const Duration(milliseconds: 250),
   }) async {
     T? value = await Navigator.of(context).push<T>(
       PageRouteBuilder(
-        barrierColor: Colors.black.withOpacity(0.3),
+        barrierColor: Colors.black.withOpacity(0.4),
         barrierDismissible: true,
         transitionDuration: animationDuration,
-        reverseTransitionDuration: animationDuration,
+        reverseTransitionDuration: reverseDuration,
         opaque: false,
         // Set to false to make the route semi-transparent
         pageBuilder: (BuildContext context, _, __) {
@@ -92,7 +93,7 @@ class _ModalWrapperState extends State<_ModalWrapper> with TickerProviderStateMi
         if (newOffset < 0) {
           newOffset = 0;
         }
-        
+
         offset.value = newOffset;
 
         touchPositionY = details.globalPosition.dy;
@@ -111,18 +112,142 @@ class _ModalWrapperState extends State<_ModalWrapper> with TickerProviderStateMi
       child: Align(
         alignment: Alignment.bottomCenter,
         child: ValueListenableBuilder<double>(
-            valueListenable: offset,
-            child: Material(
-              color: Colors.transparent,
-              child: widget.builder(context),
-            ),
-            builder: (context, offsetValue, child) {
-              return Transform.translate(
-              offset: Offset(0, offsetValue),
-                child: child,
-              );
-            },
+          valueListenable: offset,
+          child: Material(
+            color: Colors.transparent,
+            child: widget.builder(context),
           ),
+          builder: (context, offsetValue, child) {
+            return Transform.translate(
+              offset: Offset(0, offsetValue),
+              child: child,
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class BottomSheetAction {
+  final IconData icon;
+  final Function() onPressed;
+
+  BottomSheetAction({required this.icon, required this.onPressed});
+}
+
+class BottomSheetHeader extends StatelessWidget {
+  /// A [BottomSheetAction] leading before the [title]
+  ///
+  /// Defaults to a closing button
+  final BottomSheetAction? leading;
+
+  /// A [BottomSheetAction] trailing after the [title]
+  final BottomSheetAction? trailing;
+
+  /// The title of the [BottomSheetHeader] displayed in the center
+  ///
+  /// Overwrites [titleText]
+  final Widget? title;
+
+  /// The title text of the [BottomSheetHeader] displayed in the center
+  ///
+  /// Overwritten by [title]
+  final String? titleText;
+
+  /// Whether the drag handler widget should be shown
+  final bool isShowingDragHandler;
+
+  /// An additional padding for the [BottomSheetHeader]
+  ///
+  /// Be aware that the [BottomSheetBase] **already provides a padding** to all sides.
+  ///
+  /// You most likely want to change the bottom padding to create spacing between [BottomSheetHeader] and content of
+  /// the [BottomSheetBase].
+  final EdgeInsets padding;
+
+  const BottomSheetHeader({
+    super.key,
+    this.leading,
+    this.trailing,
+    this.title,
+    this.titleText,
+    this.isShowingDragHandler = false,
+    this.padding = const EdgeInsets.only(bottom: paddingSmall),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    BottomSheetAction usedLeading =
+        leading ?? BottomSheetAction(icon: Icons.close_rounded, onPressed: () => Navigator.maybePop(context));
+
+    const double iconSize = iconSizeSmall;
+
+    return Padding(
+      padding: padding,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Visibility(
+            visible: isShowingDragHandler,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: paddingSmall),
+              child: Center(
+                child: Container(
+                  height: 5,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.onBackground.withOpacity(0.8),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: iconSize,
+                height: iconSize,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  iconSize: iconSize,
+                  onPressed: usedLeading.onPressed,
+                  icon: Icon(usedLeading.icon),
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
+                  child: title ??
+                      Text(
+                        titleText ?? "",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: iconSizeTiny,
+                          fontFamily: "SpaceGrotesk",
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                ),
+              ),
+              SizedBox(
+                width: iconSize,
+                height: iconSize,
+                child: trailing != null
+                    ? IconButton(
+                        padding: EdgeInsets.zero,
+                        iconSize: iconSize,
+                        onPressed: trailing!.onPressed,
+                        icon: Icon(trailing!.icon),
+                      )
+                    : null,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -136,32 +261,27 @@ class BottomSheetBase extends StatefulWidget {
   /// The builder function call to build the content of the [BottomSheetBase]
   final Widget Function(BuildContext context) builder;
 
-  /// The title of the titlebar
+  /// A header [Widget] above the builder content
   ///
-  /// Overwrites [titleText]
-  final Widget? title;
-
-  /// The title text of the titlebar
-  ///
-  /// Overwritten by [title]
-  final String titleText;
+  /// Defaults to the [BottomSheetHeader]
+  final Widget header;
 
   /// The bottom [Widget] below the [builder]
-  ///
-  /// Overwrites [titleText]
   final Widget? bottomWidget;
 
   /// The [Padding] of the builder [Widget]
   final EdgeInsetsGeometry padding;
 
+  final MainAxisSize mainAxisSize;
+
   const BottomSheetBase({
     super.key,
     required this.onClosing,
     required this.builder,
-    this.title,
-    this.titleText = "",
     this.padding = const EdgeInsets.all(paddingMedium),
     this.bottomWidget,
+    this.header = const BottomSheetHeader(),
+    this.mainAxisSize = MainAxisSize.min,
   });
 
   @override
@@ -171,69 +291,26 @@ class BottomSheetBase extends StatefulWidget {
 class _BottomSheetBase extends State<BottomSheetBase> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return BottomSheet(
-      animationController: BottomSheet.createAnimationController(this),
-      enableDrag: false,
-      onClosing: widget.onClosing,
-      builder: (context) {
-        return Padding(
-          padding: widget.padding,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: paddingSmall),
-                child: Center(
-                  child: Container(
-                    height: 5,
-                    width: 30,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.onBackground.withOpacity(0.8),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: iconSizeTiny,
-                    height: iconSizeTiny,
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      iconSize: iconSizeTiny,
-                      onPressed: () => Navigator.maybePop(context),
-                      icon: const Icon(Icons.close_rounded),
-                    ),
-                  ),
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
-                      child: widget.title ??
-                          Text(
-                            widget.titleText,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: iconSizeTiny,
-                              fontFamily: "SpaceGrotesk",
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                    ),
-                  ),
-                  const SizedBox(width: iconSizeTiny),
-                ],
-              ),
-              SingleChildScrollView(
-                child: widget.builder(context),
-              ),
-              widget.bottomWidget ?? const SizedBox(),
-            ],
-          ),
-        );
-      },
+    return SafeArea(
+      child: BottomSheet(
+        constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.85),
+        animationController: BottomSheet.createAnimationController(this),
+        enableDrag: false,
+        onClosing: widget.onClosing,
+        builder: (context) {
+          return Padding(
+            padding: widget.padding,
+            child: Column(
+              mainAxisSize: widget.mainAxisSize,
+              children: [
+                widget.header,
+                widget.builder(context),
+                widget.bottomWidget ?? const SizedBox(),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

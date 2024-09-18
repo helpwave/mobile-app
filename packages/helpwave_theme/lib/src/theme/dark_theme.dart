@@ -81,4 +81,10 @@ ThemeData darkTheme = makeTheme(
 
   // additional
   brightness: Brightness.dark,
+
+    // flutter themes
+    appBarTheme: sharedAppBarTheme.copyWith(
+      backgroundColor: const Color.fromARGB(255, 15, 15, 15),
+      foregroundColor: Colors.white,
+    )
 );
