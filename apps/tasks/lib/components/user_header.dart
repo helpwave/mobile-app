@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_service/auth.dart';
+import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/user_bottom_sheet.dart';
-import 'package:tasks/controllers/user_session_controller.dart';
-import 'package:tasks/dataclasses/organization.dart';
-import 'package:tasks/dataclasses/ward.dart';
 import 'package:tasks/screens/settings_screen.dart';
-import 'package:tasks/services/current_ward_svc.dart';
 
 /// A [AppBar] for displaying the current [User], [Organization] and [Ward]
 class UserHeader extends StatelessWidget implements PreferredSizeWidget {
