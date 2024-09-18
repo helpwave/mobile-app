@@ -5,6 +5,7 @@ import 'package:helpwave_service/auth.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
+import 'package:helpwave_widget/navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/screens/login_screen.dart';
 
@@ -146,7 +147,7 @@ class SettingsScreen extends StatelessWidget {
 
 class SettingsBottomSheetPageBuilder with BottomSheetPageBuilder {
   @override
-  Widget build(BuildContext context, NestedBottomSheetNavigationController controller) {
+  Widget build(BuildContext context, NavigationController<BottomSheetPageBuilder> controller) {
     return Flexible(
       child: ListView(
         children: ListTile.divideTiles(
@@ -213,11 +214,11 @@ class SettingsBottomSheetPageBuilder with BottomSheetPageBuilder {
                     },
                     itemBuilder: (BuildContext context) => getSupportedLocalsWithName()
                         .map((local) => PopupMenuItem(
-                      value: local.local,
-                      child: Text(
-                        local.name,
-                      ),
-                    ))
+                              value: local.local,
+                              child: Text(
+                                local.name,
+                              ),
+                            ))
                         .toList(),
                     child: Material(
                       child: Row(

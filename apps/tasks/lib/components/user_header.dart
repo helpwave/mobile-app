@@ -40,7 +40,7 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
             onTap: () {
               context.pushModal(
                 context: context,
-                builder: (context) => NestedBottomSheetNavigator(initialPageBuilder: UserBottomSheetPageBuilder()),
+                builder: (context) => BottomSheetNavigator(initialPageBuilder: UserBottomSheetPageBuilder()),
               );
             },
             title: Text(

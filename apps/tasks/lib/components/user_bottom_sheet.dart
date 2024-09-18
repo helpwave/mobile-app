@@ -5,6 +5,7 @@ import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/loading.dart';
+import 'package:helpwave_widget/navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_service/auth.dart';
@@ -15,7 +16,7 @@ import 'package:tasks/screens/settings_screen.dart';
 
 class UserBottomSheetPageBuilder with BottomSheetPageBuilder {
   @override
-  BottomSheetHeader? headerBuilder(BuildContext context, NestedBottomSheetNavigationController controller) {
+  BottomSheetHeader? headerBuilder(BuildContext context, NavigationController<BottomSheetPageBuilder> controller) {
     return BottomSheetHeader(
       trailing: BottomSheetAction(
         icon: Icons.settings,
@@ -25,7 +26,7 @@ class UserBottomSheetPageBuilder with BottomSheetPageBuilder {
   }
 
   @override
-  Widget build(BuildContext context, NestedBottomSheetNavigationController controller) {
+  Widget build(BuildContext context, NavigationController<BottomSheetPageBuilder> controller) {
     final double width = MediaQuery.of(context).size.width;
 
     return Flexible(

@@ -28,7 +28,7 @@ class _PatientScreenState extends State<PatientScreen> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: paddingSmall, right: paddingSmall, bottom: paddingMedium),
+            padding: const EdgeInsets.only(left: paddingSmall, right: paddingSmall, bottom: paddingMedium, top: paddingSmall),
             child: Consumer<WardPatientsController>(builder: (_, patientController, __) {
               return SearchBar(
                 hintText: context.localization!.searchPatient,
