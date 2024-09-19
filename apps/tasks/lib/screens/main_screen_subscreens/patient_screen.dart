@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
@@ -8,9 +9,7 @@ import 'package:tasks/components/patient_bottom_sheet.dart';
 import 'package:tasks/components/patient_card.dart';
 import 'package:tasks/components/patient_status_chip_select.dart';
 import 'package:tasks/components/task_bottom_sheet.dart';
-import 'package:tasks/controllers/ward_patients_controller.dart';
-import 'package:tasks/dataclasses/patient.dart';
-import 'package:tasks/dataclasses/task.dart';
+import 'package:helpwave_service/tasks.dart';
 
 /// A screen for showing a all [Patient]s by certain user-selectable filter properties
 ///
@@ -30,7 +29,7 @@ class _PatientScreenState extends State<PatientScreen> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: paddingSmall, right: paddingSmall, bottom: paddingMedium),
+            padding: const EdgeInsets.only(left: paddingSmall, right: paddingSmall, bottom: paddingMedium, top: paddingSmall),
             child: Consumer<WardPatientsController>(builder: (_, patientController, __) {
               return SearchBar(
                 hintText: context.localization!.searchPatient,
@@ -42,7 +41,7 @@ class _PatientScreenState extends State<PatientScreen> {
                     icon: Icon(
                       Icons.search,
                       size: iconSizeTiny,
-                      color: Theme.of(context).searchBarTheme.textStyle!.resolve({MaterialState.selected})!.color,
+                      color: context.theme.searchBarTheme.textStyle!.resolve({MaterialState.selected})!.color,
                     ),
                   ),
                 ],
@@ -86,7 +85,7 @@ class _PatientScreenState extends State<PatientScreen> {
                                 padding: const EdgeInsets.all(paddingTiny),
                                 child: Container(
                                     decoration: BoxDecoration(
-                                      color: Theme.of(context).colorScheme.secondary,
+                                      color: context.theme.colorScheme.primary,
                                       borderRadius: BorderRadius.circular(borderRadiusMedium),
                                     ),
                                     padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
@@ -120,7 +119,7 @@ class _PatientScreenState extends State<PatientScreen> {
                                   context.pushModal(
                                     context: context,
                                     builder: (context) => TaskBottomSheet(
-                                      task: Task.empty,
+                                      task: Task.empty(patient.id),
                                       patient: patient,
                                     ),
                                   ).then((value) => patientController.load());

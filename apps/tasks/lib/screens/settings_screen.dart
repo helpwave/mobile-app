@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_localization/localization_model.dart';
+import 'package:helpwave_service/auth.dart';
+import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
+import 'package:helpwave_theme/util.dart';
+import 'package:helpwave_widget/bottom_sheets.dart';
+import 'package:helpwave_widget/lists.dart';
+import 'package:helpwave_widget/loading.dart';
+import 'package:helpwave_widget/navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/screens/login_screen.dart';
-import 'package:tasks/services/user_session_service.dart';
-import 'package:tasks/services/current_ward_svc.dart';
 
 /// Screen for settings and other app options
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
-  @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,6 +142,238 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ],
             ).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class NavigationListTile extends StatelessWidget {
+  final IconData icon;
+  final Color? color;
+  final String title;
+  final void Function() onTap;
+  final String? trailingText;
+
+  const NavigationListTile({
+    super.key,
+    required this.icon,
+    this.color,
+    required this.title,
+    required this.onTap,
+    this.trailingText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: color ?? context.theme.colorScheme.primary,
+      ),
+      title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, color: color)),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          trailingText != null
+              ? Text(
+                  trailingText!,
+                  style: context.theme.textTheme.labelLarge,
+                )
+              : const SizedBox(),
+          Icon(
+            Icons.chevron_right_rounded,
+            color: context.theme.colorScheme.onBackground.withOpacity(0.7),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SettingsBottomSheetPageBuilder with BottomSheetPageBuilder {
+  @override
+  BottomSheetHeader? headerBuilder(BuildContext context, NavigationController<BottomSheetPageBuilder> controller) {
+    return BottomSheetHeader(
+      titleText: context.localization!.settings,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context, NavigationController<BottomSheetPageBuilder> controller) {
+    titleBuilder(String title) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: paddingSmall),
+        child: Text(
+          title,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: "SpaceGrotesk"),
+        ),
+      );
+    }
+
+    return Flexible(
+      child: ListView(
+        children: [
+          titleBuilder(context.localization!.personalSettings),
+          RoundedListTiles(
+            items: [
+              NavigationListTile(
+                icon: Icons.person,
+                title: context.localization!.personalData,
+                onTap: () {},
+              ),
+              NavigationListTile(
+                icon: Icons.security_rounded,
+                title: context.localization!.passwordAndSecurity,
+                onTap: () {},
+              ),
+              NavigationListTile(
+                icon: Icons.checklist_rounded,
+                title: context.localization!.myTaskTemplates,
+                onTap: () {},
+              ),
+            ],
+          ),
+          const SizedBox(height: distanceMedium),
+          titleBuilder(context.localization!.myOrganizations),
+          LoadingFutureBuilder(
+            data: OrganizationService().getOrganizationsForUser(),
+            thenWidgetBuilder: (context, data) {
+              return RoundedListTiles(
+                items: data
+                    .map((organization) => NavigationListTile(
+                          icon: Icons.apartment_rounded,
+                          title: organization.longName,
+                          onTap: () {},
+                        ))
+                    .toList(),
+              );
+            },
+          ),
+          const SizedBox(height: distanceMedium),
+          titleBuilder(context.localization!.appearance),
+          RoundedListTiles(
+            items: [
+              ListTile(
+                leading: Icon(Icons.brightness_medium, color: context.theme.colorScheme.primary),
+                title: Text(context.localization!.darkMode, style: const TextStyle(fontWeight: FontWeight.bold)),
+                trailing: Consumer<ThemeModel>(
+                  builder: (_, ThemeModel themeNotifier, __) {
+                    return PopupMenuButton(
+                      initialValue: themeNotifier.themeMode,
+                      position: PopupMenuPosition.under,
+                      itemBuilder: (context) => [
+                        PopupMenuItem(value: ThemeMode.dark, child: Text(context.localization!.darkMode)),
+                        PopupMenuItem(value: ThemeMode.light, child: Text(context.localization!.lightMode)),
+                        PopupMenuItem(value: ThemeMode.system, child: Text(context.localization!.system)),
+                      ],
+                      onSelected: (value) {
+                        if (value == ThemeMode.system) {
+                          themeNotifier.isDark = null;
+                        } else {
+                          themeNotifier.isDark = value == ThemeMode.dark;
+                        }
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                              {
+                                ThemeMode.dark: context.localization!.darkMode,
+                                ThemeMode.light: context.localization!.lightMode,
+                                ThemeMode.system: context.localization!.system,
+                              }[themeNotifier.themeMode]!,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w800,
+                              )),
+                          const SizedBox(
+                            width: distanceTiny,
+                          ),
+                          const Icon(
+                            Icons.expand_more_rounded,
+                            size: iconSizeTiny,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Consumer<LanguageModel>(
+                builder: (context, languageModel, child) {
+                  return ListTile(
+                    leading: Icon(Icons.language, color: context.theme.colorScheme.primary),
+                    title: Text(
+                      context.localization!.language,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    trailing: PopupMenuButton(
+                      position: PopupMenuPosition.under,
+                      initialValue: languageModel.local,
+                      onSelected: (value) {
+                        languageModel.setLanguage(value);
+                      },
+                      itemBuilder: (BuildContext context) => getSupportedLocalsWithName()
+                          .map((local) => PopupMenuItem(
+                                value: local.local,
+                                child: Text(
+                                  local.name,
+                                ),
+                              ))
+                          .toList(),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(languageModel.name,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w800,
+                              )),
+                          const SizedBox(
+                            width: distanceTiny,
+                          ),
+                          const Icon(
+                            Icons.expand_more_rounded,
+                            size: iconSizeTiny,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: distanceMedium),
+          titleBuilder(context.localization!.other),
+          RoundedListTiles(
+            items: [
+              NavigationListTile(
+                icon: Icons.info_outline,
+                title: context.localization!.licenses,
+                onTap: () => {showLicensePage(context: context)},
+              ),
+              Consumer<CurrentWardController>(
+                builder: (context, currentWardService, _) {
+                  return NavigationListTile(
+                    icon: Icons.logout,
+                    title: context.localization!.logout,
+                    color: Colors.red.withOpacity(0.7), // TODO get this from theme
+                    onTap: () {
+                      // TODO add confirm dialog
+                      UserSessionService().logout();
+                      currentWardService.clear();
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (_) => const LoginScreen()),
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
           ),
         ],
       ),

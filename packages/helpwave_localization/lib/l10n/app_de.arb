@@ -168,5 +168,12 @@
   "darkMode": "Dunkel",
   "lightMode": "Hell",
   "system": "System",
-  "newTaskOrPatient": "Neu"
+  "newTaskOrPatient": "Neu",
+  "remove": "Entfernen",
+  "appearance": "Aussehen",
+  "personalSettings": "Persönliche Einstellungen",
+  "personalData": "Persönliche Daten",
+  "passwordAndSecurity": "Passwort & Sicherheit",
+  "other": "Weiteres",
+  "myTaskTemplates": "Meine Task Templates"
 }

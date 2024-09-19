@@ -3,7 +3,6 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/dialog.dart';
-import 'package:tasks/dataclasses/task.dart';
 
 /// A [BottomSheet] to change the visibility
 class _VisibilityBottomSheet extends StatelessWidget {
@@ -26,9 +25,11 @@ class _VisibilityBottomSheet extends StatelessWidget {
         top: paddingMedium,
         bottom: paddingBig,
       ),
-      titleText: context.localization!.visibility,
+      header: BottomSheetHeader(
+        titleText: context.localization!.visibility,
+      ),
       builder: (context) {
-        return Column(
+        return ListView(
           children: [
             const SizedBox(height: distanceSmall),
             GestureDetector(
