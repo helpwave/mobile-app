@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,7 @@ class _PatientScreenState extends State<PatientScreen> {
                     icon: Icon(
                       Icons.search,
                       size: iconSizeTiny,
-                      color: Theme.of(context).searchBarTheme.textStyle!.resolve({MaterialState.selected})!.color,
+                      color: context.theme.searchBarTheme.textStyle!.resolve({MaterialState.selected})!.color,
                     ),
                   ),
                 ],
@@ -84,7 +85,7 @@ class _PatientScreenState extends State<PatientScreen> {
                                 padding: const EdgeInsets.all(paddingTiny),
                                 child: Container(
                                     decoration: BoxDecoration(
-                                      color: Theme.of(context).colorScheme.secondary,
+                                      color: context.theme.colorScheme.primary,
                                       borderRadius: BorderRadius.circular(borderRadiusMedium),
                                     ),
                                     padding: const EdgeInsets.symmetric(horizontal: paddingMedium),

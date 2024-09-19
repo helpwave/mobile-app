@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_theme/src/util/context_extension.dart';
 import 'package:helpwave_util/material_state.dart';
 
 /// Resolves the background [Color] based on the [MaterialState] and the [ThemeData]
@@ -14,7 +15,7 @@ MaterialStateProperty<Color> resolveByStatesAndContextBackground({
   Color? hovered,
   Color? scrolledUnder,
 }) {
-  ThemeData theme = Theme.of(context);
+  ThemeData theme = context.theme;
   ColorScheme colorScheme = theme.colorScheme;
   return resolveByStates<Color>(
     defaultValue: defaultValue ?? colorScheme.primary,
@@ -42,7 +43,7 @@ MaterialStateProperty<Color> resolveByStatesAndContextForeground({
   Color? hovered,
   Color? scrolledUnder,
 }) {
-  ThemeData theme = Theme.of(context);
+  ThemeData theme = context.theme;
   ColorScheme colorScheme = theme.colorScheme;
   return resolveByStates<Color>(
     defaultValue: defaultValue ?? colorScheme.onPrimary,

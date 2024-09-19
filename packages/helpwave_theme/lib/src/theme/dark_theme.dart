@@ -2,32 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_theme/src/theme/theme.dart';
 import '../constants.dart';
 
-const primaryColor = Color.fromARGB(255, 255, 255, 255);
-const onPrimaryColor = Color.fromARGB(255, 0, 0, 0);
-const inversePrimaryColor = Color.fromARGB(255, 30, 30, 30);
-const secondaryColor = Color.fromARGB(255, 150, 129, 205);
-const onSecondaryColor = Color.fromARGB(255, 255, 255, 255);
-const tertiary = Color.fromARGB(255, 180, 180, 180);
-const onTertiary = Color.fromARGB(255, 0, 0, 0);
+const primaryColor = Color.fromARGB(255, 105, 75, 180);
+const onPrimaryColor = Colors.white;
+const inversePrimaryColor = Color.fromARGB(255, 150, 130, 200);
+const secondaryColor = Color.fromARGB(255, 75, 160, 240);
+const onSecondaryColor = Colors.white;
+const tertiary = Color.fromARGB(255, 90, 90, 90);
+const onTertiary = Colors.white;
 
-const backgroundColor = Color.fromARGB(255, 27, 27, 27);
+const backgroundColor = Color.fromARGB(255, 20, 20, 20);
 const onBackgroundColor = Color.fromARGB(255, 255, 255, 255);
 
-const surface = Color.fromARGB(255, 50, 50, 50);
-const onSurface = Color.fromARGB(255, 255, 255, 255);
+const surface = Color.fromARGB(255, 40, 40, 40);
+const onSurface = Colors.white;
 const surfaceVariant = Color.fromARGB(255, 80, 80, 80);
-const onSurfaceVariant = Color.fromARGB(255, 255, 255, 255);
+const onSurfaceVariant = Colors.white;
 const inverseSurface = Color.fromARGB(255, 180, 180, 180);
-const onInverseSurface = Color.fromARGB(255, 0, 0, 0);
+const onInverseSurface = Colors.black;
 
-const primaryContainer = Color.fromARGB(255, 180, 180, 180);
-const onPrimaryContainer = Color.fromARGB(255, 0, 0, 0);
-const secondaryContainer = Color.fromARGB(255, 140, 140, 140);
-const onSecondaryContainer = Color.fromARGB(255, 0, 0, 0);
-const tertiaryContainer = Color.fromARGB(255, 80, 80, 80);
-const onTertiaryContainer = Color.fromARGB(255, 255, 255, 255);
+const primaryContainer = Color.fromARGB(255, 105, 75, 180);
+const onPrimaryContainer = Colors.white;
+const secondaryContainer = Color.fromARGB(255, 75, 160, 240);
+const onSecondaryContainer = Colors.white;
+const tertiaryContainer = Color.fromARGB(255, 0, 0, 0);
+const onTertiaryContainer = Colors.white;
 
-const surfaceTint = Colors.transparent;
 const shadow = Color.fromARGB(255, 60, 60, 60);
 const outline = Color.fromARGB(255, 255, 255, 255);
 const disabledColor = Color.fromARGB(255, 100, 100, 100);
@@ -71,7 +70,6 @@ ThemeData darkTheme = makeTheme(
   onErrorContainer: onErrorColor,
 
   // other
-  surfaceTint: surfaceTint,
   shadow: shadow,
   outline: outline,
   disabledColor: disabledColor,
@@ -82,9 +80,12 @@ ThemeData darkTheme = makeTheme(
   // additional
   brightness: Brightness.dark,
 
-    // flutter themes
-    appBarTheme: sharedAppBarTheme.copyWith(
-      backgroundColor: const Color.fromARGB(255, 15, 15, 15),
-      foregroundColor: Colors.white,
-    )
+  // flutter themes
+  appBarTheme: sharedAppBarTheme.copyWith(
+    backgroundColor: const Color.fromARGB(255, 15, 15, 15),
+    foregroundColor: Colors.white,
+  ),
+
+  // text
+  primaryTextColor: Colors.white,
 );

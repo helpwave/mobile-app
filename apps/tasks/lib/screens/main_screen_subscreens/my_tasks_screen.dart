@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_theme/util.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:tasks/components/task_expansion_tile.dart';
@@ -25,7 +26,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
             state: tasksController.state,
             child: ListView(children: [
               Theme(
-                data: Theme.of(context).copyWith(
+                data: context.theme.copyWith(
                   dividerColor: Colors.transparent,
                   listTileTheme: const ListTileThemeData(minLeadingWidth: 0, horizontalTitleGap: distanceSmall),
                 ),

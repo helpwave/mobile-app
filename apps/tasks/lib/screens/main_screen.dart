@@ -5,6 +5,7 @@ import 'package:helpwave_service/auth.dart';
 import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
+import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/animation.dart';
 import 'package:provider/provider.dart';
@@ -52,30 +53,19 @@ class _MainScreenState extends State<MainScreen> {
           child: _TaskPatientFloatingActionButton(),
         ),
         bottomNavigationBar: NavigationBar(
-          indicatorColor: Theme.of(context).colorScheme.secondary,
-          backgroundColor: themeNotifier.getIsDarkNullSafe(context) ? Colors.white10 : Colors.white,
+          indicatorColor: context.theme.colorScheme.primary,
+          surfaceTintColor: Colors.transparent,
+          shadowColor: context.theme.colorScheme.shadow,
           destinations: [
             NavigationDestination(
-              selectedIcon: Icon(
-                Icons.check_circle_outline,
-                color: Theme.of(context).colorScheme.onSecondary,
-              ),
               icon: const Icon(Icons.check_circle_outline),
               label: context.localization!.myTasks,
             ),
             NavigationDestination(
-              selectedIcon: Icon(
-                Icons.add_circle_outline,
-                color: Theme.of(context).colorScheme.onSecondary,
-              ),
               icon: const Icon(Icons.add_circle_outline),
               label: context.localization!.newTaskOrPatient,
             ),
             NavigationDestination(
-              selectedIcon: Icon(
-                Icons.person,
-                color: Theme.of(context).colorScheme.onSecondary,
-              ),
               icon: const Icon(Icons.person),
               label: context.localization!.patients,
             ),
@@ -117,7 +107,7 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(componentHeight),
-        color: Color.alphaBlend(Theme.of(context).colorScheme.secondary.withOpacity(0.7), Colors.black),
+        color: Color.alphaBlend(context.theme.colorScheme.primary.withOpacity(0.7), Colors.black),
       ),
       child: Padding(
         padding: const EdgeInsets.all(paddingSmall),
@@ -128,8 +118,8 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
             ActionChip(
               labelPadding: EdgeInsets.zero,
               visualDensity: VisualDensity.compact,
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              labelStyle: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              backgroundColor: context.theme.colorScheme.primary,
+              labelStyle: TextStyle(color: context.theme.colorScheme.onPrimary),
               side: BorderSide.none,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(chipHeight), // Adjust the radius as needed
@@ -152,8 +142,8 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
             ActionChip(
               labelPadding: EdgeInsets.zero,
               visualDensity: VisualDensity.compact,
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              labelStyle: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              backgroundColor: context.theme.colorScheme.primary,
+              labelStyle: TextStyle(color: context.theme.colorScheme.onPrimary),
               side: BorderSide.none,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(chipHeight), // Adjust the radius as needed

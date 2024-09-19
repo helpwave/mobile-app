@@ -38,7 +38,6 @@ ThemeData makeTheme({
   required Color onErrorContainer,
 
   // other
-  required Color surfaceTint,
   required Color shadow,
   required Color outline,
   required Color disabledColor,
@@ -49,15 +48,18 @@ ThemeData makeTheme({
   // additional parameters
   required Brightness brightness,
 
-  // Flutter Themes
+  // flutter themes
   AppBarTheme appBarTheme = sharedAppBarTheme,
+
+  // text
+  required Color primaryTextColor
 }) {
   return ThemeData(
     useMaterial3: true,
     disabledColor: disabledColor,
-    textSelectionTheme: const TextSelectionThemeData(
-      cursorColor: Colors.blue,
-      selectionHandleColor: Colors.blueAccent,
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: secondaryColor,
+      selectionHandleColor: secondaryColor,
     ),
     scaffoldBackgroundColor: backgroundColor,
     bottomSheetTheme: BottomSheetThemeData(
@@ -102,20 +104,20 @@ ThemeData makeTheme({
       }),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: backgroundColor,
+      backgroundColor: surface,
     ),
     listTileTheme: ListTileThemeData(
-      iconColor: focusedColor,
+      iconColor: primaryTextColor,
     ),
     appBarTheme: appBarTheme,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: buttonStyleSmall.copyWith(
         backgroundColor: resolveByStates(
-          defaultValue: secondaryColor,
+          defaultValue: primaryColor,
           disabled: disabledColor,
         ),
         foregroundColor: resolveByStates(
-          defaultValue: onSecondaryColor,
+          defaultValue: onPrimaryColor,
           disabled: onDisabledColor,
         ),
       ),
@@ -139,24 +141,24 @@ ThemeData makeTheme({
     textButtonTheme: TextButtonThemeData(
       style: buttonStyleSmall.copyWith(
         backgroundColor: resolveByStates(
-          defaultValue: secondaryColor,
+          defaultValue: primaryColor,
           disabled: disabledColor,
         ),
         foregroundColor: resolveByStates(
-          defaultValue: onSecondaryColor,
+          defaultValue: onPrimaryColor,
           disabled: onDisabledColor,
         ),
       ),
     ),
     iconTheme: IconThemeData(
       size: iconSizeSmall,
-      color: primaryColor,
+      color: primaryTextColor,
     ),
     chipTheme: chipTheme.copyWith(
-      selectedColor: secondaryColor,
-      secondaryLabelStyle: TextStyle(color: onSecondaryColor),
+      selectedColor: primaryColor,
+      secondaryLabelStyle: TextStyle(color: onPrimaryColor),
       // The TextStyle for selection
-      labelStyle: TextStyle(color: primaryColor),
+      labelStyle: TextStyle(color: primaryTextColor),
     ),
     cardTheme: CardTheme(
       elevation: 0,
@@ -173,9 +175,11 @@ ThemeData makeTheme({
     ),
     searchBarTheme: searchBarTheme,
     expansionTileTheme: ExpansionTileThemeData(
-      textColor: primaryColor,
-      iconColor: primaryColor,
+      textColor: primaryTextColor,
+      iconColor: primaryTextColor,
     ),
+    dividerTheme: DividerThemeData(color: primaryTextColor.withOpacity(0.4), space: 1, thickness: 1),
+    hintColor: primaryTextColor.withOpacity(0.7),
     colorScheme: ColorScheme(
       // General
       brightness: brightness,
@@ -194,7 +198,6 @@ ThemeData makeTheme({
       error: errorColor,
       onError: onErrorColor,
       // Surface
-      surfaceTint: surfaceTint,
       surface: surface,
       onSurface: onSurface,
       surfaceVariant: surfaceVariant,

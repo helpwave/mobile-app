@@ -169,5 +169,11 @@
   "lightMode": "Hell",
   "system": "System",
   "newTaskOrPatient": "Neu",
-  "remove": "Entfernen"
+  "remove": "Entfernen",
+  "appearance": "Aussehen",
+  "personalSettings": "Persönliche Einstellungen",
+  "personalData": "Persönliche Daten",
+  "passwordAndSecurity": "Passwort & Sicherheit",
+  "other": "Weiteres",
+  "myTaskTemplates": "Meine Task Templates"
 }

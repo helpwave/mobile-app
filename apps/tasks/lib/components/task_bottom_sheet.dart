@@ -3,6 +3,7 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_service/auth.dart';
 import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_util/loading.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/loading.dart';
@@ -127,7 +128,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               onUpdated: taskController.changeName,
               textAlign: TextAlign.center,
               textStyle: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
+                color: context.theme.colorScheme.primary,
                 fontWeight: FontWeight.bold,
                 fontSize: iconSizeTiny,
                 fontFamily: "SpaceGrotesk",
@@ -177,12 +178,12 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                               List<Patient> patients = patientList.active + patientList.unassigned;
                               return DropdownButton(
                                 underline: const SizedBox(),
-                                iconEnabledColor: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
+                                iconEnabledColor: context.theme.colorScheme.primary.withOpacity(0.6),
                                 // removes the default underline
                                 padding: EdgeInsets.zero,
                                 hint: Text(
                                   context.localization!.selectPatient,
-                                  style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),
+                                  style: TextStyle(color: context.theme.colorScheme.primary.withOpacity(0.6)),
                                 ),
                                 isDense: true,
                                 items: patients
@@ -264,7 +265,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                           builder: (context, child) {
                             // Overwrite the Theme
                             ThemeData pickerTheme =
-                                Theme.of(context).copyWith(textButtonTheme: const TextButtonThemeData());
+                                context.theme.copyWith(textButtonTheme: const TextButtonThemeData());
                             return Theme(data: pickerTheme, child: child ?? const SizedBox());
                           },
                         ).then((date) async {
@@ -272,7 +273,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                             context: context,
                             initialTime: TimeOfDay.fromDateTime(taskController.task.dueDate ?? DateTime.now()),
                             builder: (context, child) {
-                              ThemeData originalTheme = Theme.of(context);
+                              ThemeData originalTheme = context.theme;
 
                               // Temporarily set a default theme for the picker
                               ThemeData pickerTheme = ThemeData.fallback().copyWith(

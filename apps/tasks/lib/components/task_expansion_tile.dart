@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/shapes.dart';
 import 'package:provider/provider.dart';
@@ -29,13 +30,13 @@ class TaskExpansionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(
+      data: context.theme.copyWith(
         dividerColor: Colors.transparent,
-        listTileTheme: Theme.of(context).listTileTheme.copyWith(minLeadingWidth: 0, horizontalTitleGap: paddingSmall),
+        listTileTheme: context.theme.listTileTheme.copyWith(minLeadingWidth: 0, horizontalTitleGap: paddingSmall),
       ),
       child: ExpansionTile(
-        iconColor: Theme.of(context).colorScheme.primary.withOpacity(0.8),
-        collapsedIconColor: Theme.of(context).colorScheme.primary.withOpacity(0.8),
+        iconColor: context.theme.colorScheme.primary.withOpacity(0.8),
+        collapsedIconColor: context.theme.colorScheme.primary.withOpacity(0.8),
         textColor: color,
         collapsedTextColor: color,
         initiallyExpanded: true,

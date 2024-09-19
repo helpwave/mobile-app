@@ -169,5 +169,11 @@
   "lightMode": "Light",
   "system": "System",
   "newTaskOrPatient": "New",
-  "remove": "Remove"
+  "remove": "Remove",
+  "appearance": "Appearance",
+  "personalSettings": "Personal Settings",
+  "personalData": "Personal Data",
+  "passwordAndSecurity": "Password & Security",
+  "other": "Other",
+  "myTaskTemplates": "My Task Templates"
 }

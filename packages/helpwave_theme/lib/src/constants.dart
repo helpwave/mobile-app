@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_theme/src/util/context_extension.dart';
 
 /// Button attributes and
 
@@ -134,4 +135,4 @@ const AppBarTheme sharedAppBarTheme = AppBarTheme(centerTitle: true);
 
 /// TextStyles
 TextStyle editableValueTextStyle(BuildContext context) =>
-    TextStyle(color: Theme.of(context).colorScheme.secondary, fontSize: 16, fontWeight: FontWeight.bold);
+    TextStyle(color: context.theme.colorScheme.primary, fontSize: 16, fontWeight: FontWeight.bold);

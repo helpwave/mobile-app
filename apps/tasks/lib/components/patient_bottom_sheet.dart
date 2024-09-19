@@ -60,7 +60,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                 onUpdated: patientController.changeName,
                 textAlign: TextAlign.center,
                 textStyle: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: context.theme.colorScheme.primary,
                   fontWeight: FontWeight.bold,
                   fontSize: iconSizeTiny,
                   fontFamily: "SpaceGrotesk",
@@ -161,17 +161,17 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                       if (beds.isEmpty) {
                         return Text(
                           context.localization!.noFreeBeds,
-                          style: TextStyle(color: Theme.of(context).disabledColor, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: context.theme.disabledColor, fontWeight: FontWeight.bold),
                         );
                       }
                       return DropdownButtonHideUnderline(
                         child: DropdownButton<RoomWithBedFlat>(
-                          iconEnabledColor: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
+                          iconEnabledColor: context.theme.colorScheme.primary.withOpacity(0.6),
                           padding: EdgeInsets.zero,
                           isDense: true,
                           hint: Text(
                             context.localization!.assignBed,
-                            style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),
+                            style: TextStyle(color: context.theme.colorScheme.primary.withOpacity(0.6)),
                           ),
                           value: beds.where((beds) => beds.bed.id == patientController.patient.bed?.id).firstOrNull,
                           items: beds
@@ -179,7 +179,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                                     value: roomWithBed,
                                     child: Text(
                                       "${roomWithBed.room.name} - ${roomWithBed.bed.name}",
-                                      style: TextStyle(color: Theme.of(context).colorScheme.primary.withOpacity(0.6)),
+                                      style: TextStyle(color: context.theme.colorScheme.primary.withOpacity(0.6)),
                                     ),
                                   ))
                               .toList(),

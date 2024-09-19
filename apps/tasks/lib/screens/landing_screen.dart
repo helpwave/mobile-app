@@ -29,7 +29,7 @@ class LandingScreen extends StatelessWidget {
                     .theme.colorScheme.onBackground))),
             child: Text(
               context.localization!.loginSlogan,
-              style: Theme.of(context).textTheme.labelLarge,
+              style: context.theme.textTheme.labelLarge,
             ),
             onPressed: () {
               userSessionController.login();

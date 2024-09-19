@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_theme/util.dart';
 
 /// A customizable Search within a List
 ///
@@ -203,7 +204,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                               widget.elementNotFoundText != null
                                   ? widget.elementNotFoundText!(_searchController.text)
                                   : "${context.localization!.noItem} ${_searchController.text} ${context.localization!.found}",
-                              style: Theme.of(context).textTheme.titleLarge,
+                              style: context.theme.textTheme.titleLarge,
                             ),
                             const SizedBox(height: distanceDefault),
                             widget.allowSelectAnyway
@@ -220,7 +221,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                     children = <Widget>[
                       Icon(
                         Icons.error_outline,
-                        color: Theme.of(context).colorScheme.error,
+                        color: context.theme.colorScheme.error,
                         size: iconSizeBig,
                       ),
                       const SizedBox(height: distanceBig),

@@ -45,5 +45,20 @@ class WardService {
         .toList();
   }
 
+  Future<List<WardMinimal>> getWards({String? organizationId}) async {
+    GetWardsRequest request = GetWardsRequest();
+    GetWardsResponse response = await wardService.getWards(
+      request,
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData(organizationId: organizationId)),
+    );
+
+    return response.wards
+        .map((ward) => WardMinimal(
+              id: ward.id,
+              name: ward.name,
+            ))
+        .toList();
+  }
+
   // TODO ward requests
 }

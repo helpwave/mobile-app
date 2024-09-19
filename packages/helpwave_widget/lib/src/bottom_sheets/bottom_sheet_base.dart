@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_theme/util.dart';
 
 extension PushModalContextExtension<T> on BuildContext {
   Future<T?> pushModal({
@@ -197,7 +198,7 @@ class BottomSheetHeader extends StatelessWidget {
                   height: 5,
                   width: 30,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onBackground.withOpacity(0.8),
+                    color: context.theme.colorScheme.onBackground.withOpacity(0.8),
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),

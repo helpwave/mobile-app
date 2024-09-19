@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/static_progress_indicator.dart';
 
 /// A [Card] showing a [Task]'s information
@@ -82,8 +83,8 @@ class TaskCard extends StatelessWidget {
               children: [
                 StaticProgressIndicator(
                   progress: task.progress,
-                  color: Theme.of(context).colorScheme.secondary,
-                  backgroundColor: Theme.of(context).colorScheme.onSecondary.withOpacity(0.5),
+                  color: context.theme.colorScheme.primary,
+                  backgroundColor: context.theme.colorScheme.onSurface.withOpacity(0.3),
                   isClockwise: true,
                   angle: 0,
                 ),
@@ -110,7 +111,7 @@ class TaskCard extends StatelessWidget {
                     children: [
                       Text(
                         task.patient.name,
-                        style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                        style: TextStyle(color: context.theme.colorScheme.primary),
                       ),
                       Text(
                         task.name,
@@ -126,7 +127,7 @@ class TaskCard extends StatelessWidget {
                           fontSize: 14,
                           fontFamily: "SpaceGrotesk",
                           overflow: TextOverflow.ellipsis,
-                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                          color: context.theme.colorScheme.onSurface.withOpacity(0.6),
                         ),
                       ) : const SizedBox(),
                     ],
@@ -143,7 +144,9 @@ class TaskCard extends StatelessWidget {
                     size: iconSizeTiny,
                     Icons.check_circle_outline_rounded,
                     // TODO change colors later
-                    color: task.status == TaskStatus.done ? Colors.grey : Theme.of(context).colorScheme.secondary,
+                    color: task.status == TaskStatus.done ? context.theme.colorScheme.onSurface.withOpacity(0.4) : context.theme
+                    .colorScheme
+                    .primary,
                   ),
                 ),
               ],

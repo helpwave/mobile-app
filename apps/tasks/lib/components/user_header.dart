@@ -17,7 +17,12 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: context.theme.appBarTheme.backgroundColor,
+      decoration: BoxDecoration(
+        color: context.theme.appBarTheme.backgroundColor,
+        boxShadow: [
+          BoxShadow(spreadRadius: 0, blurRadius: 2, offset: const Offset(0, -1), color: Colors.black.withOpacity(0.1)),
+        ]
+      ),
       child: Consumer<UserSessionController>(builder: (context, userSession, __) {
         return SafeArea(
           child: ListTile(
@@ -53,7 +58,7 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
                   Text(
                     "${currentWardController.currentWard?.organization.shortName ?? ""} - ",
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground.withOpacity(0.7),
+                      color: context.theme.colorScheme.onBackground.withOpacity(0.7),
                       fontSize: 14,
                     ),
                   ),
