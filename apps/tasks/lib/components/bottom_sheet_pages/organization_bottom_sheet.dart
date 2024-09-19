@@ -6,8 +6,11 @@ import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/lists.dart';
 import 'package:helpwave_widget/loading.dart';
+import 'package:helpwave_widget/navigation.dart';
 import 'package:helpwave_widget/text_input.dart';
+import 'package:helpwave_widget/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:tasks/components/bottom_sheet_pages/wards_bottom_sheet_page.dart';
 import 'package:tasks/screens/settings_screen.dart';
 
 class OrganizationBottomSheetPage extends StatelessWidget {
@@ -25,7 +28,10 @@ class OrganizationBottomSheetPage extends StatelessWidget {
             context,
             title: LoadingAndErrorWidget.pulsing(
               state: controller.state,
-              child: Text(controller.organization.combinedName),
+              child: Text(
+                controller.organization.combinedName,
+                style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+              ),
             ),
           ),
           child: Flexible(
@@ -38,33 +44,37 @@ class OrganizationBottomSheetPage extends StatelessWidget {
                       shrinkWrap: true,
                       children: [
                         const SizedBox(height: distanceMedium),
-                        Text(context.localization!.shortName),
+                        Text(context.localization!.shortName, style: context.theme.textTheme.titleMedium),
+                        const SizedBox(height: distanceTiny),
                         TextFormFieldWithTimer(
                           initialValue: controller.organization.shortName,
                           onUpdate: (value) => controller.update(shortName: value),
                         ),
                         const SizedBox(height: distanceMedium),
-                        Text(context.localization!.longName),
+                        Text(context.localization!.longName, style: context.theme.textTheme.titleMedium),
+                        const SizedBox(height: distanceTiny),
                         TextFormFieldWithTimer(
                           initialValue: controller.organization.longName,
                           onUpdate: (value) => controller.update(longName: value),
                         ),
                         const SizedBox(height: distanceMedium),
-                        Text(context.localization!.contactEmail),
+                        Text(context.localization!.contactEmail, style: context.theme.textTheme.titleMedium),
+                        const SizedBox(height: distanceTiny),
                         TextFormFieldWithTimer(
                           initialValue: controller.organization.email,
                           // TODO validation
                           onUpdate: (value) => controller.update(email: value),
                         ),
                         const SizedBox(height: distanceMedium),
-                        Text(context.localization!.settings),
+                        Text(context.localization!.settings, style: context.theme.textTheme.titleMedium),
+                        const SizedBox(height: distanceTiny),
                         RoundedListTiles(
                           items: [
                             NavigationListTile(
                               icon: Icons.house_rounded,
                               title: context.localization!.wards,
                               onTap: () {
-                                // TODO navigate to ward page
+                                NavigationStackController.of(context).push(WardsBottomSheetPage(organizationId: organizationId));
                               },
                             ),
                             NavigationListTile(
@@ -84,16 +94,14 @@ class OrganizationBottomSheetPage extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: distanceMedium),
-                        Text(context.localization!.dangerZone),
+                        Text(context.localization!.dangerZone, style: context.theme.textTheme.titleMedium),
                         Text(
                           context.localization!.organizationDangerZoneDescription,
                           style: TextStyle(color: context.theme.hintColor),
                         ),
-                        TextButton(
-                          child: Text(
-                            "${context.localization!.delete} ${context.localization!.organization}",
-                            style: const TextStyle(color: Colors.red), // TODO get from theme
-                          ),
+                        PressableText(
+                          text: "${context.localization!.delete} ${context.localization!.organization}",
+                          style: const TextStyle(color: Colors.red, fontWeight: FontWeight.w700), // TODO get from theme
                           onPressed: () {
                             // TODO show modal and delete organization
                           },

@@ -3,57 +3,57 @@ import 'package:helpwave_util/material_state.dart';
 import '../../constants.dart';
 
 // A function to map incoming colors to a theme
-ThemeData makeTheme({
-  // main colors
-  required Color primaryColor,
-  required Color onPrimaryColor,
-  required Color inversePrimaryColor,
-  required Color secondaryColor,
-  required Color onSecondaryColor,
-  required Color tertiary,
-  required Color onTertiary,
-  required Color errorColor,
-  required Color onErrorColor,
+ThemeData makeTheme(
+    {
+    // main colors
+    required Color primaryColor,
+    required Color onPrimaryColor,
+    required Color inversePrimaryColor,
+    required Color secondaryColor,
+    required Color onSecondaryColor,
+    required Color tertiary,
+    required Color onTertiary,
+    required Color errorColor,
+    required Color onErrorColor,
 
-  // background
-  required Color backgroundColor,
-  required Color onBackgroundColor,
+    // background
+    required Color backgroundColor,
+    required Color onBackgroundColor,
 
-  // surfaces
-  required Color surface,
-  required Color onSurface,
-  required Color surfaceVariant,
-  required Color onSurfaceVariant,
-  required Color inverseSurface,
-  required Color onInverseSurface,
+    // surfaces
+    required Color surface,
+    required Color onSurface,
+    required Color surfaceVariant,
+    required Color onSurfaceVariant,
+    required Color inverseSurface,
+    required Color onInverseSurface,
 
-  // container
-  required Color primaryContainer,
-  required Color onPrimaryContainer,
-  required Color secondaryContainer,
-  required Color onSecondaryContainer,
-  required Color tertiaryContainer,
-  required Color onTertiaryContainer,
-  required Color errorContainer,
-  required Color onErrorContainer,
+    // container
+    required Color primaryContainer,
+    required Color onPrimaryContainer,
+    required Color secondaryContainer,
+    required Color onSecondaryContainer,
+    required Color tertiaryContainer,
+    required Color onTertiaryContainer,
+    required Color errorContainer,
+    required Color onErrorContainer,
 
-  // other
-  required Color shadow,
-  required Color outline,
-  required Color disabledColor,
-  required Color onDisabledColor,
-  required Color focusedColor,
-  required Color defaultColor,
+    // other
+    required Color shadow,
+    required Color outline,
+    required Color disabledColor,
+    required Color onDisabledColor,
+    required Color focusedColor,
+    required Color defaultColor,
 
-  // additional parameters
-  required Brightness brightness,
+    // additional parameters
+    required Brightness brightness,
 
-  // flutter themes
-  AppBarTheme appBarTheme = sharedAppBarTheme,
+    // flutter themes
+    AppBarTheme appBarTheme = sharedAppBarTheme,
 
-  // text
-  required Color primaryTextColor
-}) {
+    // text
+    required Color primaryTextColor}) {
   return ThemeData(
     useMaterial3: true,
     disabledColor: disabledColor,
@@ -68,12 +68,14 @@ ThemeData makeTheme({
       constraints: null,
     ),
     inputDecorationTheme: InputDecorationTheme(
-      hintStyle: const TextStyle(color: Color.fromARGB(255, 100, 100, 100)),
+      contentPadding: const EdgeInsets.all(16),
+      fillColor: surface,
+      filled: true,
       focusColor: focusedColor,
-      focusedBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide(color: focusedColor)),
-      enabledBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide(color: defaultColor)),
-      errorBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide(color: errorColor)),
-      focusedErrorBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide(color: errorColor)),
+      focusedBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide.none),
+      enabledBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide.none),
+      errorBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide.none),
+      focusedErrorBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide.none),
       iconColor: MaterialStateColor.resolveWith((states) {
         if (states.contains(MaterialState.focused)) {
           return focusedColor;
@@ -139,16 +141,7 @@ ThemeData makeTheme({
       ),
     ),
     textButtonTheme: TextButtonThemeData(
-      style: buttonStyleSmall.copyWith(
-        backgroundColor: resolveByStates(
-          defaultValue: primaryColor,
-          disabled: disabledColor,
-        ),
-        foregroundColor: resolveByStates(
-          defaultValue: onPrimaryColor,
-          disabled: onDisabledColor,
-        ),
-      ),
+      style: buttonStyleSmall,
     ),
     iconTheme: IconThemeData(
       size: iconSizeSmall,
@@ -180,6 +173,11 @@ ThemeData makeTheme({
     ),
     dividerTheme: DividerThemeData(color: primaryTextColor.withOpacity(0.4), space: 1, thickness: 1),
     hintColor: primaryTextColor.withOpacity(0.7),
+    textTheme: const TextTheme(
+      titleLarge: TextStyle(fontWeight: FontWeight.bold, fontFamily: "SpaceGrotesk", fontSize: 22),
+      titleMedium: TextStyle(fontWeight: FontWeight.w700, fontFamily: "SpaceGrotesk", fontSize: 18),
+      titleSmall: TextStyle(fontWeight: FontWeight.w700, fontFamily: "SpaceGrotesk", fontSize: 16),
+    ),
     colorScheme: ColorScheme(
       // General
       brightness: brightness,

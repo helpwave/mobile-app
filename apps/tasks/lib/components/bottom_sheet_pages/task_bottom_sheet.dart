@@ -143,7 +143,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                   padding: const EdgeInsets.only(top: paddingSmall),
                   child: Align(
                     alignment: Alignment.topRight,
-                    child: TextButton(
+                    child: FilledButton(
                       style: buttonStyleBig,
                       onPressed: taskController.isReadyForCreate
                           ? () {
@@ -262,25 +262,10 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                           initialDate: taskController.task.dueDate ?? DateTime.now(),
                           firstDate: DateTime(1960),
                           lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
-                          builder: (context, child) {
-                            // Overwrite the Theme
-                            ThemeData pickerTheme =
-                                context.theme.copyWith(textButtonTheme: const TextButtonThemeData());
-                            return Theme(data: pickerTheme, child: child ?? const SizedBox());
-                          },
                         ).then((date) async {
                           await showTimePicker(
                             context: context,
                             initialTime: TimeOfDay.fromDateTime(taskController.task.dueDate ?? DateTime.now()),
-                            builder: (context, child) {
-                              ThemeData originalTheme = context.theme;
-
-                              // Temporarily set a default theme for the picker
-                              ThemeData pickerTheme = ThemeData.fallback().copyWith(
-                                colorScheme: originalTheme.colorScheme,
-                              );
-                              return Theme(data: pickerTheme, child: child ?? const SizedBox());
-                            },
                           ).then((time) {
                             if (date == null && time == null) {
                               return;

@@ -104,7 +104,7 @@ class UserBottomSheetPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: distanceMedium),
               child: Consumer<CurrentWardController>(builder: (context, currentWardService, _) {
-                return TextButton(
+                return FilledButton(
                   style: buttonStyleMedium,
                   onPressed: () {
                     Navigator.of(context).pushReplacement(

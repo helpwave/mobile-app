@@ -135,13 +135,7 @@ class _SubTaskChangeDialogState extends State<SubTaskChangeDialog> {
               children: [
                 TextButton(
                   onPressed: () => Navigator.pop(context, null),
-                  style: ButtonStyle(
-                    backgroundColor: resolveByStatesAndContextBackground(
-                      context: context,
-                      defaultValue: negativeColor,
-                    ),
-                  ),
-                  child: Text(context.localization!.cancel),
+                  child: Text(context.localization!.cancel, style: TextStyle(color: context.theme.hintColor),),
                 ),
                 TextButton(
                   onPressed: () => Navigator.pop(context, updatedName),

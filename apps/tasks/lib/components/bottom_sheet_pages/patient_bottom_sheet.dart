@@ -85,7 +85,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                       patientController.isCreating ? MainAxisAlignment.end : MainAxisAlignment.spaceBetween,
                   children: patientController.isCreating
                       ? [
-                          TextButton(
+                          FilledButton(
                             style: buttonStyleBig,
                             onPressed: patientController.create,
                             child: Text(context.localization!.create),
@@ -95,7 +95,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                           SizedBox(
                             width: width * 0.4,
                             // TODO make this state checking easier and more readable
-                            child: TextButton(
+                            child: FilledButton(
                               onPressed: patientController.patient.isNotAssignedToBed
                                   ? null
                                   : () {
@@ -115,7 +115,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                           ),
                           SizedBox(
                             width: width * 0.4,
-                            child: TextButton(
+                            child: FilledButton(
                               // TODO check whether the patient is active
                               onPressed: patientController.patient.isDischarged
                                   ? null
