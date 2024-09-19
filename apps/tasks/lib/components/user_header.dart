@@ -6,9 +6,10 @@ import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/loading.dart';
+import 'package:helpwave_widget/navigation.dart';
 import 'package:helpwave_widget/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/components/user_bottom_sheet.dart';
+import 'package:tasks/components/bottom_sheet_pages/user_bottom_sheet.dart';
 
 /// A [AppBar] for displaying the current [User], [Organization] and [Ward]
 class UserHeader extends StatelessWidget implements PreferredSizeWidget {
@@ -45,7 +46,7 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
             onTap: () {
               context.pushModal(
                 context: context,
-                builder: (context) => BottomSheetNavigator(initialPageBuilder: UserBottomSheetPageBuilder()),
+                builder: (context) => NavigationOutlet(initialValue: const UserBottomSheetPage()),
               );
             },
             title: Text(

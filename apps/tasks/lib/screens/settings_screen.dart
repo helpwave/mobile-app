@@ -11,6 +11,7 @@ import 'package:helpwave_widget/lists.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:helpwave_widget/navigation.dart';
 import 'package:provider/provider.dart';
+import 'package:tasks/components/bottom_sheet_pages/organization_bottom_sheet.dart';
 import 'package:tasks/screens/login_screen.dart';
 
 /// Screen for settings and other app options
@@ -172,6 +173,7 @@ class NavigationListTile extends StatelessWidget {
         icon,
         color: color ?? context.theme.colorScheme.primary,
       ),
+      onTap: onTap,
       title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, color: color)),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -193,16 +195,11 @@ class NavigationListTile extends StatelessWidget {
   }
 }
 
-class SettingsBottomSheetPageBuilder with BottomSheetPageBuilder {
-  @override
-  BottomSheetHeader? headerBuilder(BuildContext context, NavigationController<BottomSheetPageBuilder> controller) {
-    return BottomSheetHeader(
-      titleText: context.localization!.settings,
-    );
-  }
+class SettingsBottomSheetPage extends StatelessWidget {
+  const SettingsBottomSheetPage({super.key});
 
   @override
-  Widget build(BuildContext context, NavigationController<BottomSheetPageBuilder> controller) {
+  Widget build(BuildContext context) {
     titleBuilder(String title) {
       return Padding(
         padding: const EdgeInsets.only(bottom: paddingSmall),
@@ -213,169 +210,179 @@ class SettingsBottomSheetPageBuilder with BottomSheetPageBuilder {
       );
     }
 
-    return Flexible(
-      child: ListView(
-        children: [
-          titleBuilder(context.localization!.personalSettings),
-          RoundedListTiles(
-            items: [
-              NavigationListTile(
-                icon: Icons.person,
-                title: context.localization!.personalData,
-                onTap: () {},
-              ),
-              NavigationListTile(
-                icon: Icons.security_rounded,
-                title: context.localization!.passwordAndSecurity,
-                onTap: () {},
-              ),
-              NavigationListTile(
-                icon: Icons.checklist_rounded,
-                title: context.localization!.myTaskTemplates,
-                onTap: () {},
-              ),
-            ],
-          ),
-          const SizedBox(height: distanceMedium),
-          titleBuilder(context.localization!.myOrganizations),
-          LoadingFutureBuilder(
-            data: OrganizationService().getOrganizationsForUser(),
-            thenWidgetBuilder: (context, data) {
-              return RoundedListTiles(
-                items: data
-                    .map((organization) => NavigationListTile(
-                          icon: Icons.apartment_rounded,
-                          title: organization.longName,
-                          onTap: () {},
-                        ))
-                    .toList(),
-              );
-            },
-          ),
-          const SizedBox(height: distanceMedium),
-          titleBuilder(context.localization!.appearance),
-          RoundedListTiles(
-            items: [
-              ListTile(
-                leading: Icon(Icons.brightness_medium, color: context.theme.colorScheme.primary),
-                title: Text(context.localization!.darkMode, style: const TextStyle(fontWeight: FontWeight.bold)),
-                trailing: Consumer<ThemeModel>(
-                  builder: (_, ThemeModel themeNotifier, __) {
-                    return PopupMenuButton(
-                      initialValue: themeNotifier.themeMode,
-                      position: PopupMenuPosition.under,
-                      itemBuilder: (context) => [
-                        PopupMenuItem(value: ThemeMode.dark, child: Text(context.localization!.darkMode)),
-                        PopupMenuItem(value: ThemeMode.light, child: Text(context.localization!.lightMode)),
-                        PopupMenuItem(value: ThemeMode.system, child: Text(context.localization!.system)),
-                      ],
-                      onSelected: (value) {
-                        if (value == ThemeMode.system) {
-                          themeNotifier.isDark = null;
-                        } else {
-                          themeNotifier.isDark = value == ThemeMode.dark;
-                        }
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                              {
-                                ThemeMode.dark: context.localization!.darkMode,
-                                ThemeMode.light: context.localization!.lightMode,
-                                ThemeMode.system: context.localization!.system,
-                              }[themeNotifier.themeMode]!,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w800,
-                              )),
-                          const SizedBox(
-                            width: distanceTiny,
-                          ),
-                          const Icon(
-                            Icons.expand_more_rounded,
-                            size: iconSizeTiny,
-                          ),
+    return BottomSheetPage(
+      header: BottomSheetHeader.navigation(
+        context,
+        titleText: context.localization!.settings,
+      ),
+      child: Flexible(
+        child: ListView(
+          children: [
+            titleBuilder(context.localization!.personalSettings),
+            RoundedListTiles(
+              items: [
+                NavigationListTile(
+                  icon: Icons.person,
+                  title: context.localization!.personalData,
+                  onTap: () {},
+                ),
+                NavigationListTile(
+                  icon: Icons.security_rounded,
+                  title: context.localization!.passwordAndSecurity,
+                  onTap: () {},
+                ),
+                NavigationListTile(
+                  icon: Icons.checklist_rounded,
+                  title: context.localization!.myTaskTemplates,
+                  onTap: () {},
+                ),
+              ],
+            ),
+            const SizedBox(height: distanceMedium),
+            titleBuilder(context.localization!.myOrganizations),
+            LoadingFutureBuilder(
+              data: OrganizationService().getOrganizationsForUser(),
+              thenWidgetBuilder: (context, data) {
+                return RoundedListTiles(
+                  items: data
+                      .map((organization) => NavigationListTile(
+                            icon: Icons.apartment_rounded,
+                            title: organization.longName,
+                            onTap: () {
+                              print("tap");
+                              NavigationStackController.of(context)
+                                  .push(OrganizationBottomSheetPage(organizationId: organization.id));
+                            },
+                          ))
+                      .toList(),
+                );
+              },
+            ),
+            const SizedBox(height: distanceMedium),
+            titleBuilder(context.localization!.appearance),
+            RoundedListTiles(
+              items: [
+                ListTile(
+                  leading: Icon(Icons.brightness_medium, color: context.theme.colorScheme.primary),
+                  title: Text(context.localization!.darkMode, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  trailing: Consumer<ThemeModel>(
+                    builder: (_, ThemeModel themeNotifier, __) {
+                      return PopupMenuButton(
+                        initialValue: themeNotifier.themeMode,
+                        position: PopupMenuPosition.under,
+                        itemBuilder: (context) => [
+                          PopupMenuItem(value: ThemeMode.dark, child: Text(context.localization!.darkMode)),
+                          PopupMenuItem(value: ThemeMode.light, child: Text(context.localization!.lightMode)),
+                          PopupMenuItem(value: ThemeMode.system, child: Text(context.localization!.system)),
                         ],
+                        onSelected: (value) {
+                          if (value == ThemeMode.system) {
+                            themeNotifier.isDark = null;
+                          } else {
+                            themeNotifier.isDark = value == ThemeMode.dark;
+                          }
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                                {
+                                  ThemeMode.dark: context.localization!.darkMode,
+                                  ThemeMode.light: context.localization!.lightMode,
+                                  ThemeMode.system: context.localization!.system,
+                                }[themeNotifier.themeMode]!,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w800,
+                                )),
+                            const SizedBox(
+                              width: distanceTiny,
+                            ),
+                            const Icon(
+                              Icons.expand_more_rounded,
+                              size: iconSizeTiny,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Consumer<LanguageModel>(
+                  builder: (context, languageModel, child) {
+                    return ListTile(
+                      leading: Icon(Icons.language, color: context.theme.colorScheme.primary),
+                      title: Text(
+                        context.localization!.language,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      trailing: PopupMenuButton(
+                        position: PopupMenuPosition.under,
+                        initialValue: languageModel.local,
+                        onSelected: (value) {
+                          languageModel.setLanguage(value);
+                        },
+                        itemBuilder: (BuildContext context) => getSupportedLocalsWithName()
+                            .map((local) => PopupMenuItem(
+                                  value: local.local,
+                                  child: Text(
+                                    local.name,
+                                  ),
+                                ))
+                            .toList(),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(languageModel.name,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w800,
+                                )),
+                            const SizedBox(
+                              width: distanceTiny,
+                            ),
+                            const Icon(
+                              Icons.expand_more_rounded,
+                              size: iconSizeTiny,
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
                 ),
-              ),
-              Consumer<LanguageModel>(
-                builder: (context, languageModel, child) {
-                  return ListTile(
-                    leading: Icon(Icons.language, color: context.theme.colorScheme.primary),
-                    title: Text(
-                      context.localization!.language,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    trailing: PopupMenuButton(
-                      position: PopupMenuPosition.under,
-                      initialValue: languageModel.local,
-                      onSelected: (value) {
-                        languageModel.setLanguage(value);
+              ],
+            ),
+            const SizedBox(height: distanceMedium),
+            titleBuilder(context.localization!.other),
+            RoundedListTiles(
+              items: [
+                NavigationListTile(
+                  icon: Icons.info_outline,
+                  title: context.localization!.licenses,
+                  onTap: () => {showLicensePage(context: context)},
+                ),
+                Consumer<CurrentWardController>(
+                  builder: (context, currentWardService, _) {
+                    return NavigationListTile(
+                      icon: Icons.logout,
+                      title: context.localization!.logout,
+                      color: Colors.red.withOpacity(0.7), // TODO get this from theme
+                      onTap: () {
+                        // TODO add confirm dialog
+                        UserSessionService().logout();
+                        currentWardService.clear();
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (_) => const LoginScreen()),
+                        );
                       },
-                      itemBuilder: (BuildContext context) => getSupportedLocalsWithName()
-                          .map((local) => PopupMenuItem(
-                                value: local.local,
-                                child: Text(
-                                  local.name,
-                                ),
-                              ))
-                          .toList(),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(languageModel.name,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w800,
-                              )),
-                          const SizedBox(
-                            width: distanceTiny,
-                          ),
-                          const Icon(
-                            Icons.expand_more_rounded,
-                            size: iconSizeTiny,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-          const SizedBox(height: distanceMedium),
-          titleBuilder(context.localization!.other),
-          RoundedListTiles(
-            items: [
-              NavigationListTile(
-                icon: Icons.info_outline,
-                title: context.localization!.licenses,
-                onTap: () => {showLicensePage(context: context)},
-              ),
-              Consumer<CurrentWardController>(
-                builder: (context, currentWardService, _) {
-                  return NavigationListTile(
-                    icon: Icons.logout,
-                    title: context.localization!.logout,
-                    color: Colors.red.withOpacity(0.7), // TODO get this from theme
-                    onTap: () {
-                      // TODO add confirm dialog
-                      UserSessionService().logout();
-                      currentWardService.clear();
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (_) => const LoginScreen()),
-                      );
-                    },
-                  );
-                },
-              ),
-            ],
-          ),
-        ],
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

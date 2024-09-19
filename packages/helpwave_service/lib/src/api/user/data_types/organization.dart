@@ -8,6 +8,18 @@ class OrganizationMinimal {
     required this.shortName,
     required this.longName,
   });
+
+  OrganizationMinimal copyWith({
+    String? id,
+    String? shortName,
+    String? longName,
+  }) {
+    return OrganizationMinimal(
+      id: id ?? this.id,
+      shortName: shortName ?? this.shortName,
+      longName: longName ?? this.longName,
+    );
+  }
 }
 
 /// data class for [Organization]
@@ -26,6 +38,16 @@ class Organization extends OrganizationMinimal {
     required this.isPersonal,
     required this.isVerified,
   });
+
+  factory Organization.empty(String? id) => Organization(
+        id: id ?? "",
+        shortName: "",
+        longName: "",
+        avatarURL: "",
+        email: "",
+        isPersonal: false,
+        isVerified: false,
+      );
 
   Organization copyWith({
     String? id,
@@ -46,6 +68,8 @@ class Organization extends OrganizationMinimal {
       isVerified: isVerified ?? this.isVerified,
     );
   }
+
+  String get combinedName => "$longName ($shortName)";
 
   @override
   String toString() {

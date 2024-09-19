@@ -9,7 +9,7 @@ import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:helpwave_widget/text_input.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/components/assignee_select.dart';
+import 'package:tasks/components/bottom_sheet_pages/assignee_select.dart';
 import 'package:tasks/components/subtask_list.dart';
 import 'package:tasks/components/visibility_select.dart';
 import 'package:helpwave_service/tasks.dart';
@@ -160,7 +160,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 )
               : const SizedBox(),
         ),
-        builder: (context) => Flexible(
+        child: Flexible(
           child: ListView(
             children: [
               Center(

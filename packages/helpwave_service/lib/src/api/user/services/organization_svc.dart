@@ -69,12 +69,47 @@ class OrganizationService {
     List<User> users = response.members
         .map((member) => User(
               id: member.userId,
-              name: member.nickname, // TODO replace this
+              name: member.nickname,
+              // TODO replace this
               nickName: member.nickname,
               email: member.email,
               profileUrl: Uri.parse(member.avatarUrl),
             ))
         .toList();
     return users;
+  }
+
+  Future<void> update({
+    required String id,
+    String? shortName,
+    String? longName,
+    String? email,
+    bool? isPersonal,
+    String? avatarUrl,
+  }) async {
+    UpdateOrganizationRequest request = UpdateOrganizationRequest(
+      id: id,
+      longName: longName,
+      shortName: shortName,
+      isPersonal: isPersonal,
+      contactEmail: email,
+      avatarUrl: avatarUrl,
+    );
+    await organizationService.updateOrganization(
+      request,
+      options: CallOptions(
+        metadata: UserAPIServiceClients().getMetaData(organizationId: id),
+      ),
+    );
+  }
+
+  Future<void> delete(String id) async {
+    DeleteOrganizationRequest request = DeleteOrganizationRequest(id: id);
+    await organizationService.deleteOrganization(
+      request,
+      options: CallOptions(
+        metadata: UserAPIServiceClients().getMetaData(organizationId: id),
+      ),
+    );
   }
 }

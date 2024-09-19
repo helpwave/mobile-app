@@ -1,2 +1,2 @@
-export 'navigation_controller.dart';
-export 'simple_navigator.dart';
+export 'navigation_stack_controller.dart';
+export 'navigation_outlet.dart';

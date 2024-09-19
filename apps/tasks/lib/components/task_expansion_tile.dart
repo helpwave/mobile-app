@@ -4,7 +4,7 @@ import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/shapes.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/components/task_bottom_sheet.dart';
+import 'package:tasks/components/bottom_sheet_pages/task_bottom_sheet.dart';
 import 'package:tasks/components/task_card.dart';
 import 'package:helpwave_service/tasks.dart';
 

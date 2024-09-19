@@ -6,23 +6,23 @@ import 'package:helpwave_service/user.dart';
 
 class OrganizationUpdate {
   String id;
-  String shortName;
-  String longName;
-  String email;
-  bool isPersonal;
-  String avatarURL;
+  String? shortName;
+  String? longName;
+  String? email;
+  bool? isPersonal;
+  String? avatarURL;
 
   OrganizationUpdate({
     required this.id,
-    required this.shortName,
-    required this.longName,
-    required this.email,
-    required this.isPersonal,
-    required this.avatarURL,
+    this.shortName,
+    this.longName,
+    this.email,
+    this.isPersonal,
+    this.avatarURL,
   });
 }
 
-class OrganizationOfflineClientStore {
+class OrganizationOfflineService {
   List<Organization> organizations = [];
 
   Organization? find(String id) {
@@ -179,11 +179,11 @@ class OrganizationOfflineClient extends OrganizationServiceClient {
       {CallOptions? options}) {
     final update = OrganizationUpdate(
       id: request.id,
-      shortName: request.shortName,
-      longName: request.longName,
-      email: request.contactEmail,
-      avatarURL: request.avatarUrl,
-      isPersonal: request.isPersonal,
+      shortName: request.hasShortName() ? request.shortName : null,
+      longName: request.hasLongName() ? request.longName : null,
+      email: request.hasContactEmail() ? request.contactEmail : null,
+      avatarURL: request.hasAvatarUrl() ? request.avatarUrl : null,
+      isPersonal: request.hasIsPersonal() ? request.isPersonal : null,
     );
 
     try {

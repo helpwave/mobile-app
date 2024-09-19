@@ -149,6 +149,7 @@
   "loginFailed": "Login failed",
   "selectWard": "Select Ward",
   "ward": "Ward",
+  "wards": "Wards",
   "organization": "Organization",
   "none": "None",
   "switch_": "Switch",
@@ -175,5 +176,12 @@
   "personalData": "Personal Data",
   "passwordAndSecurity": "Password & Security",
   "other": "Other",
-  "myTaskTemplates": "My Task Templates"
+  "myTaskTemplates": "My Task Templates",
+  "shortName": "Short Name",
+  "longName": "Long Name",
+  "contactEmail": "Contact E-Mail",
+  "members": "Members",
+  "properties": "Properties",
+  "dangerZone": "Danger Zone",
+  "organizationDangerZoneDescription": "Deleting the organization is a permanent action and cannot be undone be careful!"
 }

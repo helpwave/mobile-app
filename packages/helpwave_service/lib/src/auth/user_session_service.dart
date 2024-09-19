@@ -28,7 +28,10 @@ class UserSessionService {
   bool get devMode => _devMode;
 
   /// **Only use this** once before using the service
-  changeMode(bool isDevMode) => _devMode = isDevMode;
+  changeMode(bool isDevMode) {
+    _devMode = isDevMode;
+    CurrentWardService().devMode = isDevMode;
+  }
 
   /// Logs a User in by using the stored tokens
   ///

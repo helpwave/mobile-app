@@ -25,7 +25,7 @@ class AssigneeSelectBottomSheet extends StatelessWidget {
         titleText: context.localization!.assignee,
       ),
       onClosing: () => {},
-      builder: (context) =>  Column(
+      child: Column(
           children: [
             TextButton(
               child: Text(context.localization!.remove),

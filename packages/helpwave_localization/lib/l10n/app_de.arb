@@ -149,6 +149,7 @@
   "loginFailed": "Login fehlgeschlagen",
   "selectWard": "Station auswählen",
   "ward": "Station",
+  "wards": "Stationen",
   "organization": "Organisation",
   "none": "None",
   "switch_": "Wechseln",
@@ -175,5 +176,12 @@
   "personalData": "Persönliche Daten",
   "passwordAndSecurity": "Passwort & Sicherheit",
   "other": "Weiteres",
-  "myTaskTemplates": "Meine Task Templates"
+  "myTaskTemplates": "Meine Task Templates",
+  "shortName": "Abbkürzung",
+  "longName": "Name",
+  "contactEmail": "Kontakt E-Mail",
+  "members": "Mitglieder",
+  "properties": "Eigenschaften",
+  "dangerZone": "Gefahrenzone",
+  "organizationDangerZoneDescription": "Vorsicht, das löschen einer Organization ist permanent und kann nicht rückgängig gemacht werden!"
 }

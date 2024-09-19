@@ -26,28 +26,26 @@ class WardSelectBottomSheet extends StatelessWidget {
       onClosing: () {},
       header: BottomSheetHeader(titleText: context.localization!.selectWard),
       mainAxisSize: MainAxisSize.min,
-      builder: (context) {
-        return LoadingFutureBuilder(
-          loadingWidget: const SizedBox(),
-          data: WardService().getWards(organizationId: organizationId),
-          thenWidgetBuilder: (context, wards) {
-            return Flexible(
-              child: ListView(
-                shrinkWrap: true,
-                children: wards
-                    .map((ward) => ListTile(
-                          onTap: () => onChange(ward),
-                          title: Text(
-                            ward.name,
-                            style:TextStyle(decoration: ward.id == selectedWardId ? TextDecoration.underline : null),
-                          ),
-                        ))
-                    .toList(),
-              ),
-            );
-          },
-        );
-      },
+      child: LoadingFutureBuilder(
+        loadingWidget: const SizedBox(),
+        data: WardService().getWards(organizationId: organizationId),
+        thenWidgetBuilder: (context, wards) {
+          return Flexible(
+            child: ListView(
+              shrinkWrap: true,
+              children: wards
+                  .map((ward) => ListTile(
+                        onTap: () => onChange(ward),
+                        title: Text(
+                          ward.name,
+                          style: TextStyle(decoration: ward.id == selectedWardId ? TextDecoration.underline : null),
+                        ),
+                      ))
+                  .toList(),
+            ),
+          );
+        },
+      ),
     );
   }
 }

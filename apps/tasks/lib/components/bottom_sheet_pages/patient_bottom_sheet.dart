@@ -9,7 +9,7 @@ import 'package:helpwave_widget/lists.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:helpwave_widget/text_input.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/components/task_bottom_sheet.dart';
+import 'package:tasks/components/bottom_sheet_pages/task_bottom_sheet.dart';
 import 'package:tasks/components/task_expansion_tile.dart';
 import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_util/loading.dart';
@@ -147,7 +147,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                 ));
           }),
         ),
-        builder: (BuildContext context) => SingleChildScrollView(
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

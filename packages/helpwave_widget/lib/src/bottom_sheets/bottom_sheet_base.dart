@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/util.dart';
+import 'package:helpwave_widget/navigation.dart';
 
 extension PushModalContextExtension<T> on BuildContext {
   Future<T?> pushModal({
@@ -135,6 +136,21 @@ class BottomSheetAction {
   final Function() onPressed;
 
   BottomSheetAction({required this.icon, required this.onPressed});
+
+  static BottomSheetAction navigationForBottomSheetPage(BuildContext context) {
+    StackController<Widget> controller = NavigationStackController.of(context);
+
+    return BottomSheetAction(
+      icon: controller.isAtNavigationStart ? Icons.close : Icons.chevron_left_rounded,
+      onPressed: () {
+        if (controller.canPop) {
+          controller.pop();
+        } else {
+          Navigator.pop(context);
+        }
+      },
+    );
+  }
 }
 
 class BottomSheetHeader extends StatelessWidget {
@@ -176,6 +192,41 @@ class BottomSheetHeader extends StatelessWidget {
     this.isShowingDragHandler = false,
     this.padding = const EdgeInsets.only(bottom: paddingSmall),
   });
+
+  factory BottomSheetHeader.navigation(BuildContext context, {
+    BottomSheetAction? trailing,
+    Widget? title,
+    String? titleText,
+    bool isShowingDragHandler = false,
+    EdgeInsets padding = const EdgeInsets.only(bottom: paddingSmall),
+  }) {
+    return BottomSheetHeader(
+      leading: BottomSheetAction.navigationForBottomSheetPage(context),
+      trailing: trailing,
+      title: title,
+      titleText: titleText,
+      isShowingDragHandler: isShowingDragHandler,
+      padding: padding,
+    );
+  }
+
+  BottomSheetHeader copyWith({
+    BottomSheetAction? leading,
+    BottomSheetAction? trailing,
+    Widget? title,
+    String? titleText,
+    bool? isShowingDragHandler,
+    EdgeInsets? padding,
+  }) {
+    return BottomSheetHeader(
+      leading: leading ?? this.leading,
+      trailing: trailing ?? this.trailing,
+      title: title ?? this.title,
+      titleText: titleText ?? this.titleText,
+      isShowingDragHandler: isShowingDragHandler ?? this.isShowingDragHandler,
+      padding: padding ?? this.padding,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -259,13 +310,13 @@ class BottomSheetBase extends StatefulWidget {
   /// The function to call when closing the [BottomSheetBase]
   final void Function() onClosing;
 
-  /// The builder function call to build the content of the [BottomSheetBase]
-  final Widget Function(BuildContext context) builder;
+  /// The main [Widget] of the [BottomSheetBase]
+  final Widget child;
 
   /// A header [Widget] above the builder content
   ///
   /// Defaults to the [BottomSheetHeader]
-  final Widget header;
+  final Widget? header;
 
   /// The bottom [Widget] below the [builder]
   final Widget? bottomWidget;
@@ -278,10 +329,10 @@ class BottomSheetBase extends StatefulWidget {
   const BottomSheetBase({
     super.key,
     required this.onClosing,
-    required this.builder,
+    required this.child,
     this.padding = const EdgeInsets.all(paddingMedium),
     this.bottomWidget,
-    this.header = const BottomSheetHeader(),
+    this.header,
     this.mainAxisSize = MainAxisSize.min,
   });
 
@@ -304,8 +355,8 @@ class _BottomSheetBase extends State<BottomSheetBase> with TickerProviderStateMi
             child: Column(
               mainAxisSize: widget.mainAxisSize,
               children: [
-                widget.header,
-                widget.builder(context),
+                widget.header ?? const SizedBox(),
+                widget.child,
                 widget.bottomWidget ?? const SizedBox(),
               ],
             ),

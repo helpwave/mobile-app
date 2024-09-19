@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:helpwave_service/src/api/offline/offline_client_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:helpwave_service/src/api/tasks/index.dart';
 import 'package:helpwave_service/src/api/user/index.dart';
@@ -19,11 +20,21 @@ class CurrentWardInformation {
 
   String get organizationName => "${organization.longName} (${organization.shortName})";
 
-  bool get isEmpty =>  wardId == "" || organizationId == "";
+  bool get isEmpty => wardId == "" || organizationId == "";
 
   bool get hasFullInformation => ward.name != "" && organization.longName != "";
 
   CurrentWardInformation(this.ward, this.organization);
+
+  CurrentWardInformation copyWith({
+    WardMinimal? ward,
+    OrganizationMinimal? organization,
+  }) {
+    return CurrentWardInformation(
+      ward ?? this.ward,
+      organization ?? this.organization,
+    );
+  }
 
   @override
   String toString() {
@@ -73,7 +84,18 @@ class _CurrentWardPreferences {
 ///
 /// Changes the [CurrentWardInformation] globally
 class CurrentWardService extends Listenable {
-  bool devMode = false; // TODO remove
+  bool _devMode = false; // TODO remove
+
+  bool get devMode => _devMode;
+
+  set devMode(bool value) {
+    _devMode = value;
+    if (UserAPIServiceClients().offlineMode) {
+      Ward firstWard = OfflineClientStore().wardStore.wards[0];
+      Organization firstOrganization = OfflineClientStore().organizationStore.organizations[0];
+      currentWard = CurrentWardInformation(firstWard, firstOrganization);
+    }
+  }
 
   /// A storage for the current ward
   final _CurrentWardPreferences _preferences = _CurrentWardPreferences();
@@ -91,9 +113,7 @@ class CurrentWardService extends Listenable {
   final List<VoidCallback> _listeners = [];
 
   CurrentWardService._initialize() {
-    if (!devMode) {
-      load();
-    }
+    load();
   }
 
   static final CurrentWardService _currentWardService = CurrentWardService._initialize();
@@ -109,10 +129,10 @@ class CurrentWardService extends Listenable {
       }
     }
     _currentWard = currentWard;
-    if(!isLoaded){
+    if (!isLoaded) {
       fetch();
     }
-    if(kDebugMode){
+    if (kDebugMode) {
       print(currentWard);
     }
     notifyListeners();
@@ -122,13 +142,16 @@ class CurrentWardService extends Listenable {
 
   /// Load the preferences with the [_CurrentWardPreferences]
   Future<void> load() async {
-    // everything is done in the setter
-    currentWard = devMode ? null : await _preferences.getInformation();
+    await _preferences.getInformation().then((value) {
+      if (!devMode) {
+        currentWard = value;
+      }
+    });
   }
 
   /// Fetch [Ward] and [Organization] from backend
   Future<void> fetch() async {
-    if(!isInitialized){
+    if (!isInitialized) {
       return;
     }
     Organization organization = await OrganizationService().getOrganization(id: currentWard!.organizationId);

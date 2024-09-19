@@ -132,7 +132,7 @@ class OfflineClientStore {
 
   factory OfflineClientStore() => _instance;
 
-  final OrganizationOfflineClientStore organizationStore = OrganizationOfflineClientStore();
+  final OrganizationOfflineService organizationStore = OrganizationOfflineService();
   final UserOfflineService userStore = UserOfflineService();
 
   final WardOfflineService wardStore = WardOfflineService();

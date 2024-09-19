@@ -11,13 +11,15 @@ import 'package:helpwave_service/tasks.dart';
 import 'package:tasks/screens/login_screen.dart';
 
 void main() {
-  UserSessionService().changeMode(devMode);
+  WidgetsFlutterBinding.ensureInitialized();
+  CurrentWardService().devMode = true;
   TasksAPIServiceClients()
     ..apiUrl = usedAPIURL
     ..offlineMode = true;
   UserAPIServiceClients()
     ..apiUrl = usedAPIURL
     ..offlineMode = true;
+  UserSessionService().changeMode(devMode);
   runApp(const MyApp());
 }
 

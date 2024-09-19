@@ -28,28 +28,26 @@ class _VisibilityBottomSheet extends StatelessWidget {
       header: BottomSheetHeader(
         titleText: context.localization!.visibility,
       ),
-      builder: (context) {
-        return ListView(
-          children: [
-            const SizedBox(height: distanceSmall),
-            GestureDetector(
-              onTap: () {
-                onChange(true);
-                Navigator.of(context).pop();
-              },
-              child: Text(context.localization!.public, style: style),
-            ),
-            const SizedBox(height: distanceSmall),
-            GestureDetector(
-              onTap: () {
-                onChange(false);
-                Navigator.of(context).pop();
-              },
-              child: Text(context.localization!.private, style: style),
-            ),
-          ],
-        );
-      },
+      child: ListView(
+        children: [
+          const SizedBox(height: distanceSmall),
+          GestureDetector(
+            onTap: () {
+              onChange(true);
+              Navigator.of(context).pop();
+            },
+            child: Text(context.localization!.public, style: style),
+          ),
+          const SizedBox(height: distanceSmall),
+          GestureDetector(
+            onTap: () {
+              onChange(false);
+              Navigator.of(context).pop();
+            },
+            child: Text(context.localization!.private, style: style),
+          ),
+        ],
+      ),
     );
   }
 }

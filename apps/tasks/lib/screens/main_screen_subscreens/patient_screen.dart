@@ -5,10 +5,10 @@ import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/components/patient_bottom_sheet.dart';
+import 'package:tasks/components/bottom_sheet_pages/patient_bottom_sheet.dart';
 import 'package:tasks/components/patient_card.dart';
 import 'package:tasks/components/patient_status_chip_select.dart';
-import 'package:tasks/components/task_bottom_sheet.dart';
+import 'package:tasks/components/bottom_sheet_pages/task_bottom_sheet.dart';
 import 'package:helpwave_service/tasks.dart';
 
 /// A screen for showing a all [Patient]s by certain user-selectable filter properties
