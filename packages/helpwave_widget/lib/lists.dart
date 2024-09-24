@@ -1,1 +1,1 @@
-export 'package:helpwave_widget/src/lists/add_list.dart';
+export 'package:helpwave_widget/src/lists/index.dart';

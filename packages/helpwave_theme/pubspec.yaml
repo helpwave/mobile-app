@@ -25,4 +25,4 @@ flutter:
   fonts:
     - family: SpaceGrotesk
       fonts:
-        - asset: assets/fonts/Space_Grotesk/SpaceGrotesk-VariableFont_wght.ttf
+        - asset: lib/fonts/Space_Grotesk/SpaceGrotesk-VariableFont_wght.ttf

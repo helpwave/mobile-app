@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/shapes.dart';
 
 /// The default add icon for the [AddList]
@@ -12,7 +13,7 @@ class _DefaultAddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     const double subtaskAddIconSize = 21;
     return Circle(
-      color: Theme.of(context).colorScheme.secondary,
+      color: context.theme.colorScheme.primary,
       diameter: subtaskAddIconSize,
       child: IconButton(
         padding: EdgeInsets.zero,
@@ -20,7 +21,7 @@ class _DefaultAddButton extends StatelessWidget {
         onPressed: onClick,
         icon: Icon(
           Icons.add_rounded,
-          color: Theme.of(context).colorScheme.onSecondary,
+          color: context.theme.colorScheme.onPrimary,
         ),
       ),
     );
