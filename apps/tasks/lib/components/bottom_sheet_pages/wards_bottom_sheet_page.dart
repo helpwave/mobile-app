@@ -47,7 +47,7 @@ class WardsBottomSheetPage extends StatelessWidget {
                   children: [
                     const SizedBox(height: distanceMedium),
                     RoundedListTiles(
-                        items: data
+                        children: data
                             .map(
                               (ward) => NavigationListTile(
                                 icon: Icons.house_rounded,

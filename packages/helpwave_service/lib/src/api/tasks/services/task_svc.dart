@@ -26,7 +26,7 @@ class TaskService {
             name: task.name,
             notes: task.description,
             isPublicVisible: task.public,
-            status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
+            status: TasksGRPCTypeConverter.taskStatusFromGRPC(task.status),
             assigneeId: task.assignedUserId,
             dueDate: task.dueAt.toDateTime(),
             subtasks: task.subtasks
@@ -56,7 +56,7 @@ class TaskService {
       name: response.name,
       notes: response.description,
       isPublicVisible: response.public,
-      status: GRPCTypeConverter.taskStatusFromGRPC(response.status),
+      status: TasksGRPCTypeConverter.taskStatusFromGRPC(response.status),
       assigneeId: response.assignedUserId,
       dueDate: response.dueAt.toDateTime(),
       patient: PatientMinimal(id: response.patient.id, name: response.patient.humanReadableIdentifier),
@@ -88,7 +88,7 @@ class TaskService {
               name: task.name,
               notes: task.description,
               isPublicVisible: task.public,
-              status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
+              status: TasksGRPCTypeConverter.taskStatusFromGRPC(task.status),
               assigneeId: task.assignedUserId,
               dueDate: task.dueAt.toDateTime(),
               patient: PatientMinimal(id: task.patient.id, name: task.patient.humanReadableIdentifier),
@@ -111,7 +111,7 @@ class TaskService {
     CreateTaskRequest request = CreateTaskRequest(
       name: task.name,
       description: task.notes,
-      initialStatus: GRPCTypeConverter.taskStatusToGRPC(task.status),
+      initialStatus: TasksGRPCTypeConverter.taskStatusToGRPC(task.status),
       dueAt: task.dueDate != null ? Timestamp.fromDateTime(task.dueDate!) : null,
       patientId: !task.patient.isCreating ? task.patient.id : null,
       public: task.isPublicVisible,
@@ -202,7 +202,7 @@ class TaskService {
       description: notes,
       dueAt: dueDate != null ? Timestamp.fromDateTime(dueDate) : null,
       public: isPublic,
-      status: status != null ? GRPCTypeConverter.taskStatusToGRPC(status) : null,
+      status: status != null ? TasksGRPCTypeConverter.taskStatusToGRPC(status) : null,
     );
 
     UpdateTaskResponse response = await taskService.updateTask(

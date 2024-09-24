@@ -2,7 +2,9 @@ import 'package:grpc/grpc.dart';
 import 'package:helpwave_proto_dart/services/user_svc/v1/organization_svc.pbgrpc.dart';
 import 'package:helpwave_service/src/api/offline/offline_client_store.dart';
 import 'package:helpwave_service/src/api/offline/util.dart';
+import 'package:helpwave_service/src/api/user/util/type_converter.dart';
 import 'package:helpwave_service/user.dart';
+import '../data_types/invitation.dart' as invite_types;
 
 class OrganizationUpdate {
   String id;
@@ -152,7 +154,8 @@ class OrganizationOfflineClient extends OrganizationServiceClient {
   }
 
   @override
-  ResponseFuture<GetOrganizationsForUserResponse> getOrganizationsForUser(GetOrganizationsForUserRequest request, {CallOptions? options}) {
+  ResponseFuture<GetOrganizationsForUserResponse> getOrganizationsForUser(GetOrganizationsForUserRequest request,
+      {CallOptions? options}) {
     final organizations = OfflineClientStore().organizationStore.findOrganizations().map((org) {
       final members = OfflineClientStore()
           .userStore
@@ -171,7 +174,6 @@ class OrganizationOfflineClient extends OrganizationServiceClient {
     }).toList();
 
     return MockResponseFuture.value(GetOrganizationsForUserResponse()..organizations.addAll(organizations));
-
   }
 
   @override
@@ -230,42 +232,128 @@ class OrganizationOfflineClient extends OrganizationServiceClient {
   }
 
   @override
-  ResponseFuture<GetInvitationsByOrganizationResponse> getInvitationsByOrganization(GetInvitationsByOrganizationRequest request, {CallOptions? options}) {
-    return MockResponseFuture.value(GetInvitationsByOrganizationResponse());
+  ResponseFuture<GetInvitationsByOrganizationResponse> getInvitationsByOrganization(
+      GetInvitationsByOrganizationRequest request,
+      {CallOptions? options}) {
+    List<invite_types.Invitation> invitations = OfflineClientStore()
+        .invitationStore
+        .invitations
+        .where((element) => element.organizationId == request.organizationId)
+        .toList();
+    if (request.hasState()) {
+      final invitationState = UserGRPCTypeConverter.invitationStateFromGRPC(request.state);
+      invitations = invitations.where((element) => element.state == invitationState).toList();
+    }
+
+    final response = GetInvitationsByOrganizationResponse(
+        invitations: invitations.map((invitation) => GetInvitationsByOrganizationResponse_Invitation(
+              id: invitation.id,
+              organizationId: invitation.organizationId,
+              email: invitation.email,
+              state: UserGRPCTypeConverter.invitationStateToGRPC(invitation.state),
+            )));
+
+    return MockResponseFuture.value(response);
   }
 
   @override
-  ResponseFuture<GetInvitationsByUserResponse> getInvitationsByUser(GetInvitationsByUserRequest request, {CallOptions? options}) {
-    return MockResponseFuture.value(GetInvitationsByUserResponse());
+  ResponseFuture<GetInvitationsByUserResponse> getInvitationsByUser(GetInvitationsByUserRequest request,
+      {CallOptions? options}) {
+    final user = OfflineClientStore().userStore.users[0];
+    List<invite_types.Invitation> invitations =
+        OfflineClientStore().invitationStore.invitations.where((element) => element.organizationId == user.id).toList();
+    if (request.hasState()) {
+      final invitationState = UserGRPCTypeConverter.invitationStateFromGRPC(request.state);
+      invitations = invitations.where((element) => element.state == invitationState).toList();
+    }
+
+    final response = GetInvitationsByUserResponse(invitations: invitations.map((invitation) {
+      final invite = GetInvitationsByUserResponse_Invitation(
+        id: invitation.id,
+        email: invitation.email,
+        state: UserGRPCTypeConverter.invitationStateToGRPC(invitation.state),
+      );
+      final organization = OfflineClientStore().organizationStore.find(invitation.organizationId)!;
+      invite.organization = GetInvitationsByUserResponse_Invitation_Organization(
+        id: organization.id,
+        longName: organization.longName,
+        avatarUrl: organization.avatarURL,
+      );
+      return invite;
+    }));
+
+    return MockResponseFuture.value(response);
   }
 
   @override
   ResponseFuture<InviteMemberResponse> inviteMember(InviteMemberRequest request, {CallOptions? options}) {
-    throw UnimplementedError('Not implemented yet');
+    assert(OfflineClientStore().userStore.users.indexWhere((element) => element.email == request.email) != -1);
+    assert(OfflineClientStore().invitationStore.invitations.indexWhere(
+            (element) => element.organizationId == request.organizationId && element.email == request.email) == -1);
+
+    final invite = invite_types.Invitation(
+      id: DateTime.now().toString(),
+      organizationId: request.organizationId,
+      email: request.email,
+      state: invite_types.InvitationState.pending,
+    );
+
+    return MockResponseFuture.value(InviteMemberResponse(id: invite.id));
   }
 
   @override
   ResponseFuture<RevokeInvitationResponse> revokeInvitation(RevokeInvitationRequest request, {CallOptions? options}) {
-    throw UnimplementedError('Not implemented yet');
+    final invite  = OfflineClientStore().invitationStore.find(request.invitationId);
+
+    if(invite == null){
+      throw "Invitation with id ${request.invitationId} not found";
+    }
+    if(invite_types.InvitationState.pending != invite.state){
+      throw "Only pending Invitations can be revoked";
+    }
+    OfflineClientStore().invitationStore.changeState(request.invitationId, invite_types.InvitationState.accepted);
+
+    return MockResponseFuture.value(RevokeInvitationResponse());
   }
 
   @override
   ResponseFuture<AcceptInvitationResponse> acceptInvitation(AcceptInvitationRequest request, {CallOptions? options}) {
-    throw UnimplementedError('Not implemented yet');
+    final invite  = OfflineClientStore().invitationStore.find(request.invitationId);
+
+    if(invite == null){
+      throw "Invitation with id ${request.invitationId} not found";
+    }
+    if(invite_types.InvitationState.pending != invite.state){
+      throw "Only pending Invitations can be accepted";
+    }
+    OfflineClientStore().invitationStore.changeState(request.invitationId, invite_types.InvitationState.accepted);
+
+    return MockResponseFuture.value(AcceptInvitationResponse());
   }
 
   @override
-  ResponseFuture<DeclineInvitationResponse> declineInvitation(DeclineInvitationRequest request, {CallOptions? options}) {
-    throw UnimplementedError('Not implemented yet');
+  ResponseFuture<DeclineInvitationResponse> declineInvitation(DeclineInvitationRequest request,
+      {CallOptions? options}) {
+    final invite  = OfflineClientStore().invitationStore.find(request.invitationId);
+
+    if(invite == null){
+      throw "Invitation with id ${request.invitationId} not found";
+    }
+    if(invite_types.InvitationState.pending != invite.state){
+      throw "Only pending Invitations can be de";
+    }
+    OfflineClientStore().invitationStore.changeState(request.invitationId, invite_types.InvitationState.accepted);
+
+    return MockResponseFuture.value(DeclineInvitationResponse());
   }
 
   @override
   ResponseFuture<AddMemberResponse> addMember(AddMemberRequest request, {CallOptions? options}) {
-    throw UnimplementedError('Not implemented yet');
+    return MockResponseFuture.value(AddMemberResponse());
   }
 
   @override
   ResponseFuture<RemoveMemberResponse> removeMember(RemoveMemberRequest request, {CallOptions? options}) {
-    throw UnimplementedError('Not implemented yet');
+    return MockResponseFuture.value(RemoveMemberResponse());
   }
 }

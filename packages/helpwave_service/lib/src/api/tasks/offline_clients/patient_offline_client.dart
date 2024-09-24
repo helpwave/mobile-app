@@ -156,7 +156,7 @@ class PatientOfflineClient extends PatientServiceClient {
             assignedUserId: task.assigneeId,
             description: task.notes,
             public: task.isPublicVisible,
-            status: GRPCTypeConverter.taskStatusToGRPC(task.status),
+            status: TasksGRPCTypeConverter.taskStatusToGRPC(task.status),
             subtasks: OfflineClientStore()
                 .subtaskStore
                 .findSubtasks(task.id)
@@ -215,7 +215,7 @@ class PatientOfflineClient extends PatientServiceClient {
           assignedUserId: task.assigneeId,
           description: task.notes,
           public: task.isPublicVisible,
-          status: GRPCTypeConverter.taskStatusToGRPC(task.status),
+          status: TasksGRPCTypeConverter.taskStatusToGRPC(task.status),
           subtasks: OfflineClientStore()
               .subtaskStore
               .findSubtasks(task.id)

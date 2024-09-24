@@ -1,7 +1,7 @@
 import 'package:helpwave_service/src/api/tasks/data_types/task.dart' as task_lib;
 import 'package:helpwave_proto_dart/services/tasks_svc/v1/types.pbenum.dart' as proto;
 
-class GRPCTypeConverter {
+class TasksGRPCTypeConverter {
   static proto.TaskStatus taskStatusToGRPC(task_lib.TaskStatus status) {
     switch (status) {
       case task_lib.TaskStatus.todo:

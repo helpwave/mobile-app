@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/navigation.dart';
 import '../../bottom_sheets.dart';
 
@@ -30,6 +31,7 @@ class BottomSheetPage extends StatelessWidget {
       header: header ?? BottomSheetHeader.navigation(context),
       bottomWidget: bottom,
       mainAxisSize: MainAxisSize.max,
+      padding: const EdgeInsets.all(paddingMedium).copyWith(bottom: 0),
       child: child,
     );
   }

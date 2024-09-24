@@ -220,7 +220,7 @@ class SettingsBottomSheetPage extends StatelessWidget {
           children: [
             titleBuilder(context.localization!.personalSettings),
             RoundedListTiles(
-              items: [
+              children: [
                 NavigationListTile(
                   icon: Icons.person,
                   title: context.localization!.personalData,
@@ -244,7 +244,7 @@ class SettingsBottomSheetPage extends StatelessWidget {
               data: OrganizationService().getOrganizationsForUser(),
               thenWidgetBuilder: (context, data) {
                 return RoundedListTiles(
-                  items: data
+                  children: data
                       .map((organization) => NavigationListTile(
                             icon: Icons.apartment_rounded,
                             title: organization.longName,
@@ -261,7 +261,7 @@ class SettingsBottomSheetPage extends StatelessWidget {
             const SizedBox(height: distanceMedium),
             titleBuilder(context.localization!.appearance),
             RoundedListTiles(
-              items: [
+              children: [
                 ListTile(
                   leading: Icon(Icons.brightness_medium, color: context.theme.colorScheme.primary),
                   title: Text(context.localization!.darkMode, style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -356,7 +356,7 @@ class SettingsBottomSheetPage extends StatelessWidget {
             const SizedBox(height: distanceMedium),
             titleBuilder(context.localization!.other),
             RoundedListTiles(
-              items: [
+              children: [
                 NavigationListTile(
                   icon: Icons.info_outline,
                   title: context.localization!.licenses,

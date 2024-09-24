@@ -180,8 +180,12 @@
   "shortName": "Short Name",
   "longName": "Long Name",
   "contactEmail": "Contact E-Mail",
+  "member": "Member",
   "members": "Members",
   "properties": "Properties",
   "dangerZone": "Danger Zone",
-  "organizationDangerZoneDescription": "Deleting the organization is a permanent action and cannot be undone be careful!"
+  "organizationDangerZoneDescription": "Deleting the organization is a permanent action and cannot be undone be careful!",
+  "invitations": "Invitations",
+  "revoke": "Revoke",
+  "nothingYet": "Nothing yet"
 }

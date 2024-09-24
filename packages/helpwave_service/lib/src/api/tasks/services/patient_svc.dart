@@ -32,7 +32,7 @@ class PatientService {
                   id: task.id,
                   name: task.name,
                   notes: task.description,
-                  status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
+                  status: TasksGRPCTypeConverter.taskStatusFromGRPC(task.status),
                   isPublicVisible: task.public,
                   assigneeId: task.assignedUserId,
                   subtasks: task.subtasks
@@ -103,7 +103,7 @@ class PatientService {
               name: task.name,
               notes: task.description,
               assigneeId: task.assignedUserId,
-              status: GRPCTypeConverter.taskStatusFromGRPC(task.status),
+              status: TasksGRPCTypeConverter.taskStatusFromGRPC(task.status),
               isPublicVisible: task.public,
               subtasks: task.subtasks
                   .map((subtask) => Subtask(

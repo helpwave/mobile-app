@@ -10,6 +10,7 @@ import 'package:helpwave_widget/navigation.dart';
 import 'package:helpwave_widget/text_input.dart';
 import 'package:helpwave_widget/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:tasks/components/bottom_sheet_pages/organization_members_bottom_sheet.dart';
 import 'package:tasks/components/bottom_sheet_pages/wards_bottom_sheet_page.dart';
 import 'package:tasks/screens/settings_screen.dart';
 
@@ -69,7 +70,7 @@ class OrganizationBottomSheetPage extends StatelessWidget {
                         Text(context.localization!.settings, style: context.theme.textTheme.titleMedium),
                         const SizedBox(height: distanceTiny),
                         RoundedListTiles(
-                          items: [
+                          children: [
                             NavigationListTile(
                               icon: Icons.house_rounded,
                               title: context.localization!.wards,
@@ -81,7 +82,7 @@ class OrganizationBottomSheetPage extends StatelessWidget {
                               icon: Icons.person,
                               title: context.localization!.members,
                               onTap: () {
-                                // TODO navigate to members page
+                                NavigationStackController.of(context).push(OrganizationMembersBottomSheetPage(organizationId: organizationId));
                               },
                             ),
                             NavigationListTile(

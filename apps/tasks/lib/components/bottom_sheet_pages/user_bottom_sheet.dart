@@ -63,7 +63,7 @@ class UserBottomSheetPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: distanceBig),
-            RoundedListTiles(items: [
+            RoundedListTiles(children: [
               ListTile(
                 leading: Icon(
                   Icons.house_rounded,

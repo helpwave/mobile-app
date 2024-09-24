@@ -180,8 +180,12 @@
   "shortName": "Abbkürzung",
   "longName": "Name",
   "contactEmail": "Kontakt E-Mail",
+  "member": "Mitglied",
   "members": "Mitglieder",
   "properties": "Eigenschaften",
   "dangerZone": "Gefahrenzone",
-  "organizationDangerZoneDescription": "Vorsicht, das löschen einer Organization ist permanent und kann nicht rückgängig gemacht werden!"
+  "organizationDangerZoneDescription": "Vorsicht, das löschen einer Organization ist permanent und kann nicht rückgängig gemacht werden!",
+  "invitations": "Einladungen",
+  "revoke": "Zurückziehen",
+  "nothingYet": "Bis jetzt noch nichts"
 }

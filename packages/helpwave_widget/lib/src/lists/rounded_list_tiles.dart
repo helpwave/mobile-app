@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/util.dart';
 
 class RoundedListTiles extends StatelessWidget {
-  final List<Widget> items;
+  final List<Widget> children;
 
-  const RoundedListTiles({super.key, required this.items});
+  const RoundedListTiles({super.key, required this.children});
 
   @override
   Widget build(BuildContext context) {
     const double borderRadius = borderRadiusMedium;
+
+    final usedChildren = children.isEmpty
+        ? [
+            SizedBox(
+              height: 60,
+              child: Center(
+                child: Text(context.localization!.nothingYet, style: const TextStyle(fontWeight: FontWeight.w700),),
+              ),
+            )
+          ]
+        : children;
 
     return Container(
       decoration: BoxDecoration(
@@ -25,12 +37,12 @@ class RoundedListTiles extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: List.generate(items.length * 2 - 1, (index) {
-          if(index.isOdd){
+        children: List.generate(usedChildren.length * 2 - 1, (index) {
+          if (index.isOdd) {
             return const Divider();
           }
-          Widget item = items[index ~/ 2];
-          if (index == 0 && items.length == 1) {
+          Widget item = usedChildren[index ~/ 2];
+          if (index == 0 && usedChildren.length == 1) {
             return ClipRRect(
               borderRadius: BorderRadius.circular(borderRadius),
               child: item,
@@ -42,7 +54,7 @@ class RoundedListTiles extends StatelessWidget {
               child: item,
             );
           }
-          if (index == items.length - 1) {
+          if (index == usedChildren.length - 1) {
             return ClipRRect(
               borderRadius: const BorderRadius.vertical(bottom: Radius.circular(borderRadius)),
               child: item,

@@ -5,6 +5,7 @@ import 'package:helpwave_service/src/api/tasks/offline_clients/room_offline_clie
 import 'package:helpwave_service/src/api/tasks/offline_clients/task_offline_client.dart';
 import 'package:helpwave_service/src/api/tasks/offline_clients/template_offline_client.dart';
 import 'package:helpwave_service/src/api/tasks/offline_clients/ward_offline_client.dart';
+import 'package:helpwave_service/src/api/user/offline_clients/invitation_offline_service.dart';
 import 'package:helpwave_service/src/api/user/offline_clients/organization_offline_client.dart';
 import 'package:helpwave_service/src/api/user/offline_clients/user_offline_client.dart';
 import 'package:helpwave_util/lists.dart';
@@ -143,6 +144,7 @@ class OfflineClientStore {
   final SubtaskOfflineService subtaskStore = SubtaskOfflineService();
   final TaskTemplateOfflineService taskTemplateStore = TaskTemplateOfflineService();
   final TaskTemplateSubtaskOfflineService taskTemplateSubtaskStore = TaskTemplateSubtaskOfflineService();
+  final InvitationOfflineService invitationStore = InvitationOfflineService();
 
   void reset() {
     organizationStore.organizations = initialOrganizations;
