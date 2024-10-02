@@ -3,8 +3,8 @@ import 'package:helpwave_theme/constants.dart';
 
 /// A [Widget] for content while its loading
 class PulsingContainer extends StatefulWidget {
-  /// The [Color] of the container
-  final Color color;
+  /// The [Color] of the container defaults to onBackground
+  final Color? color;
 
   /// Minimum opacity of the containers color
   final double minOpacity;
@@ -15,23 +15,27 @@ class PulsingContainer extends StatefulWidget {
   /// The [Duration] from [minOpacity] to [maxOpacity] or vice versa
   final Duration duration;
 
+  /// The constraints of the [Container] overwritten by [height] an [width]
+  final BoxConstraints boxConstraints;
+
   /// The height of the [Container]
-  final double height;
+  final double? height;
 
   /// The width of the [Container]
-  final double width;
+  final double? width;
 
   /// The border radius of the [Container]
   final BorderRadiusGeometry? borderRadius;
 
   const PulsingContainer({
     super.key,
-    this.color = Colors.grey,
-    this.minOpacity = 0.3,
-    this.maxOpacity = 0.8,
+    this.color,
+    this.minOpacity = 0.2,
+    this.maxOpacity = 0.4,
     this.duration = const Duration(seconds: 1),
-    this.height = 16,
-    this.width = 48,
+    this.boxConstraints = const BoxConstraints.expand(height: 16),
+    this.width,
+    this.height,
     this.borderRadius = const BorderRadius.all(Radius.circular(borderRadiusMedium)),
   });
 
@@ -41,7 +45,7 @@ class PulsingContainer extends StatefulWidget {
 
 class _PulsingContainerState extends State<PulsingContainer> with TickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<Color?> _colorAnimation;
+  late Animation<double> _opacityAnimation;
 
   @override
   void initState() {
@@ -52,9 +56,9 @@ class _PulsingContainerState extends State<PulsingContainer> with TickerProvider
       duration: widget.duration,
     );
 
-    _colorAnimation = ColorTween(
-      begin: widget.color.withOpacity(widget.maxOpacity),
-      end: widget.color.withOpacity(widget.minOpacity),
+    _opacityAnimation = Tween<double>(
+      begin: widget.maxOpacity,
+      end: widget.minOpacity,
     ).animate(_controller);
 
     _controller.repeat(reverse: true);
@@ -68,16 +72,23 @@ class _PulsingContainerState extends State<PulsingContainer> with TickerProvider
 
   @override
   Widget build(BuildContext context) {
+    Color baseColor = widget.color ?? Theme.of(context).colorScheme.onBackground;
+
     return AnimatedBuilder(
-      animation: _colorAnimation,
+      animation: _opacityAnimation,
       builder: (context, child) {
+        // Interpolate the color's opacity using the _opacityAnimation value
         return Container(
           decoration: BoxDecoration(
             borderRadius: widget.borderRadius,
-            color: _colorAnimation.value,
+            color: baseColor.withOpacity(_opacityAnimation.value),
           ),
-          width: widget.width,
-          height: widget.height,
+          constraints: widget.boxConstraints.copyWith(
+            minWidth: widget.width,
+            maxWidth: widget.width,
+            minHeight: widget.height,
+            maxHeight: widget.height,
+          ),
         );
       },
     );

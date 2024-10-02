@@ -28,7 +28,7 @@ class WardSelectBottomSheet extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       child: LoadingFutureBuilder(
         loadingWidget: const SizedBox(),
-        data: WardService().getWards(organizationId: organizationId),
+        future: WardService().getWards(organizationId: organizationId),
         thenBuilder: (context, wards) {
           return Flexible(
             child: ListView(

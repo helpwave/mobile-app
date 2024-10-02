@@ -19,7 +19,7 @@ class ListSelect<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LoadingFutureBuilder(
-      data: items,
+      future: Future.value(items),
       thenBuilder: (context, data) => Column(
         children: data.map((item) => builder(context, item, () => onSelect(item))).toList(),
       ),

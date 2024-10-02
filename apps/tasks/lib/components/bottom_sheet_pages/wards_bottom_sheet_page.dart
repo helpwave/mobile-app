@@ -22,7 +22,7 @@ class WardsBottomSheetPage extends StatelessWidget {
       header: BottomSheetHeader.navigation(
         context,
         title: LoadingFutureBuilder(
-          data: OrganizationService().getOrganization(id: organizationId),
+          future: OrganizationService().getOrganization(id: organizationId),
           thenBuilder: (context, data) => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -36,34 +36,28 @@ class WardsBottomSheetPage extends StatelessWidget {
               ),
             ],
           ),
+          loadingWidget: const PulsingContainer(width: 60, height: 40),
         ),
       ),
       child: Flexible(
         child: LoadingFutureBuilder(
-          data: WardService().getWards(organizationId: organizationId),
+          future: WardService().getWards(organizationId: organizationId),
           thenBuilder: (context, data) => ListView(
+            shrinkWrap: true,
             children: [
-              Flexible(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    const SizedBox(height: distanceMedium),
-                    RoundedListTiles(
-                        children: data
-                            .map(
-                              (ward) => NavigationListTile(
-                                icon: Icons.house_rounded,
-                                title: ward.name,
-                                onTap: () {
-                                  NavigationStackController.of(context)
-                                      .push(WardOverviewBottomSheetPage(wardId: ward.id));
-                                },
-                              ),
-                            )
-                            .toList()),
-                  ],
-                ),
-              ),
+              const SizedBox(height: distanceMedium),
+              RoundedListTiles(
+                  children: data
+                      .map(
+                        (ward) => NavigationListTile(
+                          icon: Icons.house_rounded,
+                          title: ward.name,
+                          onTap: () {
+                            NavigationStackController.of(context).push(WardOverviewBottomSheetPage(wardId: ward.id));
+                          },
+                        ),
+                      )
+                      .toList()),
             ],
           ),
         ),

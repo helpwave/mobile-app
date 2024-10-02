@@ -78,7 +78,7 @@ ThemeData lightTheme = makeTheme(
   defaultColor: defaultColor,
 
   // additional
-  brightness: Brightness.dark,
+  brightness: Brightness.light,
 
   // flutter themes
   appBarTheme: sharedAppBarTheme.copyWith(

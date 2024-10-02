@@ -3,57 +3,57 @@ import 'package:helpwave_util/material_state.dart';
 import '../../constants.dart';
 
 // A function to map incoming colors to a theme
-ThemeData makeTheme(
-    {
-    // main colors
-    required Color primaryColor,
-    required Color onPrimaryColor,
-    required Color inversePrimaryColor,
-    required Color secondaryColor,
-    required Color onSecondaryColor,
-    required Color tertiary,
-    required Color onTertiary,
-    required Color errorColor,
-    required Color onErrorColor,
+ThemeData makeTheme({
+  // main colors
+  required Color primaryColor,
+  required Color onPrimaryColor,
+  required Color inversePrimaryColor,
+  required Color secondaryColor,
+  required Color onSecondaryColor,
+  required Color tertiary,
+  required Color onTertiary,
+  required Color errorColor,
+  required Color onErrorColor,
 
-    // background
-    required Color backgroundColor,
-    required Color onBackgroundColor,
+  // background
+  required Color backgroundColor,
+  required Color onBackgroundColor,
 
-    // surfaces
-    required Color surface,
-    required Color onSurface,
-    required Color surfaceVariant,
-    required Color onSurfaceVariant,
-    required Color inverseSurface,
-    required Color onInverseSurface,
+  // surfaces
+  required Color surface,
+  required Color onSurface,
+  required Color surfaceVariant,
+  required Color onSurfaceVariant,
+  required Color inverseSurface,
+  required Color onInverseSurface,
 
-    // container
-    required Color primaryContainer,
-    required Color onPrimaryContainer,
-    required Color secondaryContainer,
-    required Color onSecondaryContainer,
-    required Color tertiaryContainer,
-    required Color onTertiaryContainer,
-    required Color errorContainer,
-    required Color onErrorContainer,
+  // container
+  required Color primaryContainer,
+  required Color onPrimaryContainer,
+  required Color secondaryContainer,
+  required Color onSecondaryContainer,
+  required Color tertiaryContainer,
+  required Color onTertiaryContainer,
+  required Color errorContainer,
+  required Color onErrorContainer,
 
-    // other
-    required Color shadow,
-    required Color outline,
-    required Color disabledColor,
-    required Color onDisabledColor,
-    required Color focusedColor,
-    required Color defaultColor,
+  // other
+  required Color shadow,
+  required Color outline,
+  required Color disabledColor,
+  required Color onDisabledColor,
+  required Color focusedColor,
+  required Color defaultColor,
 
-    // additional parameters
-    required Brightness brightness,
+  // additional parameters
+  required Brightness brightness,
 
-    // flutter themes
-    AppBarTheme appBarTheme = sharedAppBarTheme,
+  // flutter themes
+  AppBarTheme appBarTheme = sharedAppBarTheme,
 
-    // text
-    required Color primaryTextColor}) {
+  // text
+  required Color primaryTextColor,
+}) {
   return ThemeData(
     useMaterial3: true,
     disabledColor: disabledColor,
@@ -109,7 +109,7 @@ ThemeData makeTheme(
       backgroundColor: surface,
     ),
     listTileTheme: ListTileThemeData(
-      iconColor: primaryTextColor,
+      iconColor: primaryColor,
     ),
     appBarTheme: appBarTheme,
     elevatedButtonTheme: ElevatedButtonThemeData(

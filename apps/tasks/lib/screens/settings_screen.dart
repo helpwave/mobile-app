@@ -241,7 +241,7 @@ class SettingsBottomSheetPage extends StatelessWidget {
             const SizedBox(height: distanceMedium),
             titleBuilder(context.localization!.myOrganizations),
             LoadingFutureBuilder(
-              data: OrganizationService().getOrganizationsForUser(),
+              future: OrganizationService().getOrganizationsForUser(),
               thenBuilder: (context, data) {
                 return RoundedListTiles(
                   children: data
@@ -256,6 +256,7 @@ class SettingsBottomSheetPage extends StatelessWidget {
                       .toList(),
                 );
               },
+              loadingWidget: const PulsingContainer(height: 50),
             ),
             const SizedBox(height: distanceMedium),
             titleBuilder(context.localization!.appearance),

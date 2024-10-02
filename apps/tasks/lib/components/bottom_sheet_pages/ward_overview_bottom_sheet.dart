@@ -29,7 +29,7 @@ class WardOverviewBottomSheetPage extends StatelessWidget {
                 children: [
                   Text(context.localization!.rooms, style: context.theme.textTheme.titleMedium),
                   LoadingFutureBuilder(
-                      data: WardService().getWard(id: wardId),
+                      future: WardService().getWard(id: wardId),
                       thenBuilder: (context, ward) {
                         return Text(ward.name, style: TextStyle(color: context.theme.hintColor));
                       }),

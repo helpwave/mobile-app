@@ -31,7 +31,7 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
               width: iconSizeSmall,
               height: iconSizeSmall,
               child: LoadingFutureBuilder(
-                data: UserService().getSelf(),
+                future: UserService().getSelf(),
                 thenBuilder: (context, data) {
                   return CircleAvatar(
                     backgroundColor: Colors.transparent,

@@ -17,7 +17,10 @@ class RoundedListTiles extends StatelessWidget {
             SizedBox(
               height: 60,
               child: Center(
-                child: Text(context.localization!.nothingYet, style: const TextStyle(fontWeight: FontWeight.w700),),
+                child: Text(
+                  context.localization!.nothingYet,
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                ),
               ),
             )
           ]
@@ -41,23 +44,24 @@ class RoundedListTiles extends StatelessWidget {
           if (index.isOdd) {
             return const Divider();
           }
-          Widget item = usedChildren[index ~/ 2];
+          final itemIndex = index ~/ 2;
+          Widget item = usedChildren[itemIndex];
           if (index == 0 && usedChildren.length == 1) {
             return ClipRRect(
               borderRadius: BorderRadius.circular(borderRadius),
-              child: item,
+              child: Material(color: Colors.transparent, child: item),
             );
           }
           if (index == 0) {
             return ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(borderRadius)),
-              child: item,
+              child: Material(color: Colors.transparent, child: item),
             );
           }
-          if (index == usedChildren.length - 1) {
+          if (itemIndex == usedChildren.length - 1) {
             return ClipRRect(
               borderRadius: const BorderRadius.vertical(bottom: Radius.circular(borderRadius)),
-              child: item,
+              child: Material(color: Colors.transparent, child: item),
             );
           }
           return item;

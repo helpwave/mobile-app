@@ -39,76 +39,72 @@ class OrganizationBottomSheetPage extends StatelessWidget {
             child: LoadingAndErrorWidget(
               state: controller.state,
               child: ListView(
+                shrinkWrap: true,
                 children: [
-                  Flexible(
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: [
-                        const SizedBox(height: distanceMedium),
-                        Text(context.localization!.shortName, style: context.theme.textTheme.titleMedium),
-                        const SizedBox(height: distanceTiny),
-                        TextFormFieldWithTimer(
-                          initialValue: controller.organization.shortName,
-                          onUpdate: (value) => controller.update(shortName: value),
-                        ),
-                        const SizedBox(height: distanceMedium),
-                        Text(context.localization!.longName, style: context.theme.textTheme.titleMedium),
-                        const SizedBox(height: distanceTiny),
-                        TextFormFieldWithTimer(
-                          initialValue: controller.organization.longName,
-                          onUpdate: (value) => controller.update(longName: value),
-                        ),
-                        const SizedBox(height: distanceMedium),
-                        Text(context.localization!.contactEmail, style: context.theme.textTheme.titleMedium),
-                        const SizedBox(height: distanceTiny),
-                        TextFormFieldWithTimer(
-                          initialValue: controller.organization.email,
-                          // TODO validation
-                          onUpdate: (value) => controller.update(email: value),
-                        ),
-                        const SizedBox(height: distanceMedium),
-                        Text(context.localization!.settings, style: context.theme.textTheme.titleMedium),
-                        const SizedBox(height: distanceTiny),
-                        RoundedListTiles(
-                          children: [
-                            NavigationListTile(
-                              icon: Icons.house_rounded,
-                              title: context.localization!.wards,
-                              onTap: () {
-                                NavigationStackController.of(context).push(WardsBottomSheetPage(organizationId: organizationId));
-                              },
-                            ),
-                            NavigationListTile(
-                              icon: Icons.person,
-                              title: context.localization!.members,
-                              onTap: () {
-                                NavigationStackController.of(context).push(OrganizationMembersBottomSheetPage(organizationId: organizationId));
-                              },
-                            ),
-                            NavigationListTile(
-                              icon: Icons.label,
-                              title: context.localization!.properties,
-                              onTap: () {
-                                // TODO navigate to properties page
-                              },
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: distanceMedium),
-                        Text(context.localization!.dangerZone, style: context.theme.textTheme.titleMedium),
-                        Text(
-                          context.localization!.organizationDangerZoneDescription,
-                          style: TextStyle(color: context.theme.hintColor),
-                        ),
-                        PressableText(
-                          text: "${context.localization!.delete} ${context.localization!.organization}",
-                          style: const TextStyle(color: Colors.red, fontWeight: FontWeight.w700), // TODO get from theme
-                          onPressed: () {
-                            // TODO show modal and delete organization
-                          },
-                        ),
-                      ],
-                    ),
+                  const SizedBox(height: distanceMedium),
+                  Text(context.localization!.shortName, style: context.theme.textTheme.titleMedium),
+                  const SizedBox(height: distanceTiny),
+                  TextFormFieldWithTimer(
+                    initialValue: controller.organization.shortName,
+                    onUpdate: (value) => controller.update(shortName: value),
+                  ),
+                  const SizedBox(height: distanceMedium),
+                  Text(context.localization!.longName, style: context.theme.textTheme.titleMedium),
+                  const SizedBox(height: distanceTiny),
+                  TextFormFieldWithTimer(
+                    initialValue: controller.organization.longName,
+                    onUpdate: (value) => controller.update(longName: value),
+                  ),
+                  const SizedBox(height: distanceMedium),
+                  Text(context.localization!.contactEmail, style: context.theme.textTheme.titleMedium),
+                  const SizedBox(height: distanceTiny),
+                  TextFormFieldWithTimer(
+                    initialValue: controller.organization.email,
+                    // TODO validation
+                    onUpdate: (value) => controller.update(email: value),
+                  ),
+                  const SizedBox(height: distanceMedium),
+                  Text(context.localization!.settings, style: context.theme.textTheme.titleMedium),
+                  const SizedBox(height: distanceTiny),
+                  RoundedListTiles(
+                    children: [
+                      NavigationListTile(
+                        icon: Icons.house_rounded,
+                        title: context.localization!.wards,
+                        onTap: () {
+                          NavigationStackController.of(context)
+                              .push(WardsBottomSheetPage(organizationId: organizationId));
+                        },
+                      ),
+                      NavigationListTile(
+                        icon: Icons.person,
+                        title: context.localization!.members,
+                        onTap: () {
+                          NavigationStackController.of(context)
+                              .push(OrganizationMembersBottomSheetPage(organizationId: organizationId));
+                        },
+                      ),
+                      NavigationListTile(
+                        icon: Icons.label,
+                        title: context.localization!.properties,
+                        onTap: () {
+                          // TODO navigate to properties page
+                        },
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: distanceMedium),
+                  Text(context.localization!.dangerZone, style: context.theme.textTheme.titleMedium),
+                  Text(
+                    context.localization!.organizationDangerZoneDescription,
+                    style: TextStyle(color: context.theme.hintColor),
+                  ),
+                  PressableText(
+                    text: "${context.localization!.delete} ${context.localization!.organization}",
+                    style: const TextStyle(color: Colors.red, fontWeight: FontWeight.w700), // TODO get from theme
+                    onPressed: () {
+                      // TODO show modal and delete organization
+                    },
                   ),
                 ],
               ),

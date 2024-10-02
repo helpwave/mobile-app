@@ -154,7 +154,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
               Center(
                 child: Consumer<PatientController>(builder: (context, patientController, _) {
                   return LoadingFutureBuilder(
-                    data: loadRoomsWithBeds(patientController.patient.id),
+                    future: loadRoomsWithBeds(patientController.patient.id),
                     // TODO use a better loading widget
                     loadingWidget: const SizedBox(),
                     thenBuilder: (context, beds) {

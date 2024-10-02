@@ -172,7 +172,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                     child: !taskController.isCreating
                         ? Text(taskController.patient.name)
                         : LoadingFutureBuilder(
-                            data: PatientService().getPatientList(),
+                            future: PatientService().getPatientList(),
                             loadingWidget: const PulsingContainer(),
                             thenBuilder: (context, patientList) {
                               List<Patient> patients = patientList.active + patientList.unassigned;
