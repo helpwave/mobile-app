@@ -12,14 +12,14 @@ import 'package:tasks/screens/login_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  CurrentWardService().devMode = true;
+  CurrentWardService().devMode = isUsingOfflineClients;
   TasksAPIServiceClients()
     ..apiUrl = usedAPIURL
-    ..offlineMode = true;
+    ..offlineMode = isUsingOfflineClients;
   UserAPIServiceClients()
     ..apiUrl = usedAPIURL
-    ..offlineMode = true;
-  UserSessionService().changeMode(devMode);
+    ..offlineMode = isUsingOfflineClients;
+  UserSessionService().changeMode(isUsingDevModeLogin);
   runApp(const MyApp());
 }
 
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           create: (_) => LanguageModel(),
         ),
         ChangeNotifierProvider(
-          create: (_) => CurrentWardController(devMode: devMode),
+          create: (_) => CurrentWardController(devMode: isUsingDevModeLogin),
         ),
         ChangeNotifierProvider(
           create: (_) => UserSessionController(),

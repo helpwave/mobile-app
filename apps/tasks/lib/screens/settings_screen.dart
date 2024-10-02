@@ -242,14 +242,13 @@ class SettingsBottomSheetPage extends StatelessWidget {
             titleBuilder(context.localization!.myOrganizations),
             LoadingFutureBuilder(
               data: OrganizationService().getOrganizationsForUser(),
-              thenWidgetBuilder: (context, data) {
+              thenBuilder: (context, data) {
                 return RoundedListTiles(
                   children: data
                       .map((organization) => NavigationListTile(
                             icon: Icons.apartment_rounded,
                             title: organization.longName,
                             onTap: () {
-                              print("tap");
                               NavigationStackController.of(context)
                                   .push(OrganizationBottomSheetPage(organizationId: organization.id));
                             },

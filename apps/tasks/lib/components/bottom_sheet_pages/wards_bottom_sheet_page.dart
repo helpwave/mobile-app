@@ -7,6 +7,8 @@ import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/lists.dart';
 import 'package:helpwave_widget/loading.dart';
+import 'package:helpwave_widget/navigation.dart';
+import 'package:tasks/components/bottom_sheet_pages/ward_overview_bottom_sheet.dart';
 import 'package:tasks/screens/settings_screen.dart';
 
 class WardsBottomSheetPage extends StatelessWidget {
@@ -21,7 +23,7 @@ class WardsBottomSheetPage extends StatelessWidget {
         context,
         title: LoadingFutureBuilder(
           data: OrganizationService().getOrganization(id: organizationId),
-          thenWidgetBuilder: (context, data) => Column(
+          thenBuilder: (context, data) => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
@@ -39,7 +41,7 @@ class WardsBottomSheetPage extends StatelessWidget {
       child: Flexible(
         child: LoadingFutureBuilder(
           data: WardService().getWards(organizationId: organizationId),
-          thenWidgetBuilder: (context, data) => ListView(
+          thenBuilder: (context, data) => ListView(
             children: [
               Flexible(
                 child: ListView(
@@ -53,7 +55,8 @@ class WardsBottomSheetPage extends StatelessWidget {
                                 icon: Icons.house_rounded,
                                 title: ward.name,
                                 onTap: () {
-                                  // TODO navigate to ward view
+                                  NavigationStackController.of(context)
+                                      .push(WardOverviewBottomSheetPage(wardId: ward.id));
                                 },
                               ),
                             )

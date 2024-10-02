@@ -70,9 +70,9 @@ final List<RoomWithWardId> initialRooms = initialWards
         .map((index) => RoomWithWardId(id: "${ward.id}${index + 1}", name: "Room ${index + 1}", wardId: ward.id)))
     .expand((element) => element)
     .toList();
-final List<BedWithRoomId> initialBeds = initialRooms
+final List<Bed> initialBeds = initialRooms
     .map((room) => range(0, 4)
-        .map((index) => BedWithRoomId(id: "${room.id}${index + 1}", name: "Bed ${index + 1}", roomId: room.id)))
+        .map((index) => Bed(id: "${room.id}${index + 1}", name: "Bed ${index + 1}", roomId: room.id)))
     .expand((element) => element)
     .toList();
 final List<PatientWithBedId> initialPatients = initialBeds.indexed

@@ -22,6 +22,7 @@ class _WardSelectScreen extends State<WardSelectScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text(context.localization!.selectWard),
@@ -75,14 +76,14 @@ class _WardSelectScreen extends State<WardSelectScreen> {
             trailing: const Icon(Icons.arrow_forward),
             onTap: organization == null
                 ? null
-                : () => Navigator.push<WardOverview?>(
+                : () => Navigator.push<WardMinimal?>(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ListSearch<WardOverview>(
+                        builder: (context) => ListSearch<WardMinimal>(
                           title: context.localization!.ward,
                           asyncItems: (_) async =>
-                              await WardService().getWardOverviews(organizationId: organization!.id),
-                          elementToString: (WardOverview ward) => ward.name,
+                              await WardService().getWards(organizationId: organization!.id),
+                          elementToString: (WardMinimal ward) => ward.name,
                         ),
                       ),
                     ).then((value) {

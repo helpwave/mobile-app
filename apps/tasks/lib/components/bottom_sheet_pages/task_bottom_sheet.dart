@@ -174,7 +174,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                         : LoadingFutureBuilder(
                             data: PatientService().getPatientList(),
                             loadingWidget: const PulsingContainer(),
-                            thenWidgetBuilder: (context, patientList) {
+                            thenBuilder: (context, patientList) {
                               List<Patient> patients = patientList.active + patientList.unassigned;
                               return DropdownButton(
                                 underline: const SizedBox(),

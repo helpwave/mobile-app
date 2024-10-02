@@ -10,7 +10,7 @@ class LoadingFutureBuilder<T> extends StatelessWidget {
   final FutureOr<T> data;
 
   /// The Builder for the [Widget] upon an successful [FutureOr]
-  final Widget Function(BuildContext context, T data) thenWidgetBuilder;
+  final Widget Function(BuildContext context, T data) thenBuilder;
 
   /// The Builder for the [Widget] when loading the [FutureOr]
   final Widget loadingWidget;
@@ -21,7 +21,7 @@ class LoadingFutureBuilder<T> extends StatelessWidget {
   const LoadingFutureBuilder({
     super.key,
     required this.data,
-    required this.thenWidgetBuilder,
+    required this.thenBuilder,
     this.loadingWidget = const LoadingSpinner(),
     this.errorWidget = const LoadErrorWidget(),
   });
@@ -44,11 +44,11 @@ class LoadingFutureBuilder<T> extends StatelessWidget {
             errorWidget: Center(child: errorWidget),
             loadingWidget: Center(child: loadingWidget),
             // Safety check because typecast may fail otherwise
-            child: snapshot.data != null ? thenWidgetBuilder(context, snapshot.data as T) : const SizedBox(),
+            child: snapshot.data != null ? thenBuilder(context, snapshot.data as T) : const SizedBox(),
           );
         },
       );
     }
-    return thenWidgetBuilder(context, data as T);
+    return thenBuilder(context, data as T);
   }
 }

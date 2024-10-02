@@ -1,4 +1,5 @@
 import 'package:grpc/grpc.dart';
+import 'package:helpwave_proto_dart/services/tasks_svc/v1/bed_svc.pbgrpc.dart';
 import 'package:helpwave_proto_dart/services/tasks_svc/v1/ward_svc.pbgrpc.dart';
 import 'package:helpwave_proto_dart/services/tasks_svc/v1/patient_svc.pbgrpc.dart';
 import 'package:helpwave_proto_dart/services/tasks_svc/v1/room_svc.pbgrpc.dart';
@@ -7,6 +8,7 @@ import 'package:helpwave_service/src/api/tasks/offline_clients/patient_offline_c
 import 'package:helpwave_service/src/api/tasks/offline_clients/ward_offline_client.dart';
 import 'package:helpwave_service/src/auth/index.dart';
 
+import 'offline_clients/bed_offline_client.dart';
 import 'offline_clients/room_offline_client.dart';
 import 'offline_clients/task_offline_client.dart';
 
@@ -31,7 +33,7 @@ class TasksAPIServiceClients {
   Map<String, String> getMetaData({String? organizationId}) {
     var metaData = {
       ...AuthenticationUtility.authMetaData,
-      "dapr-app-id": "task-svc",
+      "dapr-app-id": "tasks-svc",
     };
 
     if (organizationId != null) {
@@ -51,6 +53,9 @@ class TasksAPIServiceClients {
 
   RoomServiceClient get roomServiceClient =>
       offlineMode ? RoomOfflineClient(serviceChannel) : RoomServiceClient(serviceChannel);
+
+  BedServiceClient get bedServiceClient =>
+      offlineMode ? BedOfflineClient(serviceChannel) : BedServiceClient(serviceChannel);
 
   TaskServiceClient get taskServiceClient =>
       offlineMode ? TaskOfflineClient(serviceChannel) : TaskServiceClient(serviceChannel);

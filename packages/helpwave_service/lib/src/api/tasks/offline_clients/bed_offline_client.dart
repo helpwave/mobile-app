@@ -13,9 +13,9 @@ class BedUpdate {
 }
 
 class BedOfflineService {
-  List<BedWithRoomId> beds = [];
+  List<Bed> beds = [];
 
-  BedWithRoomId? findBed(String id) {
+  Bed? findBed(String id) {
     int index = OfflineClientStore().bedStore.beds.indexWhere((value) => value.id == id);
     if (index == -1) {
       return null;
@@ -23,7 +23,7 @@ class BedOfflineService {
     return beds[index];
   }
 
-  List<BedWithRoomId> findBeds([String? roomId]) {
+  List<Bed> findBeds([String? roomId]) {
     final valueStore = OfflineClientStore().bedStore;
     if (roomId == null) {
       return valueStore.beds;
@@ -31,7 +31,7 @@ class BedOfflineService {
     return valueStore.beds.where((value) => value.roomId == roomId).toList();
   }
 
-  void create(BedWithRoomId bed) {
+  void create(Bed bed) {
     OfflineClientStore().bedStore.beds.add(bed);
   }
 
@@ -42,7 +42,7 @@ class BedOfflineService {
     valueStore.beds = valueStore.beds.map((value) {
       if (value.id == bed.id) {
         found = true;
-        return BedWithRoomId(id: bed.id, name: bed.name ?? value.name, roomId: value.roomId);
+        return Bed(id: bed.id, name: bed.name ?? value.name, roomId: value.roomId);
       }
       return value;
     }).toList();
@@ -62,8 +62,8 @@ class BedOfflineService {
   }
 }
 
-class BedServicePromiseClient extends BedServiceClient {
-  BedServicePromiseClient(super.channel);
+class BedOfflineClient extends BedServiceClient {
+  BedOfflineClient(super.channel);
 
   @override
   ResponseFuture<GetBedResponse> getBed(GetBedRequest request, {CallOptions? options}) {
@@ -125,7 +125,7 @@ class BedServicePromiseClient extends BedServiceClient {
 
   @override
   ResponseFuture<CreateBedResponse> createBed(CreateBedRequest request, {CallOptions? options}) {
-    final newBed = BedWithRoomId(
+    final newBed = Bed(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: request.name,
       roomId: request.roomId,
@@ -141,7 +141,7 @@ class BedServicePromiseClient extends BedServiceClient {
   @override
   ResponseFuture<BulkCreateBedsResponse> bulkCreateBeds(BulkCreateBedsRequest request, {CallOptions? options}) {
     final beds = range(0, request.amountOfBeds)
-        .map((index) => BedWithRoomId(
+        .map((index) => Bed(
               id: DateTime.now().millisecondsSinceEpoch.toString(),
               name: "New Bed ${index + 1}",
               roomId: request.roomId,

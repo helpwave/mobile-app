@@ -36,7 +36,7 @@ class UserBottomSheetPage extends StatelessWidget {
               padding: const EdgeInsets.all(paddingSmall).copyWith(top: paddingMedium),
               child: LoadingFutureBuilder(
                 data: UserService().getSelf(),
-                thenWidgetBuilder: (context, data) {
+                thenBuilder: (context, data) {
                   return CircleAvatar(
                     backgroundColor: Colors.transparent,
                     radius: iconSizeMedium,

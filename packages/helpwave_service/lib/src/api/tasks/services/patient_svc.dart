@@ -136,9 +136,10 @@ class PatientService {
           name: room.id,
           beds: beds.map((bed) {
             var patient = bed.patient;
-            return BedWithMinimalPatient(
+            return Bed(
               id: bed.id,
               name: bed.name,
+              roomId: room.id,
               patient: patient.isInitialized() ? PatientMinimal(id: patient.id, name: patient.name) : null,
             );
           }).toList());

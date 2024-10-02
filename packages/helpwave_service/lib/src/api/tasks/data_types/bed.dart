@@ -1,6 +1,6 @@
 import 'package:helpwave_service/src/api/tasks/index.dart';
 
-/// data class for [Bed]
+/// Data class for a [Bed]
 class BedMinimal {
   String id;
   String name;
@@ -9,20 +9,18 @@ class BedMinimal {
     required this.id,
     required this.name,
   });
+
+  bool get isCreating => id == "";
 }
 
-class BedWithRoomId extends BedMinimal {
+class Bed extends BedMinimal {
+  PatientMinimal? patient;
   String roomId;
 
-  BedWithRoomId({required super.id, required super.name, required this.roomId});
-}
-
-class BedWithMinimalPatient extends BedMinimal{
-  PatientMinimal? patient;
-
-  BedWithMinimalPatient({
+  Bed({
     required super.id,
     required super.name,
-    required this.patient,
+    required this.roomId,
+    this.patient,
   });
 }

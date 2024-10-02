@@ -32,7 +32,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
 
     List<RoomWithBedFlat> flattenedRooms = [];
     for (RoomWithBedWithMinimalPatient room in rooms) {
-      for (BedWithMinimalPatient bed in room.beds) {
+      for (Bed bed in room.beds) {
         // TODO reconsider the filter to allow switching to bed the patient is in
         if (bed.patient == null || bed.patient?.id == patientId) {
           flattenedRooms.add(RoomWithBedFlat(room: room, bed: bed));
@@ -157,7 +157,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                     data: loadRoomsWithBeds(patientController.patient.id),
                     // TODO use a better loading widget
                     loadingWidget: const SizedBox(),
-                    thenWidgetBuilder: (context, beds) {
+                    thenBuilder: (context, beds) {
                       if (beds.isEmpty) {
                         return Text(
                           context.localization!.noFreeBeds,

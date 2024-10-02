@@ -129,7 +129,6 @@ class PatientOfflineClient extends PatientServiceClient {
     if (room == null) {
       return MockResponseFuture.value(response);
     }
-    response.bedId = patient.bedId!;
     response.bed = GetPatientResponse_Bed(id: bed.id, name: bed.name);
     response.room = GetPatientResponse_Room(id: room.id, name: room.name);
     return MockResponseFuture.value(response);

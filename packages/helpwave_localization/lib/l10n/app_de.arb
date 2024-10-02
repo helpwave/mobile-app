@@ -187,5 +187,9 @@
   "organizationDangerZoneDescription": "Vorsicht, das löschen einer Organization ist permanent und kann nicht rückgängig gemacht werden!",
   "invitations": "Einladungen",
   "revoke": "Zurückziehen",
-  "nothingYet": "Bis jetzt noch nichts"
+  "nothingYet": "Bis jetzt noch nichts",
+  "add": "Hinzufügen",
+  "new_": "Neu",
+  "newRoom": "Neuer Raum",
+  "newBed": "Neues Bett"
 }

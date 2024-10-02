@@ -20,7 +20,7 @@ class ListSelect<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return LoadingFutureBuilder(
       data: items,
-      thenWidgetBuilder: (context, data) => Column(
+      thenBuilder: (context, data) => Column(
         children: data.map((item) => builder(context, item, () => onSelect(item))).toList(),
       ),
     );

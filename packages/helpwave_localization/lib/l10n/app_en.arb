@@ -187,5 +187,9 @@
   "organizationDangerZoneDescription": "Deleting the organization is a permanent action and cannot be undone be careful!",
   "invitations": "Invitations",
   "revoke": "Revoke",
-  "nothingYet": "Nothing yet"
+  "nothingYet": "Nothing yet",
+  "add": "Add",
+  "new_": "New",
+  "newRoom": "New Room",
+  "newBed": "New Bed"
 }

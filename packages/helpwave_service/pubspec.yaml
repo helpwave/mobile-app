@@ -17,7 +17,7 @@ dependencies:
   flutter_secure_storage: 9.0.0
   jose: ^0.3.4
   logger: ^2.0.2+1
-  helpwave_proto_dart: ^0.46.0-336429a
+  helpwave_proto_dart: ^0.50.0-de87640
   grpc: ^3.2.4
   helpwave_util:
     path: "../helpwave_util"

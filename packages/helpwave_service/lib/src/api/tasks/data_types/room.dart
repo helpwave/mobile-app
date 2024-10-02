@@ -9,6 +9,8 @@ class RoomMinimal {
     required this.id,
     required this.name,
   });
+
+  bool get isCreating => id == "";
 }
 
 class RoomWithWardId extends RoomMinimal {
@@ -60,7 +62,7 @@ class RoomWithBedFlat {
 }
 
 class RoomWithBedWithMinimalPatient extends RoomMinimal {
-  List<BedWithMinimalPatient> beds;
+  List<Bed> beds;
 
   RoomWithBedWithMinimalPatient({
     required super.id,
