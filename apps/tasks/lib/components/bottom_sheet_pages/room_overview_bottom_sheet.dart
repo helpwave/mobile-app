@@ -63,7 +63,26 @@ class RoomOverviewBottomSheetPage extends StatelessWidget {
                 },
               ),
               const SizedBox(height: distanceMedium),
-              Text(context.localization!.beds, style: context.theme.textTheme.titleSmall),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(context.localization!.beds, style: context.theme.textTheme.titleSmall),
+                  Consumer<BedsController>(
+                    builder: (context, controller, _) {
+                      return LoadingAndErrorWidget(
+                        state: controller.state,
+                        loadingWidget: const PulsingContainer(width: 40),
+                        child: TextButton(
+                          onPressed: () => {
+                            controller.create(Bed(id: "", name: context.localization!.newBed, roomId: roomId))
+                          },
+                          child: Text("+ ${context.localization!.add} ${context.localization!.bed}"),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
               const SizedBox(height: distanceTiny),
               Consumer<BedsController>(
                 builder: (context, controller, _) {
