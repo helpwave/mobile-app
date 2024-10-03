@@ -3,7 +3,6 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/dialog.dart';
-import 'package:tasks/dataclasses/task.dart';
 
 /// A [BottomSheet] to change the visibility
 class _VisibilityBottomSheet extends StatelessWidget {
@@ -26,29 +25,29 @@ class _VisibilityBottomSheet extends StatelessWidget {
         top: paddingMedium,
         bottom: paddingBig,
       ),
-      titleText: context.localization!.visibility,
-      builder: (context) {
-        return Column(
-          children: [
-            const SizedBox(height: distanceSmall),
-            GestureDetector(
-              onTap: () {
-                onChange(true);
-                Navigator.of(context).pop();
-              },
-              child: Text(context.localization!.public, style: style),
-            ),
-            const SizedBox(height: distanceSmall),
-            GestureDetector(
-              onTap: () {
-                onChange(false);
-                Navigator.of(context).pop();
-              },
-              child: Text(context.localization!.private, style: style),
-            ),
-          ],
-        );
-      },
+      header: BottomSheetHeader(
+        titleText: context.localization!.visibility,
+      ),
+      child: ListView(
+        children: [
+          const SizedBox(height: distanceSmall),
+          GestureDetector(
+            onTap: () {
+              onChange(true);
+              Navigator.of(context).pop();
+            },
+            child: Text(context.localization!.public, style: style),
+          ),
+          const SizedBox(height: distanceSmall),
+          GestureDetector(
+            onTap: () {
+              onChange(false);
+              Navigator.of(context).pop();
+            },
+            child: Text(context.localization!.private, style: style),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -4,7 +4,9 @@ const minimumPasswordCharacters = 6;
 /// Whether the development mode should be enabled
 ///
 /// Shortens the login
-const bool devMode = false;
+const bool isUsingDevModeLogin = true;
+
+const bool isUsingOfflineClients = false;
 
 /// The API for testing
 const String stagingAPIURL = "staging.api.helpwave.de";
@@ -13,4 +15,4 @@ const String stagingAPIURL = "staging.api.helpwave.de";
 const String productionAPIURL = "api.helpwave.de";
 
 /// The API to be used
-const String usedAPIURL = devMode ? stagingAPIURL : productionAPIURL;
+const String usedAPIURL = isUsingDevModeLogin ? stagingAPIURL : productionAPIURL;
