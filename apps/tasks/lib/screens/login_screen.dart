@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:helpwave_service/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/screens/landing_screen.dart';
 import 'package:tasks/screens/main_screen.dart';
-import '../controllers/user_session_controller.dart';
 
 /// A Screen for forcing the User to login or be logged in
 ///

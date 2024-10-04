@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/src/theme_preferences.dart';
+import 'package:helpwave_theme/src/util/context_extension.dart';
 
 /// Model for the Color Theme
 ///
@@ -40,7 +41,7 @@ class ThemeModel extends ChangeNotifier {
   /// Uses the [BuildContext] to determine the [Theme]'s brightness, which
   /// corresponds to the System setting
   bool getIsDarkNullSafe(BuildContext context) =>
-      isDark ?? Theme.of(context).brightness == Brightness.dark;
+      isDark ?? context.theme.brightness == Brightness.dark;
 
   /// Load the preferences with the [ThemePreferences]
   getPreferences() async {
