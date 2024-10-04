@@ -1,1 +1,1 @@
-export 'package:helpwave_util/src/lists/range.dart';
+export 'package:helpwave_util/src/lists/index.dart';

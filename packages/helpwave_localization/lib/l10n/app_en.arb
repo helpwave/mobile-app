@@ -135,6 +135,7 @@
   "upcoming": "Upcoming",
   "inProgress": "In Progress",
   "done": "Done",
+  "subtask": "Subtask",
   "subtasks": "Subtasks",
   "notes": "Notes",
   "yourNotes": "Your Notes",
@@ -191,5 +192,6 @@
   "add": "Add",
   "new_": "New",
   "newRoom": "New Room",
-  "newBed": "New Bed"
+  "newBed": "New Bed",
+  "taskTemplates": "Task Templates"
 }

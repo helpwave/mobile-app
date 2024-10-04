@@ -8,6 +8,18 @@ class WardMinimal {
     required this.name,
   });
 
+  bool get isCreating => id == "";
+
+  WardMinimal copyWith({
+    String? id,
+    String? name,
+  }) {
+    return WardMinimal(
+      id: id ?? this.id,
+      name: name ?? this.name,
+    );
+  }
+
   @override
   String toString() {
     return "{id: $id, name: $name}";

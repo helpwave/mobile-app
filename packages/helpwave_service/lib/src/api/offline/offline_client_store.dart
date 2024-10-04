@@ -106,14 +106,14 @@ final List<TaskTemplate> initialTaskTemplates = range(0, 5)
         .map((index) => TaskTemplate(
               id: "template$index",
               name: "template${index + 1}",
-              notes: "",
+              description: "",
             ))
         .toList() +
     initialWards
         .map((ward) => TaskTemplate(
               id: "wardTemplate${ward.id}",
               name: "Ward ${ward.name} Template",
-              notes: "",
+              description: "",
               wardId: ward.id,
             ))
         .toList();

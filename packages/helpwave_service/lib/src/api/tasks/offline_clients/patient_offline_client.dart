@@ -205,7 +205,7 @@ class PatientOfflineClient extends PatientServiceClient {
     mapping(patient) {
       final res = GetPatientListResponse_Patient(
         id: patient.id,
-        notes: patient.notes,
+        notes: patient.description,
         humanReadableIdentifier: patient.name,
         tasks: OfflineClientStore().taskStore.findTasks(patient.id).map((task) => GetPatientListResponse_Task(
           id: task.id,

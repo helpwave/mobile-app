@@ -7,9 +7,9 @@ import 'package:helpwave_service/src/api/tasks/data_types/index.dart';
 class TaskTemplateUpdate {
   String id;
   String? name;
-  String? notes;
+  String? description;
 
-  TaskTemplateUpdate({required this.id, this.name, this.notes});
+  TaskTemplateUpdate({required this.id, this.name, this.description});
 }
 
 class TaskSubtaskTemplateUpdate {
@@ -49,7 +49,7 @@ class TaskTemplateOfflineService {
         found = true;
         return value.copyWith(
           name: taskTemplateUpdate.name,
-          notes: taskTemplateUpdate.notes,
+          description: taskTemplateUpdate.description,
         );
       }
       return value;
@@ -111,8 +111,8 @@ class TaskTemplateSubtaskOfflineService {
   }
 }
 
-class TaskTemplateServicePromiseClient extends TaskTemplateServiceClient {
-  TaskTemplateServicePromiseClient(super.channel);
+class TaskTemplateOfflineClient extends TaskTemplateServiceClient {
+  TaskTemplateOfflineClient(super.channel);
 
   @override
   ResponseFuture<GetAllTaskTemplatesResponse> getAllTaskTemplates(GetAllTaskTemplatesRequest request,
@@ -137,7 +137,7 @@ class TaskTemplateServicePromiseClient extends TaskTemplateServiceClient {
           id: template.id,
           name: template.name,
           createdBy: template.createdBy,
-          description: template.notes,
+          description: template.description,
           isPublic: template.isPublicVisible,
           subtasks: OfflineClientStore()
               .taskTemplateSubtaskStore
@@ -157,7 +157,7 @@ class TaskTemplateServicePromiseClient extends TaskTemplateServiceClient {
     final newTaskTemplate = TaskTemplate(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: request.name,
-      notes: request.description,
+      description: request.description,
       wardId: request.hasWardId() ? request.wardId : null,
       createdBy: OfflineClientStore().userStore.users[0].id,
     );
@@ -166,13 +166,13 @@ class TaskTemplateServicePromiseClient extends TaskTemplateServiceClient {
     for (var templateSubtask in request.subtasks) {
       OfflineClientStore().taskTemplateSubtaskStore.create(Subtask(
             id: DateTime.now().millisecondsSinceEpoch.toString(),
-            taskId: newTaskTemplate.id,
+            taskId: newTaskTemplate.id!,
             name: templateSubtask.name,
             isDone: false,
           ));
     }
 
-    final response = CreateTaskTemplateResponse()..id = newTaskTemplate.id;
+    final response = CreateTaskTemplateResponse()..id = newTaskTemplate.id!;
 
     return MockResponseFuture.value(response);
   }

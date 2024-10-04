@@ -8,7 +8,7 @@ import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/lists.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:helpwave_widget/navigation.dart';
-import 'package:tasks/components/bottom_sheet_pages/ward_overview_bottom_sheet.dart';
+import 'package:tasks/components/bottom_sheet_pages/ward_bottom_sheet.dart';
 import 'package:tasks/screens/settings_screen.dart';
 
 class WardsBottomSheetPage extends StatelessWidget {
@@ -53,7 +53,7 @@ class WardsBottomSheetPage extends StatelessWidget {
                           icon: Icons.house_rounded,
                           title: ward.name,
                           onTap: () {
-                            NavigationStackController.of(context).push(WardOverviewBottomSheetPage(wardId: ward.id));
+                            NavigationStackController.of(context).push(WardBottomSheetPage(wardId: ward.id));
                           },
                         ),
                       )

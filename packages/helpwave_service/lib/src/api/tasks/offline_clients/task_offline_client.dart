@@ -295,7 +295,7 @@ class TaskOfflineClient extends TaskServiceClient {
     mapping(task) => GetTasksByPatientSortedByStatusResponse_Task(
           id: task.id,
           name: task.name,
-          description: task.notes,
+          description: task.description,
           dueAt: task.dueDate == null ? null : Timestamp.fromDateTime(task.dueDate!),
           createdBy: task.createdBy,
           createdAt: task.creationDate == null ? null : Timestamp.fromDateTime(task.creationDate!),

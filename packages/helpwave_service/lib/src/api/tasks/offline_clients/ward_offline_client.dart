@@ -59,7 +59,7 @@ class WardOfflineService {
     });
     final taskTemplates = OfflineClientStore().taskTemplateStore.findTaskTemplates(wardId);
     for (var element in taskTemplates) {
-      OfflineClientStore().taskTemplateStore.delete(element.id);
+      OfflineClientStore().taskTemplateStore.delete(element.id!);
     }
   }
 }

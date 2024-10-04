@@ -1,10 +1,12 @@
 import 'package:grpc/grpc.dart';
+import 'package:helpwave_proto_dart/services/tasks_svc/v1/task_template_svc.pbgrpc.dart';
 import 'package:helpwave_proto_dart/services/tasks_svc/v1/bed_svc.pbgrpc.dart';
 import 'package:helpwave_proto_dart/services/tasks_svc/v1/ward_svc.pbgrpc.dart';
 import 'package:helpwave_proto_dart/services/tasks_svc/v1/patient_svc.pbgrpc.dart';
 import 'package:helpwave_proto_dart/services/tasks_svc/v1/room_svc.pbgrpc.dart';
 import 'package:helpwave_proto_dart/services/tasks_svc/v1/task_svc.pbgrpc.dart';
 import 'package:helpwave_service/src/api/tasks/offline_clients/patient_offline_client.dart';
+import 'package:helpwave_service/src/api/tasks/offline_clients/template_offline_client.dart';
 import 'package:helpwave_service/src/api/tasks/offline_clients/ward_offline_client.dart';
 import 'package:helpwave_service/src/auth/index.dart';
 
@@ -59,4 +61,7 @@ class TasksAPIServiceClients {
 
   TaskServiceClient get taskServiceClient =>
       offlineMode ? TaskOfflineClient(serviceChannel) : TaskServiceClient(serviceChannel);
+
+  TaskTemplateServiceClient get taskTemplatesServiceClient =>
+      offlineMode ? TaskTemplateOfflineClient(serviceChannel) : TaskTemplateServiceClient(serviceChannel);
 }

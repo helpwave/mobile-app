@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import '../../loading.dart';
 
 /// A [ChangeNotifier] that manages a [LoadingState] to indicate to components what state they should show
@@ -27,6 +28,9 @@ class LoadingChangeNotifier extends ChangeNotifier {
     bool success = false;
     defaultErrorHandler(errorObj, _) async {
       error = errorObj.toString();
+      if (kDebugMode) { // TODO use logger
+        print(error);
+      }
       return false;
     }
 

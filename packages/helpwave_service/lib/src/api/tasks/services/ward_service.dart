@@ -12,7 +12,7 @@ class WardService {
   WardServiceClient wardService = TasksAPIServiceClients().wardServiceClient;
 
   /// Loads a [WardMinimal] by its identifier
-  Future<WardMinimal> getWard({required String id}) async {
+  Future<WardMinimal> get({required String id}) async {
     GetWardRequest request = GetWardRequest(id: id);
     GetWardResponse response = await wardService.getWard(
       request,
@@ -60,5 +60,33 @@ class WardService {
         .toList();
   }
 
-  // TODO ward requests
+  Future<WardMinimal> create({required WardMinimal ward}) async {
+    CreateWardRequest request = CreateWardRequest(name: ward.name);
+    CreateWardResponse response = await wardService.createWard(
+      request,
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
+    );
+
+    return ward.copyWith(id: response.id);
+  }
+
+  Future<bool> update({required String id, String? name}) async {
+    UpdateWardRequest request = UpdateWardRequest(id: id, name: name);
+    await wardService.updateWard(
+      request,
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
+    );
+
+    return true;
+  }
+
+  Future<bool> delete({required String id}) async {
+    DeleteWardRequest request = DeleteWardRequest(id: id);
+    await wardService.deleteWard(
+      request,
+      options: CallOptions(metadata: TasksAPIServiceClients().getMetaData()),
+    );
+
+    return true;
+  }
 }

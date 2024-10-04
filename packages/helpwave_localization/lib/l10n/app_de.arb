@@ -135,6 +135,7 @@
   "upcoming": "Todo",
   "inProgress": "In Arbeit",
   "done": "Fertig",
+  "subtask": "Subtask",
   "subtasks": "Subtasks",
   "notes": "Notizen",
   "yourNotes": "Deine Notizen,",
@@ -191,5 +192,6 @@
   "add": "Hinzufügen",
   "new_": "Neu",
   "newRoom": "Neuer Raum",
-  "newBed": "Neues Bett"
+  "newBed": "Neues Bett",
+  "taskTemplates": "Task Vorlagen"
 }

@@ -27,8 +27,8 @@ class LoadingAndErrorWidget extends StatelessWidget {
     super.key,
     required this.state,
     required this.child,
-    this.loadingWidget = const LoadingSpinner(),
-    this.errorWidget = const LoadErrorWidget(),
+    this.loadingWidget = const Center(child: LoadingSpinner()),
+    this.errorWidget = const Center(child: LoadErrorWidget()),
     this.initialWidget = const SizedBox(),
     this.unspecifiedWidget,
   });

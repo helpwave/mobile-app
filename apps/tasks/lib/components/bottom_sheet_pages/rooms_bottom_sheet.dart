@@ -10,10 +10,10 @@ import 'package:provider/provider.dart';
 import 'package:tasks/components/bottom_sheet_pages/room_overview_bottom_sheet.dart';
 import 'package:tasks/screens/settings_screen.dart';
 
-class WardOverviewBottomSheetPage extends StatelessWidget {
+class RoomsBottomSheetPage extends StatelessWidget {
   final String wardId;
 
-  const WardOverviewBottomSheetPage({super.key, required this.wardId});
+  const RoomsBottomSheetPage({super.key, required this.wardId});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class WardOverviewBottomSheetPage extends StatelessWidget {
                 children: [
                   Text(context.localization!.rooms, style: context.theme.textTheme.titleMedium),
                   LoadingFutureBuilder(
-                      future: WardService().getWard(id: wardId),
+                      future: WardService().get(id: wardId),
                       thenBuilder: (context, ward) {
                         return Text(ward.name, style: TextStyle(color: context.theme.hintColor));
                       }),

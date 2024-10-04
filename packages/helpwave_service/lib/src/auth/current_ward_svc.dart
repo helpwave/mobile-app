@@ -132,7 +132,7 @@ class CurrentWardService extends Listenable {
     if (!isLoaded) {
       fetch();
     }
-    if (kDebugMode) {
+    if (kDebugMode) { // TODO use logger
       print(currentWard);
     }
     notifyListeners();
@@ -155,7 +155,7 @@ class CurrentWardService extends Listenable {
       return;
     }
     Organization organization = await OrganizationService().getOrganization(id: currentWard!.organizationId);
-    WardMinimal ward = await WardService().getWard(id: currentWard!.wardId);
+    WardMinimal ward = await WardService().get(id: currentWard!.wardId);
     _currentWard = CurrentWardInformation(ward, organization);
     notifyListeners();
   }

@@ -12,6 +12,7 @@ import 'package:helpwave_widget/loading.dart';
 import 'package:helpwave_widget/navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/bottom_sheet_pages/organization_bottom_sheet.dart';
+import 'package:tasks/components/bottom_sheet_pages/task_templates_bottom_sheet.dart';
 import 'package:tasks/screens/login_screen.dart';
 
 /// Screen for settings and other app options
@@ -234,7 +235,9 @@ class SettingsBottomSheetPage extends StatelessWidget {
                 NavigationListTile(
                   icon: Icons.checklist_rounded,
                   title: context.localization!.myTaskTemplates,
-                  onTap: () {},
+                  onTap: () {
+                    NavigationStackController.of(context).push(const TaskTemplatesBottomSheetPage(isPersonal: true));
+                  },
                 ),
               ],
             ),
