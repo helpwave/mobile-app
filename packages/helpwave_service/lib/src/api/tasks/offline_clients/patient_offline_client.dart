@@ -258,7 +258,7 @@ class PatientOfflineClient extends PatientServiceClient {
   ResponseFuture<GetRecentPatientsResponse> getRecentPatients(GetRecentPatientsRequest request,
       {CallOptions? options}) {
     final patients = OfflineClientStore().patientStore.patients.where((element) => element.hasBed).map((patient) {
-      final res = GetRecentPatientsResponse_PatientWithRoomAndBed(
+      final res = GetRecentPatientsResponse_Patient(
         id: patient.id,
         humanReadableIdentifier: patient.name,
       );
