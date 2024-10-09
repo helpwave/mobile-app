@@ -26,12 +26,12 @@ class PropertySelectOption extends IdentifiedObject<String>
   });
 
   @override
-  copyWith(PropertySelectOptionUpdate update) {
+  copyWith(PropertySelectOptionUpdate? update) {
     return PropertySelectOption(
-      id: update.id ?? id,
-      name: update.name ?? name,
-      description: update.description ?? description,
-      isCustom: update.isCustom ?? isCustom,
+      id: update?.id ?? id,
+      name: update?.name ?? name,
+      description: update?.description ?? description,
+      isCustom: update?.isCustom ?? isCustom,
     );
   }
 }
@@ -50,14 +50,18 @@ class PropertySelectData implements CopyWithInterface<PropertySelectData, Proper
   PropertySelectData({this.isAllowingFreeText = false, this.options = const []});
 
   @override
-  PropertySelectData copyWith(PropertySelectDataUpdate update) {
+  PropertySelectData copyWith(PropertySelectDataUpdate? update) {
     assert(
-      update.options == null || (update.upsert == null && update.removeOptions == null),
+      update?.options == null || (update?.upsert == null && update?.removeOptions == null),
       "Only provide either the upsert/remove or only the option overwrite",
     );
     return PropertySelectData(
-      isAllowingFreeText: update.isAllowingFreeText ?? isAllowingFreeText,
-      options: update.options ?? options.upsert(update.upsert!, (a) => a.id!),
+      isAllowingFreeText: update?.isAllowingFreeText ?? isAllowingFreeText,
+      options: update?.options ??
+          options
+              .upsert(update!.upsert!, (a) => a.id!)
+              .where((element) => !update.removeOptions!.any((id) => id == element.id))
+              .toList(),
     );
   }
 }

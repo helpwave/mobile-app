@@ -25,7 +25,7 @@ class PropertyUpdate {
     this.fieldType,
     this.isArchived,
     this.setId,
-    this.selectData,
+    this.selectDataUpdate,
     this.alwaysIncludeForViewSource,
     this.removeSetId,
     this.removeAlwaysIncludeForViewSource,
@@ -58,19 +58,19 @@ class Property extends IdentifiedObject<String> implements CopyWithInterface<Pro
             selectData != null);
 
   @override
-  copyWith(PropertyUpdate update) {
+  copyWith(PropertyUpdate? update) {
     return Property(
-      id: update.id ?? id,
-      name: update.name ?? name,
-      description: update.description ?? description,
-      subjectType: update.subjectType ?? subjectType,
-      fieldType: update.fieldType ?? fieldType,
-      isArchived: update.isArchived ?? isArchived,
-      setId: (update.removeSetId ?? false) ? null : update.setId ?? setId,
-      selectData: update.selectData ?? selectData,
-      alwaysIncludeForViewSource: (update.removeAlwaysIncludeForViewSource ?? false)
+      id: update?.id ?? id,
+      name: update?.name ?? name,
+      description: update?.description ?? description,
+      subjectType: update?.subjectType ?? subjectType,
+      fieldType: update?.fieldType ?? fieldType,
+      isArchived: update?.isArchived ?? isArchived,
+      setId: (update?.removeSetId ?? false) ? null : update?.setId ?? setId,
+      selectData: selectData?.copyWith(update?.selectDataUpdate),
+      alwaysIncludeForViewSource: (update?.removeAlwaysIncludeForViewSource ?? false)
           ? null
-          : update.alwaysIncludeForViewSource ?? alwaysIncludeForViewSource,
+          : update?.alwaysIncludeForViewSource ?? alwaysIncludeForViewSource,
     );
   }
 }

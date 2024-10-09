@@ -114,6 +114,7 @@ class _ClickableTextEditState extends State<ClickableTextEdit> {
               textAlign: widget.textAlign,
               focusNode: _focusNode,
               autofocus: true,
+              textInputAction: TextInputAction.done,
             )
           : GestureDetector(
               onTap: () => setState(() {

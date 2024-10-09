@@ -39,7 +39,7 @@ class PatientCard extends StatelessWidget {
                   Text(
                     patient.name,
                     style: const TextStyle(
-                      // TODO set font to SpaceGrotesk
+                      fontFamily: "SpaceGrotesk",
                       fontWeight: FontWeight.bold,
                     ),
                   ),

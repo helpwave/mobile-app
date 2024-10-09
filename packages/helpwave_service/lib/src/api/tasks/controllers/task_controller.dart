@@ -9,9 +9,7 @@ class TaskController extends LoadingChangeNotifier {
   TaskWithPatient _task;
 
   TaskController(this._task) {
-    if (!_task.isCreating) {
       load();
-    }
   }
 
   TaskWithPatient get task => _task;
@@ -37,6 +35,9 @@ class TaskController extends LoadingChangeNotifier {
   /// A function to load the [Task]
   load() async {
     loadTask() async {
+      if (_task.isCreating) {
+        return;
+      }
       await TaskService().getTask(id: task.id).then((value) async {
         task = value;
         if (task.hasAssignee) {
@@ -57,7 +58,7 @@ class TaskController extends LoadingChangeNotifier {
       return;
     }
     changeAssigneeFuture() async {
-      await TaskService().changeAssignee(taskId: task.id, userId: user?.id).then((value) {
+      await TaskService().changeAssignee(taskId: task.id!, userId: user?.id).then((value) {
         task.assigneeId = user?.id;
         _assignee = user;
       });
@@ -73,7 +74,7 @@ class TaskController extends LoadingChangeNotifier {
       return;
     }
     updateName() async {
-      await TaskService().updateTask(taskId: task.id, name: name).then(
+      await TaskService().updateTask(taskId: task.id!, name: name).then(
           (_) => task = TaskWithPatient.fromTaskAndPatient(task: task.copyWith(name: name), patient: task.patient));
     }
 
@@ -87,7 +88,7 @@ class TaskController extends LoadingChangeNotifier {
       return;
     }
     updateIsPublic() async {
-      await TaskService().updateTask(taskId: task.id, isPublic: isPublic).then((_) => task =
+      await TaskService().updateTask(taskId: task.id!, isPublic: isPublic).then((_) => task =
           TaskWithPatient.fromTaskAndPatient(task: task.copyWith(isPublicVisible: isPublic), patient: task.patient));
     }
 
@@ -101,7 +102,7 @@ class TaskController extends LoadingChangeNotifier {
       return;
     }
     updateNotes() async {
-      await TaskService().updateTask(taskId: task.id, notes: notes).then(
+      await TaskService().updateTask(taskId: task.id!, notes: notes).then(
           (_) => task = TaskWithPatient.fromTaskAndPatient(task: task.copyWith(notes: notes), patient: task.patient));
     }
 
@@ -115,12 +116,12 @@ class TaskController extends LoadingChangeNotifier {
       return;
     }
     updateDueDate() async {
-      await TaskService().updateTask(taskId: task.id, dueDate: dueDate).then((_) =>
+      await TaskService().updateTask(taskId: task.id!, dueDate: dueDate).then((_) =>
           task = TaskWithPatient.fromTaskAndPatient(task: task.copyWith(dueDate: dueDate), patient: task.patient));
     }
 
     removeDueDate() async {
-      await TaskService().removeDueDate(taskId: task.id).then((_) =>
+      await TaskService().removeDueDate(taskId: task.id!).then((_) =>
           task = TaskWithPatient.fromTaskAndPatient(task: task.copyWith(dueDate: dueDate), patient: task.patient));
     }
 
@@ -137,7 +138,7 @@ class TaskController extends LoadingChangeNotifier {
 
   /// Creates the Task and returns
   Future<bool> create() async {
-    assert(!isReadyForCreate, "A the patient must be set to create a task");
+    assert(isReadyForCreate, "A the patient must be set to create a task");
     createTask() async {
       await TaskService().createTask(task).then((value) {
         task.copyWith(id: value);

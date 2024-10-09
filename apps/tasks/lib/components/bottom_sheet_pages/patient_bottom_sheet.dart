@@ -26,7 +26,7 @@ class PatientBottomSheet extends StatefulWidget {
 }
 
 class _PatientBottomSheetState extends State<PatientBottomSheet> {
-  Future<List<RoomWithBedFlat>> loadRoomsWithBeds(String patientId) async {
+  Future<List<RoomWithBedFlat>> loadRoomsWithBeds({String? patientId}) async {
     List<RoomWithBedWithMinimalPatient> rooms =
         await RoomService().getRoomOverviews(wardId: CurrentWardService().currentWard!.wardId);
 
@@ -51,7 +51,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
           create: (_) => PatientController(Patient.empty(id: widget.patentId)),
         ),
       ],
-      child: BottomSheetBase(
+      child: BottomSheetPage(
         header: BottomSheetHeader(
           title: Consumer<PatientController>(builder: (context, patientController, _) {
             if (patientController.state == LoadingState.loaded || patientController.isCreating) {
@@ -72,11 +72,8 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
             }
           }),
         ),
-        onClosing: () {
-          // TODO handle this
-        },
-        bottomWidget: Padding(
-          padding: const EdgeInsets.only(top: paddingSmall),
+        bottom: Padding(
+          padding: const EdgeInsets.symmetric(vertical: paddingSmall),
           child: Consumer<PatientController>(builder: (context, patientController, _) {
             return LoadingAndErrorWidget(
                 state: patientController.state,
@@ -147,16 +144,14 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                 ));
           }),
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: Flexible(
+          child: ListView(
             children: [
               Center(
                 child: Consumer<PatientController>(builder: (context, patientController, _) {
                   return LoadingFutureBuilder(
-                    future: loadRoomsWithBeds(patientController.patient.id),
-                    // TODO use a better loading widget
-                    loadingWidget: const SizedBox(),
+                    future: loadRoomsWithBeds(patientId: patientController.patient.id),
+                    loadingWidget: const PulsingContainer(width: 80, height: 20),
                     thenBuilder: (context, beds) {
                       if (beds.isEmpty) {
                         return Text(

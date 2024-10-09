@@ -1,13 +1,13 @@
+import 'package:helpwave_service/src/api/util/identified_object.dart';
+
 /// Data class for a [Subtask]
-class Subtask {
-  final String id;
-  final String taskId;
+class Subtask extends IdentifiedObject<String> {
+  final String? taskId;
   String name;
   bool isDone;
 
-  bool get isCreating => id == "";
 
-  Subtask({required this.id, required this.taskId, required this.name, this.isDone = false});
+  Subtask({super.id, required this.taskId, required this.name, this.isDone = false}) : assert(id == null || taskId != null);
 
   /// Create a copy of the [Subtask]
   Subtask copyWith({

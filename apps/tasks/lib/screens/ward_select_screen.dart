@@ -22,7 +22,6 @@ class _WardSelectScreen extends State<WardSelectScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(context.localization!.selectWard),

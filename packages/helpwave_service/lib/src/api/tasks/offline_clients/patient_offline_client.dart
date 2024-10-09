@@ -100,7 +100,7 @@ class PatientOfflineService {
     valueStore.patients = valueStore.patients.where((value) => value.id != patientId).toList();
     final tasks = OfflineClientStore().taskStore.findTasks(patientId);
     for (var task in tasks) {
-      OfflineClientStore().taskStore.delete(task.id);
+      OfflineClientStore().taskStore.delete(task.id!);
     }
   }
 }
@@ -337,7 +337,7 @@ class PatientOfflineClient extends PatientServiceClient {
 
     OfflineClientStore().patientStore.create(newPatient);
 
-    final response = CreatePatientResponse()..id = newPatient.id;
+    final response = CreatePatientResponse()..id = newPatient.id!;
 
     return MockResponseFuture.value(response);
   }

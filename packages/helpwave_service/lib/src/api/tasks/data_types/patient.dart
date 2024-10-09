@@ -1,17 +1,15 @@
 import 'package:helpwave_service/src/api/tasks/index.dart';
+import 'package:helpwave_service/src/api/util/identified_object.dart';
 
 enum PatientAssignmentStatus { active, unassigned, discharged, all }
 
-class PatientMinimal {
-  String id;
+class PatientMinimal extends IdentifiedObject<String> {
   String name;
 
-  factory PatientMinimal.empty() => PatientMinimal(id: "", name: "");
-
-  bool get isCreating => id == "";
+  factory PatientMinimal.empty() => PatientMinimal(name: "");
 
   PatientMinimal({
-    required this.id,
+    super.id,
     required this.name,
   });
 
@@ -33,10 +31,7 @@ class PatientMinimal {
 
   @override
   String toString() {
-    if (isCreating) {
-      return "PatientMinimal<Empty>";
-    }
-    return "PatientMinimal<$id, $name>";
+    return "$runtimeType{id: $id, name: $name}";
   }
 }
 
@@ -136,6 +131,7 @@ class PatientsByAssignmentStatus {
   List<Patient> active;
   List<Patient> unassigned;
   List<Patient> discharged;
+
   List<Patient> get all => active + unassigned + discharged;
 
   PatientsByAssignmentStatus({

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:helpwave_service/src/api/tasks/index.dart';
+import 'package:helpwave_util/lists.dart';
 import 'package:helpwave_util/loading.dart';
 
 /// The Controller for managing [Subtask]s in a [Task]
@@ -18,22 +19,20 @@ class SubtasksController extends LoadingChangeNotifier {
     notifyListeners();
   }
 
-  bool get isCreating => taskId == null || taskId!.isEmpty;
+  bool get isCreating => taskId == null;
 
   String? taskId;
 
-  SubtasksController({this.taskId = "", List<Subtask>? subtasks}) {
-    if (!isCreating) {
-      load();
-    }
+  SubtasksController({this.taskId, List<Subtask>? subtasks}) {
+    load();
   }
 
   /// Loads a [Task]
   Future<void> load() async {
-    if (isCreating) {
-      return;
-    }
     loadTask() async {
+      if (isCreating) {
+        return;
+      }
       final task = await TaskService().getTask(id: taskId);
       subtasks = task.subtasks;
     }
@@ -43,7 +42,7 @@ class SubtasksController extends LoadingChangeNotifier {
 
   /// Delete the [Subtask] by its index int the list
   Future<void> deleteByIndex(int index) async {
-    if (index < 0 || index >= subtasks.length) {
+    if (!subtasks.isIndexValid(index)) {
       return;
     }
     if (isCreating) {
@@ -51,7 +50,7 @@ class SubtasksController extends LoadingChangeNotifier {
       notifyListeners();
       return;
     }
-    await deleteById(subtasks[index].id);
+    await deleteById(subtasks[index].id!);
   }
 
   /// Delete the [Subtask] by the id

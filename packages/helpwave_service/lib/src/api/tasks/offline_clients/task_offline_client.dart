@@ -134,7 +134,7 @@ class TaskOfflineService {
     final valueStore = OfflineClientStore().taskStore;
     valueStore.tasks = valueStore.tasks.where((value) => value.id != taskId).toList();
     OfflineClientStore().subtaskStore.findSubtasks(taskId).forEach((subtask) {
-      OfflineClientStore().subtaskStore.delete(subtask.id);
+      OfflineClientStore().subtaskStore.delete(subtask.id!);
     });
   }
 }
@@ -196,7 +196,7 @@ class TaskOfflineClient extends TaskServiceClient {
       throw "Task with task id ${request.id} not found";
     }
 
-    final patient = OfflineClientStore().patientStore.findPatient(task.patientId);
+    final patient = task.patientId == null ? null : OfflineClientStore().patientStore.findPatient(task.patientId!);
     if (patient == null) {
       throw "Inconsistency error: Patient with patient id ${task.patientId} not found";
     }
@@ -275,7 +275,7 @@ class TaskOfflineClient extends TaskServiceClient {
                   done: subtask.isDone,
                 )),
       );
-      final patient = OfflineClientStore().patientStore.findPatient(task.patientId);
+      final patient = task.patientId == null ? null : OfflineClientStore().patientStore.findPatient(task.patientId!);
       if (patient == null) {
         throw "Inconsistency error: patient with id ${task.patientId} not found";
       }
@@ -352,7 +352,7 @@ class TaskOfflineClient extends TaskServiceClient {
           ));
     }
 
-    final response = CreateTaskResponse()..id = newTask.id;
+    final response = CreateTaskResponse()..id = newTask.id!;
 
     return MockResponseFuture.value(response);
   }
@@ -417,7 +417,7 @@ class TaskOfflineClient extends TaskServiceClient {
         isDone: request.subtask.done);
 
     OfflineClientStore().subtaskStore.create(subtask);
-    final response = CreateSubtaskResponse()..subtaskId = subtask.id;
+    final response = CreateSubtaskResponse()..subtaskId = subtask.id!;
     return MockResponseFuture.value(response);
   }
 

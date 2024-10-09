@@ -29,7 +29,8 @@ class _PatientScreenState extends State<PatientScreen> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: paddingSmall, right: paddingSmall, bottom: paddingMedium, top: paddingSmall),
+            padding: const EdgeInsets.only(
+                left: paddingSmall, right: paddingSmall, bottom: paddingMedium, top: paddingSmall),
             child: Consumer<WardPatientsController>(builder: (_, patientController, __) {
               return SearchBar(
                 hintText: context.localization!.searchPatient,
@@ -80,20 +81,36 @@ class _PatientScreenState extends State<PatientScreen> {
                           (patient) => Padding(
                             padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
                             child: Dismissible(
-                              key: Key(patient.id),
+                              key: Key(patient.id!),
+                              confirmDismiss: (direction) async {
+                                if (direction == DismissDirection.endToStart) {
+                                  patientController.discharge(patient.id!);
+                                } else if (!patient.isDischarged) {
+                                  context
+                                      .pushModal(
+                                          context: context,
+                                          builder: (context) =>
+                                              TaskBottomSheet(task: Task.empty(patient.id), patient: patient))
+                                      .then((value) => patientController.load());
+                                }
+                                return false;
+                              },
+                              direction: patient.isDischarged ? DismissDirection.none : DismissDirection.horizontal,
                               background: Padding(
                                 padding: const EdgeInsets.all(paddingTiny),
                                 child: Container(
-                                    decoration: BoxDecoration(
-                                      color: context.theme.colorScheme.primary,
-                                      borderRadius: BorderRadius.circular(borderRadiusMedium),
+                                  decoration: BoxDecoration(
+                                    color: context.theme.colorScheme.primary,
+                                    borderRadius: BorderRadius.circular(borderRadiusMedium),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      context.localization!.addTask,
                                     ),
-                                    padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
-                                    child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          context.localization!.addTask,
-                                        ))),
+                                  ),
+                                ),
                               ),
                               secondaryBackground: Padding(
                                 padding: const EdgeInsets.all(paddingTiny),
@@ -112,24 +129,13 @@ class _PatientScreenState extends State<PatientScreen> {
                                   ),
                                 ),
                               ),
-                              onDismissed: (DismissDirection direction) async {
-                                if (direction == DismissDirection.endToStart) {
-                                  patientController.discharge(patient.id);
-                                } else {
-                                  context.pushModal(
-                                    context: context,
-                                    builder: (context) => TaskBottomSheet(
-                                      task: Task.empty(patient.id),
-                                      patient: patient,
-                                    ),
-                                  ).then((value) => patientController.load());
-                                }
-                              },
                               child: PatientCard(
-                                onClick: () => context.pushModal(
-                                  context: context,
-                                  builder: (context) => PatientBottomSheet(patentId: patient.id),
-                                ).then((_) => patientController.load()),
+                                onClick: () => context
+                                    .pushModal(
+                                      context: context,
+                                      builder: (context) => PatientBottomSheet(patentId: patient.id!),
+                                    )
+                                    .then((_) => patientController.load()),
                                 patient: patient,
                                 margin: const EdgeInsets.symmetric(vertical: paddingTiny),
                               ),

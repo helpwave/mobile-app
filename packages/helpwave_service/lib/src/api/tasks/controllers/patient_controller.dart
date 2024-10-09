@@ -1,6 +1,5 @@
 import 'package:helpwave_util/loading.dart';
 import 'package:helpwave_service/src/api/tasks/index.dart';
-import 'package:logger/logger.dart';
 
 /// The Controller for managing [Patient]s in a Ward
 class PatientController extends LoadingChangeNotifier {
@@ -19,19 +18,16 @@ class PatientController extends LoadingChangeNotifier {
   get isCreating => _patient.isCreating;
 
   PatientController(this._patient) {
-    if (!_patient.isCreating) {
-      load();
-    }
+    load();
   }
 
   /// A function to load the [Patient]
   Future<void> load() async {
-    if (isCreating) {
-      Logger().w("PatientController.load should not be called when the patient has not been created");
-      return;
-    }
     loadPatient() async {
-      patient = await PatientService().getPatientDetails(patientId: patient.id);
+      if (isCreating) {
+        return;
+      }
+      patient = await PatientService().getPatientDetails(patientId: patient.id!);
     }
 
     loadHandler(
@@ -42,11 +38,17 @@ class PatientController extends LoadingChangeNotifier {
   /// Unassigns the [Patient] from their [Bed]
   Future<void> unassign() async {
     unassignPatient() async {
-      await PatientService().unassignPatient(patientId: patient.id).then((value) {
+      if(patient.isCreating) {
         final patientCopy = patient.copyWith();
         patientCopy.bed = null;
         patientCopy.room = null;
-        patient = patientCopy;
+        _patient = patientCopy;
+      }
+      await PatientService().unassignPatient(patientId: patient.id!).then((value) {
+        final patientCopy = patient.copyWith();
+        patientCopy.bed = null;
+        patientCopy.room = null;
+        _patient = patientCopy;
       });
     }
 
@@ -55,8 +57,9 @@ class PatientController extends LoadingChangeNotifier {
 
   /// Discharges the [Patient]
   Future<void> discharge() async {
+    assert(!patient.isCreating, "You can only discharge created patients");
     dischargePatient() async {
-      await PatientService().dischargePatient(patientId: patient.id).then((value) {
+      await PatientService().dischargePatient(patientId: patient.id!).then((value) {
         final patientCopy = patient.copyWith(isDischarged: true);
         patientCopy.bed = null;
         patientCopy.room = null;
@@ -75,7 +78,7 @@ class PatientController extends LoadingChangeNotifier {
       return;
     }
     assignPatientToBed() async {
-      await PatientService().assignBed(patientId: patient.id, bedId: bed.id).then((value) {
+      await PatientService().assignBed(patientId: patient.id!, bedId: bed.id).then((value) {
         patient = patient.copyWith(bed: bed, room: room);
       });
     }
@@ -85,12 +88,12 @@ class PatientController extends LoadingChangeNotifier {
 
   /// Change the name of the [Patient]
   Future<void> changeName(String name) async {
-    if(isCreating){
+    if (isCreating) {
       patient.name = name;
       return;
     }
     updateName() async {
-      await PatientService().updatePatient(id: patient.id, name: name).then((_) {
+      await PatientService().updatePatient(id: patient.id!, name: name).then((_) {
         patient.name = name;
       });
     }
@@ -100,12 +103,12 @@ class PatientController extends LoadingChangeNotifier {
 
   /// Change the notes of the [Patient]
   Future<void> changeNotes(String notes) async {
-    if(isCreating){
+    if (isCreating) {
       patient.notes = notes;
       return;
     }
     updateNotes() async {
-      await PatientService().updatePatient(id: patient.id, notes: notes).then((_) {
+      await PatientService().updatePatient(id: patient.id!, notes: notes).then((_) {
         patient.notes = notes;
       });
     }

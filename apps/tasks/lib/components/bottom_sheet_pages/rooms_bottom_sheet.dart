@@ -29,10 +29,12 @@ class RoomsBottomSheetPage extends StatelessWidget {
                 children: [
                   Text(context.localization!.rooms, style: context.theme.textTheme.titleMedium),
                   LoadingFutureBuilder(
-                      future: WardService().get(id: wardId),
-                      thenBuilder: (context, ward) {
-                        return Text(ward.name, style: TextStyle(color: context.theme.hintColor));
-                      }),
+                    future: WardService().get(id: wardId),
+                    loadingWidget: const PulsingContainer(width: 50),
+                    thenBuilder: (context, ward) {
+                      return Text(ward.name, style: TextStyle(color: context.theme.hintColor));
+                    },
+                  ),
                 ],
               ),
               trailing: BottomSheetAction(
@@ -48,6 +50,7 @@ class RoomsBottomSheetPage extends StatelessWidget {
                 children: [
                   LoadingAndErrorWidget(
                     state: controller.state,
+                    loadingWidget: const PulsingContainer(height: 300),
                     child: RoundedListTiles(
                       children: controller.rooms
                           .map(

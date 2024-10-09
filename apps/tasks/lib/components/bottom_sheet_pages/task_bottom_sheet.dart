@@ -14,6 +14,8 @@ import 'package:tasks/components/subtask_list.dart';
 import 'package:tasks/components/visibility_select.dart';
 import 'package:helpwave_service/tasks.dart';
 
+import '../patient_selector.dart';
+
 /// A private [Widget] similar to a [ListTile] that has an icon and then to text
 ///
 /// The [label] will be displayed over the [valueText]
@@ -117,48 +119,50 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
     return ChangeNotifierProvider(
       create: (context) =>
           TaskController(TaskWithPatient.fromTaskAndPatient(task: widget.task, patient: widget.patient)),
-      child: BottomSheetBase(
-        onClosing: () async {
-          // TODO do saving or something when the dialog is closed
-        },
+      child: BottomSheetPage(
         header: BottomSheetHeader(
           title: Consumer<TaskController>(
-            builder: (context, taskController, child) => ClickableTextEdit(
-              initialValue: taskController.task.name,
-              onUpdated: taskController.changeName,
-              textAlign: TextAlign.center,
-              textStyle: TextStyle(
-                color: context.theme.colorScheme.primary,
-                fontWeight: FontWeight.bold,
-                fontSize: iconSizeTiny,
-                fontFamily: "SpaceGrotesk",
-                overflow: TextOverflow.ellipsis,
+            builder: (context, taskController, child) => LoadingAndErrorWidget(
+              state: taskController.state,
+              loadingWidget: const PulsingContainer(width: 60),
+              child: ClickableTextEdit(
+                initialValue: taskController.task.name,
+                onUpdated: taskController.changeName,
+                textAlign: TextAlign.center,
+                textStyle: TextStyle(
+                  color: context.theme.colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: iconSizeTiny,
+                  fontFamily: "SpaceGrotesk",
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
           ),
         ),
-        bottomWidget: Consumer<TaskController>(
-          builder: (context, taskController, child) => taskController.isCreating
-              ? Padding(
-                  padding: const EdgeInsets.only(top: paddingSmall),
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: FilledButton(
-                      style: buttonStyleBig,
-                      onPressed: taskController.isReadyForCreate
-                          ? () {
-                              taskController.create().then((value) {
-                                if (value) {
-                                  Navigator.pop(context);
-                                }
-                              });
+        bottom: Consumer<TaskController>(
+          builder: (context, taskController, child) => Visibility(
+            visible: taskController.isCreating,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: paddingSmall),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: FilledButton(
+                  style: buttonStyleBig,
+                  onPressed: taskController.isReadyForCreate
+                      ? () {
+                          taskController.create().then((value) {
+                            if (value) {
+                              Navigator.pop(context);
                             }
-                          : null,
-                      child: Text(context.localization!.create),
-                    ),
-                  ),
-                )
-              : const SizedBox(),
+                          });
+                        }
+                      : null,
+                  child: Text(context.localization!.create),
+                ),
+              ),
+            ),
+          ),
         ),
         child: Flexible(
           child: ListView(
@@ -167,32 +171,19 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 child: Consumer<TaskController>(builder:
                     // TODO move this to its own component
                     (context, taskController, __) {
-                  return LoadingAndErrorWidget.pulsing(
+                  return LoadingAndErrorWidget(
                     state: taskController.state,
+                    loadingWidget: const PulsingContainer(width: 60),
                     child: !taskController.isCreating
                         ? Text(taskController.patient.name)
-                        : LoadingFutureBuilder(
-                            future: PatientService().getPatientList(),
-                            loadingWidget: const PulsingContainer(),
-                            thenBuilder: (context, patientList) {
-                              List<Patient> patients = patientList.active + patientList.unassigned;
-                              return DropdownButton(
-                                underline: const SizedBox(),
-                                iconEnabledColor: context.theme.colorScheme.primary.withOpacity(0.6),
-                                // removes the default underline
-                                padding: EdgeInsets.zero,
-                                hint: Text(
-                                  context.localization!.selectPatient,
-                                  style: TextStyle(color: context.theme.colorScheme.primary.withOpacity(0.6)),
-                                ),
-                                isDense: true,
-                                items: patients
-                                    .map((patient) => DropdownMenuItem(value: patient, child: Text(patient.name)))
-                                    .toList(),
-                                value: taskController.patient.isCreating ? null : taskController.patient,
-                                onChanged: (patient) => taskController.changePatient(patient ?? PatientMinimal.empty()),
-                              );
-                            }),
+                        : PatientSelector(
+                            initialPatientId: taskController.patient.id,
+                            onChange: (value) {
+                              if (value != null) {
+                                taskController.changePatient(value);
+                              }
+                            },
+                          ),
                   );
                 }),
               ),
@@ -217,8 +208,9 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                         ),
                       ),
                       valueWidget: taskController.task.hasAssignee
-                          ? LoadingAndErrorWidget.pulsing(
+                          ? LoadingAndErrorWidget(
                               state: taskController.assignee != null ? LoadingState.loaded : LoadingState.loading,
+                              loadingWidget: const PulsingContainer(width: 60, height: 24),
                               child: Text(
                                 // Never the case that we display the empty String, but the text is computed
                                 // before being displayed
@@ -233,8 +225,9 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                     );
                   }),
                   Consumer<TaskController>(
-                    builder: (context, taskController, __) => LoadingAndErrorWidget.pulsing(
+                    builder: (context, taskController, __) => LoadingAndErrorWidget(
                       state: taskController.state,
+                      loadingWidget: const PulsingContainer(width: 60, height: 24),
                       child: _SheetListTile(
                         icon: Icons.access_time,
                         label: context.localization!.due,
@@ -334,11 +327,6 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                     maxLines: 6,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.all(paddingMedium),
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1.0,
-                        ),
-                      ),
                       hintText: context.localization!.yourNotes,
                     ),
                   ),
@@ -347,14 +335,17 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               const SizedBox(height: distanceBig),
               // TODO add callback here for task creation to update the Task accordingly
               Consumer<TaskController>(
-                builder: (_, taskController, __) => LoadingAndErrorWidget.pulsing(
+                builder: (_, taskController, __) => LoadingAndErrorWidget(
                   state: taskController.state,
+                  loadingWidget: const PulsingContainer(height: 200),
                   child: SubtaskList(
                     taskId: taskController.task.id,
                     subtasks: taskController.task.subtasks,
                     onChange: (subtasks) {
                       if (taskController.task.isCreating) {
                         taskController.task.subtasks = subtasks;
+                      } else {
+                        taskController.load();
                       }
                     },
                   ),

@@ -29,7 +29,8 @@ class WardBottomSheetPage extends StatelessWidget {
           context,
           title: Consumer<WardController>(
             builder: (context, controller, _) {
-              return LoadingAndErrorWidget.pulsing(
+              return LoadingAndErrorWidget(
+                loadingWidget: const PulsingContainer(height: 20),
                 state: controller.state,
                 child: Text(
                   controller.ward.name,
@@ -57,6 +58,7 @@ class WardBottomSheetPage extends StatelessWidget {
                         TextFormFieldWithTimer(
                           initialValue: controller.state == LoadingState.loaded ? controller.ward.name : "",
                           onUpdate: (value) => controller.update(name: value),
+                          maxLines: 1,
                         ),
                       ],
                     ),

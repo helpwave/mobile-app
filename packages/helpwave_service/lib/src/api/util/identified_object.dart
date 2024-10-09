@@ -9,4 +9,9 @@ class IdentifiedObject<T> {
   bool isReferencingSame(IdentifiedObject<T> other) {
     return runtimeType == other.runtimeType && this.id == other.id;
   }
+
+  @override
+  String toString() {
+    return "$runtimeType{id: $id}";
+  }
 }

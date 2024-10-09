@@ -63,7 +63,7 @@ class TaskTemplateOfflineService {
   void delete(String taskId) {
     taskTemplates = taskTemplates.where((value) => value.id != taskId).toList();
     OfflineClientStore().taskTemplateSubtaskStore.findTemplateSubtasks(taskId).forEach((templateSubtask) {
-      OfflineClientStore().taskTemplateSubtaskStore.delete(templateSubtask.id);
+      OfflineClientStore().taskTemplateSubtaskStore.delete(templateSubtask.id!);
     });
   }
 }
@@ -215,7 +215,7 @@ class TaskTemplateOfflineClient extends TaskTemplateServiceClient {
     );
 
     OfflineClientStore().taskTemplateSubtaskStore.create(templateSubtask);
-    final response = CreateTaskTemplateSubTaskResponse()..id = templateSubtask.id;
+    final response = CreateTaskTemplateSubTaskResponse()..id = templateSubtask.id!;
     return MockResponseFuture.value(response);
   }
 

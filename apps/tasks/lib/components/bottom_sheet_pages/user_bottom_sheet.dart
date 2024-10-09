@@ -63,43 +63,45 @@ class UserBottomSheetPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: distanceBig),
-            RoundedListTiles(children: [
-              ListTile(
-                leading: Icon(
-                  Icons.house_rounded,
-                  color: context.theme.colorScheme.primary,
-                ),
-                title: Text(context.localization!.currentWard, style: const TextStyle(fontWeight: FontWeight.bold)),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Consumer<CurrentWardController>(builder: (context, currentWardController, __) {
-                      return Text(
-                        currentWardController.currentWard!.wardName,
-                        style: context.theme.textTheme.labelLarge,
-                      );
-                    }),
-                    const Icon(Icons.chevron_right_rounded),
-                  ],
-                ),
-                onTap: () => {
-                  context.pushModal(
-                    context: context,
-                    builder: (context) => WardSelectBottomSheet(
-                      selectedWardId: CurrentWardService().currentWard!.wardId,
-                      onChange: (WardMinimal ward) {
-                        CurrentWardService().currentWard = CurrentWardInformation(
-                          ward,
-                          CurrentWardService().currentWard!.organization,
+            RoundedListTiles(
+              children: [
+                ListTile(
+                  leading: Icon(
+                    Icons.house_rounded,
+                    color: context.theme.colorScheme.primary,
+                  ),
+                  title: Text(context.localization!.currentWard, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Consumer<CurrentWardController>(builder: (context, currentWardController, __) {
+                        return Text(
+                          currentWardController.currentWard!.wardName,
+                          style: context.theme.textTheme.labelLarge,
                         );
-                        Navigator.pop(context);
-                      },
-                    ),
-                  )
-                },
-              ),
-            ]),
+                      }),
+                      const Icon(Icons.chevron_right_rounded),
+                    ],
+                  ),
+                  onTap: () {
+                    context.pushModal(
+                      context: context,
+                      builder: (context) => WardSelectBottomSheet(
+                        selectedWardId: CurrentWardService().currentWard!.wardId,
+                        onChange: (WardMinimal ward) {
+                          CurrentWardService().currentWard = CurrentWardInformation(
+                            ward,
+                            CurrentWardService().currentWard!.organization,
+                          );
+                          Navigator.pop(context);
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
             const Spacer(),
             Padding(
               padding: const EdgeInsets.only(bottom: distanceMedium),

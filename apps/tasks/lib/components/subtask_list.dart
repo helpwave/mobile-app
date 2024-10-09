@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 /// A [Widget] for displaying an updating a [List] of [Subtask]s
 class SubtaskList extends StatelessWidget {
   /// The identifier of the [Task] to which all of these [Subtask]s belong
-  final String taskId;
+  final String? taskId;
 
   /// The [List] of initial subtasks
   final List<Subtask> subtasks;
@@ -21,7 +21,7 @@ class SubtaskList extends StatelessWidget {
 
   const SubtaskList({
     super.key,
-    this.taskId = "",
+    this.taskId,
     this.subtasks = const [],
     required this.onChange,
   });
@@ -41,7 +41,7 @@ class SubtaskList extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           onAdd: () => subtasksController
-              .create(Subtask(id: "", name: "Subtask ${subtasksController.subtasks.length + 1}", taskId: taskId))
+              .create(Subtask(name: "Subtask ${subtasksController.subtasks.length + 1}", taskId: taskId))
               .then((_) => onChange(subtasksController.subtasks)),
           itemBuilder: (context, _, subtask) => ListTile(
             contentPadding: EdgeInsets.zero,

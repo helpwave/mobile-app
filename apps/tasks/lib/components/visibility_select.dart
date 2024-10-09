@@ -25,10 +25,11 @@ class _VisibilityBottomSheet extends StatelessWidget {
         top: paddingMedium,
         bottom: paddingBig,
       ),
+      mainAxisSize: MainAxisSize.min,
       header: BottomSheetHeader(
         titleText: context.localization!.visibility,
       ),
-      child: ListView(
+      child: Column(
         children: [
           const SizedBox(height: distanceSmall),
           GestureDetector(

@@ -193,7 +193,8 @@ class BottomSheetHeader extends StatelessWidget {
     this.padding = const EdgeInsets.only(bottom: paddingSmall),
   });
 
-  factory BottomSheetHeader.navigation(BuildContext context, {
+  factory BottomSheetHeader.navigation(
+    BuildContext context, {
     BottomSheetAction? trailing,
     Widget? title,
     String? titleText,

@@ -57,7 +57,7 @@ class BedOfflineService {
     valueStore.beds = valueStore.beds.where((value) => value.id != bedId).toList();
     final patient = OfflineClientStore().patientStore.findPatientByBed(bedId);
     if(patient != null){
-      OfflineClientStore().patientStore.unassignBed(patient.id);
+      OfflineClientStore().patientStore.unassignBed(patient.id!);
     }
   }
 }

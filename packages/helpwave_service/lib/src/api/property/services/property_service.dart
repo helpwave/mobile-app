@@ -9,7 +9,7 @@ import '../util/type_converter.dart';
 ///
 /// Provides queries and requests that load or alter [Property] objects on the server
 /// The server is defined in the underlying [PropertyAPIServiceClients]
-class PropertyService implements CRUDInterface<Property, Property, PropertyUpdate>{
+class PropertyService implements CRUDInterface<Property, Property, PropertyUpdate> {
   /// The GRPC ServiceClient which handles GRPC
   PropertyServiceClient service = PropertyAPIServiceClients().propertyServiceClient;
 
@@ -81,16 +81,39 @@ class PropertyService implements CRUDInterface<Property, Property, PropertyUpdat
       options: CallOptions(metadata: PropertyAPIServiceClients().getMetaData()),
     );
 
-    return property.copyWith(PropertyUpdate(id: response.propertyId,));
+    return property.copyWith(PropertyUpdate(
+      id: response.propertyId,
+    ));
   }
 
   @override
   Future<bool> update(String id, PropertyUpdate update) async {
-    UpdatePropertyRequest request = UpdatePropertyRequest(id: id, name: name);
-    await service.updateBed(
+    UpdatePropertyRequest request = UpdatePropertyRequest(
+        id: id,
+        name: update.name,
+        description: update.description,
+        isArchived: update.isArchived,
+        subjectType:
+            update.subjectType != null ? PropertyGRPCTypeConverter.subjectTypeToGRPC(update.subjectType!) : null,
+        setId: update.setId,
+        selectData: update.selectDataUpdate != null
+            ? UpdatePropertyRequest_SelectData(
+                allowFreetext: update.selectDataUpdate!.isAllowingFreeText,
+                upsertOptions:
+                    update.selectDataUpdate?.upsert?.map((option) => UpdatePropertyRequest_SelectData_SelectOption(
+                          id: option.id,
+                          name: option.name,
+                          description: option.description,
+                          isCustom: option.isCustom,
+                        )),
+                removeOptions: update.selectDataUpdate!.removeOptions)
+            : null);
+    await service.updateProperty(
       request,
       options: CallOptions(metadata: PropertyAPIServiceClients().getMetaData()),
     );
+
+    return true;
   }
 
   @override

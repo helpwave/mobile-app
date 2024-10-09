@@ -35,11 +35,11 @@ class Identity {
             "eyJzdWIiOiIxODE1OTcxMy01ZDRlLTRhZDUtOTRhZC1mYmI2YmIxNDc5ODQiLCJuYW1lIjoiTWF4IE11c3Rlcm1hbm4iLCJuaWNrbmFt"
             "ZSI6Im1heC5tdXN0ZXJtYW5uIiwiZW1haWwiOiJtYXgubXVzdGVybWFubkBoZWxwd2F2ZS5kZSIsIm9yZ2FuaXphdGlvbnMiOlsiM2IyNWM2ZjUtNDcwNS00MDc0LTlmYzYtYTUwYzI4ZWJhNDA2Il19",
         // TODO add a default here
-        id: "",
+        id: "bb560b25-45b6-4a84-87f1-408e8c32dec8",
         name: "Max Mustermann",
         nickName: "Max M.",
         email: "max.mustermann@helpwave.de",
-        organizations: ['3b25c6f5-4705-4074-9fc6-a50c28eba406']);
+        organizations: ['bb560b25-45b6-4a84-87f1-408e8c32dec8']);
   }
 
   Identity({

@@ -1,5 +1,6 @@
 import 'package:helpwave_service/src/api/tasks/data_types/patient.dart';
 import 'package:helpwave_service/src/api/tasks/data_types/subtask.dart';
+import 'package:helpwave_service/src/api/util/identified_object.dart';
 
 enum TaskStatus {
   unspecified,
@@ -9,8 +10,7 @@ enum TaskStatus {
 }
 
 /// data class for [Task]
-class Task {
-  final String id;
+class Task extends IdentifiedObject<String> {
   String name;
   String? assigneeId;
   String notes;
@@ -20,9 +20,9 @@ class Task {
   final DateTime? creationDate;
   final String? createdBy;
   bool isPublicVisible;
-  final String patientId;
+  final String? patientId;
 
-  factory Task.empty(String patientId) => Task(id: "", name: "name", notes: "", patientId: patientId);
+  factory Task.empty(String? patientId) => Task(name: "name", notes: "", patientId: patientId);
 
   final _nullID = "00000000-0000-0000-0000-000000000000";
 
@@ -39,12 +39,10 @@ class Task {
 
   bool get inNextHour => remainingTime.inHours < 1;
 
-  bool get isCreating => id == "";
-
   bool get hasAssignee => assigneeId != null && assigneeId != "" && assigneeId != _nullID;
 
   Task({
-    required this.id,
+    super.id,
     required this.name,
     required this.notes,
     this.assigneeId,
@@ -84,13 +82,18 @@ class Task {
       patientId: patientId ?? this.patientId,
     );
   }
+
+  @override
+  String toString() {
+    return "{id: $id, name: $name, description: $notes, subtasks: $subtasks, patientId: $patientId}";
+  }
 }
 
 class TaskWithPatient extends Task {
   final PatientMinimal patient;
 
   factory TaskWithPatient.empty({
-    String taskId = "",
+    String? taskId,
     PatientMinimal? patient,
   }) {
     return TaskWithPatient(
@@ -98,7 +101,7 @@ class TaskWithPatient extends Task {
       name: "task name",
       notes: "",
       patient: patient ?? PatientMinimal.empty(),
-      patientId: patient?.id ?? "",
+      patientId: patient?.id,
     );
   }
 
@@ -118,7 +121,7 @@ class TaskWithPatient extends Task {
       creationDate: task.creationDate,
       assigneeId: task.assigneeId,
       patient: patient ?? PatientMinimal.empty(),
-      patientId: patient?.id ?? "",
+      patientId: patient?.id,
     );
   }
 

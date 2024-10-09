@@ -13,20 +13,21 @@ class TextFormFieldWithTimer extends StatefulWidget {
   final InputDecoration? decoration;
   final FocusNode? focusNode;
   final bool autofocus;
+  final TextInputAction? textInputAction;
 
-  const TextFormFieldWithTimer({
-    super.key,
-    required this.initialValue,
-    this.onChanged,
-    this.onUpdate,
-    this.timerDuration = const Duration(seconds: 3),
-    this.style,
-    this.textAlign = TextAlign.left,
-    this.maxLines,
-    this.decoration,
-    this.focusNode,
-    this.autofocus = false,
-  });
+  const TextFormFieldWithTimer(
+      {super.key,
+      required this.initialValue,
+      this.onChanged,
+      this.onUpdate,
+      this.timerDuration = const Duration(seconds: 3),
+      this.style,
+      this.textAlign = TextAlign.left,
+      this.maxLines,
+      this.decoration,
+      this.focusNode,
+      this.autofocus = false,
+      this.textInputAction});
 
   @override
   State<StatefulWidget> createState() => _TextFormFieldWithTimerState();
@@ -60,7 +61,7 @@ class _TextFormFieldWithTimerState extends State<TextFormFieldWithTimer> {
 
   @override
   void dispose() {
-    if(widget.focusNode == null){
+    if (widget.focusNode == null) {
       _focusNode.dispose();
     }
     valueUpdater?.dispose();
@@ -83,6 +84,7 @@ class _TextFormFieldWithTimerState extends State<TextFormFieldWithTimer> {
       maxLines: widget.maxLines,
       decoration: widget.decoration,
       autofocus: widget.autofocus,
+      textInputAction: widget.textInputAction ?? (widget.maxLines == 1 ? TextInputAction.done : null),
     );
   }
 }
