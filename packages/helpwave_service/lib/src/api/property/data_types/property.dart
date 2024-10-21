@@ -50,7 +50,7 @@ class Property extends IdentifiedObject<String> implements CopyWithInterface<Pro
     this.description = "",
     required this.subjectType,
     required this.fieldType,
-    required this.isArchived,
+    this.isArchived = false,
     this.setId,
     this.selectData,
     this.alwaysIncludeForViewSource,
