@@ -155,6 +155,7 @@ class NavigationListTile extends StatelessWidget {
   final IconData icon;
   final Color? color;
   final String title;
+  final String? subtitle;
   final void Function() onTap;
   final String? trailingText;
 
@@ -163,6 +164,7 @@ class NavigationListTile extends StatelessWidget {
     required this.icon,
     this.color,
     required this.title,
+    this.subtitle,
     required this.onTap,
     this.trailingText,
   });
@@ -176,6 +178,7 @@ class NavigationListTile extends StatelessWidget {
       ),
       onTap: onTap,
       title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, color: color)),
+      subtitle: subtitle != null ? Text(subtitle!) : null,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,

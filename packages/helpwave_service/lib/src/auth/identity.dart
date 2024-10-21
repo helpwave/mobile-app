@@ -31,9 +31,10 @@ class Identity {
   /// The default login data
   factory Identity.defaultIdentity() {
     return Identity(
-        idToken:
-            "eyJzdWIiOiIxODE1OTcxMy01ZDRlLTRhZDUtOTRhZC1mYmI2YmIxNDc5ODQiLCJuYW1lIjoiTWF4IE11c3Rlcm1hbm4iLCJuaWNrbmFt"
-            "ZSI6Im1heC5tdXN0ZXJtYW5uIiwiZW1haWwiOiJtYXgubXVzdGVybWFubkBoZWxwd2F2ZS5kZSIsIm9yZ2FuaXphdGlvbnMiOlsiM2IyNWM2ZjUtNDcwNS00MDc0LTlmYzYtYTUwYzI4ZWJhNDA2Il19",
+        idToken: "eyJzdWIiOiIxODE1OTcxMy01ZDRlLTRhZDUtOTRhZC1mYmI2YmIxNDc5ODQiLCJlbWFpbCI6Im1heC5tdXN0ZXJtYW5uQGhlbHB"
+            "3YXZlLmRlIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJNYXggTXVzdGVybWFubiIsInByZWZlcnJlZF91c2Vybm"
+            "FtZSI6Im1heC5tdXN0ZXJtYW5uIiwiZ2l2ZW5fbmFtZSI6Ik1heCIsImZhbWlseV9uYW1lIjoiTXVzdGVybWFubiIsIm9yZ2FuaXphdG"
+            "lvbiI6eyJpZCI6IjNiMjVjNmY1LTQ3MDUtNDA3NC05ZmM2LWE1MGMyOGViYTQwNiIsIm5hbWUiOiJoZWxwd2F2ZSB0ZXN0In19",
         // TODO add a default here
         id: "bb560b25-45b6-4a84-87f1-408e8c32dec8",
         name: "Max Mustermann",

@@ -193,5 +193,12 @@
   "new_": "New",
   "newRoom": "New Room",
   "newBed": "New Bed",
-  "taskTemplates": "Task Templates"
+  "taskTemplates": "Task Templates",
+  "datePicker": "Date Picker",
+  "dateTimePicker": "Date and Time Picker",
+  "checkBox": "Checkbox",
+  "number": "Numbervalue",
+  "freeText": "Freetext",
+  "select": "Single-Select",
+  "multiSelect": "Multi-Select"
 }

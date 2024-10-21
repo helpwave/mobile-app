@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_service/auth.dart';
+import 'package:helpwave_service/property.dart';
 import 'package:helpwave_service/user.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_localization/l10n/app_localizations.dart';
@@ -19,6 +20,9 @@ void main() {
   UserAPIServiceClients()
     ..apiUrl = usedAPIURL
     ..offlineMode = isUsingOfflineClients;
+  PropertyAPIServiceClients().apiUrl = usedAPIURL;
+  // OfflineMode for PropertyAPIServiceClients does not work yet
+  // ..offlineMode = isUsingOfflineClients;
   UserSessionService().changeMode(isUsingDevModeLogin);
   runApp(const MyApp());
 }

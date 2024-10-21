@@ -11,6 +11,7 @@ import 'package:helpwave_widget/text_input.dart';
 import 'package:helpwave_widget/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/bottom_sheet_pages/organization_members_bottom_sheet.dart';
+import 'package:tasks/components/bottom_sheet_pages/properties_bottom_sheet.dart';
 import 'package:tasks/components/bottom_sheet_pages/wards_bottom_sheet_page.dart';
 import 'package:tasks/screens/settings_screen.dart';
 
@@ -88,7 +89,7 @@ class OrganizationBottomSheetPage extends StatelessWidget {
                         icon: Icons.label,
                         title: context.localization!.properties,
                         onTap: () {
-                          // TODO navigate to properties page
+                          NavigationStackController.of(context).push(const PropertiesBottomSheet());
                         },
                       )
                     ],

@@ -1,7 +1,6 @@
 import 'package:grpc/grpc.dart';
 import 'package:helpwave_proto_dart/services/property_svc/v1/property_value_svc.pb.dart';
 import 'package:helpwave_proto_dart/services/property_svc/v1/property_views_svc.pbgrpc.dart';
-import 'package:helpwave_service/src/api/property/data_types/property_view_filter_update.dart';
 import 'package:helpwave_service/src/api/property/property_api_service_clients.dart';
 import '../../../../property.dart';
 
@@ -9,7 +8,7 @@ import '../../../../property.dart';
 ///
 /// Provides queries and requests that load or alter [PropertyViewRules] objects on the server
 /// The server is defined in the underlying [PropertyAPIServiceClients]
-class PropertyValueService {
+class PropertyViewsService {
   /// The GRPC ServiceClient which handles GRPC
   PropertyViewsServiceClient service = PropertyAPIServiceClients().propertyViewsServiceClient;
 
