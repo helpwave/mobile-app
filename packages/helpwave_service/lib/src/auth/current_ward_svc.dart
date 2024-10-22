@@ -132,7 +132,8 @@ class CurrentWardService extends Listenable {
     if (!isLoaded) {
       fetch();
     }
-    if (kDebugMode) { // TODO use logger
+    if (kDebugMode) {
+      // TODO use logger
       print(currentWard);
     }
     notifyListeners();
@@ -147,6 +148,18 @@ class CurrentWardService extends Listenable {
         currentWard = value;
       }
     });
+  }
+
+  Future<void> fakeLogin() async {
+    try {
+      Organization organization = (await OrganizationService().getOrganizationsForUser())[0];
+      WardMinimal ward = (await WardService().getWards(organizationId: organization.id))[0];
+      currentWard = CurrentWardInformation(ward, organization);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
   }
 
   /// Fetch [Ward] and [Organization] from backend

@@ -54,7 +54,6 @@ class PropertyBottomSheetPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: paddingTiny),
-
                 ],
               ),
             ),

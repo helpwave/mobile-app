@@ -24,6 +24,8 @@ void main() {
   // OfflineMode for PropertyAPIServiceClients does not work yet
   // ..offlineMode = isUsingOfflineClients;
   UserSessionService().changeMode(isUsingDevModeLogin);
+  // TODO the line below enables direct login, but behaves somewhat weirdly
+  UserSessionService().tokenLogin().then((value) => CurrentWardService().fakeLogin());
   runApp(const MyApp());
 }
 
