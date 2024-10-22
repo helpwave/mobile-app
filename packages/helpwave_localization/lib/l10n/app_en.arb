@@ -200,5 +200,15 @@
   "number": "Numbervalue",
   "freeText": "Freetext",
   "select": "Single-Select",
-  "multiSelect": "Multi-Select"
+  "multiSelect": "Multi-Select",
+  "basic": "Basic",
+  "subjectType": "Subject",
+  "field": "Field",
+  "values": "Values",
+  "allowCustomValues": "Allow custom values",
+  "allowCustomValuesDescription": "Let users enter a free text when the predefined values are not enough.",
+  "rules": "Rules",
+  "importance": "Importance",
+  "alwaysVisible": "Always Visible",
+  "alwaysVisibleDescription": "Will be displayed on entity even if the value of the property is empty."
 }

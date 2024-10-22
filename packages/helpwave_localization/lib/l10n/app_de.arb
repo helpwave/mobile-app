@@ -200,5 +200,15 @@
   "number": "Zahlenwert",
   "freeText": "Freitext",
   "select": "Single-Select",
-  "multiSelect": "Multi-Select"
+  "multiSelect": "Multi-Select",
+  "basic": "Grundlagen",
+  "subjectType": "Subjekt",
+  "field": "Feld",
+  "values": "Werte",
+  "allowCustomValues": "Nutzerwerte zulassen",
+  "allowCustomValuesDescription": "Nutzern erlauben Freitexteingaben zu nutzen, wenn vordefinierte Werte nicht ausreichen.",
+  "rules": "Regeln",
+  "importance": "Wichtigkeit",
+  "alwaysVisible": "Immer Sichtbar",
+  "alwaysVisibleDescription": "Will be displayed on entity even if the value of the property is empty."
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_service/property.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/util.dart';
@@ -32,6 +33,19 @@ class PropertyBottomSheetPage extends StatelessWidget {
               state: controller.state,
               child: ListView(
                 children: [
+                  Text(
+                    context.localization!.name,
+                    style: context.theme.textTheme.titleMedium?.copyWith(
+                      color: context.theme.colorScheme.primary,
+                    ),
+                  ),
+                  Text(
+                    context.localization!.name,
+                    style: context.theme.textTheme.titleSmall?.copyWith(
+                      color: context.theme.colorScheme.primary,
+                    ),
+                  ),
+                  const SizedBox(height: paddingTiny),
                   Text(
                     "subjectType",
                     // TODO context.localization!.subjectType,
