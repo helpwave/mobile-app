@@ -7,6 +7,8 @@ import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/lists.dart';
 import 'package:helpwave_widget/loading.dart';
+import 'package:helpwave_widget/navigation.dart';
+import 'package:tasks/components/bottom_sheet_pages/property_bottom_sheet.dart';
 import 'package:tasks/screens/settings_screen.dart';
 
 import '../../util/subject_type_translations.dart';
@@ -16,8 +18,6 @@ class PropertiesBottomSheet extends StatelessWidget {
   final String? wardId;
 
   const PropertiesBottomSheet({super.key, this.wardId});
-
-  // TODO add the possibility of a ward
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class PropertiesBottomSheet extends StatelessWidget {
                             title: property.name,
                             subtitle: propertyFieldTypeTranslations(context, property.fieldType),
                             onTap: () {
-                              // TODO navigate
+                              NavigationStackController.of(context).push(PropertyBottomSheetPage(id: property.id));
                             },
                           ))
                       .toList(),
