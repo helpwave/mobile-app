@@ -11,7 +11,7 @@ import 'package:helpwave_widget/navigation.dart';
 import 'package:tasks/components/bottom_sheet_pages/property_bottom_sheet.dart';
 import 'package:tasks/screens/settings_screen.dart';
 
-import '../../util/subject_type_translations.dart';
+import '../../util/field_type_translations.dart';
 
 /// A [BottomSheet] for showing a [Property] information
 class PropertiesBottomSheet extends StatelessWidget {
@@ -42,7 +42,7 @@ class PropertiesBottomSheet extends StatelessWidget {
         trailing: BottomSheetAction(
           icon: Icons.add,
           onPressed: () {
-            // TODO open property create screen
+            NavigationStackController.of(context).push(const PropertyBottomSheetPage());
           },
         ),
       ),

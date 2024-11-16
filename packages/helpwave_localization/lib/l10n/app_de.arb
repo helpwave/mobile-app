@@ -210,5 +210,6 @@
   "rules": "Regeln",
   "importance": "Wichtigkeit",
   "alwaysVisible": "Immer Sichtbar",
-  "alwaysVisibleDescription": "Will be displayed on entity even if the value of the property is empty."
+  "alwaysVisibleDescription": "Will be displayed on entity even if the value of the property is empty.",
+  "description": "Beschreibung"
 }

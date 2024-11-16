@@ -31,7 +31,14 @@ class PropertyService implements CRUDInterface<Property, Property, PropertyUpdat
         alwaysIncludeForViewSource:
             response.hasAlwaysIncludeForViewSource() ? response.alwaysIncludeForViewSource : null,
         isArchived: response.isArchived,
-        selectData: response.hasSelectData() ? PropertySelectData() : null);
+        selectData: response.hasSelectData()
+            ? PropertySelectData(
+                options: response.selectData.options
+                    .map((option) => PropertySelectOption(
+                        id: option.id, name: option.name, description: option.description, isCustom: option.isCustom))
+                    .toList(),
+                isAllowingFreeText: response.selectData.allowFreetext)
+            : null);
   }
 
   Future<List<Property>> getMany({PropertySubjectType? subjectType}) async {
@@ -44,7 +51,7 @@ class PropertyService implements CRUDInterface<Property, Property, PropertyUpdat
       options: CallOptions(metadata: PropertyAPIServiceClients().getMetaData()),
     );
 
-    List<Property> beds = response.properties
+    List<Property> properties = response.properties
         .map((value) => Property(
             id: value.id,
             name: value.name,
@@ -56,7 +63,7 @@ class PropertyService implements CRUDInterface<Property, Property, PropertyUpdat
             selectData: value.hasSelectData() ? PropertySelectData() : null))
         .toList();
 
-    return beds;
+    return properties;
   }
 
   @override

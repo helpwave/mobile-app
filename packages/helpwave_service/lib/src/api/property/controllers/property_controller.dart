@@ -8,6 +8,14 @@ class PropertyController extends LoadingChangeNotifier {
     name: "",
     subjectType: PropertySubjectType.patient,
     fieldType: PropertyFieldType.multiSelect,
+    selectData: PropertySelectData(
+      options: [
+        PropertySelectOption(name: "Option 1"),
+        PropertySelectOption(name: "Option 2"),
+        PropertySelectOption(name: "Option 3"),
+      ],
+      isAllowingFreeText: true
+    )
   );
 
   /// The current [Property]
@@ -37,7 +45,7 @@ class PropertyController extends LoadingChangeNotifier {
       if (isCreating) {
         return;
       }
-      property = await PropertyService().get(property.id!);
+      _property = await PropertyService().get(property.id!);
     }
 
     loadHandler(
@@ -47,13 +55,13 @@ class PropertyController extends LoadingChangeNotifier {
 
   /// Change the notes of the [Property]
   Future<void> update(PropertyUpdate update) async {
-    if (isCreating) {
-      property.copyWith(update);
-      return;
-    }
     updateNotes() async {
+      if (isCreating) {
+        _property = property.copyWith(update);
+        return;
+      }
       await PropertyService().update(property.id!, update).then((hasSuccess) {
-        property.copyWith(update);
+        _property = property.copyWith(update);
       });
     }
 

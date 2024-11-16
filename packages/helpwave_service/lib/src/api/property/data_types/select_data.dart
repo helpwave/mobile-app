@@ -59,8 +59,9 @@ class PropertySelectData implements CopyWithInterface<PropertySelectData, Proper
       isAllowingFreeText: update?.isAllowingFreeText ?? isAllowingFreeText,
       options: update?.options ??
           options
-              .upsert(update!.upsert!, (a) => a.id!)
-              .where((element) => !update.removeOptions!.any((id) => id == element.id))
+              // TODO change this potentially same value items  are replaced
+              .upsert(update?.upsert ?? [], (a) => a.id ?? a.name)
+              .where((element) => !(update?.removeOptions ?? []).any((id) => id == element.id))
               .toList(),
     );
   }

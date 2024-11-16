@@ -1,11 +1,17 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_service/property.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
+import 'package:helpwave_widget/lists.dart';
 import 'package:helpwave_widget/loading.dart';
+import 'package:helpwave_widget/text_input.dart';
 import 'package:provider/provider.dart';
+import 'package:tasks/util/field_type_translations.dart';
+
+import '../../util/subject_type_translations.dart';
 
 class PropertyBottomSheetPage extends StatelessWidget {
   final String? id;
@@ -14,6 +20,11 @@ class PropertyBottomSheetPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    InputDecoration inputDecoration = InputDecoration(
+        border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(borderRadiusMedium),
+    ));
+
     return ChangeNotifierProvider(
       create: (context) => PropertyController(id: id),
       child: BottomSheetPage(
@@ -34,26 +45,157 @@ class PropertyBottomSheetPage extends StatelessWidget {
               child: ListView(
                 children: [
                   Text(
-                    context.localization!.name,
+                    context.localization!.basic,
                     style: context.theme.textTheme.titleMedium?.copyWith(
                       color: context.theme.colorScheme.primary,
                     ),
                   ),
+                  const SizedBox(height: paddingSmall),
                   Text(
                     context.localization!.name,
-                    style: context.theme.textTheme.titleSmall?.copyWith(
-                      color: context.theme.colorScheme.primary,
-                    ),
+                    style: context.theme.textTheme.titleSmall,
                   ),
                   const SizedBox(height: paddingTiny),
+                  TextFormFieldWithTimer(
+                    initialValue: controller.property.name,
+                    onUpdate: (value) => controller.update(PropertyUpdate(name: value)),
+                  ),
+                  const SizedBox(height: paddingSmall),
                   Text(
-                    "subjectType",
-                    // TODO context.localization!.subjectType,
-                    style: context.theme.textTheme.titleSmall?.copyWith(
+                    context.localization!.subjectType,
+                    style: context.theme.textTheme.titleSmall,
+                  ),
+                  const SizedBox(height: paddingTiny),
+                  DropdownButtonFormField(
+                    decoration: inputDecoration,
+                    value: controller.property.subjectType,
+                    items: PropertySubjectType.values
+                        .map((value) => DropdownMenuItem(
+                              value: value,
+                              child: Text(propertySubjectTypeTranslations(context, value)),
+                            ))
+                        .toList(),
+                    onChanged: (value) => controller.update(PropertyUpdate(subjectType: value)),
+                  ),
+                  const SizedBox(height: paddingSmall),
+                  Text(
+                    context.localization!.description,
+                    style: context.theme.textTheme.titleSmall,
+                  ),
+                  const SizedBox(height: paddingTiny),
+                  TextFormFieldWithTimer(
+                    initialValue: controller.property.description,
+                    onUpdate: (value) => controller.update(PropertyUpdate(description: value)),
+                    maxLines: 5,
+                  ),
+                  const SizedBox(height: paddingMedium),
+                  // Field section
+                  Text(
+                    context.localization!.field,
+                    style: context.theme.textTheme.titleMedium?.copyWith(
                       color: context.theme.colorScheme.primary,
                     ),
                   ),
+                  const SizedBox(height: paddingSmall),
+                  Text(
+                    "${context.localization!.field} ${context.localization!.type}",
+                    style: context.theme.textTheme.titleSmall,
+                  ),
                   const SizedBox(height: paddingTiny),
+                  DropdownButtonFormField(
+                    decoration: inputDecoration,
+                    value: controller.property.fieldType,
+                    items: PropertyFieldType.values
+                        .map((value) => DropdownMenuItem(
+                              value: value,
+                              child: Text(propertyFieldTypeTranslations(context, value)),
+                            ))
+                        .toList(),
+                    onChanged: (value) => controller.update(PropertyUpdate(fieldType: value)),
+                  ),
+                  Visibility(
+                      visible: controller.property.isSelectType,
+                      child: Column(
+                        children: [
+                          // TODO select option list
+                          const SizedBox(height: paddingSmall),
+                          RoundedListTiles(
+                            children: [
+                              ListTile(
+                                title: Text(
+                                  context.localization!.allowCustomValues,
+                                  style: context.theme.textTheme.titleSmall,
+                                ),
+                                subtitle: Text(
+                                  context.localization!.allowCustomValuesDescription,
+                                  style: TextStyle(color: context.theme.hintColor),
+                                ),
+                                trailing: Switch(
+                                  value: controller.property.selectData?.isAllowingFreeText ?? false,
+                                  onChanged: (value) => controller.update(PropertyUpdate(
+                                    selectDataUpdate: (
+                                      isAllowingFreeText: value,
+                                      options: controller.property.selectData!.options,
+                                      removeOptions: null,
+                                      upsert: null
+                                    ),
+                                  )),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )),
+                  const SizedBox(height: paddingMedium),
+                  // Rules
+                  Text(
+                    context.localization!.rules,
+                    style: context.theme.textTheme.titleMedium?.copyWith(
+                      color: context.theme.colorScheme.primary,
+                    ),
+                  ),
+                  const SizedBox(height: paddingSmall),
+                  Text(
+                    context.localization!.importance,
+                    style: context.theme.textTheme.titleSmall,
+                  ),
+                  const SizedBox(height: paddingTiny),
+                  RoundedListTiles(
+                    children: [
+                      ListTile(
+                        title: Text(
+                          context.localization!.alwaysVisible,
+                          style: context.theme.textTheme.titleSmall,
+                        ),
+                        subtitle: Text(
+                          context.localization!.alwaysVisibleDescription,
+                          style: TextStyle(color: context.theme.hintColor),
+                        ),
+                        trailing: Switch(
+                          value: controller.property.alwaysIncludeForViewSource ?? false,
+                          onChanged: (value) => controller.update(PropertyUpdate(alwaysIncludeForViewSource: value)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Visibility(
+                    visible: controller.property.isCreating,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: paddingMedium),
+                          child: FilledButton(
+                            onPressed: () => controller.create(),
+                            child: Text(
+                              context.localization!.create,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
