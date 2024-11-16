@@ -183,6 +183,7 @@
   "contactEmail": "Contact E-Mail",
   "member": "Member",
   "members": "Members",
+  "property": "Property",
   "properties": "Properties",
   "dangerZone": "Danger Zone",
   "organizationDangerZoneDescription": "Deleting the organization is a permanent action and cannot be undone be careful!",
@@ -211,5 +212,7 @@
   "importance": "Importance",
   "alwaysVisible": "Always Visible",
   "alwaysVisibleDescription": "Will be displayed on entity even if the value of the property is empty.",
-  "description": "Description"
+  "description": "Description",
+  "options": "Options",
+  "editProperty": "Edit Property"
 }

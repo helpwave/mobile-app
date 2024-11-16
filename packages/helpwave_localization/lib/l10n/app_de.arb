@@ -183,6 +183,7 @@
   "contactEmail": "Kontakt E-Mail",
   "member": "Mitglied",
   "members": "Mitglieder",
+  "property": "Eigenschaft",
   "properties": "Eigenschaften",
   "dangerZone": "Gefahrenzone",
   "organizationDangerZoneDescription": "Vorsicht, das löschen einer Organization ist permanent und kann nicht rückgängig gemacht werden!",
@@ -211,5 +212,7 @@
   "importance": "Wichtigkeit",
   "alwaysVisible": "Immer Sichtbar",
   "alwaysVisibleDescription": "Will be displayed on entity even if the value of the property is empty.",
-  "description": "Beschreibung"
+  "description": "Beschreibung",
+  "options": "Optionen",
+  "editProperty": "Property ändern"
 }

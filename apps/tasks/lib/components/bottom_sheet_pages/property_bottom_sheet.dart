@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_service/property.dart';
@@ -25,6 +24,9 @@ class PropertyBottomSheetPage extends StatelessWidget {
       borderRadius: BorderRadius.circular(borderRadiusMedium),
     ));
 
+    String createTitle = "${context.localization!.create} ${context.localization!.property}";
+    String editTitle = context.localization!.editProperty;
+
     return ChangeNotifierProvider(
       create: (context) => PropertyController(id: id),
       child: BottomSheetPage(
@@ -34,7 +36,8 @@ class PropertyBottomSheetPage extends StatelessWidget {
             builder: (context, controller, _) => LoadingAndErrorWidget(
               state: controller.state,
               loadingWidget: const PulsingContainer(width: 50),
-              child: Text(controller.property.name, style: context.theme.textTheme.titleMedium),
+              child: Text(controller.property.isCreating ? createTitle : editTitle,
+                  style: context.theme.textTheme.titleMedium),
             ),
           ),
         ),
@@ -117,6 +120,20 @@ class PropertyBottomSheetPage extends StatelessWidget {
                       visible: controller.property.isSelectType,
                       child: Column(
                         children: [
+                          const SizedBox(height: paddingSmall),
+                          RoundedListTiles(
+                            children: [
+                              ExpansionTile(
+                                shape: const Border(),
+                                title: Text(
+                                    "${controller.property.selectData?.options.length} ${context.localization!.options}"),
+                                children: (controller.property.selectData?.options ?? [])
+                                    .map((selectOption) => ListTile(title: Text(selectOption.name)))
+                                    .toList(),
+
+                              ),
+                            ],
+                          ),
                           // TODO select option list
                           const SizedBox(height: paddingSmall),
                           RoundedListTiles(

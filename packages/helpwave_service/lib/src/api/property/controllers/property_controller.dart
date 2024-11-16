@@ -5,7 +5,7 @@ import 'package:helpwave_util/loading.dart';
 class PropertyController extends LoadingChangeNotifier {
   /// The current [Property]
   Property _property = Property(
-    name: "",
+    name: "Property Name",
     subjectType: PropertySubjectType.patient,
     fieldType: PropertyFieldType.multiSelect,
     selectData: PropertySelectData(
