@@ -2,7 +2,7 @@ name: Deploy tasks to Google Play
 
 env:
   RUBY_VERSION: '2.6.10'
-  FLUTTER_VERSION: '3.16.0'
+  FLUTTER_VERSION: '3.24.1'
   MELOS_VERSION: '3.0.0'
 
 on:
