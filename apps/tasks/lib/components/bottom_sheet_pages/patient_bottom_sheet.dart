@@ -85,7 +85,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                           FilledButton(
                             style: buttonStyleBig,
                             onPressed: patientController.create,
-                            child: Text(context.localization!.create),
+                            child: Text(context.localization.create),
                           )
                         ]
                       : [
@@ -107,7 +107,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                                   context: context,
                                 ),
                               ),
-                              child: Text(context.localization!.unassigne),
+                              child: Text(context.localization.unassigne),
                             ),
                           ),
                           SizedBox(
@@ -120,7 +120,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                                       showDialog(
                                         context: context,
                                         builder: (context) =>
-                                            AcceptDialog(titleText: context.localization!.dischargePatient),
+                                            AcceptDialog(titleText: context.localization.dischargePatient),
                                       ).then((value) {
                                         if (value) {
                                           patientController.discharge();
@@ -137,7 +137,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                                   context: context,
                                 ),
                               ),
-                              child: Text(context.localization!.discharge),
+                              child: Text(context.localization.discharge),
                             ),
                           ),
                         ],
@@ -155,7 +155,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                     thenBuilder: (context, beds) {
                       if (beds.isEmpty) {
                         return Text(
-                          context.localization!.noFreeBeds,
+                          context.localization.noFreeBeds,
                           style: TextStyle(color: context.theme.disabledColor, fontWeight: FontWeight.bold),
                         );
                       }
@@ -165,7 +165,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                           padding: EdgeInsets.zero,
                           isDense: true,
                           hint: Text(
-                            context.localization!.assignBed,
+                            context.localization.assignBed,
                             style: TextStyle(color: context.theme.colorScheme.primary.withOpacity(0.6)),
                           ),
                           value: beds.where((beds) => beds.bed.id == patientController.patient.bed?.id).firstOrNull,
@@ -192,7 +192,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                 }),
               ),
               Text(
-                context.localization!.notes,
+                context.localization.notes,
                 style: const TextStyle(fontSize: fontSizeBig, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: distanceSmall),
@@ -226,7 +226,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                                     patient: patient,
                                   ))
                               .toList(),
-                          title: context.localization!.upcoming,
+                          title: context.localization.upcoming,
                           color: upcomingColor,
                         );
                       }
@@ -238,7 +238,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                                     patient: patient,
                                   ))
                               .toList(),
-                          title: context.localization!.inProgress,
+                          title: context.localization.inProgress,
                           color: inProgressColor,
                         );
                       }
@@ -249,12 +249,12 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                                   patient: patient,
                                 ))
                             .toList(),
-                        title: context.localization!.done,
+                        title: context.localization.done,
                         color: doneColor,
                       );
                     },
                     title: Text(
-                      context.localization!.tasks,
+                      context.localization.tasks,
                       style: const TextStyle(fontSize: fontSizeBig, fontWeight: FontWeight.bold),
                     ),
                     // TODO use return value to add it to task list or force a refetch

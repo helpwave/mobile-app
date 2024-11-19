@@ -69,7 +69,7 @@ class TasksNavigationDrawer extends StatelessWidget {
               onTap: currentPage == NavigationOptions.myTasks
                   ? null
                   : () => pushReplace(context, const MyTasksScreen()),
-              title: Text(context.localization!.myTasks),
+              title: Text(context.localization.myTasks),
             ),
             ListTile(
               leading: const Icon(Icons.settings),
@@ -77,7 +77,7 @@ class TasksNavigationDrawer extends StatelessWidget {
               onTap: currentPage == NavigationOptions.settings
                   ? null
                   : () => pushReplace(context, const SettingsScreen()),
-              title: Text(context.localization!.settings),
+              title: Text(context.localization.settings),
             ),
             Flexible(child: Container()),
             const Padding(

@@ -140,7 +140,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title ?? context.localization!.listSearch),
+          title: Text(widget.title ?? context.localization.listSearch),
         ),
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -165,7 +165,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                       },
                       icon: const Icon(Icons.close),
                     ),
-                    hintText: widget.searchHintText ?? "${context.localization!.search}...",
+                    hintText: widget.searchHintText ?? "${context.localization.search}...",
                     border: const OutlineInputBorder(),
                   ),
                 ),
@@ -203,14 +203,14 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                             Text(
                               widget.elementNotFoundText != null
                                   ? widget.elementNotFoundText!(_searchController.text)
-                                  : "${context.localization!.noItem} ${_searchController.text} ${context.localization!.found}",
+                                  : "${context.localization.noItem} ${_searchController.text} ${context.localization.found}",
                               style: context.theme.textTheme.titleLarge,
                             ),
                             const SizedBox(height: distanceDefault),
                             widget.allowSelectAnyway
                                 ? TextButton(
                                     onPressed: () => Navigator.pop(context, _searchController.text.trim()),
-                                    child: Text(widget.addAnywayText ?? "${context.localization!.addAnyway}!"),
+                                    child: Text(widget.addAnywayText ?? "${context.localization.addAnyway}!"),
                                   )
                                 : const SizedBox(),
                           ],
@@ -225,7 +225,7 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
                         size: iconSizeBig,
                       ),
                       const SizedBox(height: distanceBig),
-                      Text('${context.localization!.error}: ${snapshot.error}'),
+                      Text('${context.localization.error}: ${snapshot.error}'),
                     ];
                   }
                   return Expanded(

@@ -24,8 +24,8 @@ class PropertyBottomSheetPage extends StatelessWidget {
       borderRadius: BorderRadius.circular(borderRadiusMedium),
     ));
 
-    String createTitle = "${context.localization!.create} ${context.localization!.property}";
-    String editTitle = context.localization!.editProperty;
+    String createTitle = "${context.localization.create} ${context.localization.property}";
+    String editTitle = context.localization.editProperty;
 
     return ChangeNotifierProvider(
       create: (context) => PropertyController(id: id),
@@ -48,14 +48,14 @@ class PropertyBottomSheetPage extends StatelessWidget {
               child: ListView(
                 children: [
                   Text(
-                    context.localization!.basic,
+                    context.localization.basic,
                     style: context.theme.textTheme.titleMedium?.copyWith(
                       color: context.theme.colorScheme.primary,
                     ),
                   ),
                   const SizedBox(height: paddingSmall),
                   Text(
-                    context.localization!.name,
+                    context.localization.name,
                     style: context.theme.textTheme.titleSmall,
                   ),
                   const SizedBox(height: paddingTiny),
@@ -65,7 +65,7 @@ class PropertyBottomSheetPage extends StatelessWidget {
                   ),
                   const SizedBox(height: paddingSmall),
                   Text(
-                    context.localization!.subjectType,
+                    context.localization.subjectType,
                     style: context.theme.textTheme.titleSmall,
                   ),
                   const SizedBox(height: paddingTiny),
@@ -82,7 +82,7 @@ class PropertyBottomSheetPage extends StatelessWidget {
                   ),
                   const SizedBox(height: paddingSmall),
                   Text(
-                    context.localization!.description,
+                    context.localization.description,
                     style: context.theme.textTheme.titleSmall,
                   ),
                   const SizedBox(height: paddingTiny),
@@ -94,14 +94,14 @@ class PropertyBottomSheetPage extends StatelessWidget {
                   const SizedBox(height: paddingMedium),
                   // Field section
                   Text(
-                    context.localization!.field,
+                    context.localization.field,
                     style: context.theme.textTheme.titleMedium?.copyWith(
                       color: context.theme.colorScheme.primary,
                     ),
                   ),
                   const SizedBox(height: paddingSmall),
                   Text(
-                    "${context.localization!.field} ${context.localization!.type}",
+                    "${context.localization.field} ${context.localization.type}",
                     style: context.theme.textTheme.titleSmall,
                   ),
                   const SizedBox(height: paddingTiny),
@@ -126,7 +126,7 @@ class PropertyBottomSheetPage extends StatelessWidget {
                               ExpansionTile(
                                 shape: const Border(),
                                 title: Text(
-                                    "${controller.property.selectData?.options.length} ${context.localization!.options}"),
+                                    "${controller.property.selectData?.options.length} ${context.localization.options}"),
                                 children: (controller.property.selectData?.options ?? [])
                                     .map((selectOption) => ListTile(title: Text(selectOption.name)))
                                     .toList(),
@@ -140,11 +140,11 @@ class PropertyBottomSheetPage extends StatelessWidget {
                             children: [
                               ListTile(
                                 title: Text(
-                                  context.localization!.allowCustomValues,
+                                  context.localization.allowCustomValues,
                                   style: context.theme.textTheme.titleSmall,
                                 ),
                                 subtitle: Text(
-                                  context.localization!.allowCustomValuesDescription,
+                                  context.localization.allowCustomValuesDescription,
                                   style: TextStyle(color: context.theme.hintColor),
                                 ),
                                 trailing: Switch(
@@ -166,14 +166,14 @@ class PropertyBottomSheetPage extends StatelessWidget {
                   const SizedBox(height: paddingMedium),
                   // Rules
                   Text(
-                    context.localization!.rules,
+                    context.localization.rules,
                     style: context.theme.textTheme.titleMedium?.copyWith(
                       color: context.theme.colorScheme.primary,
                     ),
                   ),
                   const SizedBox(height: paddingSmall),
                   Text(
-                    context.localization!.importance,
+                    context.localization.importance,
                     style: context.theme.textTheme.titleSmall,
                   ),
                   const SizedBox(height: paddingTiny),
@@ -181,11 +181,11 @@ class PropertyBottomSheetPage extends StatelessWidget {
                     children: [
                       ListTile(
                         title: Text(
-                          context.localization!.alwaysVisible,
+                          context.localization.alwaysVisible,
                           style: context.theme.textTheme.titleSmall,
                         ),
                         subtitle: Text(
-                          context.localization!.alwaysVisibleDescription,
+                          context.localization.alwaysVisibleDescription,
                           style: TextStyle(color: context.theme.hintColor),
                         ),
                         trailing: Switch(
@@ -206,7 +206,7 @@ class PropertyBottomSheetPage extends StatelessWidget {
                           child: FilledButton(
                             onPressed: () => controller.create(),
                             child: Text(
-                              context.localization!.create,
+                              context.localization.create,
                             ),
                           ),
                         ),

@@ -17,7 +17,7 @@ class ThemeVisualizer extends StatelessWidget {
         children: [
           ListTile(
             leading: const Icon(Icons.brightness_medium),
-            title: Text(context.localization!.darkMode),
+            title: Text(context.localization.darkMode),
             trailing: Consumer<ThemeModel>(builder: (_, ThemeModel themeNotifier, __) {
               return Switch(
                 value: themeNotifier.getIsDarkNullSafe(context),

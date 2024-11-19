@@ -37,7 +37,7 @@ class SubtaskList extends StatelessWidget {
           maxHeight: sizeForSubtasks,
           items: subtasksController.subtasks,
           title: Text(
-            context.localization!.subtasks,
+            context.localization.subtasks,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           onAdd: () => subtasksController
@@ -80,7 +80,7 @@ class SubtaskList extends StatelessWidget {
                     .then((value) => onChange(subtasksController.subtasks));
               },
               child: Text(
-                context.localization!.delete,
+                context.localization.delete,
                 style: const TextStyle(color: negativeColor, fontSize: 17),
               ),
             ),
@@ -116,7 +116,7 @@ class _SubTaskChangeDialogState extends State<SubTaskChangeDialog> {
           children: [
             Center(
               child: Text(
-                context.localization!.changeSubtask,
+                context.localization.changeSubtask,
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -125,7 +125,7 @@ class _SubTaskChangeDialogState extends State<SubTaskChangeDialog> {
             ),
             const SizedBox(height: distanceDefault),
             TextFormField(
-              decoration: InputDecoration(labelText: context.localization!.subtaskName),
+              decoration: InputDecoration(labelText: context.localization.subtaskName),
               initialValue: widget.initialName,
               onChanged: (value) => updatedName = value,
             ),
@@ -135,11 +135,11 @@ class _SubTaskChangeDialogState extends State<SubTaskChangeDialog> {
               children: [
                 TextButton(
                   onPressed: () => Navigator.pop(context, null),
-                  child: Text(context.localization!.cancel, style: TextStyle(color: context.theme.hintColor),),
+                  child: Text(context.localization.cancel, style: TextStyle(color: context.theme.hintColor),),
                 ),
                 TextButton(
                   onPressed: () => Navigator.pop(context, updatedName),
-                  child: Text(context.localization!.update),
+                  child: Text(context.localization.update),
                 )
               ],
             ),

@@ -30,7 +30,7 @@ class WardBottomSheetPage extends StatelessWidget {
           title: Consumer<WardController>(
             builder: (context, controller, _) {
               if (controller.isCreating) {
-                return Text(context.localization!.createWard, style: context.theme.textTheme.titleMedium);
+                return Text(context.localization.createWard, style: context.theme.textTheme.titleMedium);
               }
               return LoadingAndErrorWidget(
                 loadingWidget: const PulsingContainer(height: 20),
@@ -51,7 +51,7 @@ class WardBottomSheetPage extends StatelessWidget {
                 loadingWidget: const PulsingContainer(height: 80),
                 child: ListView(
                   children: [
-                    Text(context.localization!.name, style: context.theme.textTheme.titleSmall),
+                    Text(context.localization.name, style: context.theme.textTheme.titleSmall),
                     const SizedBox(height: distanceTiny),
                     TextFormFieldWithTimer(
                       initialValue: controller.state == LoadingState.loaded ? controller.ward.name : "",
@@ -64,20 +64,20 @@ class WardBottomSheetPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(height: distanceMedium),
-                              Text(context.localization!.settings, style: context.theme.textTheme.titleMedium),
+                              Text(context.localization.settings, style: context.theme.textTheme.titleMedium),
                               const SizedBox(height: distanceTiny),
                               RoundedListTiles(
                                 children: [
                                   ForwardNavigationTile(
                                     icon: Icons.house_rounded,
-                                    title: context.localization!.rooms,
+                                    title: context.localization.rooms,
                                     onTap: () {
                                       NavigationStackController.of(context).push(RoomsBottomSheetPage(wardId: wardId!));
                                     },
                                   ),
                                   ForwardNavigationTile(
                                     icon: Icons.checklist_rounded,
-                                    title: context.localization!.taskTemplates,
+                                    title: context.localization.taskTemplates,
                                     onTap: () {
                                       NavigationStackController.of(context)
                                           .push(TaskTemplatesBottomSheetPage(wardId: wardId));
@@ -85,7 +85,7 @@ class WardBottomSheetPage extends StatelessWidget {
                                   ),
                                   ForwardNavigationTile(
                                     icon: Icons.label,
-                                    title: context.localization!.properties,
+                                    title: context.localization.properties,
                                     onTap: () {
                                       NavigationStackController.of(context).push(PropertiesBottomSheet(wardId: wardId));
                                     },
@@ -93,13 +93,13 @@ class WardBottomSheetPage extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: distanceMedium),
-                              Text(context.localization!.dangerZone, style: context.theme.textTheme.titleMedium),
+                              Text(context.localization.dangerZone, style: context.theme.textTheme.titleMedium),
                               Text(
-                                context.localization!.organizationDangerZoneDescription,
+                                context.localization.organizationDangerZoneDescription,
                                 style: TextStyle(color: context.theme.hintColor),
                               ),
                               PressableText(
-                                text: "${context.localization!.delete} ${context.localization!.organization}",
+                                text: "${context.localization.delete} ${context.localization.organization}",
                                 style: const TextStyle(
                                     color: Colors.red, fontWeight: FontWeight.w700), // TODO get from theme
                                 onPressed: () {
@@ -120,7 +120,7 @@ class WardBottomSheetPage extends StatelessWidget {
                             child: FilledButton(
                               onPressed: () => controller.create(),
                               child: Text(
-                                context.localization!.create,
+                                context.localization.create,
                               ),
                             ),
                           ),

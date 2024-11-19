@@ -42,21 +42,21 @@ class OrganizationBottomSheetPage extends StatelessWidget {
                 shrinkWrap: true,
                 children: [
                   const SizedBox(height: distanceMedium),
-                  Text(context.localization!.shortName, style: context.theme.textTheme.titleMedium),
+                  Text(context.localization.shortName, style: context.theme.textTheme.titleMedium),
                   const SizedBox(height: distanceTiny),
                   TextFormFieldWithTimer(
                     initialValue: controller.organization.shortName,
                     onUpdate: (value) => controller.update(shortName: value),
                   ),
                   const SizedBox(height: distanceMedium),
-                  Text(context.localization!.longName, style: context.theme.textTheme.titleMedium),
+                  Text(context.localization.longName, style: context.theme.textTheme.titleMedium),
                   const SizedBox(height: distanceTiny),
                   TextFormFieldWithTimer(
                     initialValue: controller.organization.longName,
                     onUpdate: (value) => controller.update(longName: value),
                   ),
                   const SizedBox(height: distanceMedium),
-                  Text(context.localization!.contactEmail, style: context.theme.textTheme.titleMedium),
+                  Text(context.localization.contactEmail, style: context.theme.textTheme.titleMedium),
                   const SizedBox(height: distanceTiny),
                   TextFormFieldWithTimer(
                     initialValue: controller.organization.email,
@@ -64,13 +64,13 @@ class OrganizationBottomSheetPage extends StatelessWidget {
                     onUpdate: (value) => controller.update(email: value),
                   ),
                   const SizedBox(height: distanceMedium),
-                  Text(context.localization!.settings, style: context.theme.textTheme.titleMedium),
+                  Text(context.localization.settings, style: context.theme.textTheme.titleMedium),
                   const SizedBox(height: distanceTiny),
                   RoundedListTiles(
                     children: [
                       ForwardNavigationTile(
                         icon: Icons.house_rounded,
-                        title: context.localization!.wards,
+                        title: context.localization.wards,
                         onTap: () {
                           NavigationStackController.of(context)
                               .push(WardsBottomSheetPage(organizationId: organizationId));
@@ -78,7 +78,7 @@ class OrganizationBottomSheetPage extends StatelessWidget {
                       ),
                       ForwardNavigationTile(
                         icon: Icons.person,
-                        title: context.localization!.members,
+                        title: context.localization.members,
                         onTap: () {
                           NavigationStackController.of(context)
                               .push(OrganizationMembersBottomSheetPage(organizationId: organizationId));
@@ -86,7 +86,7 @@ class OrganizationBottomSheetPage extends StatelessWidget {
                       ),
                       ForwardNavigationTile(
                         icon: Icons.label,
-                        title: context.localization!.properties,
+                        title: context.localization.properties,
                         onTap: () {
                           NavigationStackController.of(context).push(const PropertiesBottomSheet());
                         },
@@ -94,13 +94,13 @@ class OrganizationBottomSheetPage extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: distanceMedium),
-                  Text(context.localization!.dangerZone, style: context.theme.textTheme.titleMedium),
+                  Text(context.localization.dangerZone, style: context.theme.textTheme.titleMedium),
                   Text(
-                    context.localization!.organizationDangerZoneDescription,
+                    context.localization.organizationDangerZoneDescription,
                     style: TextStyle(color: context.theme.hintColor),
                   ),
                   PressableText(
-                    text: "${context.localization!.delete} ${context.localization!.organization}",
+                    text: "${context.localization.delete} ${context.localization.organization}",
                     style: const TextStyle(color: Colors.red, fontWeight: FontWeight.w700), // TODO get from theme
                     onPressed: () {
                       // TODO show modal and delete organization

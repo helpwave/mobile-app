@@ -26,7 +26,7 @@ class PropertiesBottomSheet extends StatelessWidget {
         title: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(context.localization!.properties, style: context.theme.textTheme.titleMedium),
+            Text(context.localization.properties, style: context.theme.textTheme.titleMedium),
             wardId == null
                 ? const SizedBox()
                 : LoadingFutureBuilder(

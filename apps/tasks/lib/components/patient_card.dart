@@ -46,7 +46,7 @@ class PatientCard extends StatelessWidget {
                   Text(
                     patient.bed != null && patient.room != null
                         ? "${patient.room?.name} - ${patient.bed?.name}"
-                        : context.localization!.unassigned,
+                        : context.localization.unassigned,
                     style: const TextStyle(
                       fontWeight: FontWeight.w400,
                     ),

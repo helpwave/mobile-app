@@ -27,7 +27,7 @@ class WardsBottomSheetPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                context.localization!.wards,
+                context.localization.wards,
                 style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
               ),
               Text(

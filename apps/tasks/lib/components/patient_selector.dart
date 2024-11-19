@@ -23,7 +23,7 @@ class PatientSelector extends StatelessWidget {
             // removes the default underline
             padding: EdgeInsets.zero,
             hint: Text(
-              context.localization!.selectPatient,
+              context.localization.selectPatient,
               style: TextStyle(color: context.theme.colorScheme.primary.withOpacity(0.6)),
             ),
             isDense: true,

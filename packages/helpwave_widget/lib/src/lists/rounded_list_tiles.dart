@@ -18,7 +18,7 @@ class RoundedListTiles extends StatelessWidget {
               height: 60,
               child: Center(
                 child: Text(
-                  context.localization!.nothingYet,
+                  context.localization.nothingYet,
                   style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
               ),

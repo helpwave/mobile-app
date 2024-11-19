@@ -59,15 +59,15 @@ class _MainScreenState extends State<MainScreen> {
           destinations: [
             NavigationDestination(
               icon: const Icon(Icons.check_circle_outline),
-              label: context.localization!.myTasks,
+              label: context.localization.myTasks,
             ),
             NavigationDestination(
               icon: const Icon(Icons.add_circle_outline),
-              label: context.localization!.newTaskOrPatient,
+              label: context.localization.newTaskOrPatient,
             ),
             NavigationDestination(
               icon: const Icon(Icons.person),
-              label: context.localization!.patients,
+              label: context.localization.patients,
             ),
           ],
           selectedIndex: index,
@@ -127,7 +127,7 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
               label: SizedBox(
                 width: chipWidth,
                 height: chipHeight,
-                child: Center(child: Text(context.localization!.task)),
+                child: Center(child: Text(context.localization.task)),
               ),
               onPressed: () {
                 context.pushModal(
@@ -151,7 +151,7 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
               label: SizedBox(
                 width: chipWidth,
                 height: chipHeight,
-                child: Center(child: Text(context.localization!.patient)),
+                child: Center(child: Text(context.localization.patient)),
               ),
               onPressed: () {
                 context.pushModal(

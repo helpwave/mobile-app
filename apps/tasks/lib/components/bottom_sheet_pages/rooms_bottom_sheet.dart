@@ -27,7 +27,7 @@ class RoomsBottomSheetPage extends StatelessWidget {
               title: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(context.localization!.rooms, style: context.theme.textTheme.titleMedium),
+                  Text(context.localization.rooms, style: context.theme.textTheme.titleMedium),
                   LoadingFutureBuilder(
                     future: WardService().get(id: wardId),
                     loadingWidget: const PulsingContainer(width: 50),
@@ -41,7 +41,7 @@ class RoomsBottomSheetPage extends StatelessWidget {
                 icon: Icons.add,
                 onPressed: () {
                   controller
-                      .create(RoomWithBedWithMinimalPatient(id: "", name: context.localization!.newRoom, beds: []));
+                      .create(RoomWithBedWithMinimalPatient(id: "", name: context.localization.newRoom, beds: []));
                 },
               ),
             ),
@@ -57,7 +57,7 @@ class RoomsBottomSheetPage extends StatelessWidget {
                             (room) => ForwardNavigationTile(
                               icon: Icons.meeting_room_rounded,
                               title: room.name,
-                              trailingText: "${room.beds.length} ${context.localization!.beds}",
+                              trailingText: "${room.beds.length} ${context.localization.beds}",
                               onTap: () {
                                 NavigationStackController.of(context)
                                     .push(RoomOverviewBottomSheetPage(roomId: room.id));

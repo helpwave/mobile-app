@@ -33,7 +33,7 @@ class _PatientScreenState extends State<PatientScreen> {
                 left: paddingSmall, right: paddingSmall, bottom: paddingMedium, top: paddingSmall),
             child: Consumer<WardPatientsController>(builder: (_, patientController, __) {
               return SearchBar(
-                hintText: context.localization!.searchPatient,
+                hintText: context.localization.searchPatient,
                 trailing: [
                   IconButton(
                     onPressed: () {
@@ -107,7 +107,7 @@ class _PatientScreenState extends State<PatientScreen> {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      context.localization!.addTask,
+                                      context.localization.addTask,
                                     ),
                                   ),
                                 ),
@@ -124,7 +124,7 @@ class _PatientScreenState extends State<PatientScreen> {
                                     child: Padding(
                                         padding: const EdgeInsets.only(right: paddingMedium),
                                         child: Text(
-                                          context.localization!.discharge,
+                                          context.localization.discharge,
                                         )),
                                   ),
                                 ),

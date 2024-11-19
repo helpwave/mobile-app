@@ -28,7 +28,7 @@ class RoomOverviewBottomSheetPage extends StatelessWidget {
           title: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(context.localization!.rooms, style: context.theme.textTheme.titleMedium),
+              Text(context.localization.rooms, style: context.theme.textTheme.titleMedium),
               Consumer<RoomController>(builder: (context, controller, child) {
                 return LoadingAndErrorWidget(
                   state: controller.state,
@@ -51,7 +51,7 @@ class RoomOverviewBottomSheetPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(context.localization!.name, style: context.theme.textTheme.titleSmall),
+                        Text(context.localization.name, style: context.theme.textTheme.titleSmall),
                         const SizedBox(height: distanceTiny),
                         TextFormFieldWithTimer(
                           initialValue: controller.state == LoadingState.loaded ? controller.room.name : "",
@@ -66,7 +66,7 @@ class RoomOverviewBottomSheetPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(context.localization!.beds, style: context.theme.textTheme.titleSmall),
+                  Text(context.localization.beds, style: context.theme.textTheme.titleSmall),
                   Consumer<BedsController>(
                     builder: (context, controller, _) {
                       return LoadingAndErrorWidget(
@@ -74,9 +74,9 @@ class RoomOverviewBottomSheetPage extends StatelessWidget {
                         loadingWidget: const PulsingContainer(width: 40),
                         child: TextButton(
                           onPressed: () => {
-                            controller.create(Bed(id: "", name: context.localization!.newBed, roomId: roomId))
+                            controller.create(Bed(id: "", name: context.localization.newBed, roomId: roomId))
                           },
-                          child: Text("+ ${context.localization!.add} ${context.localization!.bed}"),
+                          child: Text("+ ${context.localization.add} ${context.localization.bed}"),
                         ),
                       );
                     },
@@ -94,7 +94,7 @@ class RoomOverviewBottomSheetPage extends StatelessWidget {
                             (bed) => ListTile(
                               leading: const Icon(Icons.bed_rounded),
                               title: Text(bed.name),
-                              trailing: Text(bed.patient?.name ?? context.localization!.unassigned),
+                              trailing: Text(bed.patient?.name ?? context.localization.unassigned),
                             ),
                           )
                           .toList(),

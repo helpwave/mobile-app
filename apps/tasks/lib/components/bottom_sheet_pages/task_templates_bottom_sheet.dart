@@ -29,7 +29,7 @@ class TaskTemplatesBottomSheetPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              context.localization!.taskTemplates,
+              context.localization.taskTemplates,
               style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
             ),
             wardId == null
@@ -49,7 +49,7 @@ class TaskTemplatesBottomSheetPage extends StatelessWidget {
             onPressed: () {
               NavigationStackController.of(context).push(TaskTemplateBottomSheetPage(
                 template: TaskTemplate(
-                  name: context.localization!.task,
+                  name: context.localization.task,
                   wardId: wardId,
                   isPublicVisible: !isPersonal,
                 ),

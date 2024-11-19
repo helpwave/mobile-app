@@ -5,8 +5,8 @@ import 'package:helpwave_service/property.dart';
 String propertySubjectTypeTranslations(BuildContext context, PropertySubjectType subjectType) {
   switch(subjectType){
     case PropertySubjectType.patient:
-      return context.localization!.patient;
+      return context.localization.patient;
     case PropertySubjectType.task:
-      return context.localization!.task;
+      return context.localization.task;
   }
 }

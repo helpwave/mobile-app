@@ -36,12 +36,12 @@ class LoadingSpinner extends StatelessWidget {
           width: size,
           child: CircularProgressIndicator(
             strokeWidth: width,
-            semanticsLabel: text ?? context.localization!.loading,
+            semanticsLabel: text ?? context.localization.loading,
             color: color ?? context.theme.colorScheme.primary,
           ),
         ),
         const SizedBox(height: distanceBig),
-        Text(text ?? context.localization!.loading),
+        Text(text ?? context.localization.loading),
       ],
     );
   }

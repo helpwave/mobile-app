@@ -27,7 +27,7 @@ class _VisibilityBottomSheet extends StatelessWidget {
       ),
       mainAxisSize: MainAxisSize.min,
       header: BottomSheetHeader(
-        titleText: context.localization!.visibility,
+        titleText: context.localization.visibility,
       ),
       child: Column(
         children: [
@@ -37,7 +37,7 @@ class _VisibilityBottomSheet extends StatelessWidget {
               onChange(true);
               Navigator.of(context).pop();
             },
-            child: Text(context.localization!.public, style: style),
+            child: Text(context.localization.public, style: style),
           ),
           const SizedBox(height: distanceSmall),
           GestureDetector(
@@ -45,7 +45,7 @@ class _VisibilityBottomSheet extends StatelessWidget {
               onChange(false);
               Navigator.of(context).pop();
             },
-            child: Text(context.localization!.private, style: style),
+            child: Text(context.localization.private, style: style),
           ),
         ],
       ),
@@ -94,14 +94,14 @@ class VisibilitySelect extends StatelessWidget {
 
         if (isPublicVisible) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(context.localization!.publicTasksCannotBeMadePrivate)));
+              .showSnackBar(SnackBar(content: Text(context.localization.publicTasksCannotBeMadePrivate)));
         } else {
           showDialog(
             context: context,
             builder: (context) => AcceptDialog(
-              titleText: context.localization!.makeTaskPublic,
+              titleText: context.localization.makeTaskPublic,
               content: Text(
-                context.localization!.thisCannotBeUndone,
+                context.localization.thisCannotBeUndone,
                 // TODO replace with warning color by theme
                 style: const TextStyle(color: warningColor),
               ),
@@ -110,7 +110,7 @@ class VisibilitySelect extends StatelessWidget {
         }
       },
       child: Text(
-        isPublicVisible ? context.localization!.public : context.localization!.private,
+        isPublicVisible ? context.localization.public : context.localization.private,
         style: textStyle,
       ),
     );

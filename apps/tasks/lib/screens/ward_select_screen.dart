@@ -25,7 +25,7 @@ class _WardSelectScreen extends State<WardSelectScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.localization!.selectWard),
+        title: Text(context.localization.selectWard),
         actions: [
           IconButton(
             onPressed: () {
@@ -43,13 +43,13 @@ class _WardSelectScreen extends State<WardSelectScreen> {
       body: Column(
         children: [
           ForwardNavigationTile(
-            title:organization?.longName ?? context.localization!.none,
-            subtitle: context.localization!.organization,
+            title:organization?.longName ?? context.localization.none,
+            subtitle: context.localization.organization,
             onTap: () => Navigator.push<Organization?>(
               context,
               MaterialPageRoute(
                 builder: (context) => ListSearch<Organization>(
-                  title: context.localization!.organization,
+                  title: context.localization.organization,
                   asyncItems: (_) async {
                     List<Organization> organizations = await OrganizationService().getOrganizationsForUser();
                     return organizations;
@@ -70,15 +70,15 @@ class _WardSelectScreen extends State<WardSelectScreen> {
             }),
           ),
           ForwardNavigationTile(
-            title: ward?.name ?? context.localization!.none,
-            subtitle: context.localization!.ward,
+            title: ward?.name ?? context.localization.none,
+            subtitle: context.localization.ward,
             onTap: organization == null
                 ? null
                 : () => Navigator.push<WardMinimal?>(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ListSearch<WardMinimal>(
-                          title: context.localization!.ward,
+                          title: context.localization.ward,
                           asyncItems: (_) async =>
                               await WardService().getWards(organizationId: organization!.id),
                           elementToString: (WardMinimal ward) => ward.name,
@@ -101,7 +101,7 @@ class _WardSelectScreen extends State<WardSelectScreen> {
                 }
                 currentWardService.currentWard = CurrentWardInformation(ward!, organization!);
               },
-              child: Text(context.localization!.switch_),
+              child: Text(context.localization.switch_),
             ),
           ),
         ],

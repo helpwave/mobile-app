@@ -158,7 +158,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                           });
                         }
                       : null,
-                  child: Text(context.localization!.create),
+                  child: Text(context.localization.create),
                 ),
               ),
             ),
@@ -194,7 +194,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                   Consumer<TaskController>(builder: (context, taskController, __) {
                     return _SheetListTile(
                       icon: Icons.person,
-                      label: context.localization!.assignedTo,
+                      label: context.localization.assignedTo,
                       onTap: () => context.pushModal(
                         context: context,
                         builder: (BuildContext context) => AssigneeSelectBottomSheet(
@@ -219,7 +219,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                               ),
                             )
                           : Text(
-                              context.localization!.unassigned,
+                              context.localization.unassigned,
                               style: editableValueTextStyle(context),
                             ),
                     );
@@ -230,7 +230,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                       loadingWidget: const PulsingContainer(width: 60, height: 24),
                       child: _SheetListTile(
                         icon: Icons.access_time,
-                        label: context.localization!.due,
+                        label: context.localization.due,
                         // TODO localization and date formatting here
                         valueWidget: Builder(builder: (context) {
                           DateTime? dueDate = taskController.task.dueDate;
@@ -248,7 +248,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                               ],
                             );
                           }
-                          return Text(context.localization!.none);
+                          return Text(context.localization.none);
                         }),
                         onTap: () => showDatePicker(
                           context: context,
@@ -290,7 +290,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                   state: taskController.state,
                   child: _SheetListTile(
                     icon: Icons.lock,
-                    label: context.localization!.visibility,
+                    label: context.localization.visibility,
                     valueWidget: VisibilitySelect(
                       isPublicVisible: taskController.task.isPublicVisible,
                       onChanged: taskController.changeIsPublic,
@@ -302,7 +302,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               ),
               const SizedBox(height: distanceMedium),
               Text(
-                context.localization!.notes,
+                context.localization.notes,
                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               const SizedBox(height: distanceTiny),
@@ -327,7 +327,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                     maxLines: 6,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.all(paddingMedium),
-                      hintText: context.localization!.yourNotes,
+                      hintText: context.localization.yourNotes,
                     ),
                   ),
                 ),

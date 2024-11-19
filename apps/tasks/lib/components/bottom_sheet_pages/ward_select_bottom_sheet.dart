@@ -24,7 +24,7 @@ class WardSelectBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomSheetBase(
       onClosing: () {},
-      header: BottomSheetHeader(titleText: context.localization!.selectWard),
+      header: BottomSheetHeader(titleText: context.localization.selectWard),
       mainAxisSize: MainAxisSize.min,
       child: LoadingFutureBuilder(
         loadingWidget: const SizedBox(),

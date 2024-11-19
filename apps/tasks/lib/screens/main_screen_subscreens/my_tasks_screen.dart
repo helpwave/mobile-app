@@ -36,17 +36,17 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                     TaskExpansionTile(
                       tasks: tasksController.todo,
                       color: upcomingColor,
-                      title: context.localization!.upcoming,
+                      title: context.localization.upcoming,
                     ),
                     TaskExpansionTile(
                       tasks: tasksController.inProgress,
                       color: inProgressColor,
-                      title: context.localization!.inProgress,
+                      title: context.localization.inProgress,
                     ),
                     TaskExpansionTile(
                       tasks: tasksController.done,
                       color: doneColor,
-                      title: context.localization!.done,
+                      title: context.localization.done,
                     ),
                   ],
                 ),

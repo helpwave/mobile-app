@@ -22,13 +22,13 @@ class AssigneeSelectBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomSheetBase(
       header: BottomSheetHeader(
-        titleText: context.localization!.assignee,
+        titleText: context.localization.assignee,
       ),
       onClosing: () => {},
       child: Column(
           children: [
             TextButton(
-              child: Text(context.localization!.remove),
+              child: Text(context.localization.remove),
               onPressed: () => onChanged(null),
             ),
             const SizedBox(height: 10),

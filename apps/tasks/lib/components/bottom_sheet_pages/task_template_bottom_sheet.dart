@@ -80,35 +80,35 @@ class TaskTemplateBottomSheetPage extends StatelessWidget {
                 state: controller.state,
                 child: ListView(
                   children: [
-                    Text(context.localization!.name, style: context.theme.textTheme.titleSmall),
+                    Text(context.localization.name, style: context.theme.textTheme.titleSmall),
                     const SizedBox(height: distanceTiny),
                     TextFormFieldWithTimer(
                       initialValue: controller.taskTemplate.name,
                       onUpdate: (value) => controller.update(name: value),
                     ),
                     const SizedBox(height: distanceMedium),
-                    Text(context.localization!.notes, style: context.theme.textTheme.titleSmall),
+                    Text(context.localization.notes, style: context.theme.textTheme.titleSmall),
                     const SizedBox(height: distanceTiny),
                     TextFormFieldWithTimer(
                       initialValue: controller.taskTemplate.description,
                       onUpdate: (value) => controller.update(description: value),
                       maxLines: 6,
                       decoration:
-                          InputDecoration(hintText: "${context.localization!.add} ${context.localization!.notes}"),
+                          InputDecoration(hintText: "${context.localization.add} ${context.localization.notes}"),
                     ),
                     const SizedBox(height: distanceMedium),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(context.localization!.subtasks, style: context.theme.textTheme.titleSmall),
+                        Text(context.localization.subtasks, style: context.theme.textTheme.titleSmall),
                         TextButton(
                           onPressed: () {
                             controller.createSubtask(TaskTemplateSubtask(
                               templateId: controller.templateId,
-                              name: context.localization!.subtask,
+                              name: context.localization.subtask,
                             ));
                           },
-                          child: Text("+ ${context.localization!.add} ${context.localization!.subtask}"),
+                          child: Text("+ ${context.localization.add} ${context.localization.subtask}"),
                         ),
                       ],
                     ),

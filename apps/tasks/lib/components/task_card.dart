@@ -20,24 +20,24 @@ class TaskCard extends StatelessWidget {
 
   /// Determines the text shown for indicating the remaining time for the [Task]
   String getDueText(BuildContext context) {
-    String result = context.localization!.dueIn;
+    String result = context.localization.dueIn;
     if (task.dueDate == null) {
       return "$result -";
     }
 
     if (task.isOverdue) {
-      return context.localization!.overdue;
+      return context.localization.overdue;
     }
 
     if (task.inNextHour) {
-      return "$result ${context.localization!.nMinutes(task.remainingTime.inMinutes)}";
+      return "$result ${context.localization.nMinutes(task.remainingTime.inMinutes)}";
     }
 
     if (task.inNextTwoDays) {
-      return "$result ${context.localization!.nHours(task.remainingTime.inHours)}";
+      return "$result ${context.localization.nHours(task.remainingTime.inHours)}";
     }
 
-    return "$result ${context.localization!.nDays(task.remainingTime.inDays)}";
+    return "$result ${context.localization.nDays(task.remainingTime.inDays)}";
   }
 
   /// Depending on the remaining time of the [task] the use a different background color

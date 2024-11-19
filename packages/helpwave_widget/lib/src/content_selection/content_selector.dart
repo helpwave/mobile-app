@@ -291,8 +291,8 @@ class _ContentSelectorState<V> extends State<ContentSelector<V>> {
     return Column(
       children: [
         ListTile(
-          title: Text(widget.title ?? context.localization!.list),
-          subtitle: Text("${currentSelection.length} ${widget.entryName ?? context.localization!.entries}"),
+          title: Text(widget.title ?? context.localization.list),
+          subtitle: Text("${currentSelection.length} ${widget.entryName ?? context.localization.entries}"),
           leading: widget.icon,
           onTap: () {
             setState(() {

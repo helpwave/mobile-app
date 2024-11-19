@@ -24,7 +24,7 @@ class OrganizationMembersBottomSheetPage extends StatelessWidget {
           title: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(context.localization!.members, style: context.theme.textTheme.titleMedium),
+              Text(context.localization.members, style: context.theme.textTheme.titleMedium),
               Text(CurrentWardService().currentWard?.organizationName ?? "",
                   style: TextStyle(color: context.theme.hintColor)),
             ],
@@ -70,7 +70,7 @@ class OrganizationMembersBottomSheetPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: distanceMedium, bottom: distanceTiny),
                 child: Text(
-                  context.localization!.invitations,
+                  context.localization.invitations,
                   style: context.theme.textTheme.titleMedium,
                 ),
               ),

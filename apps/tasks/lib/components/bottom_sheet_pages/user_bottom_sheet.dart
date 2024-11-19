@@ -55,7 +55,7 @@ class UserBottomSheetPage extends StatelessWidget {
             }),
             Consumer<CurrentWardController>(
               builder: (context, currentWardController, __) => Text(
-                currentWardController.currentWard?.organizationName ?? context.localization!.loading,
+                currentWardController.currentWard?.organizationName ?? context.localization.loading,
                 style: TextStyle(
                   fontSize: fontSizeSmall,
                   color: context.theme.hintColor,
@@ -70,7 +70,7 @@ class UserBottomSheetPage extends StatelessWidget {
                     Icons.house_rounded,
                     color: context.theme.colorScheme.primary,
                   ),
-                  title: Text(context.localization!.currentWard, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  title: Text(context.localization.currentWard, style: const TextStyle(fontWeight: FontWeight.bold)),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -116,7 +116,7 @@ class UserBottomSheetPage extends StatelessWidget {
                     currentWardService.clear();
                   },
                   child: Text(
-                    context.localization!.logout,
+                    context.localization.logout,
                   ),
                 );
               }),

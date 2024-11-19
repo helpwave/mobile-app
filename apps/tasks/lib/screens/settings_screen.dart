@@ -24,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.localization!.settings),
+        title: Text(context.localization.settings),
       ),
       body: ListView(
         children: [
@@ -34,16 +34,16 @@ class SettingsScreen extends StatelessWidget {
               tiles: [
                 ListTile(
                   leading: const Icon(Icons.brightness_medium),
-                  title: Text(context.localization!.darkMode),
+                  title: Text(context.localization.darkMode),
                   trailing: Consumer<ThemeModel>(
                     builder: (_, ThemeModel themeNotifier, __) {
                       return PopupMenuButton(
                         initialValue: themeNotifier.themeMode,
                         position: PopupMenuPosition.under,
                         itemBuilder: (context) => [
-                          PopupMenuItem(value: ThemeMode.dark, child: Text(context.localization!.darkMode)),
-                          PopupMenuItem(value: ThemeMode.light, child: Text(context.localization!.lightMode)),
-                          PopupMenuItem(value: ThemeMode.system, child: Text(context.localization!.system)),
+                          PopupMenuItem(value: ThemeMode.dark, child: Text(context.localization.darkMode)),
+                          PopupMenuItem(value: ThemeMode.light, child: Text(context.localization.lightMode)),
+                          PopupMenuItem(value: ThemeMode.system, child: Text(context.localization.system)),
                         ],
                         onSelected: (value) {
                           if (value == ThemeMode.system) {
@@ -58,9 +58,9 @@ class SettingsScreen extends StatelessWidget {
                             children: [
                               Text(
                                   {
-                                    ThemeMode.dark: context.localization!.darkMode,
-                                    ThemeMode.light: context.localization!.lightMode,
-                                    ThemeMode.system: context.localization!.system,
+                                    ThemeMode.dark: context.localization.darkMode,
+                                    ThemeMode.light: context.localization.lightMode,
+                                    ThemeMode.system: context.localization.system,
                                   }[themeNotifier.themeMode]!,
                                   style: const TextStyle(
                                     fontSize: 14,
@@ -84,7 +84,7 @@ class SettingsScreen extends StatelessWidget {
                   builder: (context, languageModel, child) {
                     return ListTile(
                       leading: const Icon(Icons.language),
-                      title: Text(context.localization!.language),
+                      title: Text(context.localization.language),
                       trailing: PopupMenuButton(
                         position: PopupMenuPosition.under,
                         initialValue: languageModel.local,
@@ -124,7 +124,7 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.info_outline),
-                  title: Text(context.localization!.licenses),
+                  title: Text(context.localization.licenses),
                   trailing: const Icon(Icons.arrow_forward),
                   onTap: () => {showLicensePage(context: context)},
                 ),
@@ -132,7 +132,7 @@ class SettingsScreen extends StatelessWidget {
                   builder: (context, currentWardService, _) {
                     return ListTile(
                       leading: const Icon(Icons.logout),
-                      title: Text(context.localization!.logout),
+                      title: Text(context.localization.logout),
                       onTap: () {
                         UserSessionService().logout();
                         currentWardService.clear();
@@ -170,27 +170,27 @@ class SettingsBottomSheetPage extends StatelessWidget {
     return BottomSheetPage(
       header: BottomSheetHeader.navigation(
         context,
-        titleText: context.localization!.settings,
+        titleText: context.localization.settings,
       ),
       child: Flexible(
         child: ListView(
           children: [
-            titleBuilder(context.localization!.personalSettings),
+            titleBuilder(context.localization.personalSettings),
             RoundedListTiles(
               children: [
                 ForwardNavigationTile(
                   icon: Icons.person,
-                  title: context.localization!.personalData,
+                  title: context.localization.personalData,
                   onTap: () {},
                 ),
                 ForwardNavigationTile(
                   icon: Icons.security_rounded,
-                  title: context.localization!.passwordAndSecurity,
+                  title: context.localization.passwordAndSecurity,
                   onTap: () {},
                 ),
                 ForwardNavigationTile(
                   icon: Icons.checklist_rounded,
-                  title: context.localization!.myTaskTemplates,
+                  title: context.localization.myTaskTemplates,
                   onTap: () {
                     NavigationStackController.of(context).push(const TaskTemplatesBottomSheetPage(isPersonal: true));
                   },
@@ -198,7 +198,7 @@ class SettingsBottomSheetPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: distanceMedium),
-            titleBuilder(context.localization!.myOrganizations),
+            titleBuilder(context.localization.myOrganizations),
             LoadingFutureBuilder(
               future: OrganizationService().getOrganizationsForUser(),
               thenBuilder: (context, data) {
@@ -218,21 +218,21 @@ class SettingsBottomSheetPage extends StatelessWidget {
               loadingWidget: const PulsingContainer(height: 50),
             ),
             const SizedBox(height: distanceMedium),
-            titleBuilder(context.localization!.appearance),
+            titleBuilder(context.localization.appearance),
             RoundedListTiles(
               children: [
                 ListTile(
                   leading: Icon(Icons.brightness_medium, color: context.theme.colorScheme.primary),
-                  title: Text(context.localization!.darkMode, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  title: Text(context.localization.darkMode, style: const TextStyle(fontWeight: FontWeight.bold)),
                   trailing: Consumer<ThemeModel>(
                     builder: (_, ThemeModel themeNotifier, __) {
                       return PopupMenuButton(
                         initialValue: themeNotifier.themeMode,
                         position: PopupMenuPosition.under,
                         itemBuilder: (context) => [
-                          PopupMenuItem(value: ThemeMode.dark, child: Text(context.localization!.darkMode)),
-                          PopupMenuItem(value: ThemeMode.light, child: Text(context.localization!.lightMode)),
-                          PopupMenuItem(value: ThemeMode.system, child: Text(context.localization!.system)),
+                          PopupMenuItem(value: ThemeMode.dark, child: Text(context.localization.darkMode)),
+                          PopupMenuItem(value: ThemeMode.light, child: Text(context.localization.lightMode)),
+                          PopupMenuItem(value: ThemeMode.system, child: Text(context.localization.system)),
                         ],
                         onSelected: (value) {
                           if (value == ThemeMode.system) {
@@ -246,9 +246,9 @@ class SettingsBottomSheetPage extends StatelessWidget {
                           children: [
                             Text(
                                 {
-                                  ThemeMode.dark: context.localization!.darkMode,
-                                  ThemeMode.light: context.localization!.lightMode,
-                                  ThemeMode.system: context.localization!.system,
+                                  ThemeMode.dark: context.localization.darkMode,
+                                  ThemeMode.light: context.localization.lightMode,
+                                  ThemeMode.system: context.localization.system,
                                 }[themeNotifier.themeMode]!,
                                 style: const TextStyle(
                                   fontSize: 14,
@@ -272,7 +272,7 @@ class SettingsBottomSheetPage extends StatelessWidget {
                     return ListTile(
                       leading: Icon(Icons.language, color: context.theme.colorScheme.primary),
                       title: Text(
-                        context.localization!.language,
+                        context.localization.language,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       trailing: PopupMenuButton(
@@ -313,19 +313,19 @@ class SettingsBottomSheetPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: distanceMedium),
-            titleBuilder(context.localization!.other),
+            titleBuilder(context.localization.other),
             RoundedListTiles(
               children: [
                 ForwardNavigationTile(
                   icon: Icons.info_outline,
-                  title: context.localization!.licenses,
+                  title: context.localization.licenses,
                   onTap: () => {showLicensePage(context: context)},
                 ),
                 Consumer<CurrentWardController>(
                   builder: (context, currentWardService, _) {
                     return ForwardNavigationTile(
                       icon: Icons.logout,
-                      title: context.localization!.logout,
+                      title: context.localization.logout,
                       color: Colors.red.withOpacity(0.7), // TODO get this from theme
                       onTap: () {
                         // TODO add confirm dialog
