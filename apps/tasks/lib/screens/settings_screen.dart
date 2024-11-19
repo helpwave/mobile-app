@@ -174,6 +174,7 @@ class SettingsBottomSheetPage extends StatelessWidget {
       ),
       child: Flexible(
         child: ListView(
+          padding: const EdgeInsets.only(bottom: paddingMedium),
           children: [
             titleBuilder(context.localization.personalSettings),
             RoundedListTiles(
