@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/util.dart';
@@ -58,8 +59,14 @@ class TaskExpansionTile extends StatelessWidget {
                     context: context,
                     builder: (context) => TaskBottomSheet(task: task, patient: task.patient),
                   ).then((_) {
-                    AssignedTasksController controller = Provider.of<AssignedTasksController>(context, listen: false);
-                    controller.load();
+                    try {
+                      AssignedTasksController controller = Provider.of<AssignedTasksController>(context, listen: false);
+                      controller.load();
+                    } catch (e) {
+                      if (kDebugMode) {
+                        print(e);
+                      }
+                    }
                   });
                 },
                 child: TaskCard(

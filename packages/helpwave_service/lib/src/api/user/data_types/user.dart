@@ -15,7 +15,13 @@ class User extends IdentifiedObject {
     required this.profileUrl,
   });
 
-  factory User.empty({String? id}) => User(id: id, name: "User", nickName: "", email: "", profileUrl: Uri.base);
+  factory User.empty({String? id}) => User(
+        id: id,
+        name: "User",
+        nickName: "",
+        email: "",
+        profileUrl: Uri.parse("https://cdn.helpwave.de/boringavatar.svg"),
+      );
 
   User copyWith({String? id, String? name, String? nickName, Uri? profileUrl, String? email}) => User(
         id: id ?? this.id,

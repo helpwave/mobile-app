@@ -17,9 +17,9 @@ import 'package:helpwave_util/loading.dart';
 /// A [BottomSheet] for showing [Patient] information and [Task]s for that [Patient]
 class PatientBottomSheet extends StatefulWidget {
   /// The identifier of the [Patient]
-  final String patentId;
+  final String? patentId;
 
-  const PatientBottomSheet({Key? key, required this.patentId}) : super(key: key);
+  const PatientBottomSheet({Key? key, this.patentId}) : super(key: key);
 
   @override
   State<PatientBottomSheet> createState() => _PatientBottomSheetState();
@@ -48,7 +48,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => PatientController(Patient.empty(id: widget.patentId)),
+          create: (_) => PatientController(id: widget.patentId),
         ),
       ],
       child: BottomSheetPage(
@@ -83,7 +83,6 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                   children: patientController.isCreating
                       ? [
                           FilledButton(
-                            style: buttonStyleBig,
                             onPressed: patientController.create,
                             child: Text(context.localization.create),
                           )

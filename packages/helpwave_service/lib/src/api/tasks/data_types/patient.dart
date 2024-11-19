@@ -91,12 +91,12 @@ class Patient extends PatientMinimal {
 
   get doneCount => doneTasks.length;
 
-  factory Patient.empty({String id = ""}) {
+  factory Patient.empty({String? id}) {
     return Patient(id: id, name: "Patient", tasks: [], notes: "", isDischarged: false);
   }
 
   Patient({
-    required super.id,
+    super.id,
     required super.name,
     required this.tasks,
     required this.notes,

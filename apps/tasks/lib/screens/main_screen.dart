@@ -156,7 +156,7 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
               onPressed: () {
                 context.pushModal(
                   context: context,
-                  builder: (context) => const PatientBottomSheet(patentId: ""),
+                  builder: (context) => const PatientBottomSheet(),
                 );
               },
             ),

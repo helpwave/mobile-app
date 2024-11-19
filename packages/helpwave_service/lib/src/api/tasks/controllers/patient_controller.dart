@@ -4,7 +4,7 @@ import 'package:helpwave_service/src/api/tasks/index.dart';
 /// The Controller for managing [Patient]s in a Ward
 class PatientController extends LoadingChangeNotifier {
   /// The current [Patient]
-  Patient _patient;
+  Patient _patient = Patient.empty();
 
   /// The current [Patient]
   Patient get patient => _patient;
@@ -17,7 +17,13 @@ class PatientController extends LoadingChangeNotifier {
   /// Is the current [Patient] already saved on the server or are we creating?
   get isCreating => _patient.isCreating;
 
-  PatientController(this._patient) {
+  PatientController({String? id, Patient? patient}) {
+    assert(patient == null || id == patient.id, "The id and patient id must be equal or not provided.");
+    if(patient != null) {
+      _patient = patient;
+    } else if(id != null) {
+      _patient.copyWith(id: id);
+    }
     load();
   }
 
@@ -72,12 +78,12 @@ class PatientController extends LoadingChangeNotifier {
 
   /// Assigns the [Patient] to a [Bed] and [Room]
   Future<void> assignToBed(RoomMinimal room, BedMinimal bed) async {
-    if (isCreating) {
-      patient.room = room;
-      patient.bed = bed;
-      return;
-    }
     assignPatientToBed() async {
+      if (isCreating) {
+        patient.room = room;
+        patient.bed = bed;
+        return;
+      }
       await PatientService().assignBed(patientId: patient.id!, bedId: bed.id).then((value) {
         patient = patient.copyWith(bed: bed, room: room);
       });
