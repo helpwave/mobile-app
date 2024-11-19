@@ -81,7 +81,7 @@ class UserBottomSheetPage extends StatelessWidget {
                           style: context.theme.textTheme.labelLarge,
                         );
                       }),
-                      const Icon(Icons.chevron_right_rounded),
+                      const Icon(Icons.expand_more_rounded),
                     ],
                   ),
                   onTap: () {

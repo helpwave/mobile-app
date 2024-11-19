@@ -31,16 +31,16 @@ class Identity {
   /// The default login data
   factory Identity.defaultIdentity() {
     return Identity(
-        idToken: "eyJzdWIiOiIxODE1OTcxMy01ZDRlLTRhZDUtOTRhZC1mYmI2YmIxNDc5ODQiLCJlbWFpbCI6Im1heC5tdXN0ZXJtYW5uQGhlbHB"
-            "3YXZlLmRlIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJNYXggTXVzdGVybWFubiIsInByZWZlcnJlZF91c2Vybm"
-            "FtZSI6Im1heC5tdXN0ZXJtYW5uIiwiZ2l2ZW5fbmFtZSI6Ik1heCIsImZhbWlseV9uYW1lIjoiTXVzdGVybWFubiIsIm9yZ2FuaXphdG"
-            "lvbiI6eyJpZCI6IjNiMjVjNmY1LTQ3MDUtNDA3NC05ZmM2LWE1MGMyOGViYTQwNiIsIm5hbWUiOiJoZWxwd2F2ZSB0ZXN0In19",
+        idToken: "eyJzdWIiOiIxODE1OTcxMy01ZDRlLTRhZDUtOTRhZC1mYmI2YmIxNDc5ODQiLCJlbWFpbCI6Im1heC5tdXN0ZXJtYW5uQGhlbHB3Y"
+            "XZlLmRlIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJNYXggTXVzdGVybWFubiIsInByZWZlcnJlZF91c2VybmFtZSI6Im1he"
+            "C5tdXN0ZXJtYW5uIiwiZ2l2ZW5fbmFtZSI6Ik1heCIsImZhbWlseV9uYW1lIjoiTXVzdGVybWFubiIsIm9yZ2FuaXphdGlvbiI6ey"
+            "JpZCI6IjNiMjVjNmY1LTQ3MDUtNDA3NC05ZmM2LWE1MGMyOGViYTQwNiIsIm5hbWUiOiJoZWxwd2F2ZSB0ZXN0In19",
         // TODO add a default here
-        id: "bb560b25-45b6-4a84-87f1-408e8c32dec8",
+        id: "18159713-5d4e-4ad5-94ad-fbb6bb147984",
         name: "Max Mustermann",
         nickName: "Max M.",
         email: "max.mustermann@helpwave.de",
-        organizations: ['bb560b25-45b6-4a84-87f1-408e8c32dec8']);
+        organizations: ['3b25c6f5-4705-4074-9fc6-a50c28eba406']);
   }
 
   Identity({

@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 import 'package:tasks/components/bottom_sheet_pages/organization_members_bottom_sheet.dart';
 import 'package:tasks/components/bottom_sheet_pages/properties_bottom_sheet.dart';
 import 'package:tasks/components/bottom_sheet_pages/wards_bottom_sheet_page.dart';
-import 'package:tasks/screens/settings_screen.dart';
 
 class OrganizationBottomSheetPage extends StatelessWidget {
   final String organizationId;
@@ -69,7 +68,7 @@ class OrganizationBottomSheetPage extends StatelessWidget {
                   const SizedBox(height: distanceTiny),
                   RoundedListTiles(
                     children: [
-                      NavigationListTile(
+                      ForwardNavigationTile(
                         icon: Icons.house_rounded,
                         title: context.localization!.wards,
                         onTap: () {
@@ -77,7 +76,7 @@ class OrganizationBottomSheetPage extends StatelessWidget {
                               .push(WardsBottomSheetPage(organizationId: organizationId));
                         },
                       ),
-                      NavigationListTile(
+                      ForwardNavigationTile(
                         icon: Icons.person,
                         title: context.localization!.members,
                         onTap: () {
@@ -85,7 +84,7 @@ class OrganizationBottomSheetPage extends StatelessWidget {
                               .push(OrganizationMembersBottomSheetPage(organizationId: organizationId));
                         },
                       ),
-                      NavigationListTile(
+                      ForwardNavigationTile(
                         icon: Icons.label,
                         title: context.localization!.properties,
                         onTap: () {

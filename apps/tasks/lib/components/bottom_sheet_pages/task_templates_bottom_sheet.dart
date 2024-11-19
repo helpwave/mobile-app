@@ -7,8 +7,8 @@ import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/lists.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:helpwave_widget/navigation.dart';
+import 'package:helpwave_widget/widgets.dart';
 import 'package:tasks/components/bottom_sheet_pages/task_template_bottom_sheet.dart';
-import 'package:tasks/screens/settings_screen.dart';
 
 class TaskTemplatesBottomSheetPage extends StatelessWidget {
   final bool isPersonal;
@@ -66,7 +66,7 @@ class TaskTemplatesBottomSheetPage extends StatelessWidget {
               RoundedListTiles(
                   children: data
                       .map(
-                        (template) => NavigationListTile(
+                        (template) => ForwardNavigationTile(
                           icon: Icons.fact_check_rounded,
                           title: template.name,
                           onTap: () {

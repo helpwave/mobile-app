@@ -6,9 +6,9 @@ import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/lists.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:helpwave_widget/navigation.dart';
+import 'package:helpwave_widget/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/bottom_sheet_pages/room_overview_bottom_sheet.dart';
-import 'package:tasks/screens/settings_screen.dart';
 
 class RoomsBottomSheetPage extends StatelessWidget {
   final String wardId;
@@ -54,7 +54,7 @@ class RoomsBottomSheetPage extends StatelessWidget {
                     child: RoundedListTiles(
                       children: controller.rooms
                           .map(
-                            (room) => NavigationListTile(
+                            (room) => ForwardNavigationTile(
                               icon: Icons.meeting_room_rounded,
                               title: room.name,
                               trailingText: "${room.beds.length} ${context.localization!.beds}",

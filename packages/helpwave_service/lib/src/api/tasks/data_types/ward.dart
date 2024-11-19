@@ -1,14 +1,14 @@
+import 'package:helpwave_service/src/api/util/identified_object.dart';
+
 /// data class for [Ward]
-class WardMinimal {
-  String id;
+class WardMinimal extends IdentifiedObject {
   String name;
 
   WardMinimal({
-    required this.id,
+    super.id,
     required this.name,
   });
 
-  bool get isCreating => id == "";
 
   WardMinimal copyWith({
     String? id,
@@ -22,7 +22,7 @@ class WardMinimal {
 
   @override
   String toString() {
-    return "{id: $id, name: $name}";
+    return "$runtimeType{id: $id, name: $name}";
   }
 }
 
@@ -30,7 +30,7 @@ class Ward extends WardMinimal {
   String organizationId;
 
   Ward({
-    required super.id,
+    super.id,
     required super.name,
     required this.organizationId,
   });
@@ -43,7 +43,7 @@ class WardOverview extends WardMinimal {
   int tasksInDone;
 
   WardOverview({
-    required super.id,
+    super.id,
     required super.name,
     required this.bedCount,
     required this.tasksInTodo,

@@ -9,39 +9,37 @@ import 'package:helpwave_util/loading.dart';
 /// only used locally
 class WardController extends LoadingChangeNotifier {
   /// The [WardMinimal]
-  WardMinimal? _ward;
+  WardMinimal _ward = WardMinimal(name: "Ward");
 
-  WardMinimal get ward {
-    return _ward ?? WardMinimal(id: "", name: "");
-  }
+  WardMinimal get ward => _ward;
 
   set ward(WardMinimal value) {
     _ward = value;
     notifyListeners();
   }
 
-  bool get isCreating => wardId == null || wardId!.isEmpty;
+  bool get isCreating => ward.isCreating;
 
-  String? wardId;
-
-  WardController({this.wardId = "", WardMinimal? ward}) {
-    assert(ward == null || ward.id == wardId);
+  WardController({String? id, WardMinimal? ward}) {
+    assert(
+      (id == null && ward?.id == null) || ward == null || id == ward.id,
+      "Ensure that both the id and id within the ward object are the same",
+    );
     if (ward != null) {
       _ward = ward;
-      wardId = ward.id;
+    } else if (id != null) {
+      _ward = _ward.copyWith(id: id);
     }
-    if (!isCreating) {
-      load();
-    }
+    load();
   }
 
   /// Loads the [WardMinimal]s
   Future<void> load() async {
-    if (isCreating) {
-      return;
-    }
     loadOp() async {
-      ward = await WardService().get(id: wardId!);
+      if (isCreating) {
+        return;
+      }
+      ward = await WardService().get(id: ward.id!);
     }
 
     loadHandler(future: loadOp());
@@ -58,11 +56,10 @@ class WardController extends LoadingChangeNotifier {
   }
 
   /// Add the [WardMinimal]
-  Future<void> create(WardMinimal ward) async {
+  Future<void> create() async {
     assert(isCreating);
     createOp() async {
       await WardService().create(ward: ward).then((value) {
-        wardId = value.id;
         ward = value;
       });
     }

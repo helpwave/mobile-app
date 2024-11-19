@@ -5,6 +5,7 @@ import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_service/user.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/content_selection.dart';
+import 'package:helpwave_widget/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/screens/settings_screen.dart';
 
@@ -41,10 +42,9 @@ class _WardSelectScreen extends State<WardSelectScreen> {
       ),
       body: Column(
         children: [
-          ListTile(
-            title: Text(organization?.longName ?? context.localization!.none),
-            subtitle: Text(context.localization!.organization),
-            trailing: const Icon(Icons.arrow_forward),
+          ForwardNavigationTile(
+            title:organization?.longName ?? context.localization!.none,
+            subtitle: context.localization!.organization,
             onTap: () => Navigator.push<Organization?>(
               context,
               MaterialPageRoute(
@@ -69,10 +69,9 @@ class _WardSelectScreen extends State<WardSelectScreen> {
               }
             }),
           ),
-          ListTile(
-            title: Text(ward?.name ?? context.localization!.none),
-            subtitle: Text(context.localization!.ward),
-            trailing: const Icon(Icons.arrow_forward),
+          ForwardNavigationTile(
+            title: ward?.name ?? context.localization!.none,
+            subtitle: context.localization!.ward,
             onTap: organization == null
                 ? null
                 : () => Navigator.push<WardMinimal?>(

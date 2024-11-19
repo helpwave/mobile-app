@@ -1,10 +1,11 @@
-class OrganizationMinimal {
-  String id;
+import 'package:helpwave_service/src/api/util/identified_object.dart';
+
+class OrganizationMinimal extends IdentifiedObject {
   String shortName;
   String longName;
 
   OrganizationMinimal({
-    required this.id,
+    super.id,
     required this.shortName,
     required this.longName,
   });
@@ -30,7 +31,7 @@ class Organization extends OrganizationMinimal {
   bool isVerified;
 
   Organization({
-    required super.id,
+    super.id,
     required super.shortName,
     required super.longName,
     required this.avatarURL,
@@ -49,6 +50,7 @@ class Organization extends OrganizationMinimal {
         isVerified: false,
       );
 
+  @override
   Organization copyWith({
     String? id,
     String? shortName,
@@ -73,6 +75,6 @@ class Organization extends OrganizationMinimal {
 
   @override
   String toString() {
-    return "{id: $id, name: $longName, shortName: $shortName}";
+    return "$runtimeType{id: $id, name: $longName, shortName: $shortName}";
   }
 }

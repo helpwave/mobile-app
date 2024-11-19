@@ -10,6 +10,7 @@ import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/lists.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:helpwave_widget/navigation.dart';
+import 'package:helpwave_widget/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/bottom_sheet_pages/organization_bottom_sheet.dart';
 import 'package:tasks/components/bottom_sheet_pages/task_templates_bottom_sheet.dart';
@@ -151,54 +152,6 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-class NavigationListTile extends StatelessWidget {
-  final IconData icon;
-  final Color? color;
-  final String title;
-  final String? subtitle;
-  final void Function() onTap;
-  final String? trailingText;
-
-  const NavigationListTile({
-    super.key,
-    required this.icon,
-    this.color,
-    required this.title,
-    this.subtitle,
-    required this.onTap,
-    this.trailingText,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(
-        icon,
-        color: color ?? context.theme.colorScheme.primary,
-      ),
-      onTap: onTap,
-      title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, color: color)),
-      subtitle: subtitle != null ? Text(subtitle!) : null,
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          trailingText != null
-              ? Text(
-                  trailingText!,
-                  style: context.theme.textTheme.labelLarge,
-                )
-              : const SizedBox(),
-          Icon(
-            Icons.chevron_right_rounded,
-            color: context.theme.colorScheme.onBackground.withOpacity(0.7),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class SettingsBottomSheetPage extends StatelessWidget {
   const SettingsBottomSheetPage({super.key});
 
@@ -225,17 +178,17 @@ class SettingsBottomSheetPage extends StatelessWidget {
             titleBuilder(context.localization!.personalSettings),
             RoundedListTiles(
               children: [
-                NavigationListTile(
+                ForwardNavigationTile(
                   icon: Icons.person,
                   title: context.localization!.personalData,
                   onTap: () {},
                 ),
-                NavigationListTile(
+                ForwardNavigationTile(
                   icon: Icons.security_rounded,
                   title: context.localization!.passwordAndSecurity,
                   onTap: () {},
                 ),
-                NavigationListTile(
+                ForwardNavigationTile(
                   icon: Icons.checklist_rounded,
                   title: context.localization!.myTaskTemplates,
                   onTap: () {
@@ -251,7 +204,7 @@ class SettingsBottomSheetPage extends StatelessWidget {
               thenBuilder: (context, data) {
                 return RoundedListTiles(
                   children: data
-                      .map((organization) => NavigationListTile(
+                      .map((organization) => ForwardNavigationTile(
                             icon: Icons.apartment_rounded,
                             title: organization.longName,
                             onTap: () {
@@ -363,14 +316,14 @@ class SettingsBottomSheetPage extends StatelessWidget {
             titleBuilder(context.localization!.other),
             RoundedListTiles(
               children: [
-                NavigationListTile(
+                ForwardNavigationTile(
                   icon: Icons.info_outline,
                   title: context.localization!.licenses,
                   onTap: () => {showLicensePage(context: context)},
                 ),
                 Consumer<CurrentWardController>(
                   builder: (context, currentWardService, _) {
-                    return NavigationListTile(
+                    return ForwardNavigationTile(
                       icon: Icons.logout,
                       title: context.localization!.logout,
                       color: Colors.red.withOpacity(0.7), // TODO get this from theme

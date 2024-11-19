@@ -1,3 +1,5 @@
+import 'package:helpwave_service/src/api/util/identified_object.dart';
+
 import '../../../../user.dart';
 
 enum InvitationState {
@@ -8,8 +10,7 @@ enum InvitationState {
   revoked,
 }
 
-class Invitation {
-  String id;
+class Invitation extends IdentifiedObject {
   InvitationState state;
 
   /// The email of the invited [User]
@@ -22,7 +23,7 @@ class Invitation {
   Organization? organization;
 
   Invitation({
-    required this.id,
+    super.id,
     required this.organizationId,
     required this.email,
     required this.state,

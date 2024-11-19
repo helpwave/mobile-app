@@ -92,24 +92,6 @@ class OrganizationOfflineClient extends OrganizationServiceClient {
   }
 
   @override
-  ResponseFuture<CreateOrganizationForUserResponse> createOrganizationForUser(CreateOrganizationForUserRequest request,
-      {CallOptions? options}) {
-    final newOrganization = Organization(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      shortName: request.shortName,
-      longName: request.longName,
-      avatarURL: 'https://helpwave.de/favicon.ico',
-      email: request.contactEmail,
-      isPersonal: request.isPersonal,
-      isVerified: true,
-    );
-
-    OfflineClientStore().organizationStore.create(newOrganization);
-
-    return MockResponseFuture.value(CreateOrganizationForUserResponse()..id = newOrganization.id);
-  }
-
-  @override
   ResponseFuture<GetOrganizationResponse> getOrganization(GetOrganizationRequest request, {CallOptions? options}) {
     final organization = OfflineClientStore().organizationStore.find(request.id);
 

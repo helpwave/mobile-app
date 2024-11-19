@@ -8,8 +8,8 @@ import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/lists.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:helpwave_widget/navigation.dart';
+import 'package:helpwave_widget/widgets.dart';
 import 'package:tasks/components/bottom_sheet_pages/ward_bottom_sheet.dart';
-import 'package:tasks/screens/settings_screen.dart';
 
 class WardsBottomSheetPage extends StatelessWidget {
   final String organizationId;
@@ -38,28 +38,35 @@ class WardsBottomSheetPage extends StatelessWidget {
           ),
           loadingWidget: const PulsingContainer(width: 60, height: 40),
         ),
+        trailing: BottomSheetAction(
+            icon: Icons.add,
+            onPressed: () {
+              NavigationStackController.of(context).push(const WardBottomSheetPage());
+            }),
       ),
       child: Flexible(
         child: LoadingFutureBuilder(
           future: WardService().getWards(organizationId: organizationId),
-          thenBuilder: (context, data) => ListView(
-            shrinkWrap: true,
-            children: [
-              const SizedBox(height: distanceMedium),
-              RoundedListTiles(
-                  children: data
-                      .map(
-                        (ward) => NavigationListTile(
-                          icon: Icons.house_rounded,
-                          title: ward.name,
-                          onTap: () {
-                            NavigationStackController.of(context).push(WardBottomSheetPage(wardId: ward.id));
-                          },
-                        ),
-                      )
-                      .toList()),
-            ],
-          ),
+          thenBuilder: (context, data) {
+            return ListView(
+              shrinkWrap: true,
+              children: [
+                const SizedBox(height: distanceMedium),
+                RoundedListTiles(
+                    children: data
+                        .map(
+                          (ward) => ForwardNavigationTile(
+                            icon: Icons.house_rounded,
+                            title: ward.name,
+                            onTap: () {
+                              NavigationStackController.of(context).push(WardBottomSheetPage(wardId: ward.id));
+                            },
+                          ),
+                        )
+                        .toList()),
+              ],
+            );
+          },
         ),
       ),
     );

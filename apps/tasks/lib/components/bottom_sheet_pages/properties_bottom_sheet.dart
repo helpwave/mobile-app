@@ -8,9 +8,8 @@ import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/lists.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:helpwave_widget/navigation.dart';
+import 'package:helpwave_widget/widgets.dart';
 import 'package:tasks/components/bottom_sheet_pages/property_bottom_sheet.dart';
-import 'package:tasks/screens/settings_screen.dart';
-
 import '../../util/field_type_translations.dart';
 
 /// A [BottomSheet] for showing a [Property] information
@@ -55,7 +54,7 @@ class PropertiesBottomSheet extends StatelessWidget {
               children: [
                 RoundedListTiles(
                   children: properties
-                      .map((property) => NavigationListTile(
+                      .map((property) => ForwardNavigationTile(
                             icon: Icons.label,
                             title: property.name,
                             subtitle: propertyFieldTypeTranslations(context, property.fieldType),

@@ -1,25 +1,24 @@
+import 'package:helpwave_service/src/api/util/identified_object.dart';
+
 /// data class for [User]
-class User {
-  String id;
+class User extends IdentifiedObject {
   String name;
   String nickName;
   String email;
   Uri profileUrl;
 
   User({
-    required this.id,
+    super.id,
     required this.name,
     required this.nickName,
     required this.email,
     required this.profileUrl,
   });
 
-  factory User.empty({String id = ""}) => User(id: id, name: "", nickName: "", email: "", profileUrl: Uri.base);
+  factory User.empty({String? id}) => User(id: id, name: "User", nickName: "", email: "", profileUrl: Uri.base);
 
-  bool get isCreating => id == "";
-
-  User copyWith({String? name, String? nickName, Uri? profileUrl, String? email}) => User(
-        id: id,
+  User copyWith({String? id, String? name, String? nickName, Uri? profileUrl, String? email}) => User(
+        id: id ?? this.id,
         name: name ?? this.name,
         nickName: nickName ?? this.nickName,
         profileUrl: profileUrl ?? this.profileUrl,
@@ -34,4 +33,9 @@ class User {
 
   @override
   int get hashCode => id.hashCode;
+
+  @override
+  String toString() {
+    return "$runtimeType{id: $id, name: $name}";
+  }
 }

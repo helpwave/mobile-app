@@ -214,5 +214,6 @@
   "alwaysVisibleDescription": "Will be displayed on entity even if the value of the property is empty.",
   "description": "Beschreibung",
   "options": "Optionen",
-  "editProperty": "Property ändern"
+  "editProperty": "Property ändern",
+  "createWard": "Station erstellen"
 }
