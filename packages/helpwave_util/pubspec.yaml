@@ -6,7 +6,7 @@ homepage: https://github.com/helpwave/mobile-app
 publish_to: none
 
 environment:
-  sdk: '>=3.1.0'
+  sdk: '>=3.5.0'
   flutter: ">=3.16.0"
 
 dependencies:
@@ -16,6 +16,4 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
-
-flutter:
+  flutter_lints: ^5.0.0
