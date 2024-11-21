@@ -10,17 +10,17 @@ class CurrentWardInformation {
   final WardMinimal ward;
 
   /// The identifier of the organization
-  final OrganizationMinimal organization;
+  final Organization organization;
 
-  String get wardId => ward.id;
+  String get wardId => ward.id; // Id can be null
 
   String get wardName => ward.name;
 
-  String get organizationId => organization.id;
+  String get organizationId => organization.id ?? ""; // Id can be null
 
   String get organizationName => "${organization.longName} (${organization.shortName})";
 
-  bool get isEmpty => wardId == "" || organizationId == "";
+  bool get isEmpty => wardId == "" || organizationId == ""; // TODO the ids are null and would throw an error
 
   bool get hasFullInformation => ward.name != "" && organization.longName != "";
 
@@ -28,7 +28,7 @@ class CurrentWardInformation {
 
   CurrentWardInformation copyWith({
     WardMinimal? ward,
-    OrganizationMinimal? organization,
+    Organization? organization,
   }) {
     return CurrentWardInformation(
       ward ?? this.ward,
@@ -73,7 +73,7 @@ class _CurrentWardPreferences {
     if (wardId != null && organizationId != null) {
       return CurrentWardInformation(
         WardMinimal(id: wardId, name: ""),
-        OrganizationMinimal(id: organizationId, longName: "", shortName: ""),
+        Organization.empty(id: organizationId),
       );
     }
     return null;
@@ -167,7 +167,7 @@ class CurrentWardService extends Listenable {
     if (!isInitialized) {
       return;
     }
-    Organization organization = await OrganizationService().getOrganization(id: currentWard!.organizationId);
+    Organization organization = await OrganizationService().get(currentWard!.organizationId);
     WardMinimal ward = await WardService().get(id: currentWard!.wardId);
     _currentWard = CurrentWardInformation(ward, organization);
     notifyListeners();

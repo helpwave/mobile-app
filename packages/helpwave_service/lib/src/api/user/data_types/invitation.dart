@@ -1,6 +1,5 @@
-import 'package:helpwave_service/src/api/util/identified_object.dart';
-
 import '../../../../user.dart';
+import 'package:helpwave_service/util.dart';
 
 enum InvitationState {
   unspecified,

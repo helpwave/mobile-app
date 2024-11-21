@@ -1,13 +1,13 @@
-abstract class CRUDInterface<T, Create, Update> {
+abstract class CRUDInterface<IdentifierType, T, Create, Update> {
   /// A [Function] for loading the object
-  Future<T> get(String id);
+  Future<T> get(IdentifierType id);
 
   /// A [Function] for creating the object
   Future<T> create(Create value);
 
   /// A [Function] for updating the object with an update object
-  Future<bool> update(String id, Update update);
+  Future<bool> update(IdentifierType id, Update? update);
 
   /// A [Function] for deleting the object
-  Future<bool> delete(String id);
+  Future<bool> delete(IdentifierType id);
 }

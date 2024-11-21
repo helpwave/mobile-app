@@ -22,7 +22,7 @@ class WardsBottomSheetPage extends StatelessWidget {
       header: BottomSheetHeader.navigation(
         context,
         title: LoadingFutureBuilder(
-          future: OrganizationService().getOrganization(id: organizationId),
+          future: OrganizationService().get(organizationId),
           thenBuilder: (context, data) => Column(
             mainAxisSize: MainAxisSize.min,
             children: [

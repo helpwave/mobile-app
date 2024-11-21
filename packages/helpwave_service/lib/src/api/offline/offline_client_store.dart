@@ -15,13 +15,16 @@ const String profileUrl = "https://helpwave.de/favicon.ico";
 
 final List<Organization> initialOrganizations = [
   Organization(
-      id: "organization1",
-      shortName: "MK",
-      longName: "Musterklinikum",
+    id: "organization1",
+    shortName: "MK",
+    longName: "Musterklinikum",
+    details: OrganizationDetails(
       avatarURL: profileUrl,
       email: "test@helpwave.de",
       isPersonal: false,
-      isVerified: true),
+      isVerified: true,
+    ),
+  ),
 ];
 final List<User> initialUsers = [
   User(
@@ -62,7 +65,7 @@ final List<User> initialUsers = [
 ];
 final List<Ward> initialWards = initialOrganizations
     .map((organization) => range(0, 3).map((index) =>
-        Ward(id: "${organization.id}${index + 1}", name: "Ward ${index + 1}", organizationId: organization.id)))
+        Ward(id: "${organization.id}${index + 1}", name: "Ward ${index + 1}", organizationId: organization.id!)))
     .expand((element) => element)
     .toList();
 final List<RoomWithWardId> initialRooms = initialWards
@@ -71,8 +74,8 @@ final List<RoomWithWardId> initialRooms = initialWards
     .expand((element) => element)
     .toList();
 final List<Bed> initialBeds = initialRooms
-    .map((room) => range(0, 4)
-        .map((index) => Bed(id: "${room.id}${index + 1}", name: "Bed ${index + 1}", roomId: room.id)))
+    .map((room) =>
+        range(0, 4).map((index) => Bed(id: "${room.id}${index + 1}", name: "Bed ${index + 1}", roomId: room.id)))
     .expand((element) => element)
     .toList();
 final List<PatientWithBedId> initialPatients = initialBeds.indexed

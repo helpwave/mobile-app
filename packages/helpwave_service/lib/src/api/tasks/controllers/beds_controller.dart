@@ -40,7 +40,7 @@ class BedsController extends LoadingChangeNotifier {
     loadHandler(future: loadBeds());
   }
 
-  /// Delete the [Bed] by its index in the list
+  /// Delete the [Bed] by its index.dart in the list
   Future<void> deleteByIndex(int index) async {
     assert (index < 0 || index >= beds.length);
     if (isCreating) {
@@ -88,7 +88,7 @@ class BedsController extends LoadingChangeNotifier {
     if (isCreating) {
       assert(
       index != null && index >= 0 && index < beds.length,
-      "When creating a bed list and updating a bed, a index for the bed must be provided",
+      "When creating a bed list and updating a bed, a index.dart for the bed must be provided",
       );
       beds[index!] = bed;
       return;

@@ -1,5 +1,5 @@
 import 'package:helpwave_service/src/api/tasks/index.dart';
-import 'package:helpwave_service/src/api/util/identified_object.dart';
+import 'package:helpwave_service/util.dart';
 
 enum PatientAssignmentStatus { active, unassigned, discharged, all }
 

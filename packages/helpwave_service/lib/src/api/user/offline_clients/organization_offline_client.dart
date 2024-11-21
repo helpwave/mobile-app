@@ -6,24 +6,6 @@ import 'package:helpwave_service/src/api/user/util/type_converter.dart';
 import 'package:helpwave_service/user.dart';
 import '../data_types/invitation.dart' as invite_types;
 
-class OrganizationUpdate {
-  String id;
-  String? shortName;
-  String? longName;
-  String? email;
-  bool? isPersonal;
-  String? avatarURL;
-
-  OrganizationUpdate({
-    required this.id,
-    this.shortName,
-    this.longName,
-    this.email,
-    this.isPersonal,
-    this.avatarURL,
-  });
-}
-
 class OrganizationOfflineService {
   List<Organization> organizations = [];
 
@@ -48,12 +30,13 @@ class OrganizationOfflineService {
     organizations = organizations.map((org) {
       if (org.id == organizationUpdate.id) {
         found = true;
-        return org.copyWith(
-            shortName: organizationUpdate.shortName,
-            longName: organizationUpdate.longName,
-            avatarURL: organizationUpdate.avatarURL,
-            email: organizationUpdate.email,
-            isPersonal: organizationUpdate.isPersonal);
+        return org.copyWith(OrganizationUpdate(
+          shortName: organizationUpdate.shortName,
+          longName: organizationUpdate.longName,
+          avatarURL: organizationUpdate.avatarURL,
+          email: organizationUpdate.email,
+          isPersonal: organizationUpdate.isPersonal,
+        ));
       }
       return org;
     }).toList();
@@ -80,15 +63,17 @@ class OrganizationOfflineClient extends OrganizationServiceClient {
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       shortName: request.shortName,
       longName: request.longName,
-      avatarURL: 'https://helpwave.de/favicon.ico',
-      email: request.contactEmail,
-      isPersonal: request.isPersonal,
-      isVerified: true,
+      details: OrganizationDetails(
+        avatarURL: 'https://helpwave.de/favicon.ico',
+        email: request.contactEmail,
+        isPersonal: request.isPersonal,
+        isVerified: true,
+      ),
     );
 
     OfflineClientStore().organizationStore.create(newOrganization);
 
-    return MockResponseFuture.value(CreateOrganizationResponse()..id = newOrganization.id);
+    return MockResponseFuture.value(CreateOrganizationResponse(id: newOrganization.id));
   }
 
   @override
@@ -102,14 +87,15 @@ class OrganizationOfflineClient extends OrganizationServiceClient {
     final members =
         OfflineClientStore().userStore.findUsers().map((user) => GetOrganizationMember()..userId = user.id).toList();
 
-    return MockResponseFuture.value(GetOrganizationResponse()
-      ..id = organization.id
-      ..shortName = organization.shortName
-      ..longName = organization.longName
-      ..avatarUrl = organization.avatarURL
-      ..contactEmail = organization.email
-      ..isPersonal = organization.isPersonal
-      ..members.addAll(members));
+    return MockResponseFuture.value(GetOrganizationResponse(
+      id: organization.id,
+      shortName: organization.shortName,
+      longName: organization.longName,
+      avatarUrl: organization.details?.avatarURL,
+      contactEmail: organization.details?.email,
+      isPersonal: organization.details?.isPersonal,
+      members: members,
+    ));
   }
 
   @override
@@ -122,14 +108,15 @@ class OrganizationOfflineClient extends OrganizationServiceClient {
           .map((user) => GetOrganizationsByUserResponse_Organization_Member()..userId = user.id)
           .toList();
 
-      return GetOrganizationsByUserResponse_Organization()
-        ..id = org.id
-        ..shortName = org.shortName
-        ..longName = org.longName
-        ..contactEmail = org.email
-        ..avatarUrl = org.avatarURL
-        ..members.addAll(members)
-        ..isPersonal = org.isPersonal;
+      return GetOrganizationsByUserResponse_Organization(
+        id: org.id,
+        shortName: org.shortName,
+        longName: org.longName,
+        contactEmail: org.details?.email,
+        avatarUrl: org.details?.avatarURL,
+        members: members,
+        isPersonal: org.details?.isPersonal,
+      );
     }).toList();
 
     return MockResponseFuture.value(GetOrganizationsByUserResponse()..organizations.addAll(organizations));
@@ -145,14 +132,15 @@ class OrganizationOfflineClient extends OrganizationServiceClient {
           .map((user) => GetOrganizationsForUserResponse_Organization_Member()..userId = user.id)
           .toList();
 
-      return GetOrganizationsForUserResponse_Organization()
-        ..id = org.id
-        ..shortName = org.shortName
-        ..longName = org.longName
-        ..contactEmail = org.email
-        ..avatarUrl = org.avatarURL
-        ..members.addAll(members)
-        ..isPersonal = org.isPersonal;
+      return GetOrganizationsForUserResponse_Organization(
+        id: org.id,
+        shortName: org.shortName,
+        longName: org.longName,
+        contactEmail: org.details?.email,
+        avatarUrl: org.details?.avatarURL,
+        members: members,
+        isPersonal: org.details?.isPersonal,
+      );
     }).toList();
 
     return MockResponseFuture.value(GetOrganizationsForUserResponse()..organizations.addAll(organizations));
@@ -259,7 +247,7 @@ class OrganizationOfflineClient extends OrganizationServiceClient {
       invite.organization = GetInvitationsByUserResponse_Invitation_Organization(
         id: organization.id,
         longName: organization.longName,
-        avatarUrl: organization.avatarURL,
+        avatarUrl: organization.details?.avatarURL,
       );
       return invite;
     }));
@@ -271,7 +259,8 @@ class OrganizationOfflineClient extends OrganizationServiceClient {
   ResponseFuture<InviteMemberResponse> inviteMember(InviteMemberRequest request, {CallOptions? options}) {
     assert(OfflineClientStore().userStore.users.indexWhere((element) => element.email == request.email) != -1);
     assert(OfflineClientStore().invitationStore.invitations.indexWhere(
-            (element) => element.organizationId == request.organizationId && element.email == request.email) == -1);
+            (element) => element.organizationId == request.organizationId && element.email == request.email) ==
+        -1);
 
     final invite = invite_types.Invitation(
       id: DateTime.now().toString(),
@@ -285,12 +274,12 @@ class OrganizationOfflineClient extends OrganizationServiceClient {
 
   @override
   ResponseFuture<RevokeInvitationResponse> revokeInvitation(RevokeInvitationRequest request, {CallOptions? options}) {
-    final invite  = OfflineClientStore().invitationStore.find(request.invitationId);
+    final invite = OfflineClientStore().invitationStore.find(request.invitationId);
 
-    if(invite == null){
+    if (invite == null) {
       throw "Invitation with id ${request.invitationId} not found";
     }
-    if(invite_types.InvitationState.pending != invite.state){
+    if (invite_types.InvitationState.pending != invite.state) {
       throw "Only pending Invitations can be revoked";
     }
     OfflineClientStore().invitationStore.changeState(request.invitationId, invite_types.InvitationState.accepted);
@@ -300,12 +289,12 @@ class OrganizationOfflineClient extends OrganizationServiceClient {
 
   @override
   ResponseFuture<AcceptInvitationResponse> acceptInvitation(AcceptInvitationRequest request, {CallOptions? options}) {
-    final invite  = OfflineClientStore().invitationStore.find(request.invitationId);
+    final invite = OfflineClientStore().invitationStore.find(request.invitationId);
 
-    if(invite == null){
+    if (invite == null) {
       throw "Invitation with id ${request.invitationId} not found";
     }
-    if(invite_types.InvitationState.pending != invite.state){
+    if (invite_types.InvitationState.pending != invite.state) {
       throw "Only pending Invitations can be accepted";
     }
     OfflineClientStore().invitationStore.changeState(request.invitationId, invite_types.InvitationState.accepted);
@@ -316,12 +305,12 @@ class OrganizationOfflineClient extends OrganizationServiceClient {
   @override
   ResponseFuture<DeclineInvitationResponse> declineInvitation(DeclineInvitationRequest request,
       {CallOptions? options}) {
-    final invite  = OfflineClientStore().invitationStore.find(request.invitationId);
+    final invite = OfflineClientStore().invitationStore.find(request.invitationId);
 
-    if(invite == null){
+    if (invite == null) {
       throw "Invitation with id ${request.invitationId} not found";
     }
-    if(invite_types.InvitationState.pending != invite.state){
+    if (invite_types.InvitationState.pending != invite.state) {
       throw "Only pending Invitations can be de";
     }
     OfflineClientStore().invitationStore.changeState(request.invitationId, invite_types.InvitationState.accepted);

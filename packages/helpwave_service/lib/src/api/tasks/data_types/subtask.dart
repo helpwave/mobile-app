@@ -1,4 +1,4 @@
-import 'package:helpwave_service/src/api/util/identified_object.dart';
+import 'package:helpwave_service/util.dart';
 
 /// Data class for a [Subtask]
 class Subtask extends IdentifiedObject<String> {

@@ -1,85 +1,40 @@
 import 'package:helpwave_service/auth.dart';
-import 'package:helpwave_util/loading.dart';
+import 'package:helpwave_service/src/util/index.dart';
 import '../../../../user.dart';
 
 /// The Controller for managing a [Organization]
-class OrganizationController extends LoadingChangeNotifier {
-  /// The current [Organization]
-  Organization _organization;
+class OrganizationController
+    extends LoadController<String, Organization, Organization, OrganizationUpdate, OrganizationService> {
+  OrganizationController({String? id, Organization? initialData})
+      : super(id: id, initialData: initialData, service: OrganizationService());
 
-  /// The current [Organization]
-  Organization get organization => _organization;
+  @override
+  Future<void> update(OrganizationUpdate? update) async {
+    updateOp() async {
+      if (isCreating) {
+        changeData(data.copyWith(update));
+        return;
+      }
+      await service.update(data.id!, update).then((value) {
+        changeData(data.copyWith(update));
+      });
+      bool affectsCurrentWardService = update?.shortName != null || update?.longName != null;
 
-  set organization(Organization value) {
-    _organization = value;
-    changeState(LoadingState.loaded);
-  }
-
-  OrganizationController(this._organization) {
-    load();
-  }
-
-  /// A function to load the [Organization]
-  Future<void> load() async {
-    loadOrganization() async {
-      organization = await OrganizationService().getOrganization(id: organization.id);
-    }
-
-    loadHandler(
-      future: loadOrganization(),
-    );
-  }
-
-  Future<void> update({
-    String? shortName,
-    String? longName,
-    String? email,
-    bool? isPersonal,
-    String? avatarUrl,
-  }) async {
-    changeOrganization() async {
-      await OrganizationService().update(
-        id: organization.id,
-        longName: longName,
-        shortName: shortName,
-        isPersonal: isPersonal,
-        email: email,
-        avatarUrl: avatarUrl,
-      );
-      organization = organization.copyWith(
-        longName: longName,
-        shortName: shortName,
-        isPersonal: isPersonal,
-        email: email,
-        avatarURL: avatarUrl,
-      );
-
-      bool affectsCurrentWardService = shortName != null || longName != null;
-
-      if (affectsCurrentWardService && CurrentWardService().currentWard?.organizationId == organization.id) {
+      if (affectsCurrentWardService && CurrentWardService().currentWard?.organizationId == data.id) {
         CurrentWardService().currentWard = CurrentWardService().currentWard!.copyWith(
-              organization: CurrentWardService().currentWard!.organization.copyWith(
-                    shortName: shortName,
-                    longName: longName,
-                  ),
+              organization: CurrentWardService().currentWard!.organization.copyWith(OrganizationUpdate(
+                    shortName: update?.shortName,
+                    longName: update?.longName,
+                  )),
             );
       }
     }
 
     loadHandler(
-      future: changeOrganization(),
+      future: updateOp(),
     );
   }
 
-  Future<void> delete() async {
-    deleteOrganization() async {
-      await OrganizationService().delete(organization.id).then((_) {
-        // TODO do something here
-      });
-    }
-
-    loadHandler(future: deleteOrganization());
-  }
-
-// TODO create method and isCreating handling
+  @override
+  Organization defaultData() => Organization.empty();
 }

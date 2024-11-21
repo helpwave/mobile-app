@@ -40,7 +40,7 @@ class RoomsController extends LoadingChangeNotifier {
     loadHandler(future: loadOp());
   }
 
-  /// Delete the [Room] by its index in the list
+  /// Delete the [Room] by its index.dart in the list
   Future<void> deleteByIndex(int index) async {
     assert(index < 0 || index >= rooms.length);
     if (isCreating) {
@@ -88,7 +88,7 @@ class RoomsController extends LoadingChangeNotifier {
     if (isCreating) {
       assert(
         index != null && index >= 0 && index < rooms.length,
-        "When creating a room list and updating a room, a index for the room must be provided",
+        "When creating a room list and updating a room, a index.dart for the room must be provided",
       );
       rooms[index!] = room;
       return;

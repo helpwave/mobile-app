@@ -1,6 +1,6 @@
 import 'package:helpwave_service/src/api/tasks/data_types/patient.dart';
 import 'package:helpwave_service/src/api/tasks/data_types/subtask.dart';
-import 'package:helpwave_service/src/api/util/identified_object.dart';
+import 'package:helpwave_service/util.dart';
 
 enum TaskStatus {
   unspecified,

@@ -1,7 +1,6 @@
 import 'package:grpc/grpc.dart';
 import 'package:helpwave_proto_dart/services/property_svc/v1/property_svc.pbgrpc.dart';
-import 'package:helpwave_service/src/api/property/property_api_service_clients.dart';
-import 'package:helpwave_service/src/api/util/crud_interface.dart';
+import 'package:helpwave_service/util.dart';
 import '../../../../property.dart';
 import '../util/type_converter.dart';
 
@@ -9,7 +8,7 @@ import '../util/type_converter.dart';
 ///
 /// Provides queries and requests that load or alter [Property] objects on the server
 /// The server is defined in the underlying [PropertyAPIServiceClients]
-class PropertyService implements CRUDInterface<Property, Property, PropertyUpdate> {
+class PropertyService implements CRUDInterface<String, Property, Property, PropertyUpdate> {
   /// The GRPC ServiceClient which handles GRPC
   PropertyServiceClient service = PropertyAPIServiceClients().propertyServiceClient;
 
@@ -94,18 +93,18 @@ class PropertyService implements CRUDInterface<Property, Property, PropertyUpdat
   }
 
   @override
-  Future<bool> update(String id, PropertyUpdate update) async {
+  Future<bool> update(String id, PropertyUpdate? update) async {
     UpdatePropertyRequest request = UpdatePropertyRequest(
         id: id,
-        name: update.name,
-        description: update.description,
-        isArchived: update.isArchived,
+        name: update?.name,
+        description: update?.description,
+        isArchived: update?.isArchived,
         subjectType:
-            update.subjectType != null ? PropertyGRPCTypeConverter.subjectTypeToGRPC(update.subjectType!) : null,
-        setId: update.setId,
-        selectData: update.selectDataUpdate != null
+            update?.subjectType != null ? PropertyGRPCTypeConverter.subjectTypeToGRPC(update!.subjectType!) : null,
+        setId: update?.setId,
+        selectData: update?.selectDataUpdate != null
             ? UpdatePropertyRequest_SelectData(
-                allowFreetext: update.selectDataUpdate!.isAllowingFreeText,
+                allowFreetext: update!.selectDataUpdate!.isAllowingFreeText,
                 upsertOptions:
                     update.selectDataUpdate?.upsert?.map((option) => UpdatePropertyRequest_SelectData_SelectOption(
                           id: option.id,

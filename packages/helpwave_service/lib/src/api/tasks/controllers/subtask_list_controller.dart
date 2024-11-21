@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:helpwave_service/src/api/tasks/index.dart';
 import 'package:helpwave_util/lists.dart';
 import 'package:helpwave_util/loading.dart';
+import 'package:helpwave_service/util.dart';
+
 
 /// The Controller for managing [Subtask]s in a [Task]
 ///
@@ -40,7 +42,7 @@ class SubtasksController extends LoadingChangeNotifier {
     loadHandler(future: loadTask());
   }
 
-  /// Delete the [Subtask] by its index int the list
+  /// Delete the [Subtask] by its index.dart int the list
   Future<void> deleteByIndex(int index) async {
     if (!subtasks.isIndexValid(index)) {
       return;
@@ -90,7 +92,7 @@ class SubtasksController extends LoadingChangeNotifier {
     if (isCreating) {
       assert(
         index != null && index >= 0 && index < subtasks.length,
-        "When creating a subtask list and updating a subtask, a index for the subtask must be provided",
+        "When creating a subtask list and updating a subtask, a index.dart for the subtask must be provided",
       );
       subtasks[index!] = subtask;
       return;

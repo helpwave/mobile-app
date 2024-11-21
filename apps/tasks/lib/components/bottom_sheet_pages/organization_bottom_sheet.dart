@@ -22,7 +22,7 @@ class OrganizationBottomSheetPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => OrganizationController(Organization.empty(organizationId)),
+      create: (context) => OrganizationController(id: organizationId),
       child: Consumer<OrganizationController>(builder: (context, controller, _) {
         return BottomSheetPage(
           header: BottomSheetHeader.navigation(
@@ -30,7 +30,7 @@ class OrganizationBottomSheetPage extends StatelessWidget {
             title: LoadingAndErrorWidget.pulsing(
               state: controller.state,
               child: Text(
-                controller.organization.combinedName,
+                controller.data.combinedName,
                 style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
               ),
             ),
@@ -45,23 +45,23 @@ class OrganizationBottomSheetPage extends StatelessWidget {
                   Text(context.localization.shortName, style: context.theme.textTheme.titleMedium),
                   const SizedBox(height: distanceTiny),
                   TextFormFieldWithTimer(
-                    initialValue: controller.organization.shortName,
-                    onUpdate: (value) => controller.update(shortName: value),
+                    initialValue: controller.data.shortName,
+                    onUpdate: (value) => controller.update(OrganizationUpdate(shortName: value)),
                   ),
                   const SizedBox(height: distanceMedium),
                   Text(context.localization.longName, style: context.theme.textTheme.titleMedium),
                   const SizedBox(height: distanceTiny),
                   TextFormFieldWithTimer(
-                    initialValue: controller.organization.longName,
-                    onUpdate: (value) => controller.update(longName: value),
+                    initialValue: controller.data.longName,
+                    onUpdate: (value) => controller.update(OrganizationUpdate(longName: value)),
                   ),
                   const SizedBox(height: distanceMedium),
                   Text(context.localization.contactEmail, style: context.theme.textTheme.titleMedium),
                   const SizedBox(height: distanceTiny),
                   TextFormFieldWithTimer(
-                    initialValue: controller.organization.email,
+                    initialValue: controller.data.details?.email,
                     // TODO validation
-                    onUpdate: (value) => controller.update(email: value),
+                    onUpdate: (value) => controller.update(OrganizationUpdate(email: value)),
                   ),
                   const SizedBox(height: distanceMedium),
                   Text(context.localization.settings, style: context.theme.textTheme.titleMedium),

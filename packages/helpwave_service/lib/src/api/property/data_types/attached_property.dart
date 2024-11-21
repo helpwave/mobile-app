@@ -1,6 +1,5 @@
-import 'package:helpwave_service/src/api/util/copy_with_interface.dart';
-import 'package:helpwave_service/src/api/util/identified_object.dart';
 import 'package:helpwave_util/lists.dart';
+import 'package:helpwave_service/util.dart';
 import 'index.dart';
 
 typedef MultiSelectUpdate = ({List<PropertySelectOption> upsert, List<String> remove});

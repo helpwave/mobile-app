@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_util/loading.dart';
 import '../index.dart';
+import 'package:helpwave_service/util.dart';
 
 /// The Controller for managing a [User]
 class UserController extends ChangeNotifier {

@@ -105,7 +105,7 @@ class TaskTemplateController extends LoadingChangeNotifier {
     loadHandler(future: createOp());
   }
 
-  /// Updates the [TaskTemplateSubtask] by its index in the [List]
+  /// Updates the [TaskTemplateSubtask] by its index.dart in the [List]
   ///
   /// **Only use** this when the [TaskTemplate] was **loaded or an initial [TaskTemplate]** is provided
   Future<void> updateSubtaskByIndex({required int index, String? name}) async {
@@ -144,7 +144,7 @@ class TaskTemplateController extends LoadingChangeNotifier {
     loadHandler(future: updateOp());
   }
 
-  /// Delete the [TaskTemplate] by the index in the [List]
+  /// Delete the [TaskTemplate] by the index.dart in the [List]
   Future<void> deleteSubtaskByIndex({required int index}) async {
     assert(_taskTemplate != null && _taskTemplate!.subtasks.isIndexValid(index));
     deleteOp() async {

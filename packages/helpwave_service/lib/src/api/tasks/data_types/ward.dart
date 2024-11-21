@@ -1,4 +1,4 @@
-import 'package:helpwave_service/src/api/util/identified_object.dart';
+import 'package:helpwave_service/util.dart';
 
 /// data class for [Ward]
 class WardMinimal extends IdentifiedObject {

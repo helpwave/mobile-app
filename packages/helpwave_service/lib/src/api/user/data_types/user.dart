@@ -1,4 +1,5 @@
-import 'package:helpwave_service/src/api/util/identified_object.dart';
+import 'package:helpwave_service/src/config.dart';
+import 'package:helpwave_service/util.dart';
 
 /// data class for [User]
 class User extends IdentifiedObject {
@@ -20,7 +21,7 @@ class User extends IdentifiedObject {
         name: "User",
         nickName: "",
         email: "",
-        profileUrl: Uri.parse("https://cdn.helpwave.de/boringavatar.svg"),
+        profileUrl: Uri.parse(avatarFallBackURL),
       );
 
   User copyWith({String? id, String? name, String? nickName, Uri? profileUrl, String? email}) => User(

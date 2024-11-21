@@ -2,8 +2,6 @@
 class IdentifiedObject<T> {
   final T? id;
 
-  bool get isCreating => id == null;
-
   IdentifiedObject({this.id});
 
   bool isReferencingSame(IdentifiedObject<T> other) {
@@ -14,4 +12,9 @@ class IdentifiedObject<T> {
   String toString() {
     return "$runtimeType{id: $id}";
   }
+}
+
+/// A Extension to check the creation status of an [IdentifiedObject]
+extension CreationExtension<T> on IdentifiedObject<T> {
+  bool get isCreating => id == null;
 }

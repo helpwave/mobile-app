@@ -210,7 +210,7 @@ class SettingsBottomSheetPage extends StatelessWidget {
                             title: organization.longName,
                             onTap: () {
                               NavigationStackController.of(context)
-                                  .push(OrganizationBottomSheetPage(organizationId: organization.id));
+                                  .push(OrganizationBottomSheetPage(organizationId: organization.id!));
                             },
                           ))
                       .toList(),

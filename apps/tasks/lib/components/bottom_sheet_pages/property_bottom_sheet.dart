@@ -9,7 +9,7 @@ import 'package:helpwave_widget/loading.dart';
 import 'package:helpwave_widget/text_input.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/util/field_type_translations.dart';
-
+import 'package:helpwave_service/util.dart';
 import '../../util/subject_type_translations.dart';
 
 class PropertyBottomSheetPage extends StatelessWidget {
@@ -36,7 +36,7 @@ class PropertyBottomSheetPage extends StatelessWidget {
             builder: (context, controller, _) => LoadingAndErrorWidget(
               state: controller.state,
               loadingWidget: const PulsingContainer(width: 50),
-              child: Text(controller.property.isCreating ? createTitle : editTitle,
+              child: Text(controller.data.isCreating ? createTitle : editTitle,
                   style: context.theme.textTheme.titleMedium),
             ),
           ),
@@ -60,7 +60,7 @@ class PropertyBottomSheetPage extends StatelessWidget {
                   ),
                   const SizedBox(height: paddingTiny),
                   TextFormFieldWithTimer(
-                    initialValue: controller.property.name,
+                    initialValue: controller.data.name,
                     onUpdate: (value) => controller.update(PropertyUpdate(name: value)),
                   ),
                   const SizedBox(height: paddingSmall),
@@ -71,7 +71,7 @@ class PropertyBottomSheetPage extends StatelessWidget {
                   const SizedBox(height: paddingTiny),
                   DropdownButtonFormField(
                     decoration: inputDecoration,
-                    value: controller.property.subjectType,
+                    value: controller.data.subjectType,
                     items: PropertySubjectType.values
                         .map((value) => DropdownMenuItem(
                               value: value,
@@ -87,7 +87,7 @@ class PropertyBottomSheetPage extends StatelessWidget {
                   ),
                   const SizedBox(height: paddingTiny),
                   TextFormFieldWithTimer(
-                    initialValue: controller.property.description,
+                    initialValue: controller.data.description,
                     onUpdate: (value) => controller.update(PropertyUpdate(description: value)),
                     maxLines: 5,
                   ),
@@ -107,7 +107,7 @@ class PropertyBottomSheetPage extends StatelessWidget {
                   const SizedBox(height: paddingTiny),
                   DropdownButtonFormField(
                     decoration: inputDecoration,
-                    value: controller.property.fieldType,
+                    value: controller.data.fieldType,
                     items: PropertyFieldType.values
                         .map((value) => DropdownMenuItem(
                               value: value,
@@ -117,7 +117,7 @@ class PropertyBottomSheetPage extends StatelessWidget {
                     onChanged: (value) => controller.update(PropertyUpdate(fieldType: value)),
                   ),
                   Visibility(
-                      visible: controller.property.isSelectType,
+                      visible: controller.data.isSelectType,
                       child: Column(
                         children: [
                           const SizedBox(height: paddingSmall),
@@ -126,8 +126,8 @@ class PropertyBottomSheetPage extends StatelessWidget {
                               ExpansionTile(
                                 shape: const Border(),
                                 title: Text(
-                                    "${controller.property.selectData?.options.length} ${context.localization.options}"),
-                                children: (controller.property.selectData?.options ?? [])
+                                    "${controller.data.selectData?.options.length} ${context.localization.options}"),
+                                children: (controller.data.selectData?.options ?? [])
                                     .map((selectOption) => ListTile(title: Text(selectOption.name)))
                                     .toList(),
 
@@ -148,11 +148,11 @@ class PropertyBottomSheetPage extends StatelessWidget {
                                   style: TextStyle(color: context.theme.hintColor),
                                 ),
                                 trailing: Switch(
-                                  value: controller.property.selectData?.isAllowingFreeText ?? false,
+                                  value: controller.data.selectData?.isAllowingFreeText ?? false,
                                   onChanged: (value) => controller.update(PropertyUpdate(
                                     selectDataUpdate: (
                                       isAllowingFreeText: value,
-                                      options: controller.property.selectData!.options,
+                                      options: controller.data.selectData!.options,
                                       removeOptions: null,
                                       upsert: null
                                     ),
@@ -189,14 +189,14 @@ class PropertyBottomSheetPage extends StatelessWidget {
                           style: TextStyle(color: context.theme.hintColor),
                         ),
                         trailing: Switch(
-                          value: controller.property.alwaysIncludeForViewSource ?? false,
+                          value: controller.data.alwaysIncludeForViewSource ?? false,
                           onChanged: (value) => controller.update(PropertyUpdate(alwaysIncludeForViewSource: value)),
                         ),
                       ),
                     ],
                   ),
                   Visibility(
-                    visible: controller.property.isCreating,
+                    visible: controller.data.isCreating,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.end,

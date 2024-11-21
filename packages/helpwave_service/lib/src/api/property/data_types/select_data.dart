@@ -1,7 +1,6 @@
 import 'package:helpwave_util/lists.dart';
+import 'package:helpwave_service/util.dart';
 
-import '../../util/copy_with_interface.dart';
-import '../../util/identified_object.dart';
 
 class PropertySelectOptionUpdate {
   final String? id;

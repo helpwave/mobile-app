@@ -4,18 +4,20 @@ import 'package:helpwave_service/auth.dart';
 import 'package:helpwave_service/src/api/user/data_types/invitation.dart' as invitation;
 import 'package:helpwave_service/src/api/user/user_api_service_clients.dart';
 import 'package:helpwave_service/src/api/user/util/type_converter.dart';
+import 'package:helpwave_service/src/util/crud_service_interface.dart';
 import '../data_types/index.dart';
 
 /// The GRPC Service for [Organization]s
 ///
 /// Provides queries and requests that load or alter [Organization] objects on the server
 /// The server is defined in the underlying [UserAPIServiceClients]
-class OrganizationService {
+class OrganizationService implements CRUDInterface<String, Organization, Organization, OrganizationUpdate> {
   /// The GRPC ServiceClient which handles GRPC
   OrganizationServiceClient organizationService = UserAPIServiceClients().organizationServiceClient;
 
   /// Load a Organization by its identifier
-  Future<Organization> getOrganization({required String id}) async {
+  @override
+  Future<Organization> get(String id) async {
     GetOrganizationRequest request = GetOrganizationRequest(id: id);
     GetOrganizationResponse response = await organizationService.getOrganization(
       request,
@@ -23,13 +25,16 @@ class OrganizationService {
     );
 
     Organization organization = Organization(
-        id: response.id,
-        longName: response.longName,
-        shortName: response.shortName,
+      id: response.id,
+      longName: response.longName,
+      shortName: response.shortName,
+      details: OrganizationDetails(
         avatarURL: response.avatarUrl,
         email: response.contactEmail,
         isVerified: true,
-        isPersonal: response.isPersonal);
+        isPersonal: response.isPersonal,
+      ),
+    );
     return organization;
   }
 
@@ -46,33 +51,39 @@ class OrganizationService {
     );
 
     List<Organization> organizations = response.organizations
-        .map((organization) => Organization(
+        .map(
+          (organization) => Organization(
             id: organization.id,
             longName: organization.longName,
             shortName: organization.shortName,
-            avatarURL: organization.avatarUrl,
-            email: organization.contactEmail,
-            isVerified: true,
-            isPersonal: organization.isPersonal))
+            details: OrganizationDetails(
+              avatarURL: organization.avatarUrl,
+              email: organization.contactEmail,
+              isVerified: true,
+              isPersonal: organization.isPersonal,
+            ),
+          ),
+        )
         .toList();
     return organizations;
   }
 
-  Future<void> update({
-    required String id,
-    String? shortName,
-    String? longName,
-    String? email,
-    bool? isPersonal,
-    String? avatarUrl,
-  }) async {
+  @override
+  @Deprecated("The Creation of Organizations was disallowed")
+  Future<Organization> create(Organization value) {
+    // TODO: implement create
+    throw UnimplementedError("The Backend does not allow the creation of Organizations through the API");
+  }
+
+  @override
+  Future<bool> update(String id, OrganizationUpdate? update) async {
     UpdateOrganizationRequest request = UpdateOrganizationRequest(
       id: id,
-      longName: longName,
-      shortName: shortName,
-      isPersonal: isPersonal,
-      contactEmail: email,
-      avatarUrl: avatarUrl,
+      longName: update?.longName,
+      shortName: update?.shortName,
+      isPersonal: update?.isPersonal,
+      contactEmail: update?.email,
+      avatarUrl: update?.avatarURL,
     );
     await organizationService.updateOrganization(
       request,
@@ -80,9 +91,11 @@ class OrganizationService {
         metadata: UserAPIServiceClients().getMetaData(organizationId: id),
       ),
     );
+    return true;
   }
 
-  Future<void> delete(String id) async {
+  @override
+  Future<bool> delete(String id) async {
     DeleteOrganizationRequest request = DeleteOrganizationRequest(id: id);
     await organizationService.deleteOrganization(
       request,
@@ -90,6 +103,7 @@ class OrganizationService {
         metadata: UserAPIServiceClients().getMetaData(organizationId: id),
       ),
     );
+    return true;
   }
 
   /// Loads the members of an [Organization] as [User]s
@@ -168,12 +182,14 @@ class OrganizationService {
       ),
     );
 
-    return response.invitations.map((invite) => invitation.Invitation(
-      id: invite.id,
-      organizationId: organizationId,
-      email: invite.email,
-      state: UserGRPCTypeConverter.invitationStateFromGRPC(invite.state),
-    )).toList();
+    return response.invitations
+        .map((invite) => invitation.Invitation(
+              id: invite.id,
+              organizationId: organizationId,
+              email: invite.email,
+              state: UserGRPCTypeConverter.invitationStateFromGRPC(invite.state),
+            ))
+        .toList();
   }
 
   Future<List<invitation.Invitation>> getInvitationsByUser({
@@ -191,12 +207,14 @@ class OrganizationService {
       ),
     );
 
-    return response.invitations.map((invite) => invitation.Invitation(
-      id: invite.id,
-      organizationId: organizationId,
-      email: invite.email,
-      state: UserGRPCTypeConverter.invitationStateFromGRPC(invite.state),
-    )).toList();
+    return response.invitations
+        .map((invite) => invitation.Invitation(
+              id: invite.id,
+              organizationId: organizationId,
+              email: invite.email,
+              state: UserGRPCTypeConverter.invitationStateFromGRPC(invite.state),
+            ))
+        .toList();
   }
 
   Future<void> acceptInvitation({required String invitationId}) async {

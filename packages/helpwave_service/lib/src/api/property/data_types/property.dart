@@ -1,8 +1,8 @@
 import 'package:helpwave_service/src/api/property/data_types/field_type.dart';
 import 'package:helpwave_service/src/api/property/data_types/select_data.dart';
 import 'package:helpwave_service/src/api/property/data_types/subject_type.dart';
-import 'package:helpwave_service/src/api/util/copy_with_interface.dart';
-import 'package:helpwave_service/src/api/util/identified_object.dart';
+import 'package:helpwave_service/util.dart';
+
 
 class PropertyUpdate {
   String? id;
@@ -32,7 +32,7 @@ class PropertyUpdate {
   });
 }
 
-class Property extends IdentifiedObject<String> implements CopyWithInterface<Property, PropertyUpdate> {
+class Property extends CRUDObject<String, Property, Property, PropertyUpdate> {
   final String name;
   final String description;
   final PropertySubjectType subjectType;
@@ -57,6 +57,22 @@ class Property extends IdentifiedObject<String> implements CopyWithInterface<Pro
   }) : assert(!(fieldType == PropertyFieldType.singleSelect || fieldType == PropertyFieldType.multiSelect) ||
             selectData != null);
 
+  factory Property.empty() {
+    return Property(
+        name: "Property Name",
+        subjectType: PropertySubjectType.patient,
+        fieldType: PropertyFieldType.multiSelect,
+        selectData: PropertySelectData(
+            options: [
+              PropertySelectOption(name: "Option 1"),
+              PropertySelectOption(name: "Option 2"),
+              PropertySelectOption(name: "Option 3"),
+            ],
+            isAllowingFreeText: true
+        )
+    );
+  }
+
   @override
   copyWith(PropertyUpdate? update) {
     return Property(
@@ -72,5 +88,10 @@ class Property extends IdentifiedObject<String> implements CopyWithInterface<Pro
           ? null
           : update?.alwaysIncludeForViewSource ?? alwaysIncludeForViewSource,
     );
+  }
+
+  @override
+  Property create(String? id) {
+    return copyWith(PropertyUpdate(id: id));
   }
 }

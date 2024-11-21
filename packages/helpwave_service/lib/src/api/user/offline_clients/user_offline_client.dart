@@ -75,7 +75,7 @@ class UserOfflineClient extends UserServiceClient {
     final organizations = OfflineClientStore()
         .organizationStore
         .findOrganizations()
-        .map((org) => ReadSelfOrganization()..id = org.id)
+        .map((org) => ReadSelfOrganization(id: org.id))
         .toList();
 
     final response = ReadSelfResponse()
