@@ -132,8 +132,8 @@ class ObscuringTextEditingController extends TextEditingController {
 
   ObscuringTextEditingController({
     this.obscureSymbol = '•',
-    String? text,
-  }) : super(text: text);
+    super.text,
+  });
 
   @override
   TextSpan buildTextSpan(

@@ -72,7 +72,7 @@ class _PulsingContainerState extends State<PulsingContainer> with TickerProvider
 
   @override
   Widget build(BuildContext context) {
-    Color baseColor = widget.color ?? Theme.of(context).colorScheme.onBackground;
+    Color baseColor = widget.color ?? Theme.of(context).colorScheme.onSurface;
 
     return AnimatedBuilder(
       animation: _opacityAnimation,

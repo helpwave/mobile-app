@@ -25,8 +25,8 @@ class LandingScreen extends StatelessWidget {
           }
 
           return OutlinedButton(
-            style: buttonStyleBig.copyWith(side: MaterialStatePropertyAll(buttonBorderSideBig.copyWith(color: context
-                    .theme.colorScheme.onBackground))),
+            style: buttonStyleBig.copyWith(side: WidgetStatePropertyAll(buttonBorderSideBig.copyWith(color: context
+                    .theme.colorScheme.onSurface))),
             child: Text(
               context.localization.loginSlogan,
               style: context.theme.textTheme.labelLarge,

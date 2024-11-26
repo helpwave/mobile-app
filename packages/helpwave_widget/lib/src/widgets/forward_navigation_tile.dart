@@ -42,7 +42,7 @@ class ForwardNavigationTile extends StatelessWidget {
               : const SizedBox(),
           Icon(
             Icons.chevron_right_rounded,
-            color: context.theme.colorScheme.onBackground.withOpacity(0.7),
+            color: context.theme.colorScheme.onSurface.withOpacity(0.7),
           ),
         ],
       ),

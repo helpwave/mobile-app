@@ -19,7 +19,7 @@ class PatientBottomSheet extends StatefulWidget {
   /// The identifier of the [Patient]
   final String? patentId;
 
-  const PatientBottomSheet({Key? key, this.patentId}) : super(key: key);
+  const PatientBottomSheet({super.key, this.patentId});
 
   @override
   State<PatientBottomSheet> createState() => _PatientBottomSheetState();
@@ -76,71 +76,74 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
           padding: const EdgeInsets.symmetric(vertical: paddingSmall),
           child: Consumer<PatientController>(builder: (context, patientController, _) {
             return LoadingAndErrorWidget(
-                state: patientController.state,
-                child: Row(
-                  mainAxisAlignment:
-                      patientController.isCreating ? MainAxisAlignment.end : MainAxisAlignment.spaceBetween,
-                  children: patientController.isCreating
-                      ? [
-                          FilledButton(
-                            onPressed: patientController.create,
-                            child: Text(context.localization.create),
-                          )
-                        ]
-                      : [
-                          SizedBox(
-                            width: width * 0.4,
-                            // TODO make this state checking easier and more readable
-                            child: FilledButton(
-                              onPressed: patientController.patient.isNotAssignedToBed
-                                  ? null
-                                  : () {
-                                      patientController.unassign();
-                                    },
-                              style: buttonStyleMedium.copyWith(
-                                backgroundColor: resolveByStatesAndContextBackground(
-                                  context: context,
-                                  defaultValue: inProgressColor,
-                                ),
-                                foregroundColor: resolveByStatesAndContextForeground(
-                                  context: context,
-                                ),
+              state: patientController.state,
+              child: Row(
+                mainAxisAlignment:
+                    patientController.isCreating ? MainAxisAlignment.end : MainAxisAlignment.spaceBetween,
+                children: patientController.isCreating
+                    ? [
+                        FilledButton(
+                          onPressed: patientController.create,
+                          child: Text(context.localization.create),
+                        )
+                      ]
+                    : [
+                        SizedBox(
+                          width: width * 0.4,
+                          // TODO make this state checking easier and more readable
+                          child: FilledButton(
+                            onPressed: patientController.patient.isNotAssignedToBed
+                                ? null
+                                : () {
+                                    patientController.unassign();
+                                  },
+                            style: buttonStyleMedium.copyWith(
+                              backgroundColor: resolveByStatesAndContextBackground(
+                                context: context,
+                                defaultValue: inProgressColor,
                               ),
-                              child: Text(context.localization.unassigne),
+                              foregroundColor: resolveByStatesAndContextForeground(
+                                context: context,
+                              ),
                             ),
+                            child: Text(context.localization.unassigne),
                           ),
-                          SizedBox(
-                            width: width * 0.4,
-                            child: FilledButton(
-                              // TODO check whether the patient is active
-                              onPressed: patientController.patient.isDischarged
-                                  ? null
-                                  : () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) =>
-                                            AcceptDialog(titleText: context.localization.dischargePatient),
-                                      ).then((value) {
-                                        if (value) {
-                                          patientController.discharge();
+                        ),
+                        SizedBox(
+                          width: width * 0.4,
+                          child: FilledButton(
+                            // TODO check whether the patient is active
+                            onPressed: patientController.patient.isDischarged
+                                ? null
+                                : () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          AcceptDialog(titleText: context.localization.dischargePatient),
+                                    ).then((value) {
+                                      if (value) {
+                                        patientController.discharge();
+                                        if (context.mounted) {
                                           Navigator.of(context).pop();
                                         }
-                                      });
-                                    },
-                              style: buttonStyleMedium.copyWith(
-                                backgroundColor: resolveByStatesAndContextBackground(
-                                  context: context,
-                                  defaultValue: negativeColor,
-                                ),
-                                foregroundColor: resolveByStatesAndContextForeground(
-                                  context: context,
-                                ),
+                                      }
+                                    });
+                                  },
+                            style: buttonStyleMedium.copyWith(
+                              backgroundColor: resolveByStatesAndContextBackground(
+                                context: context,
+                                defaultValue: negativeColor,
                               ),
-                              child: Text(context.localization.discharge),
+                              foregroundColor: resolveByStatesAndContextForeground(
+                                context: context,
+                              ),
                             ),
+                            child: Text(context.localization.discharge),
                           ),
-                        ],
-                ));
+                        ),
+                      ],
+              ),
+            );
           }),
         ),
         child: Flexible(

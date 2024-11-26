@@ -288,10 +288,10 @@ packages:
     dependency: transitive
     description:
       name: helpwave_proto_dart
-      sha256: eeff6a1a3645e412ad2a8024afd113c1d10779ddb039d5824f8a8bab203ff990
+      sha256: "5a8e82177ed18240b5506d514e7e9af9b512d7f2363d9278a2d34f79291d37c2"
       url: "https://pub.dev"
     source: hosted
-    version: "0.58.1-688aac0"
+    version: "0.59.0-e1d7c0c"
   helpwave_service:
     dependency: "direct main"
     description:

@@ -5,8 +5,8 @@ import '../../../../user.dart';
 /// The Controller for managing a [Organization]
 class OrganizationController
     extends LoadController<String, Organization, Organization, OrganizationUpdate, OrganizationService> {
-  OrganizationController({String? id, Organization? initialData})
-      : super(id: id, initialData: initialData, service: OrganizationService());
+  OrganizationController({super.id, super.initialData})
+      : super(service: OrganizationService());
 
   @override
   Future<void> update(OrganizationUpdate? update) async {

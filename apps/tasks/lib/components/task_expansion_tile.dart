@@ -60,6 +60,9 @@ class TaskExpansionTile extends StatelessWidget {
                     builder: (context) => TaskBottomSheet(task: task, patient: task.patient),
                   ).then((_) {
                     try {
+                      if(!context.mounted) {
+                        return;
+                      }
                       AssignedTasksController controller = Provider.of<AssignedTasksController>(context, listen: false);
                       controller.load();
                     } catch (e) {

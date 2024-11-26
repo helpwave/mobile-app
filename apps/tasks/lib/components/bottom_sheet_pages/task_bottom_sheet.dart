@@ -152,7 +152,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                   onPressed: taskController.isReadyForCreate
                       ? () {
                           taskController.create().then((value) {
-                            if (value) {
+                            if (value && context.mounted) {
                               Navigator.pop(context);
                             }
                           });

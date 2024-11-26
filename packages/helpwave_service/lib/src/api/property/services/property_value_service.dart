@@ -2,7 +2,6 @@ import 'package:grpc/grpc.dart';
 import 'package:helpwave_proto_dart/google/protobuf/timestamp.pb.dart';
 import 'package:helpwave_proto_dart/services/property_svc/v1/property_value_svc.pbgrpc.dart';
 import 'package:helpwave_proto_dart/services/property_svc/v1/types.pb.dart';
-import 'package:helpwave_service/src/api/property/property_api_service_clients.dart';
 import 'package:helpwave_service/src/api/property/util/type_converter.dart';
 import '../../../../property.dart';
 

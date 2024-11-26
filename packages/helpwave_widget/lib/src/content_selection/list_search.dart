@@ -36,8 +36,7 @@ class ListSearch<T> extends StatefulWidget {
   /// IMPORTANT: This disables navigation pops on clicking a result, but can be implemented in the function
   ///
   /// IMPORTANT: Overwrites default display of search results
-  final Widget Function(BuildContext context, T item,
-          void Function(T item, BuildContext context) selectItem)?
+  final Widget Function(BuildContext context, T item, void Function(T item, BuildContext context) selectItem)?
       resultTileBuilder;
 
   /// Allow adding user input, if filtered search items are empty for a given search
@@ -130,121 +129,123 @@ class _ListSearchState<T> extends State<ListSearch<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (widget.isMultiSelect) {
-          Navigator.of(context).pop(selected);
-          return false;
-        }
-        return true;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title ?? context.localization.listSearch),
-        ),
-        body: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            //mainAxisAlignment: MainAxisAlignment.start,
-            //crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: distanceSmall,
-                  vertical: distanceDefault,
-                ),
-                child: TextFormField(
-                  onChanged: (_) => {setState(() {})},
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: () => {
-                        setState(() {
-                          _searchController.clear();
-                        })
-                      },
-                      icon: const Icon(Icons.close),
-                    ),
-                    hintText: widget.searchHintText ?? "${context.localization.search}...",
-                    border: const OutlineInputBorder(),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title ?? context.localization.listSearch),
+        actions: [
+          Visibility(
+            visible: widget.isMultiSelect,
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context, selected);
+              },
+              icon: Icon(Icons.check),
+            ),
+          )
+        ],
+      ),
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          //mainAxisAlignment: MainAxisAlignment.start,
+          //crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: distanceSmall,
+                vertical: distanceDefault,
+              ),
+              child: TextFormField(
+                onChanged: (_) => {setState(() {})},
+                controller: _searchController,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    onPressed: () => {
+                      setState(() {
+                        _searchController.clear();
+                      })
+                    },
+                    icon: const Icon(Icons.close),
                   ),
+                  hintText: widget.searchHintText ?? "${context.localization.search}...",
+                  border: const OutlineInputBorder(),
                 ),
               ),
-              FutureBuilder(
-                future: getSearchResults(_searchController.text),
-                builder: (context, snapshot) {
-                  List<Widget> children = [];
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.isNotEmpty) {
-                      if (!widget.isMultiSelect && widget.resultTileBuilder != null) {
-                        children = snapshot.data!
-                            .map((element) => widget.resultTileBuilder!(context, element, selectItem))
-                            .toList();
-                      } else {
-                        children = snapshot.data!.map((element) {
-                          return ListTile(
-                            title: Text(widget.elementToString(element)),
-                            trailing: widget.isMultiSelect
-                                ? Checkbox(
-                                    onChanged: (_) => selectItem(element, context),
-                                    value: selected
-                                        .contains(element), // TODO use equal check contains potentially always false
-                                  )
-                                : const SizedBox(),
-                            onTap: () => selectItem(element, context),
-                          );
-                        }).toList();
-                      }
+            ),
+            FutureBuilder(
+              future: getSearchResults(_searchController.text),
+              builder: (context, snapshot) {
+                List<Widget> children = [];
+                if (snapshot.hasData) {
+                  if (snapshot.data!.isNotEmpty) {
+                    if (!widget.isMultiSelect && widget.resultTileBuilder != null) {
+                      children = snapshot.data!
+                          .map((element) => widget.resultTileBuilder!(context, element, selectItem))
+                          .toList();
                     } else {
-                      children.add(Center(
-                        child: Column(
-                          children: [
-                            const SizedBox(height: distanceBig),
-                            Text(
-                              widget.elementNotFoundText != null
-                                  ? widget.elementNotFoundText!(_searchController.text)
-                                  : "${context.localization.noItem} ${_searchController.text} ${context.localization.found}",
-                              style: context.theme.textTheme.titleLarge,
-                            ),
-                            const SizedBox(height: distanceDefault),
-                            widget.allowSelectAnyway
-                                ? TextButton(
-                                    onPressed: () => Navigator.pop(context, _searchController.text.trim()),
-                                    child: Text(widget.addAnywayText ?? "${context.localization.addAnyway}!"),
-                                  )
-                                : const SizedBox(),
-                          ],
-                        ),
-                      ));
+                      children = snapshot.data!.map((element) {
+                        return ListTile(
+                          title: Text(widget.elementToString(element)),
+                          trailing: widget.isMultiSelect
+                              ? Checkbox(
+                                  onChanged: (_) => selectItem(element, context),
+                                  value: selected
+                                      .contains(element), // TODO use equal check contains potentially always false
+                                )
+                              : const SizedBox(),
+                          onTap: () => selectItem(element, context),
+                        );
+                      }).toList();
                     }
-                  } else if (snapshot.hasError) {
-                    children = <Widget>[
-                      Icon(
-                        Icons.error_outline,
-                        color: context.theme.colorScheme.error,
-                        size: iconSizeBig,
+                  } else {
+                    children.add(Center(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: distanceBig),
+                          Text(
+                            widget.elementNotFoundText != null
+                                ? widget.elementNotFoundText!(_searchController.text)
+                                : "${context.localization.noItem} ${_searchController.text} ${context.localization.found}",
+                            style: context.theme.textTheme.titleLarge,
+                          ),
+                          const SizedBox(height: distanceDefault),
+                          widget.allowSelectAnyway
+                              ? TextButton(
+                                  onPressed: () => Navigator.pop(context, _searchController.text.trim()),
+                                  child: Text(widget.addAnywayText ?? "${context.localization.addAnyway}!"),
+                                )
+                              : const SizedBox(),
+                        ],
                       ),
-                      const SizedBox(height: distanceBig),
-                      Text('${context.localization.error}: ${snapshot.error}'),
-                    ];
+                    ));
                   }
-                  return Expanded(
-                    child: ListView(
-                      children: children,
+                } else if (snapshot.hasError) {
+                  children = <Widget>[
+                    Icon(
+                      Icons.error_outline,
+                      color: context.theme.colorScheme.error,
+                      size: iconSizeBig,
                     ),
-                  );
-                },
-              )
-            ],
-          ),
+                    const SizedBox(height: distanceBig),
+                    Text('${context.localization.error}: ${snapshot.error}'),
+                  ];
+                }
+                return Expanded(
+                  child: ListView(
+                    children: children,
+                  ),
+                );
+              },
+            )
+          ],
         ),
-        floatingActionButton: widget.isMultiSelect
-            ? FloatingActionButton(
-                onPressed: () => Navigator.of(context).pop(selected),
-                backgroundColor: positiveColor,
-                child: const Icon(Icons.check))
-            : const SizedBox(),
       ),
+      floatingActionButton: widget.isMultiSelect
+          ? FloatingActionButton(
+              onPressed: () => Navigator.of(context).pop(selected),
+              backgroundColor: positiveColor,
+              child: const Icon(Icons.check))
+          : const SizedBox(),
     );
   }
 }

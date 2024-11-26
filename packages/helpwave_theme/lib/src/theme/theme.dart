@@ -76,29 +76,29 @@ ThemeData makeTheme({
       enabledBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide.none),
       errorBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide.none),
       focusedErrorBorder: defaultOutlineInputBorder.copyWith(borderSide: BorderSide.none),
-      iconColor: MaterialStateColor.resolveWith((states) {
-        if (states.contains(MaterialState.focused)) {
+      iconColor: WidgetStateColor.resolveWith((states) {
+        if (states.contains(WidgetState.focused)) {
           return focusedColor;
         } else {
           return defaultColor;
         }
       }),
-      suffixIconColor: MaterialStateColor.resolveWith((states) {
-        if (states.contains(MaterialState.focused)) {
+      suffixIconColor: WidgetStateColor.resolveWith((states) {
+        if (states.contains(WidgetState.focused)) {
           return focusedColor;
         } else {
           return defaultColor;
         }
       }),
-      labelStyle: MaterialStateTextStyle.resolveWith((states) {
-        if (states.contains(MaterialState.focused)) {
+      labelStyle: WidgetStateTextStyle.resolveWith((states) {
+        if (states.contains(WidgetState.focused)) {
           return TextStyle(color: focusedColor);
         } else {
           return TextStyle(color: defaultColor);
         }
       }),
-      floatingLabelStyle: MaterialStateTextStyle.resolveWith((states) {
-        if (states.contains(MaterialState.focused)) {
+      floatingLabelStyle: WidgetStateTextStyle.resolveWith((states) {
+        if (states.contains(WidgetState.focused)) {
           return TextStyle(color: focusedColor);
         } else {
           return TextStyle(color: defaultColor);
@@ -163,7 +163,7 @@ ThemeData makeTheme({
     popupMenuTheme: PopupMenuThemeData(
       color: surface,
       textStyle: TextStyle(color: onSurface),
-      labelTextStyle: MaterialStatePropertyAll(TextStyle(color: onSurface)),
+      labelTextStyle: WidgetStatePropertyAll(TextStyle(color: onSurface)),
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(borderRadiusMedium))),
     ),
     searchBarTheme: searchBarTheme,
@@ -187,8 +187,6 @@ ThemeData makeTheme({
       primary: primaryColor,
       inversePrimary: inversePrimaryColor,
       onPrimary: onPrimaryColor,
-      background: backgroundColor,
-      onBackground: onBackgroundColor,
       secondary: secondaryColor,
       onSecondary: onSecondaryColor,
       tertiary: tertiary,
@@ -198,7 +196,6 @@ ThemeData makeTheme({
       // Surface
       surface: surface,
       onSurface: onSurface,
-      surfaceVariant: surfaceVariant,
       onSurfaceVariant: onSurfaceVariant,
       inverseSurface: inverseSurface,
       onInverseSurface: onInverseSurface,

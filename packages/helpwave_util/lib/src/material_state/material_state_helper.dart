@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// A function to create a [MaterialStateProperty] by assigning each state a value
-MaterialStateProperty<T> resolveByStates<T>({
+/// A function to create a [WidgetStateProperty] by assigning each state a value
+WidgetStateProperty<T> resolveByStates<T>({
   /// Used when no value is given for the other states
   required T defaultValue,
   T? disabled,
@@ -13,29 +13,29 @@ MaterialStateProperty<T> resolveByStates<T>({
   T? hovered,
   T? scrolledUnder,
 }) {
-  return MaterialStateProperty.resolveWith((states) {
-    if (states.contains(MaterialState.disabled)) {
+  return WidgetStateProperty.resolveWith((states) {
+    if (states.contains(WidgetState.disabled)) {
       return disabled ?? defaultValue;
     }
-    if (states.contains(MaterialState.error)) {
+    if (states.contains(WidgetState.error)) {
       return error ?? defaultValue;
     }
-    if (states.contains(MaterialState.dragged)) {
+    if (states.contains(WidgetState.dragged)) {
       return dragged ?? defaultValue;
     }
-    if (states.contains(MaterialState.hovered)) {
+    if (states.contains(WidgetState.hovered)) {
       return hovered ?? defaultValue;
     }
-    if (states.contains(MaterialState.selected)) {
+    if (states.contains(WidgetState.selected)) {
       return selected ?? defaultValue;
     }
-    if (states.contains(MaterialState.focused)) {
+    if (states.contains(WidgetState.focused)) {
       return focused ?? defaultValue;
     }
-    if (states.contains(MaterialState.pressed)) {
+    if (states.contains(WidgetState.pressed)) {
       return pressed ?? defaultValue;
     }
-    if (states.contains(MaterialState.scrolledUnder)) {
+    if (states.contains(WidgetState.scrolledUnder)) {
       return scrolledUnder ?? defaultValue;
     }
 

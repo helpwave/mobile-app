@@ -66,7 +66,9 @@ class TaskTemplateBottomSheetPage extends StatelessWidget {
                     icon: Icons.check,
                     onPressed: () {
                       controller.create().then((_) {
-                        NavigationStackController.of(context).pop();
+                        if(context.mounted){
+                          NavigationStackController.of(context).pop();
+                        }
                       });
                     },
                   )

@@ -250,7 +250,7 @@ class BottomSheetHeader extends StatelessWidget {
                   height: 5,
                   width: 30,
                   decoration: BoxDecoration(
-                    color: context.theme.colorScheme.onBackground.withOpacity(0.8),
+                    color: context.theme.colorScheme.onSurface.withOpacity(0.8),
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),

@@ -42,7 +42,7 @@ class _PatientScreenState extends State<PatientScreen> {
                     icon: Icon(
                       Icons.search,
                       size: iconSizeTiny,
-                      color: context.theme.searchBarTheme.textStyle!.resolve({MaterialState.selected})!.color,
+                      color: context.theme.searchBarTheme.textStyle!.resolve({WidgetState.selected})!.color,
                     ),
                   ),
                 ],

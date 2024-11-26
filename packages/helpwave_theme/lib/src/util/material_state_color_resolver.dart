@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_theme/src/util/context_extension.dart';
 import 'package:helpwave_util/material_state.dart';
 
-/// Resolves the background [Color] based on the [MaterialState] and the [ThemeData]
-MaterialStateProperty<Color> resolveByStatesAndContextBackground({
+/// Resolves the background [Color] based on the [WidgetState] and the [ThemeData]
+WidgetStateProperty<Color> resolveByStatesAndContextBackground({
   required BuildContext context,
   Color? defaultValue,
   Color? disabled,
@@ -30,8 +30,8 @@ MaterialStateProperty<Color> resolveByStatesAndContextBackground({
   );
 }
 
-/// Resolves the foreground [Color] based on the [MaterialState] and the [ThemeData]
-MaterialStateProperty<Color> resolveByStatesAndContextForeground({
+/// Resolves the foreground [Color] based on the [WidgetState] and the [ThemeData]
+WidgetStateProperty<Color> resolveByStatesAndContextForeground({
   required BuildContext context,
   Color? defaultValue,
   Color? disabled,

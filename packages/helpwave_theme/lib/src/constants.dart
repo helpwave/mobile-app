@@ -8,39 +8,39 @@ const BorderSide buttonBorderSideMedium = BorderSide(width: 1.5);
 const BorderSide buttonBorderSideBig = BorderSide(width: 2);
 
 ButtonStyle buttonStyleSmall = ButtonStyle(
-  minimumSize: const MaterialStatePropertyAll(Size(50, 20)),
-  shape: MaterialStatePropertyAll(
+  minimumSize: const WidgetStatePropertyAll(Size(50, 20)),
+  shape: WidgetStatePropertyAll(
     RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(borderRadiusSmall),
     ),
   ),
-  textStyle: const MaterialStatePropertyAll(TextStyle(
+  textStyle: const WidgetStatePropertyAll(TextStyle(
     fontSize: 15,
     fontWeight: FontWeight.w500,
   )),
 );
 
 ButtonStyle buttonStyleMedium = ButtonStyle(
-  minimumSize: const MaterialStatePropertyAll(Size(120, 40)),
-  shape: MaterialStatePropertyAll(
+  minimumSize: const WidgetStatePropertyAll(Size(120, 40)),
+  shape: WidgetStatePropertyAll(
     RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(7),
     ),
   ),
-  textStyle: const MaterialStatePropertyAll(TextStyle(
+  textStyle: const WidgetStatePropertyAll(TextStyle(
     fontSize: 17,
     fontWeight: FontWeight.w500,
   )),
 );
 
 ButtonStyle buttonStyleBig = ButtonStyle(
-  minimumSize: const MaterialStatePropertyAll(Size(250, 50)),
-  shape: MaterialStatePropertyAll(
+  minimumSize: const WidgetStatePropertyAll(Size(250, 50)),
+  shape: WidgetStatePropertyAll(
     RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(borderRadiusMedium),
     ),
   ),
-  textStyle: const MaterialStatePropertyAll(TextStyle(
+  textStyle: const WidgetStatePropertyAll(TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,
   )),
@@ -121,10 +121,10 @@ const double defaultElevation = 4;
 /// Common Themes
 const searchBarTheme = SearchBarThemeData(
     constraints: BoxConstraints(maxHeight: 40, minHeight: 40),
-    backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 223, 223, 223)),
-    elevation: MaterialStatePropertyAll(0),
-    shadowColor: MaterialStatePropertyAll(Colors.transparent),
-    textStyle: MaterialStatePropertyAll(TextStyle(color: Colors.black)));
+    backgroundColor: WidgetStatePropertyAll(Color.fromARGB(255, 223, 223, 223)),
+    elevation: WidgetStatePropertyAll(0),
+    shadowColor: WidgetStatePropertyAll(Colors.transparent),
+    textStyle: WidgetStatePropertyAll(TextStyle(color: Colors.black)));
 
 const chipTheme = ChipThemeData(
   elevation: 2,

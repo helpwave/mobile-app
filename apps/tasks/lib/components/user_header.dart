@@ -13,7 +13,7 @@ import 'package:tasks/components/bottom_sheet_pages/user_bottom_sheet.dart';
 
 /// A [AppBar] for displaying the current [User], [Organization] and [Ward]
 class UserHeader extends StatelessWidget implements PreferredSizeWidget {
-  const UserHeader({Key? key}) : super(key: key);
+  const UserHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
                   Text(
                     "${currentWardController.currentWard?.organization.shortName ?? ""} - ",
                     style: TextStyle(
-                      color: context.theme.colorScheme.onBackground.withOpacity(0.7),
+                      color: context.theme.colorScheme.onSurface.withOpacity(0.7),
                       fontSize: 14,
                     ),
                   ),

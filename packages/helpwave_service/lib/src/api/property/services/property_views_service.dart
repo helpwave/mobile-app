@@ -1,7 +1,6 @@
 import 'package:grpc/grpc.dart';
 import 'package:helpwave_proto_dart/services/property_svc/v1/property_value_svc.pb.dart';
 import 'package:helpwave_proto_dart/services/property_svc/v1/property_views_svc.pbgrpc.dart';
-import 'package:helpwave_service/src/api/property/property_api_service_clients.dart';
 import '../../../../property.dart';
 
 /// The GRPC Service for [PropertyViewRules]s

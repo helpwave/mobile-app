@@ -37,7 +37,7 @@ class NavigationStack<T> extends StatelessWidget {
           return PopScope(
             // If the navigation controller cannot pop to another bottom sheet, a normal pop is correct
             canPop: !navigationController.canPop,
-            onPopInvoked: (didPop) {
+            onPopInvokedWithResult: (didPop, _) {
               if (navigationController.canPop) {
                 navigationController.pop();
               }
