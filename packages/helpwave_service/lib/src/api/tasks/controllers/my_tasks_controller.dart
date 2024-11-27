@@ -1,3 +1,4 @@
+import 'package:helpwave_service/src/util/identified_object.dart';
 import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_util/loading.dart';
 
@@ -25,6 +26,17 @@ class AssignedTasksController extends LoadingChangeNotifier {
   /// Loads the [Task]s
   Future<void> load() async {
     loadTasksFuture() async {
+      _tasks = await TaskService().getAssignedTasks();
+    }
+
+    loadHandler(future: loadTasksFuture());
+  }
+
+  // TODO allow for more complex updates
+  Future<void> updateTask(Task task) async {
+    assert(!task.isCreating);
+    loadTasksFuture() async {
+      await TaskService().updateTask(taskId: task.id!, status: task.status);
       _tasks = await TaskService().getAssignedTasks();
     }
 

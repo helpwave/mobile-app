@@ -5,7 +5,6 @@ import 'package:helpwave_proto_dart/services/tasks_svc/v1/task_svc.pbgrpc.dart';
 import '../util/task_status_mapping.dart';
 import 'package:helpwave_service/util.dart';
 
-
 /// The GRPC Service for [Task]s
 ///
 /// Provides queries and requests that load or alter [Task] objects on the server
@@ -77,7 +76,7 @@ class TaskService {
   }
 
   /// Loads the [Task]s assigned to the current [User]
-  Future<List<TaskWithPatient>> getAssignedTasks({String? id}) async {
+  Future<List<TaskWithPatient>> getAssignedTasks() async {
     GetAssignedTasksRequest request = GetAssignedTasksRequest();
     GetAssignedTasksResponse response = await taskService.getAssignedTasks(
       request,
@@ -117,6 +116,13 @@ class TaskService {
       dueAt: task.dueDate != null ? Timestamp.fromDateTime(task.dueDate!) : null,
       patientId: !task.patient.isCreating ? task.patient.id : null,
       public: task.isPublicVisible,
+      assignedUserId: task.assigneeId,
+      subtasks: task.subtasks
+          .map((subtask) => CreateTaskRequest_SubTask(
+                name: subtask.name,
+                done: subtask.isDone,
+              ))
+          .toList(),
     );
     CreateTaskResponse response = await taskService.createTask(
       request,
@@ -128,7 +134,7 @@ class TaskService {
 
   /// Assign a [Task] to a [User] or unassign the [User]
   Future<void> changeAssignee({required String taskId, required String? userId}) async {
-    if(userId != null){
+    if (userId != null) {
       AssignTaskRequest request = AssignTaskRequest(taskId: taskId, userId: userId);
       await taskService.assignTask(
         request,

@@ -23,7 +23,7 @@ class PatientController extends LoadingChangeNotifier {
     if(patient != null) {
       _patient = patient;
     } else if(id != null) {
-      _patient.copyWith(id: id);
+      _patient = _patient.copyWith(id: id);
     }
     load();
   }

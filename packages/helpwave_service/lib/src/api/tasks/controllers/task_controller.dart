@@ -41,7 +41,7 @@ class TaskController extends LoadingChangeNotifier {
       await TaskService().getTask(id: task.id).then((value) async {
         task = value;
         if (task.hasAssignee) {
-          UserService().getUser(id: task.assigneeId!).then((value) => _assignee = value);
+          await UserService().getUser(id: task.assigneeId!).then((value) => _assignee = value);
         }
       });
     }

@@ -44,6 +44,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.patentId);
     double width = MediaQuery.of(context).size.width;
     return MultiProvider(
       providers: [
@@ -220,6 +221,7 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                       ...patient.doneTasks,
                     ],
                     itemBuilder: (_, index, taskList) {
+                      // TODO after return from navigation reload
                       if (index == 0) {
                         return TaskExpansionTile(
                           tasks: patient.unscheduledTasks

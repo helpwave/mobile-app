@@ -63,6 +63,7 @@ class TaskExpansionTile extends StatelessWidget {
                       if(!context.mounted) {
                         return;
                       }
+                      // TODO This widget is used in contexts without the AssignedTasksController leading to issues
                       AssignedTasksController controller = Provider.of<AssignedTasksController>(context, listen: false);
                       controller.load();
                     } catch (e) {
