@@ -7,6 +7,7 @@ import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/dialog.dart';
 import 'package:helpwave_widget/lists.dart';
 import 'package:helpwave_widget/loading.dart';
+import 'package:helpwave_widget/navigation.dart';
 import 'package:helpwave_widget/text_input.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/bottom_sheet_pages/task_bottom_sheet.dart';
@@ -44,7 +45,6 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.patentId);
     double width = MediaQuery.of(context).size.width;
     return MultiProvider(
       providers: [
@@ -214,14 +214,21 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                 child: Consumer<PatientController>(builder: (context, patientController, _) {
                   Patient patient = patientController.patient;
                   return AddList(
-                    maxHeight: width * 0.5,
                     items: [
-                      ...patient.unscheduledTasks,
-                      ...patient.inProgressTasks,
-                      ...patient.doneTasks,
+                      patient.unscheduledTasks,
+                      patient.inProgressTasks,
+                      patient.doneTasks,
                     ],
                     itemBuilder: (_, index, taskList) {
                       // TODO after return from navigation reload
+                      complete(Task task, PatientController controller) {
+                        controller.updateTaskStatus(task.copyWith(status: TaskStatus.done));
+                      }
+
+                      openEdit(TaskWithPatient task) {
+                        NavigationStackController.of(context).push(TaskBottomSheet(task: task, patient: task.patient));
+                      }
+
                       if (index == 0) {
                         return TaskExpansionTile(
                           tasks: patient.unscheduledTasks
@@ -232,6 +239,8 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                               .toList(),
                           title: context.localization.upcoming,
                           color: upcomingColor,
+                          onOpenEdit: (task) => openEdit(task),
+                          onComplete: (task) => complete(task, patientController),
                         );
                       }
                       if (index == 2) {
@@ -244,6 +253,8 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                               .toList(),
                           title: context.localization.inProgress,
                           color: inProgressColor,
+                          onOpenEdit: (task) => openEdit(task),
+                          onComplete: (task) => complete(task, patientController),
                         );
                       }
                       return TaskExpansionTile(
@@ -255,6 +266,8 @@ class _PatientBottomSheetState extends State<PatientBottomSheet> {
                             .toList(),
                         title: context.localization.done,
                         color: doneColor,
+                        onOpenEdit: (task) => openEdit(task),
+                        onComplete: (task) => complete(task, patientController),
                       );
                     },
                     title: Text(

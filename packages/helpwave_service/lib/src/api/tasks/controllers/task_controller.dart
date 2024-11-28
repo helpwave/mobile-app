@@ -81,6 +81,20 @@ class TaskController extends LoadingChangeNotifier {
     loadHandler(future: updateName());
   }
 
+  Future<void> changeStatus(TaskStatus status) async {
+    if (isCreating) {
+      task = TaskWithPatient.fromTaskAndPatient(task: task.copyWith(status: status), patient: task.patient);
+      notifyListeners();
+      return;
+    }
+    updateName() async {
+      await TaskService().updateTask(taskId: task.id!, status: status).then(
+              (_) => task = TaskWithPatient.fromTaskAndPatient(task: task.copyWith(status: status), patient: task.patient));
+    }
+
+    loadHandler(future: updateName());
+  }
+
   Future<void> changeIsPublic(bool isPublic) async {
     if (isCreating) {
       task = TaskWithPatient.fromTaskAndPatient(task: task.copyWith(isPublicVisible: isPublic), patient: task.patient);

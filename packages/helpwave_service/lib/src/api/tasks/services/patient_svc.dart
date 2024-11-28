@@ -91,7 +91,6 @@ class PatientService {
         metadata: TasksAPIServiceClients().getMetaData(),
       ),
     );
-    print(response.tasks.length);
 
     return Patient(
       id: response.id,

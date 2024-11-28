@@ -215,5 +215,8 @@
   "description": "Description",
   "options": "Options",
   "editProperty": "Edit Property",
-  "createWard": "Create Ward"
+  "createWard": "Create Ward",
+  "edit": "Edit",
+  "completed": "Completed",
+  "status": "Status"
 }

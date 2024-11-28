@@ -116,6 +116,12 @@ class TaskBottomSheet extends StatefulWidget {
 class _TaskBottomSheetState extends State<TaskBottomSheet> {
   @override
   Widget build(BuildContext context) {
+    Map<TaskStatus, String> taskStatusTranslationMap = {
+      TaskStatus.done: context.localization.done,
+      TaskStatus.inProgress: context.localization.inProgress,
+      TaskStatus.todo: context.localization.upcoming,
+    };
+
     return ChangeNotifierProvider(
       create: (context) =>
           TaskController(TaskWithPatient.fromTaskAndPatient(task: widget.task, patient: widget.patient)),
@@ -285,20 +291,40 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 ],
               ),
               const SizedBox(height: distanceSmall),
-              Consumer<TaskController>(
-                builder: (_, taskController, __) => LoadingAndErrorWidget.pulsing(
-                  state: taskController.state,
-                  child: _SheetListTile(
-                    icon: Icons.lock,
-                    label: context.localization.visibility,
-                    valueWidget: VisibilitySelect(
-                      isPublicVisible: taskController.task.isPublicVisible,
-                      onChanged: taskController.changeIsPublic,
-                      isCreating: taskController.isCreating,
-                      textStyle: editableValueTextStyle(context),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Consumer<TaskController>(
+                    builder: (_, taskController, __) => LoadingAndErrorWidget.pulsing(
+                      state: taskController.state,
+                      child: _SheetListTile(
+                        icon: Icons.lock,
+                        label: context.localization.visibility,
+                        valueWidget: VisibilitySelect(
+                          isPublicVisible: taskController.task.isPublicVisible,
+                          onChanged: taskController.changeIsPublic,
+                          isCreating: taskController.isCreating,
+                          textStyle: editableValueTextStyle(context),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  Consumer<TaskController>(
+                    builder: (_, taskController, __) => LoadingAndErrorWidget.pulsing(
+                      state: taskController.state,
+                      child: _SheetListTile(
+                        icon: Icons.check,
+                        label: context.localization.status,
+                        valueWidget: Text(
+                          taskStatusTranslationMap[taskController.task.status] ?? "",
+                          style: editableValueTextStyle(context),
+                        ),
+                        // TODO show modal here
+                        onTap: () => taskController.changeStatus(TaskStatus.done),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: distanceMedium),
               Text(

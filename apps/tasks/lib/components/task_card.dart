@@ -16,7 +16,20 @@ class TaskCard extends StatelessWidget {
   /// The [borderRadius] of the [Card]
   final double borderRadius;
 
-  const TaskCard({super.key, required this.task, this.margin, this.borderRadius = borderRadiusMedium});
+  /// The [Function] called when the [Task] should be completed
+  final Function() onComplete;
+
+  /// The [Function] called when the [Task] should be edited
+  final Function() onTap;
+
+  const TaskCard({
+    super.key,
+    required this.task,
+    this.margin,
+    this.borderRadius = borderRadiusMedium,
+    required this.onComplete,
+    required this.onTap,
+  });
 
   /// Determines the text shown for indicating the remaining time for the [Task]
   String getDueText(BuildContext context) {
@@ -72,86 +85,90 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: margin,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: paddingSmall, horizontal: paddingMedium),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                StaticProgressIndicator(
-                  progress: task.progress,
-                  color: context.theme.colorScheme.primary,
-                  backgroundColor: context.theme.colorScheme.onSurface.withOpacity(0.3),
-                  isClockwise: true,
-                  angle: 0,
-                ),
-                Chip(
-                  side: BorderSide.none,
-                  backgroundColor: getBackgroundColor(),
-                  label: Text(
-                    getDueText(context),
-                    style: TextStyle(color: getTextColor()),
+    return InkWell(
+      borderRadius: BorderRadius.circular(borderRadius),
+      onTap: onTap,
+      child: Card(
+        margin: margin,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: paddingSmall, horizontal: paddingMedium),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  StaticProgressIndicator(
+                    progress: task.progress,
+                    color: context.theme.colorScheme.primary,
+                    backgroundColor: context.theme.colorScheme.onSurface.withOpacity(0.3),
+                    isClockwise: true,
+                    angle: 0,
                   ),
-                  elevation: 0,
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: distanceTiny,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        task.patient.name,
-                        style: TextStyle(color: context.theme.colorScheme.primary),
-                      ),
-                      Text(
-                        task.name,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "SpaceGrotesk",
+                  Chip(
+                    side: BorderSide.none,
+                    backgroundColor: getBackgroundColor(),
+                    label: Text(
+                      getDueText(context),
+                      style: TextStyle(color: getTextColor()),
+                    ),
+                    elevation: 0,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: distanceTiny,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          task.patient.name,
+                          style: TextStyle(color: context.theme.colorScheme.primary),
                         ),
-                      ),
-                      task.notes.isNotEmpty ? Text(
-                        task.notes,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: "SpaceGrotesk",
-                          overflow: TextOverflow.ellipsis,
-                          color: context.theme.colorScheme.onSurface.withOpacity(0.6),
+                        Text(
+                          task.name,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "SpaceGrotesk",
+                          ),
                         ),
-                      ) : const SizedBox(),
-                    ],
+                        task.notes.isNotEmpty
+                            ? Text(
+                                task.notes,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: "SpaceGrotesk",
+                                  overflow: TextOverflow.ellipsis,
+                                  color: context.theme.colorScheme.onSurface.withOpacity(0.6),
+                                ),
+                              )
+                            : const SizedBox(),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(width: distanceTiny),
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(maxHeight: iconSizeSmall, maxWidth: iconSizeSmall),
-                  onPressed: () {
-                    // TODO change task status
-                  },
-                  icon: Icon(
-                    size: iconSizeTiny,
-                    Icons.check_circle_outline_rounded,
-                    // TODO change colors later
-                    color: task.status == TaskStatus.done ? context.theme.colorScheme.onSurface.withOpacity(0.4) : context.theme
-                    .colorScheme
-                    .primary,
+                  const SizedBox(width: distanceTiny),
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(maxHeight: iconSizeSmall, maxWidth: iconSizeSmall),
+                    onPressed: onComplete,
+                    icon: Icon(
+                      size: iconSizeTiny,
+                      Icons.check_circle_outline_rounded,
+                      // TODO change colors later
+                      color: task.status != TaskStatus.done
+                          ? context.theme.colorScheme.onSurface.withOpacity(0.4)
+                          : context.theme.colorScheme.primary,
+                    ),
                   ),
-                ),
-              ],
-            )
-          ],
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

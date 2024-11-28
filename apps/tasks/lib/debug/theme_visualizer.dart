@@ -34,7 +34,7 @@ class ThemeVisualizer extends StatelessWidget {
                 //SizedBox(width: 300, height: 400, child: SubtaskList(onChange: (_) {})),
                 const Text("Text"),
                 const Icon(Icons.ac_unit),
-                SubtaskList(onChange: (_){}),
+                SubtaskList(onChange: (_) {}),
                 TextButton(onPressed: () {}, child: const Text("TextButton")),
                 ElevatedButton(onPressed: () {}, child: const Text("ElevatedButton")),
                 OutlinedButton(onPressed: () {}, child: const Text("OutlinedButton")),
@@ -51,6 +51,8 @@ class ThemeVisualizer extends StatelessWidget {
                       name: "Patient",
                     ),
                   ),
+                  onComplete: () {},
+                  onTap: () {},
                 )
               ],
             ),

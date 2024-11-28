@@ -34,7 +34,7 @@ class AddList<T> extends StatelessWidget {
   final List<T> items;
 
   /// The builder function for the items of the list
-  final Widget? Function(BuildContext, int, T) itemBuilder;
+  final Widget Function(BuildContext, int, T) itemBuilder;
 
   /// The [title] of the the list
   final Widget title;
@@ -54,7 +54,7 @@ class AddList<T> extends StatelessWidget {
     required this.itemBuilder,
     required this.title,
     required this.onAdd,
-    this.maxHeight = 300,
+    this.maxHeight = double.infinity,
     this.addButtonBuilder,
   });
 
@@ -74,12 +74,8 @@ class AddList<T> extends StatelessWidget {
         const SizedBox(height: distanceSmall),
         ConstrainedBox(
           constraints: BoxConstraints(maxHeight: maxHeight),
-          child: ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              T item = items[index];
-              return itemBuilder(context, index, item);
-            },
+          child: Column(
+            children: items.indexed.map((e) => itemBuilder(context, e.$1, e.$2)).toList(),
           ),
         ),
       ],

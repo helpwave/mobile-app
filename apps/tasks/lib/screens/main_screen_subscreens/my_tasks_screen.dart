@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/util.dart';
+import 'package:helpwave_widget/bottom_sheets.dart';
+import 'package:helpwave_widget/navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:tasks/components/bottom_sheet_pages/task_bottom_sheet.dart';
 import 'package:tasks/components/task_expansion_tile.dart';
 import 'package:helpwave_widget/loading.dart';
 
@@ -22,6 +25,14 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
       create: (_) => AssignedTasksController(),
       child: Consumer<AssignedTasksController>(
         builder: (BuildContext context, AssignedTasksController tasksController, Widget? child) {
+          complete(Task task, AssignedTasksController controller) {
+            controller.updateTask(task.copyWith(status: TaskStatus.done));
+          }
+
+          openEdit(TaskWithPatient task) {
+            context.pushModal(context: context, builder: (context) => NavigationOutlet(initialValue: TaskBottomSheet(task: task, patient: task.patient)));
+          }
+
           return LoadingAndErrorWidget(
             state: tasksController.state,
             child: ListView(children: [
@@ -37,16 +48,22 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                       tasks: tasksController.todo,
                       color: upcomingColor,
                       title: context.localization.upcoming,
+                      onComplete: (task) => complete(task,tasksController),
+                      onOpenEdit: (task) => openEdit(task),
                     ),
                     TaskExpansionTile(
                       tasks: tasksController.inProgress,
                       color: inProgressColor,
                       title: context.localization.inProgress,
+                      onComplete: (task) => complete(task,tasksController),
+                      onOpenEdit: (task) => openEdit(task),
                     ),
                     TaskExpansionTile(
                       tasks: tasksController.done,
                       color: doneColor,
                       title: context.localization.done,
+                      onComplete: (task) => complete(task,tasksController),
+                      onOpenEdit: (task) => openEdit(task),
                     ),
                   ],
                 ),

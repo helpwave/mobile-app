@@ -28,13 +28,10 @@ class SubtaskList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double sizeForSubtasks = 200;
-
     return ChangeNotifierProvider(
       create: (context) => SubtasksController(taskId: taskId, subtasks: subtasks),
       child: Consumer<SubtasksController>(builder: (context, subtasksController, __) {
         return AddList(
-          maxHeight: sizeForSubtasks,
           items: subtasksController.subtasks,
           title: Text(
             context.localization.subtasks,

@@ -4,6 +4,7 @@ import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/loading.dart';
+import 'package:helpwave_widget/navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/bottom_sheet_pages/patient_bottom_sheet.dart';
 import 'package:tasks/components/patient_card.dart';
@@ -133,7 +134,8 @@ class _PatientScreenState extends State<PatientScreen> {
                                 onClick: () => context
                                     .pushModal(
                                       context: context,
-                                      builder: (context) => PatientBottomSheet(patentId: patient.id!),
+                                      builder: (context) =>
+                                          NavigationOutlet(initialValue: PatientBottomSheet(patentId: patient.id!)),
                                     )
                                     .then((_) => patientController.load()),
                                 patient: patient,

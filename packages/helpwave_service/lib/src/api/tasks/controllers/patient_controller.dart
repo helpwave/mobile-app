@@ -123,6 +123,13 @@ class PatientController extends LoadingChangeNotifier {
     loadHandler(future: updateNotes());
   }
 
+  Future<void> updateTaskStatus(Task task) async {
+    // TODO handle errors better
+    await TaskService().updateTask(taskId: task.id!, status: task.status).then((id) {
+      load();
+    });
+  }
+
   /// Creates the [Patient]
   Future<void> create() async {
     createPatient() async {

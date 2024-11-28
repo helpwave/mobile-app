@@ -215,5 +215,8 @@
   "description": "Beschreibung",
   "options": "Optionen",
   "editProperty": "Property ändern",
-  "createWard": "Station erstellen"
+  "createWard": "Station erstellen",
+  "edit": "Ändern",
+  "completed": "Fertig",
+  "status": "Status"
 }
