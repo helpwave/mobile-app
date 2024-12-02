@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_service/auth.dart';
+import 'package:helpwave_service/property.dart';
+import 'package:helpwave_service/user.dart';
 import 'package:provider/provider.dart';
 import 'package:helpwave_localization/l10n/app_localizations.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_localization/localization_model.dart';
 import 'package:helpwave_theme/theme.dart';
+import 'package:tasks/config/config.dart';
+import 'package:helpwave_service/tasks.dart';
 import 'package:tasks/screens/login_screen.dart';
-import 'package:tasks/services/current_ward_svc.dart';
-import 'controllers/user_session_controller.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  CurrentWardService().devMode = isUsingOfflineClients;
+  TasksAPIServiceClients()
+    ..apiUrl = usedAPIURL
+    ..offlineMode = isUsingOfflineClients;
+  UserAPIServiceClients()
+    ..apiUrl = usedAPIURL
+    ..offlineMode = isUsingOfflineClients;
+  PropertyAPIServiceClients().apiUrl = usedAPIURL;
+  // OfflineMode for PropertyAPIServiceClients does not work yet
+  // ..offlineMode = isUsingOfflineClients;
+  UserSessionService().changeMode(isUsingDevModeLogin);
+  // TODO the line below enables direct login, but behaves somewhat weirdly
+  UserSessionService().tokenLogin().then((value) => CurrentWardService().fakeLogin());
   runApp(const MyApp());
 }
 
@@ -26,7 +43,7 @@ class MyApp extends StatelessWidget {
           create: (_) => LanguageModel(),
         ),
         ChangeNotifierProvider(
-          create: (_) => CurrentWardController(),
+          create: (_) => CurrentWardController(devMode: isUsingDevModeLogin),
         ),
         ChangeNotifierProvider(
           create: (_) => UserSessionController(),
@@ -48,9 +65,7 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: getSupportedLocals(),
           locale: Locale(languageNotifier.language),
-          home: const Scaffold(
-            body: SafeArea(child: LoginScreen()),
-          ),
+          home: const LoginScreen(),
         );
       }),
     );

@@ -1,49 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/lists.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/controllers/subtask_list_controller.dart';
-import 'package:tasks/dataclasses/subtask.dart';
-import 'package:tasks/dataclasses/task.dart';
 
-/// A [Widget] for displaying an updating a [List] of [SubTask]s
+/// A [Widget] for displaying an updating a [List] of [Subtask]s
 class SubtaskList extends StatelessWidget {
-  /// The identifier of the [Task] to which all of these [SubTask]s belong
-  final String taskId;
+  /// The identifier of the [Task] to which all of these [Subtask]s belong
+  final String? taskId;
 
   /// The [List] of initial subtasks
-  final List<SubTask> subtasks;
+  final List<Subtask> subtasks;
 
   /// The callback when the [subtasks] are changed
   ///
   /// Should **only** be used when [taskId == ""]
-  final void Function(List<SubTask> subtasks) onChange;
+  final void Function(List<Subtask> subtasks) onChange;
 
   const SubtaskList({
     super.key,
-    this.taskId = "",
+    this.taskId,
     this.subtasks = const [],
     required this.onChange,
   });
 
   @override
   Widget build(BuildContext context) {
-    const double sizeForSubtasks = 200;
-
     return ChangeNotifierProvider(
       create: (context) => SubtasksController(taskId: taskId, subtasks: subtasks),
       child: Consumer<SubtasksController>(builder: (context, subtasksController, __) {
         return AddList(
-          maxHeight: sizeForSubtasks,
           items: subtasksController.subtasks,
           title: Text(
-            context.localization!.subtasks,
+            context.localization.subtasks,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           onAdd: () => subtasksController
-              .add(SubTask(id: "", name: "Subtask ${subtasksController.subtasks.length + 1}"))
+              .create(Subtask(name: "Subtask ${subtasksController.subtasks.length + 1}", taskId: taskId))
               .then((_) => onChange(subtasksController.subtasks)),
           itemBuilder: (context, _, subtask) => ListTile(
             contentPadding: EdgeInsets.zero,
@@ -54,7 +49,7 @@ class SubtaskList extends StatelessWidget {
             ).then((value) {
               if (value != null) {
                 subtask.name = value;
-                subtasksController.updateSubtask(subTask: subtask);
+                subtasksController.update(subtask: subtask);
               }
             }),
             title: Row(
@@ -71,8 +66,8 @@ class SubtaskList extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(iconSizeSmall),
               ),
-              onChanged: (value) => subtasksController
-                  .changeStatus(subTask: subtask, value: value ?? false)
+              onChanged: (isDone) => subtasksController
+                  .update(subtask: subtask.copyWith(isDone: isDone))
                   .then((value) => onChange(subtasksController.subtasks)),
             ),
             trailing: GestureDetector(
@@ -82,7 +77,7 @@ class SubtaskList extends StatelessWidget {
                     .then((value) => onChange(subtasksController.subtasks));
               },
               child: Text(
-                context.localization!.delete,
+                context.localization.delete,
                 style: const TextStyle(color: negativeColor, fontSize: 17),
               ),
             ),
@@ -118,7 +113,7 @@ class _SubTaskChangeDialogState extends State<SubTaskChangeDialog> {
           children: [
             Center(
               child: Text(
-                context.localization!.changeSubtask,
+                context.localization.changeSubtask,
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -127,7 +122,7 @@ class _SubTaskChangeDialogState extends State<SubTaskChangeDialog> {
             ),
             const SizedBox(height: distanceDefault),
             TextFormField(
-              decoration: InputDecoration(labelText: context.localization!.subtaskName),
+              decoration: InputDecoration(labelText: context.localization.subtaskName),
               initialValue: widget.initialName,
               onChanged: (value) => updatedName = value,
             ),
@@ -137,17 +132,11 @@ class _SubTaskChangeDialogState extends State<SubTaskChangeDialog> {
               children: [
                 TextButton(
                   onPressed: () => Navigator.pop(context, null),
-                  style: ButtonStyle(
-                    backgroundColor: resolveByStatesAndContextBackground(
-                      context: context,
-                      defaultValue: negativeColor,
-                    ),
-                  ),
-                  child: Text(context.localization!.cancel),
+                  child: Text(context.localization.cancel, style: TextStyle(color: context.theme.hintColor),),
                 ),
                 TextButton(
                   onPressed: () => Navigator.pop(context, updatedName),
-                  child: Text(context.localization!.update),
+                  child: Text(context.localization.update),
                 )
               ],
             ),

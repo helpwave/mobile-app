@@ -5,9 +5,7 @@ import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:tasks/components/subtask_list.dart';
 import 'package:tasks/components/task_card.dart';
-import 'package:tasks/dataclasses/patient.dart';
-
-import '../dataclasses/task.dart';
+import 'package:helpwave_service/tasks.dart';
 
 class ThemeVisualizer extends StatelessWidget {
   const ThemeVisualizer({super.key});
@@ -19,7 +17,7 @@ class ThemeVisualizer extends StatelessWidget {
         children: [
           ListTile(
             leading: const Icon(Icons.brightness_medium),
-            title: Text(context.localization!.darkMode),
+            title: Text(context.localization.darkMode),
             trailing: Consumer<ThemeModel>(builder: (_, ThemeModel themeNotifier, __) {
               return Switch(
                 value: themeNotifier.getIsDarkNullSafe(context),
@@ -36,7 +34,7 @@ class ThemeVisualizer extends StatelessWidget {
                 //SizedBox(width: 300, height: 400, child: SubtaskList(onChange: (_) {})),
                 const Text("Text"),
                 const Icon(Icons.ac_unit),
-                SubtaskList(onChange: (_){}),
+                SubtaskList(onChange: (_) {}),
                 TextButton(onPressed: () {}, child: const Text("TextButton")),
                 ElevatedButton(onPressed: () {}, child: const Text("ElevatedButton")),
                 OutlinedButton(onPressed: () {}, child: const Text("OutlinedButton")),
@@ -46,12 +44,15 @@ class ThemeVisualizer extends StatelessWidget {
                     name: "Task",
                     notes: "Some Notes",
                     status: TaskStatus.inProgress,
+                    patientId: "patient",
                     dueDate: DateTime.now().add(const Duration(hours: 2)),
                     patient: PatientMinimal(
                       id: "patient",
                       name: "Patient",
                     ),
                   ),
+                  onComplete: () {},
+                  onTap: () {},
                 )
               ],
             ),

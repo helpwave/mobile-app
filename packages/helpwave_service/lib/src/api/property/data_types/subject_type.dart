@@ -1,0 +1,4 @@
+enum PropertySubjectType {
+  patient,
+  task
+}

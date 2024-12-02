@@ -25,9 +25,7 @@ class TasksNavigationDrawer extends StatelessWidget {
 
   /// determines the [Color] of the ListTile for the given page
   Color tileColorForPage(NavigationOptions page) {
-    return currentPage == page
-        ? Colors.black.withOpacity(0.2)
-        : Colors.transparent;
+    return currentPage == page ? Colors.black.withOpacity(0.2) : Colors.transparent;
   }
 
   /// Replaces the current Page with the given one with an Animation
@@ -35,16 +33,21 @@ class TasksNavigationDrawer extends StatelessWidget {
     // TODO fine tune here to see what kind of animation transition looks the best
     Navigator.pop(context);
     await Future.delayed(const Duration(milliseconds: 100)).then(
-      (_) => Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (_, __, ___) => newPage,
-          transitionsBuilder: (_, __, ___, child) {
-            return child;
-          },
-          transitionDuration: Duration.zero,
-        ),
-      ),
+      (_) {
+        if (!context.mounted) {
+          return;
+        }
+        Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) => newPage,
+            transitionsBuilder: (_, __, ___, child) {
+              return child;
+            },
+            transitionDuration: Duration.zero,
+          ),
+        );
+      },
     );
   }
 
@@ -66,18 +69,16 @@ class TasksNavigationDrawer extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.task_alt),
               tileColor: tileColorForPage(NavigationOptions.myTasks),
-              onTap: currentPage == NavigationOptions.myTasks
-                  ? null
-                  : () => pushReplace(context, const MyTasksScreen()),
-              title: Text(context.localization!.myTasks),
+              onTap:
+                  currentPage == NavigationOptions.myTasks ? null : () => pushReplace(context, const MyTasksScreen()),
+              title: Text(context.localization.myTasks),
             ),
             ListTile(
               leading: const Icon(Icons.settings),
               tileColor: tileColorForPage(NavigationOptions.settings),
-              onTap: currentPage == NavigationOptions.settings
-                  ? null
-                  : () => pushReplace(context, const SettingsScreen()),
-              title: Text(context.localization!.settings),
+              onTap:
+                  currentPage == NavigationOptions.settings ? null : () => pushReplace(context, const SettingsScreen()),
+              title: Text(context.localization.settings),
             ),
             Flexible(child: Container()),
             const Padding(

@@ -3,7 +3,6 @@ import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/dialog.dart';
-import 'package:tasks/dataclasses/task.dart';
 
 /// A [BottomSheet] to change the visibility
 class _VisibilityBottomSheet extends StatelessWidget {
@@ -26,29 +25,30 @@ class _VisibilityBottomSheet extends StatelessWidget {
         top: paddingMedium,
         bottom: paddingBig,
       ),
-      titleText: context.localization!.visibility,
-      builder: (context) {
-        return Column(
-          children: [
-            const SizedBox(height: distanceSmall),
-            GestureDetector(
-              onTap: () {
-                onChange(true);
-                Navigator.of(context).pop();
-              },
-              child: Text(context.localization!.public, style: style),
-            ),
-            const SizedBox(height: distanceSmall),
-            GestureDetector(
-              onTap: () {
-                onChange(false);
-                Navigator.of(context).pop();
-              },
-              child: Text(context.localization!.private, style: style),
-            ),
-          ],
-        );
-      },
+      mainAxisSize: MainAxisSize.min,
+      header: BottomSheetHeader(
+        titleText: context.localization.visibility,
+      ),
+      child: Column(
+        children: [
+          const SizedBox(height: distanceSmall),
+          GestureDetector(
+            onTap: () {
+              onChange(true);
+              Navigator.of(context).pop();
+            },
+            child: Text(context.localization.public, style: style),
+          ),
+          const SizedBox(height: distanceSmall),
+          GestureDetector(
+            onTap: () {
+              onChange(false);
+              Navigator.of(context).pop();
+            },
+            child: Text(context.localization.private, style: style),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -94,14 +94,14 @@ class VisibilitySelect extends StatelessWidget {
 
         if (isPublicVisible) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(context.localization!.publicTasksCannotBeMadePrivate)));
+              .showSnackBar(SnackBar(content: Text(context.localization.publicTasksCannotBeMadePrivate)));
         } else {
           showDialog(
             context: context,
             builder: (context) => AcceptDialog(
-              titleText: context.localization!.makeTaskPublic,
+              titleText: context.localization.makeTaskPublic,
               content: Text(
-                context.localization!.thisCannotBeUndone,
+                context.localization.thisCannotBeUndone,
                 // TODO replace with warning color by theme
                 style: const TextStyle(color: warningColor),
               ),
@@ -110,7 +110,7 @@ class VisibilitySelect extends StatelessWidget {
         }
       },
       child: Text(
-        isPublicVisible ? context.localization!.public : context.localization!.private,
+        isPublicVisible ? context.localization.public : context.localization.private,
         style: textStyle,
       ),
     );

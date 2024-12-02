@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/src/text_input/text_form_field_with_timer.dart';
 
 /// A Widget that is a normal [TextFormField], but has no border
@@ -21,7 +22,7 @@ class ClickableTextEdit extends StatefulWidget {
   /// The default uses:
   ///
   /// ```dart
-  /// color: Theme.of(context).colorScheme.secondary,
+  /// color: context.theme.colorScheme.primary,
   /// fontSize: 20,
   /// fontWeight: FontWeight.w700
   /// ```
@@ -75,10 +76,14 @@ class _ClickableTextEditState extends State<ClickableTextEdit> {
     );
 
     TextStyle usedTextStyle = widget.textStyle ??
-        TextStyle(color: Theme.of(context).colorScheme.secondary, fontSize: 20, fontWeight: FontWeight.w700);
+        TextStyle(
+          color: context.theme.colorScheme.primary,
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+        );
 
     return Theme(
-      data: Theme.of(context).copyWith(
+      data: context.theme.copyWith(
         inputDecorationTheme: const InputDecorationTheme(
           contentPadding: EdgeInsets.zero,
           border: borderTheme,
@@ -109,6 +114,7 @@ class _ClickableTextEditState extends State<ClickableTextEdit> {
               textAlign: widget.textAlign,
               focusNode: _focusNode,
               autofocus: true,
+              textInputAction: TextInputAction.done,
             )
           : GestureDetector(
               onTap: () => setState(() {

@@ -38,11 +38,11 @@ class AcceptDialog<V> extends StatelessWidget {
       content: content,
       actions: [
         TextButton(
-          child: Text(yesText ?? context.localization!.yes),
+          child: Text(yesText ?? context.localization.yes),
           onPressed: () => Navigator.of(context).pop(true),
         ),
         TextButton(
-          child: Text(noText ?? context.localization!.no),
+          child: Text(noText ?? context.localization.no),
           onPressed: () => Navigator.of(context).pop(false),
         ),
       ],

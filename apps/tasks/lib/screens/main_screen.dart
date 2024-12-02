@@ -1,19 +1,20 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/auth.dart';
+import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
+import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/animation.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/components/patient_bottom_sheet.dart';
+import 'package:tasks/components/bottom_sheet_pages/patient_bottom_sheet.dart';
+import 'package:tasks/components/bottom_sheet_pages/task_bottom_sheet.dart';
 import 'package:tasks/components/user_header.dart';
 import 'package:tasks/screens/main_screen_subscreens/my_tasks_screen.dart';
 import 'package:tasks/screens/main_screen_subscreens/patient_screen.dart';
 import 'package:tasks/screens/ward_select_screen.dart';
-import 'package:tasks/services/current_ward_svc.dart';
-import '../components/task_bottom_sheet.dart';
-import '../dataclasses/task.dart';
 
 /// The main screen of the app
 ///
@@ -45,39 +46,28 @@ class _MainScreenState extends State<MainScreen> {
       }
       return Scaffold(
         appBar: const UserHeader(),
-        body: [const MyTasksScreen(), const SizedBox(), const PatientScreen()][index],
+        body: SafeArea(child: [const MyTasksScreen(), const SizedBox(), const PatientScreen()][index]),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: PopInAndOutAnimator(
           visible: isShowingActionButton,
           child: _TaskPatientFloatingActionButton(),
         ),
         bottomNavigationBar: NavigationBar(
-          indicatorColor: Theme.of(context).colorScheme.secondary,
-          backgroundColor: themeNotifier.getIsDarkNullSafe(context) ? Colors.white10 : Colors.white,
+          indicatorColor: context.theme.colorScheme.primary,
+          surfaceTintColor: Colors.transparent,
+          shadowColor: context.theme.colorScheme.shadow,
           destinations: [
             NavigationDestination(
-              selectedIcon: Icon(
-                Icons.check_circle_outline,
-                color: Theme.of(context).colorScheme.onSecondary,
-              ),
               icon: const Icon(Icons.check_circle_outline),
-              label: context.localization!.myTasks,
+              label: context.localization.myTasks,
             ),
             NavigationDestination(
-              selectedIcon: Icon(
-                Icons.add_circle_outline,
-                color: Theme.of(context).colorScheme.onSecondary,
-              ),
               icon: const Icon(Icons.add_circle_outline),
-              label: context.localization!.newTaskOrPatient,
+              label: context.localization.newTaskOrPatient,
             ),
             NavigationDestination(
-              selectedIcon: Icon(
-                Icons.person,
-                color: Theme.of(context).colorScheme.onSecondary,
-              ),
               icon: const Icon(Icons.person),
-              label: context.localization!.patients,
+              label: context.localization.patients,
             ),
           ],
           selectedIndex: index,
@@ -117,7 +107,7 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(componentHeight),
-        color: Color.alphaBlend(Theme.of(context).colorScheme.secondary.withOpacity(0.7), Colors.black),
+        color: Color.alphaBlend(context.theme.colorScheme.primary.withOpacity(0.7), Colors.black),
       ),
       child: Padding(
         padding: const EdgeInsets.all(paddingSmall),
@@ -128,8 +118,8 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
             ActionChip(
               labelPadding: EdgeInsets.zero,
               visualDensity: VisualDensity.compact,
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              labelStyle: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              backgroundColor: context.theme.colorScheme.primary,
+              labelStyle: TextStyle(color: context.theme.colorScheme.onPrimary),
               side: BorderSide.none,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(chipHeight), // Adjust the radius as needed
@@ -137,12 +127,12 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
               label: SizedBox(
                 width: chipWidth,
                 height: chipHeight,
-                child: Center(child: Text(context.localization!.task)),
+                child: Center(child: Text(context.localization.task)),
               ),
               onPressed: () {
                 context.pushModal(
                   context: context,
-                  builder: (context) => TaskBottomSheet(task: Task.empty),
+                  builder: (context) => TaskBottomSheet(task: Task.empty("")),
                 );
               },
             ),
@@ -152,8 +142,8 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
             ActionChip(
               labelPadding: EdgeInsets.zero,
               visualDensity: VisualDensity.compact,
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              labelStyle: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              backgroundColor: context.theme.colorScheme.primary,
+              labelStyle: TextStyle(color: context.theme.colorScheme.onPrimary),
               side: BorderSide.none,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(chipHeight), // Adjust the radius as needed
@@ -161,12 +151,12 @@ class _TaskPatientFloatingActionButton extends StatelessWidget {
               label: SizedBox(
                 width: chipWidth,
                 height: chipHeight,
-                child: Center(child: Text(context.localization!.patient)),
+                child: Center(child: Text(context.localization.patient)),
               ),
               onPressed: () {
                 context.pushModal(
                   context: context,
-                  builder: (context) => const PatientBottomSheet(patentId: ""),
+                  builder: (context) => const PatientBottomSheet(),
                 );
               },
             ),

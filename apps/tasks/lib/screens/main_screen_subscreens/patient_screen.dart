@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
+import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/bottom_sheets.dart';
 import 'package:helpwave_widget/loading.dart';
+import 'package:helpwave_widget/navigation.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/components/patient_bottom_sheet.dart';
+import 'package:tasks/components/bottom_sheet_pages/patient_bottom_sheet.dart';
 import 'package:tasks/components/patient_card.dart';
 import 'package:tasks/components/patient_status_chip_select.dart';
-import 'package:tasks/components/task_bottom_sheet.dart';
-import 'package:tasks/controllers/ward_patients_controller.dart';
-import 'package:tasks/dataclasses/patient.dart';
-import 'package:tasks/dataclasses/task.dart';
+import 'package:tasks/components/bottom_sheet_pages/task_bottom_sheet.dart';
+import 'package:helpwave_service/tasks.dart';
 
 /// A screen for showing a all [Patient]s by certain user-selectable filter properties
 ///
@@ -30,10 +30,11 @@ class _PatientScreenState extends State<PatientScreen> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: paddingSmall, right: paddingSmall, bottom: paddingMedium),
+            padding: const EdgeInsets.only(
+                left: paddingSmall, right: paddingSmall, bottom: paddingMedium, top: paddingSmall),
             child: Consumer<WardPatientsController>(builder: (_, patientController, __) {
               return SearchBar(
-                hintText: context.localization!.searchPatient,
+                hintText: context.localization.searchPatient,
                 trailing: [
                   IconButton(
                     onPressed: () {
@@ -42,7 +43,7 @@ class _PatientScreenState extends State<PatientScreen> {
                     icon: Icon(
                       Icons.search,
                       size: iconSizeTiny,
-                      color: Theme.of(context).searchBarTheme.textStyle!.resolve({MaterialState.selected})!.color,
+                      color: context.theme.searchBarTheme.textStyle!.resolve({WidgetState.selected})!.color,
                     ),
                   ),
                 ],
@@ -81,20 +82,36 @@ class _PatientScreenState extends State<PatientScreen> {
                           (patient) => Padding(
                             padding: const EdgeInsets.symmetric(horizontal: paddingSmall),
                             child: Dismissible(
-                              key: Key(patient.id),
+                              key: Key(patient.id!),
+                              confirmDismiss: (direction) async {
+                                if (direction == DismissDirection.endToStart) {
+                                  patientController.discharge(patient.id!);
+                                } else if (!patient.isDischarged) {
+                                  context
+                                      .pushModal(
+                                          context: context,
+                                          builder: (context) =>
+                                              TaskBottomSheet(task: Task.empty(patient.id), patient: patient))
+                                      .then((value) => patientController.load());
+                                }
+                                return false;
+                              },
+                              direction: patient.isDischarged ? DismissDirection.none : DismissDirection.horizontal,
                               background: Padding(
                                 padding: const EdgeInsets.all(paddingTiny),
                                 child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).colorScheme.secondary,
-                                      borderRadius: BorderRadius.circular(borderRadiusMedium),
+                                  decoration: BoxDecoration(
+                                    color: context.theme.colorScheme.primary,
+                                    borderRadius: BorderRadius.circular(borderRadiusMedium),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      context.localization.addTask,
                                     ),
-                                    padding: const EdgeInsets.symmetric(horizontal: paddingMedium),
-                                    child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          context.localization!.addTask,
-                                        ))),
+                                  ),
+                                ),
                               ),
                               secondaryBackground: Padding(
                                 padding: const EdgeInsets.all(paddingTiny),
@@ -108,29 +125,19 @@ class _PatientScreenState extends State<PatientScreen> {
                                     child: Padding(
                                         padding: const EdgeInsets.only(right: paddingMedium),
                                         child: Text(
-                                          context.localization!.discharge,
+                                          context.localization.discharge,
                                         )),
                                   ),
                                 ),
                               ),
-                              onDismissed: (DismissDirection direction) async {
-                                if (direction == DismissDirection.endToStart) {
-                                  patientController.discharge(patient.id);
-                                } else {
-                                  context.pushModal(
-                                    context: context,
-                                    builder: (context) => TaskBottomSheet(
-                                      task: Task.empty,
-                                      patient: patient,
-                                    ),
-                                  ).then((value) => patientController.load());
-                                }
-                              },
                               child: PatientCard(
-                                onClick: () => context.pushModal(
-                                  context: context,
-                                  builder: (context) => PatientBottomSheet(patentId: patient.id),
-                                ).then((_) => patientController.load()),
+                                onClick: () => context
+                                    .pushModal(
+                                      context: context,
+                                      builder: (context) =>
+                                          NavigationOutlet(initialValue: PatientBottomSheet(patentId: patient.id!)),
+                                    )
+                                    .then((_) => patientController.load()),
                                 patient: patient,
                                 margin: const EdgeInsets.symmetric(vertical: paddingTiny),
                               ),

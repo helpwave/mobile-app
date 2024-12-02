@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/auth.dart';
 import 'package:helpwave_theme/constants.dart';
 import 'package:helpwave_theme/theme.dart';
+import 'package:helpwave_theme/util.dart';
 import 'package:helpwave_widget/loading.dart';
 import 'package:provider/provider.dart';
-import 'package:tasks/controllers/user_session_controller.dart';
 
 /// The Landing Screen of the Application
 class LandingScreen extends StatelessWidget {
@@ -24,10 +25,11 @@ class LandingScreen extends StatelessWidget {
           }
 
           return OutlinedButton(
-            style: buttonStyleBig.copyWith(side: const MaterialStatePropertyAll(buttonBorderSideBig)),
+            style: buttonStyleBig.copyWith(side: WidgetStatePropertyAll(buttonBorderSideBig.copyWith(color: context
+                    .theme.colorScheme.onSurface))),
             child: Text(
-              context.localization!.loginSlogan,
-              style: Theme.of(context).textTheme.labelLarge,
+              context.localization.loginSlogan,
+              style: context.theme.textTheme.labelLarge,
             ),
             onPressed: () {
               userSessionController.login();

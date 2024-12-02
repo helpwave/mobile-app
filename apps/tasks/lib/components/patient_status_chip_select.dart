@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:helpwave_localization/localization.dart';
+import 'package:helpwave_service/tasks.dart';
 import 'package:helpwave_widget/content_selection.dart';
-import 'package:tasks/dataclasses/patient.dart';
 
 enum PatientStatusChipSelectOptions { all, active, unassigned, discharged }
 
@@ -49,10 +49,10 @@ class PatientStatusChipSelect extends StatelessWidget {
       onChange: (value) => onChange(_toPatientAssignmentStatus(value ?? PatientStatusChipSelectOptions.all)),
       labeling: (value) {
         var translationMap = {
-          PatientStatusChipSelectOptions.all: context.localization!.all,
-          PatientStatusChipSelectOptions.active: context.localization!.active,
-          PatientStatusChipSelectOptions.unassigned: context.localization!.unassigned,
-          PatientStatusChipSelectOptions.discharged: context.localization!.discharged,
+          PatientStatusChipSelectOptions.all: context.localization.all,
+          PatientStatusChipSelectOptions.active: context.localization.active,
+          PatientStatusChipSelectOptions.unassigned: context.localization.unassigned,
+          PatientStatusChipSelectOptions.discharged: context.localization.discharged,
         };
         return translationMap[value]!;
       },

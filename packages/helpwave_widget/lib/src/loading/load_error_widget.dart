@@ -33,7 +33,7 @@ class LoadErrorWidget extends StatelessWidget {
             color: iconColor,
           ),
           const SizedBox(height: distanceBig),
-          Text(errorText ?? context.localization!.errorOnLoad),
+          Text(errorText ?? context.localization.errorOnLoad),
         ],
       ),
     );

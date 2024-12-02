@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:helpwave_service/tasks.dart';
 import 'package:tasks/components/task_status_pill_box.dart';
 import 'package:helpwave_localization/localization.dart';
 import 'package:helpwave_theme/constants.dart';
-import 'package:tasks/dataclasses/patient.dart';
 
 /// A [Widget] for displaying a card containing [Patient] information
 class PatientCard extends StatelessWidget {
@@ -39,14 +39,14 @@ class PatientCard extends StatelessWidget {
                   Text(
                     patient.name,
                     style: const TextStyle(
-                      // TODO set font to SpaceGrotesk
+                      fontFamily: "SpaceGrotesk",
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
                     patient.bed != null && patient.room != null
                         ? "${patient.room?.name} - ${patient.bed?.name}"
-                        : context.localization!.unassigned,
+                        : context.localization.unassigned,
                     style: const TextStyle(
                       fontWeight: FontWeight.w400,
                     ),
