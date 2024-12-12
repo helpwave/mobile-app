@@ -4,7 +4,6 @@
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
-.fvm/flutter_sdk
 .packages
 .pub-cache/
 .pub/
@@ -276,3 +275,6 @@ hs_err_pid*
 ### Melos ###
 # https://melos.invertase.dev/guides/migrations#local-package-linking-with-pubspec_overridesyaml
 pubspec_overrides.yaml
+
+# FVM Version Cache
+.fvm/

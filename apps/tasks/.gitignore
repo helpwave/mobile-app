@@ -122,11 +122,9 @@ flycheck_*.el
 # network security
 /network-security.data
 
-
 ### Flutter ###
 # Flutter/Dart/Pub related
 **/doc/api/
-.fvm/flutter_sdk
 .pub-cache/
 .pub/
 coverage/
@@ -566,3 +564,6 @@ hs_err_pid*
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/vim,dart,emacs,xcode,android,flutter,intellij,intellij+all,intellij+iml,androidstudio,xcodeinjection
+
+# FVM Version Cache
+.fvm/
